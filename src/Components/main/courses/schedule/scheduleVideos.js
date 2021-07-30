@@ -137,8 +137,8 @@ export default function ScheduleVideos() {
                                                                         style={{ width: "67px", height: "67px" }}
                                                                     />
                                                                 </td>
-                                                                <td>Category</td>
-                                                                <td>{new Date(Date.now()).toDateString()}</td>
+                                                                <td>Movies</td>
+                                                                <td>{new Date(lession.launchDate).toDateString()}</td>
                                                                 {/* <td>{lession?.subject?.name}</td> */}
                                                                 <td>
                                                                     {!lession.launch_flag && lession.launchDate && lession.live &&

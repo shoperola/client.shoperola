@@ -162,15 +162,15 @@ export default function AddScheduleVideo() {
                                     case 1:
                                         tab2.current.click();
                                         break;
-                                    case 2:
-                                        tab3.current.click();
-                                        break;
-                                    case 3:
-                                        tab4.current.click();
-                                        break;
-                                    case 4:
-                                        tab5.current.click();
-                                        break;
+                                    // case 2:
+                                    //     tab3.current.click();
+                                    //     break;
+                                    // case 3:
+                                    //     tab4.current.click();
+                                    //     break;
+                                    // case 4:
+                                    //     tab5.current.click();
+                                    //     break;
                                 }
                             }
                             break;
@@ -206,7 +206,7 @@ export default function AddScheduleVideo() {
         setLoading(true);
         // setSuccess(false);
         console.log(lession);
-        const formData = new FormData;
+        const formData = new FormData();
         formData.append("banner", lession.banner);
         axios
             .put(`${API}/api/lesson/${lessionId}`, formData, {
@@ -409,8 +409,8 @@ export default function AddScheduleVideo() {
         setLoading(true);
         //console.log(lessionId);
         // setSuccess(false);
-        const formData = new FormData;
-        formData.append("launchDate", lession.launchDate);
+        const formData = new FormData();
+        formData.set("launchDate", lession.launchDate);
         axios
             .put(`${API}/api/lesson/${lessionId}`, formData, {
                 headers: {
@@ -425,13 +425,12 @@ export default function AddScheduleVideo() {
                 // setSuccess(!success);
                 swal({
                     title: "Video added Successfully!",
-
                     icon: "success",
                     buttons: true,
                     successMode: true,
                     dangerMode: false,
                 }).then((value) => {
-                    history.push("/lessions");
+                    history.push("/scheduleVideos");
                 });
             })
             .catch((err) => {
@@ -480,6 +479,7 @@ export default function AddScheduleVideo() {
                                         <div class="col-md-12 col-lg-9 col-xl-8">
 
                                             <h1 class="text-left head-small">Schedule Launch</h1>
+                                            {/* <h3>{new Date("2021-07-30T15:13:00.000+00:00").toLocaleString()}</h3> */}
 
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li class="nav-item waves-effect waves-light">
@@ -561,33 +561,7 @@ export default function AddScheduleVideo() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {
-                                                        radioBtn === "" &&
-                                                        <>
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-group">
-                                                                        <label for="basicpill-phoneno-input"
-                                                                            class="label-100">Search Video from Video
-                                                                            Library</label>
-                                                                        <input type="text" class="form-control input-field"
-                                                                            id="basicpill-phoneno-input" />
-                                                                    </div>
 
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-group">
-                                                                        <label for="basicpill-phoneno-input"
-                                                                            class="label-100">Add New Title</label>
-                                                                        <input type="text" class="form-control input-field"
-                                                                            id="basicpill-phoneno-input" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </>
-                                                    }
                                                     {
                                                         radioBtn === "Movies" &&
                                                         <div class="row">
@@ -631,7 +605,7 @@ export default function AddScheduleVideo() {
                                                         </div>
                                                     }
                                                     {
-                                                        radioBtn === "Tv Shows" &&
+                                                        radioBtn === "TV Shows" &&
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="form-group">
@@ -903,9 +877,10 @@ export default function AddScheduleVideo() {
 
                                                                         <input
                                                                             type="datetime-local"
-                                                                            value={lession.launchDate}
+                                                                            // value={lession.launchDate}
                                                                             name="launchDate"
                                                                             onChange={(e) => {
+                                                                                console.log(e.target.value)
                                                                                 setLession({
                                                                                     ...lession,
                                                                                     launchDate: e.target.value,
