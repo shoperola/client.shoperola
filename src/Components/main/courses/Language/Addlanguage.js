@@ -27,6 +27,7 @@ export default function AddLanguage() {
     live: false,
     thumbnail: "",
     bannerImage: "",
+    SeasonNum: "",
     launch: false,
     number: null,
     seasondate: new Date(),
@@ -67,7 +68,7 @@ export default function AddLanguage() {
       },
     })
       .then((response) => {
-        //console.log("here meta data", response)
+        console.log("here meta data", response)
         const data = response.data;
         setmetaDataTitle(data.title);
         setmetaDataPlot(data.plot);
@@ -79,8 +80,6 @@ export default function AddLanguage() {
           , "genres": data.genres, "Languages": data.languages, "RuntimeStr": data.runtimeStr, "Plot": data.plot
           , "Actors_list": data.actorList, "Writers": data.writers, "Ratings": data.ratings
         })
-
-
       })
       .catch((err) => {
         console.log(err);
@@ -1038,7 +1037,6 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                                   <img src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                   <span>{movie.title}</span>
                                   <span>{movie.description}</span>
-
                                 </Link>
                               )
                             }
@@ -1289,7 +1287,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                           </div>
                         </div>
 
-                        
+
                         <div className="tab-pane" id="video" role="tabpanel">
                           <div className="panel-body p-20">
                             <div className="form-group mb-30 width-100 row">
@@ -1376,8 +1374,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
       {/* <!-- End Page-content --> */}
 
 
-      
-      <Footer/>
+
+      <Footer />
     </div>
     //   <div className="main-content">
     //     <div className="page-content">

@@ -10,9 +10,11 @@ import { API } from '../../../../API';
 import { isAutheticated } from '../../../auth/authhelper';
 import Loader from "react-loader-spinner";
 import Footer from '../../Footer';
+import QRCode from 'react-qr-code';
 
 function AddStudio(props) {
 
+    const [imgUrl, setImgUrl] = useState("");
     const [data, setdata] = useState({
         "video-name": "",
         "video-url": "",
@@ -22,6 +24,7 @@ function AddStudio(props) {
         "selected-duration": "5",
         "Video-Duration": "0",
         "Product-name": "",
+        "Qr_url": "",
         "Product-Price": "",
         "Button-clicked": "",
         "Added-Url": "",
@@ -263,8 +266,17 @@ function AddStudio(props) {
             }
         )
     }
-    const handleSubmitShopData = async () => {
+    const handleInputChangeForQrCode = (e) => {
+        console.log(e.target.value)
+        setdata(
+            {
+                ...data,
+                "Qr_url": e.target.value
+            }
+        )
 
+    }
+    const handleSubmitShopData = async () => {
         let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
@@ -285,6 +297,7 @@ function AddStudio(props) {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
             products: data['Product_Id'],
+            url: "false",
             videoId: props.match.params.id,
             CTA: data['Button-clicked'],
         }, {
@@ -296,6 +309,38 @@ function AddStudio(props) {
         setresData(res.data);
         addpopupWindow.current.style.display = "none";
     }
+    const handleSubmitScanToBuy = async () => {
+        const svg = document.getElementById("QRCode");
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const img = new Image();
+        img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+        const API_ENDPOINT = 'https://api.cloudinary.com/v1_1/deaxaoxfk/image/upload';
+        const formData = new FormData();
+        formData.append('file', img.src);
+        formData.append('upload_preset', 'ml_default'); // upload preset
+        fetch(API_ENDPOINT, {
+            method: 'post',
+            body: formData
+        }).then(response => response.json())
+            .then(async (item) => {
+                let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
+                    duration: data['selected-duration'],
+                    current_time: data['current-video-time'],
+                    products: data['Product_Id'],
+                    url: "false",
+                    qr_code: item.secure_url,
+                    videoId: props.match.params.id,
+                    CTA: data['Button-clicked'],
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                })
+                setresData(res.data);
+                addpopupForShowScanBuy.current.style.display = "none";
+            })
+            .catch(err => console.error('Error:', err));
+    }
 
     const handleDelete = async (id) => {
         console.log(id);
@@ -304,12 +349,12 @@ function AddStudio(props) {
                 Authorization: `Bearer ${token}`,
             }
         })
-        console.log(resData)
         // setresData()
 
     }
 
     console.log([data])
+    console.log(data["Qr_url"])
     return (
         <div class="main-content">
             <div class="page-content">
@@ -345,6 +390,14 @@ function AddStudio(props) {
 
                                     </div> */}
                                     <div className="VideoContainer">
+                                        <div style={{ display: "none", margin: "20px" }}>
+                                            <QRCode
+                                                id="QRCode"
+                                                bgColor="#ffffff"
+                                                level="L"
+                                                value={data["Qr_url"]}
+                                            />
+                                        </div>
                                         <div ref={addpopupWindow} className="addpopupWindow">
                                             <span onClick={handleClosePopup} id="closeBtn">X</span>
                                             <span id="headContent">
@@ -458,10 +511,10 @@ function AddStudio(props) {
                                                 }
 
                                             </div>
-                                            <h5 style={{ margin: "10px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Add Url <input type="text" onChange={handleInputChange} id="inputBoxInShow" /></h5>
+                                            <h5 style={{ margin: "10px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Add Url <input type="text" onChange={handleInputChangeForQrCode} id="inputBoxInShow" /></h5>
 
                                             <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Click on Save button to add this to the video</h5>
-                                            <button onClick={handleSubmitShopData} id="SaveBtn">Save</button>
+                                            <button onClick={handleSubmitScanToBuy} id="SaveBtn">Save</button>
                                         </div>
                                         {
                                             videos?.video ?

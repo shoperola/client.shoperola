@@ -23,6 +23,7 @@
     "react-loader-spinner": "^4.0.0",
     "react-paypal-button-v2": "^2.6.3",
     "react-plupload": "0.0.21",
+    "react-qr-code": "^2.0.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",

@@ -116,41 +116,41 @@ function TVShowSeasonEpisode(props) {
                                   <button type="button"
                                     onClick={(e) => {
                                       e.preventDefault();
-        let status=window.confirm("Do you want to delete");
-        if(!status){
-            return;
-        }else{
+                                      let status = window.confirm("Do you want to delete");
+                                      if (!status) {
+                                        return;
+                                      } else {
 
-          axios
-                                        .delete(
-                                          `${API}/api/tvshow/delete_episode/${seasonIdparams}/${data._id}`,
-                                          {
-                                            headers: {
-                                              Authorization: `Bearer ${token}`,
-                                            },
-                                          }
-                                        )
-                                        .then((res) => {
-                                          setSuccess(!success);
-                                          swal({
-                                            title:
-                                              "Video deleted Successfully!",
+                                        axios
+                                          .delete(
+                                            `${API}/api/tvshow/delete_episode/${seasonIdparams}/${data._id}`,
+                                            {
+                                              headers: {
+                                                Authorization: `Bearer ${token}`,
+                                              },
+                                            }
+                                          )
+                                          .then((res) => {
+                                            setSuccess(!success);
+                                            swal({
+                                              title:
+                                                "Video deleted Successfully!",
 
-                                            icon: "success",
-                                            buttons: true,
-                                            successMode: true,
-                                            dangerMode: false,
+                                              icon: "success",
+                                              buttons: true,
+                                              successMode: true,
+                                              dangerMode: false,
+                                            });
+                                            // console.log(res);
+                                          })
+                                          .catch((err) => {
+                                            console.log(err);
+                                            setSuccess(!success);
                                           });
-                                          // console.log(res);
-                                        })
-                                        .catch((err) => {
-                                          console.log(err);
-                                          setSuccess(!success);
-                                        });
 
-        }
+                                      }
 
-                                      
+
                                     }}
                                     className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2"
                                     id="sa-params"
@@ -221,8 +221,8 @@ function TVShowSeasonEpisode(props) {
       {/* <!-- End Page-content --> */}
 
 
-      
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }

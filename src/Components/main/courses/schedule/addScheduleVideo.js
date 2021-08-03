@@ -29,11 +29,13 @@ export default function AddScheduleVideo() {
         description: "",
         // subject: "",
         languageid: "",
+        SeasonNum: "",
         live: false,
         thumbnail: "",
         banner: "",
+        bannerImage: "",
         launch: false,
-        launchDate: new Date(),
+        launchDate: "",
         video: "",
 
     });
@@ -44,7 +46,8 @@ export default function AddScheduleVideo() {
     const [languages, setLanguages] = useState([]);
     const [metaformData, setMetaformData] = useState({});
     const [validForm, setvalidForm] = useState(false);
-    const [error, setError] = useState("");
+    const [SeasonLength, setSeasonLength] = useState(0);
+    const [error, setError] = useState(false);
     const [lessionId, setLessionId] = useState(null);
     const [success, setSuccess] = useState(false);
     const [currentTab, setcurrentTab] = useState(1);
@@ -193,13 +196,103 @@ export default function AddScheduleVideo() {
                 console.log(err);
             });
     }
+    const handleSubmitTvShows = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        axios
+            .post(`${API}/api/tvshow/addtvshow`, {
+                title: lession.title
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                console.log(response);
+                setLoading(false);
+                // console.log(response);
+                setLessionId(response.data.data._id);
+                setSuccess(true);
+                swal({
+                    title: "Created Successfully!",
+                    icon: "success",
+                    buttons: {
+                        SaveAndExit: {
+                            text: "Save and Exit",
+                            value: "SaveAndExit",
+                        },
+                        SaveAndContinue: {
+                            text: "Save and Continue",
+                            value: "SaveAndContinue",
+                        },
+                    },
+                }).then((value) => {
+                    switch (value) {
+                        case "SaveAndExit":
+                            history.push("/lessions");
+                            break;
 
+                        case "SaveAndContinue":
+                            if (currentTab >= 1 && currentTab <= 4) {
+                                switch (currentTab) {
+                                    case 1:
+                                        tab2.current.click();
+                                        break;
+                                    case 2:
+                                        tab3.current.click();
+                                        break;
+                                    // case 3:
+                                    //     tab4.current.click();
+                                    //     break;
+                                    // case 4:
+                                    //     tab5.current.click();
+                                    //     break;
+                                }
+                            }
+                            break;
 
-    const handleChange = (e) => {
+                        default:
+                            history.push("/dashboard");
+                    }
+                });
+            })
+            .catch((err) => {
+                setLoading(false);
+                let message = err.response.data.message;
+                swal({
+                    title: "Error",
+                    text: { message },
+                    icon: "error",
+                    buttons: true,
+                    dangerMode: true,
+                });
+                console.log(err);
+            });
+    }
+
+    const handleChangetitle = (e) => {
         setLession({
             ...lession,
-            banner: e.target.files[0]
+            title: e.target.value
         })
+    }
+    const handleChange = (e) => {
+        if (e.target.name === "SeasonNum") {
+            if (SeasonLength >= e.target.value) {
+                setLession({
+                    ...lession,
+                    [e.target.name]: e.target.value
+                })
+                setError(false)
+            } else {
+                setError(true)
+            }
+        } else {
+            setLession({
+                ...lession,
+                [e.target.name]: e.target.files[0]
+            })
+        }
     }
     const handleSubmitBanner = (e) => {
         e.preventDefault();
@@ -278,22 +371,28 @@ export default function AddScheduleVideo() {
                 console.log(err);
             });
     }
-
-    const postMetaData = (id) => {
-        console.log("here sending data", metaformData);
-        axios.patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => {
-                //console.log("here sub,it response", res);
+    const handleSubmitBannerForTvShows = (e) => {
+        e.preventDefault();
+        console.log(lession);
+        setLoading(true);
+        // setSuccess(false);
+        const formData = new FormData();
+        formData.append("bannerImage", lession.bannerImage);
+        axios
+            .patch(`${API}/api/tvshow/edit_banner/${lessionId}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/formdata",
+                },
+            })
+            .then((response) => {
+                console.log("updated object", response);
                 setLoading(false);
                 // console.log(response);
                 // setSuccess(!success);
                 swal({
                     title: "Changes are saved Successfully!",
+
                     icon: "success",
                     buttons: {
                         SaveAndExit: {
@@ -349,29 +448,194 @@ export default function AddScheduleVideo() {
                 console.log(err);
             });
     }
+
+    const postMetaData = (id) => {
+        if (radioBtn === "TV Shows") {
+            axios.patch(`${API}/api/tvshow/metadata/${id}`, metaformData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => {
+                    console.log("here sub,it response", res);
+                    setLoading(false);
+                    // console.log(response);
+                    // setSuccess(!success);
+                    swal({
+                        title: "Changes are saved Successfully!",
+                        icon: "success",
+                        buttons: {
+                            SaveAndExit: {
+                                text: "Save and Exit",
+                                value: "SaveAndExit",
+                            },
+                            SaveAndContinue: {
+                                text: "Save and Continue",
+                                value: "SaveAndContinue",
+                            },
+                        },
+                    }).then((value) => {
+                        switch (value) {
+                            case "SaveAndExit":
+                                history.push("/lessions");
+                                break;
+
+                            case "SaveAndContinue":
+                                if (currentTab >= 1 && currentTab <= 4) {
+                                    switch (currentTab) {
+                                        case 1:
+                                            tab2.current.click();
+                                            break;
+                                        case 2:
+                                            tab3.current.click();
+                                            break;
+                                        case 3:
+                                            tab4.current.click();
+                                            break;
+                                        case 4:
+                                            tab5.current.click();
+                                            break;
+                                    }
+                                }
+                                break;
+
+                            default:
+                                history.push("/dashboard");
+                        }
+                    });
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    // setSuccess(!success);
+                    let message = "errror";
+                    swal({
+                        title: "Error",
+                        text: { message },
+                        icon: "error",
+                        buttons: true,
+                        dangerMode: true,
+                    });
+                    console.log(err);
+                });
+        } else {
+
+            console.log("here sending data", metaformData);
+            axios.patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => {
+                    //console.log("here sub,it response", res);
+                    setLoading(false);
+                    // console.log(response);
+                    // setSuccess(!success);
+                    swal({
+                        title: "Changes are saved Successfully!",
+                        icon: "success",
+                        buttons: {
+                            SaveAndExit: {
+                                text: "Save and Exit",
+                                value: "SaveAndExit",
+                            },
+                            SaveAndContinue: {
+                                text: "Save and Continue",
+                                value: "SaveAndContinue",
+                            },
+                        },
+                    }).then((value) => {
+                        switch (value) {
+                            case "SaveAndExit":
+                                history.push("/lessions");
+                                break;
+
+                            case "SaveAndContinue":
+                                if (currentTab >= 1 && currentTab <= 4) {
+                                    switch (currentTab) {
+                                        case 1:
+                                            tab2.current.click();
+                                            break;
+                                        case 2:
+                                            tab3.current.click();
+                                            break;
+                                        case 3:
+                                            tab4.current.click();
+                                            break;
+                                        case 4:
+                                            tab5.current.click();
+                                            break;
+                                    }
+                                }
+                                break;
+
+                            default:
+                                history.push("/dashboard");
+                        }
+                    });
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    // setSuccess(!success);
+                    let message = "errror";
+                    swal({
+                        title: "Error",
+                        text: { message },
+                        icon: "error",
+                        buttons: true,
+                        dangerMode: true,
+                    });
+                    console.log(err);
+                });
+        }
+
+    }
     const handleSearchMovie = (searchText) => {
         //e.preventDefault();
         //await setSearchMovie(e.target.value);
         console.log("namesearch", searchText)
-        console.log("token", token)
-        axios.post(`${API}/api/lesson/search_metadata/${searchText}`, {}, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                const userdata = response.data
-
-                //console.log(response.data);
-                //console.log(userdata);
-                setMovieList(userdata.results)
-                //console.log("here i;m ",movieList,typeof(movieList))
-                //setSubjects([...subjects, ...userdata.subjects]);
-                //setLanguages([...languages, ...userdata.languages]);
+        console.log(radioBtn)
+        if (radioBtn === "TV Shows") {
+            axios.post(`${API}/api/tvshow/search_tv/${searchText}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             })
-            .catch((err) => {
-                console.log(err);
-            });
+                .then((response) => {
+                    console.log(response.data.data);
+                    const userdata = response.data.data
+                    setMovieList(userdata.results)
+
+
+                    //console.log(userdata);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        else {
+            axios.post(`${API}/api/lesson/search_metadata/${searchText}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((response) => {
+                    const userdata = response.data
+
+                    //console.log(response.data);
+                    //console.log(userdata);
+                    setMovieList(userdata.results)
+                    //console.log("here i;m ",movieList,typeof(movieList))
+                    //setSubjects([...subjects, ...userdata.subjects]);
+                    //setLanguages([...languages, ...userdata.languages]);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+        }
 
     }
 
@@ -390,63 +654,109 @@ export default function AddScheduleVideo() {
                 setmetaDataDirector(data.directors);
                 setmetaDataWriter(data.writers);
                 setmetaDataCrew(data.actorList);
+                setSeasonLength(data.tvSeriesInfo.seasons.length);
                 setMetaformData({
-                    ...metaformData, "Id": data.id, "directors": data.directors, "type": data.type, "year": data.year, "image": data.image
+                    ...metaformData,
+                    "Id": data.id, "directors": data.directors, "type": data.type, "year": data.year, "image": data.image
                     , "genres": data.genres, "Languages": data.languages, "RuntimeStr": data.runtimeStr, "Plot": data.plot
                     , "Actors_list": data.actorList, "Writers": data.writers, "Ratings": data.ratings
                 })
-
-
             })
             .catch((err) => {
                 console.log(err);
             });
-
     }
-
     const onUpdatelast = (e) => {
         e.preventDefault();
-        setLoading(true);
-        //console.log(lessionId);
-        // setSuccess(false);
-        const formData = new FormData();
-        formData.set("launchDate", lession.launchDate);
-        axios
-            .put(`${API}/api/lesson/${lessionId}`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/formdata",
-                },
-            })
-            .then((response) => {
-                // console.log(response);
-                setLoading(false);
-                // console.log(response);
-                // setSuccess(!success);
-                swal({
-                    title: "Video added Successfully!",
-                    icon: "success",
-                    buttons: true,
-                    successMode: true,
-                    dangerMode: false,
-                }).then((value) => {
-                    history.push("/scheduleVideos");
+        if (radioBtn === "TV Shows") {
+            setLoading(true);
+            //console.log(lessionId);
+            // setSuccess(false);
+            axios
+                .patch(`${API}/api/tvshow/edit_season/${lessionId}`, {
+                    number: Number(lession.SeasonNum),
+                    launchDate: lession.launchDate
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/formdata",
+                    },
+                })
+                .then((response) => {
+                    // console.log(response);
+                    setLoading(false);
+                    // console.log(response);
+                    // setSuccess(!success);
+                    swal({
+                        title: "Video added Successfully!",
+                        icon: "success",
+                        buttons: true,
+                        successMode: true,
+                        dangerMode: false,
+                    }).then((value) => {
+                        history.push("/scheduleVideos");
+                    });
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    // setSuccess(!success);
+                    let message = "errror";
+                    swal({
+                        title: "Error",
+                        text: { message },
+                        icon: "error",
+                        buttons: true,
+                        dangerMode: true,
+                    });
+                    console.log(err);
                 });
-            })
-            .catch((err) => {
-                setLoading(false);
-                // setSuccess(!success);
-                let message = "errror";
-                swal({
-                    title: "Error",
-                    text: { message },
-                    icon: "error",
-                    buttons: true,
-                    dangerMode: true,
+        } else {
+
+            setLoading(true);
+            //console.log(lessionId);
+            // setSuccess(false);
+            const formData = new FormData();
+            formData.set("launchDate", lession.launchDate);
+            axios
+                .put(`${API}/api/lesson/${lessionId}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/formdata",
+                    },
+                })
+                .then((response) => {
+                    // console.log(response);
+                    setLoading(false);
+                    // console.log(response);
+                    // setSuccess(!success);
+                    swal({
+                        title: "Video added Successfully!",
+                        icon: "success",
+                        buttons: true,
+                        successMode: true,
+                        dangerMode: false,
+                    }).then((value) => {
+                        history.push("/scheduleVideos");
+                    });
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    // setSuccess(!success);
+                    let message = "errror";
+                    swal({
+                        title: "Error",
+                        text: { message },
+                        icon: "error",
+                        buttons: true,
+                        dangerMode: true,
+                    });
+                    console.log(err);
                 });
-                console.log(err);
-            });
+        }
+
     };
+
+    console.log(lession)
 
     return (
 
@@ -561,7 +871,6 @@ export default function AddScheduleVideo() {
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     {
                                                         radioBtn === "Movies" &&
                                                         <div class="row">
@@ -580,6 +889,7 @@ export default function AddScheduleVideo() {
                                                                                 >
                                                                                     <img src={movie.thumbnail} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                                                                     <span>{movie.title}</span>
+                                                                                    {"                  "}
                                                                                     <span>{movie.description}</span>
                                                                                 </Link>
                                                                             )
@@ -611,7 +921,7 @@ export default function AddScheduleVideo() {
                                                                 <div class="form-group">
                                                                     <label for="basicpill-phoneno-input"
                                                                         class="label-100">Add New Title</label>
-                                                                    <input type="text" class="form-control input-field"
+                                                                    <input type="text" name="title" onChange={handleChangetitle} class="form-control input-field"
                                                                         id="basicpill-phoneno-input" />
                                                                 </div>
                                                             </div>
@@ -621,12 +931,11 @@ export default function AddScheduleVideo() {
                                                         <label class="col-md-4 control-label"></label>
                                                         <div class="col-md-8">
                                                             <button type="button"
-                                                                onClick={handleSubmitOne}
+                                                                onClick={radioBtn === "TV Shows" ? handleSubmitTvShows : handleSubmitOne}
                                                                 class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                                         </div>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="tab-pane" id="images" role="tabpanel">
                                                     <div class="panel-body p-20">
@@ -635,14 +944,14 @@ export default function AddScheduleVideo() {
                                                                 Image<br />
                                                                 <span class="size">(1125 x 451 px)</span></label>
                                                             <div class="col-md-8">
-                                                                <input onChange={handleChange} type="file" name="banner" class="form-control input-field"
+                                                                <input onChange={handleChange} type="file" name={radioBtn === "TV Shows" ? "bannerImage" : "banner"} class="form-control input-field"
                                                                 />
                                                             </div>
                                                         </div>
                                                         <div class="form-group mb-30 width-100 row">
                                                             <label class="col-md-4 control-label"></label>
                                                             <div class="col-md-8">
-                                                                <button onClick={handleSubmitBanner} type="button"
+                                                                <button onClick={radioBtn === "TV Shows" ? handleSubmitBannerForTvShows : handleSubmitBanner} type="button"
                                                                     class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                                             </div>
                                                         </div>
@@ -661,9 +970,9 @@ export default function AddScheduleVideo() {
                                                                     onChange={(e) => { handleSearchMovie(e.target.value); setSearchMovie(e.target.value) }} />
                                                             </div>
                                                         </div>
-                                                        <div classNameName="searchedList">
-                                                            {movieList &&
-                                                                movieList.map((movie) =>
+                                                        <div className="searchedList">
+                                                            {
+                                                                movieList?.map((movie) =>
 
                                                                     <Link style={{ height: "7vh", display: "block" }}
                                                                         onClick={() => fillMetadata(movie.id)}
@@ -671,8 +980,6 @@ export default function AddScheduleVideo() {
                                                                         <img src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                                                         <span>{movie.title}</span>
                                                                         <span>{movie.description}</span>
-
-
                                                                     </Link>
                                                                 )
                                                             }
@@ -785,10 +1092,7 @@ export default function AddScheduleVideo() {
                                                                     <tbody>
                                                                         <tr class="participantRow">
                                                                             <td>
-
                                                                                 <div class="crew_box">
-
-
 
                                                                                     <div class="checkbox">
 
@@ -872,7 +1176,33 @@ export default function AddScheduleVideo() {
                                                         <div className="form-group mb-30 width-100 row">
                                                             <label className="col-md-4 control-label">Date</label>
                                                             <div className="col-md-8">
+                                                                {
+                                                                    radioBtn === "TV Shows" &&
+                                                                    <div className="form-group width-100">
+                                                                        <label className="pl-0 color-b label-d" >Season Number</label>
+                                                                        <span>{error && "Not a Valid Season!"}</span>
+                                                                        <input type="text"
+                                                                            defaultValue={lession.SeasonNum}
+                                                                            onChange={handleChange} name="SeasonNum" className="form-control input-field" placeholder="Enter Season Name" />
+                                                                    </div>
+                                                                }
+
                                                                 <div className="form-group width-100">
+                                                                    <label className="pl-0 color-b label-d">Launch Date</label>
+                                                                    <input
+                                                                        type="datetime-local"
+                                                                        // value={lession.launchDate}
+                                                                        name="launchDate"
+                                                                        onChange={(e) =>
+                                                                            setLession({
+                                                                                ...lession,
+                                                                                launchDate: e.target.value,
+                                                                            })
+                                                                        }
+                                                                        className="form-control input-field" ddata-provide="datepicker" data-date-autoclose="true" placeholder="Pick Launch Date" />
+
+                                                                </div>
+                                                                {/* <div className="form-group width-100">
                                                                     <div className="input-group">
 
                                                                         <input
@@ -887,32 +1217,9 @@ export default function AddScheduleVideo() {
                                                                                 });
 
                                                                             }} />
-                                                                        {/* <DatePicker
-                      
-                                      selected={lession.launchDate}
-                                      name="launchDate"
-                                      onChange={(date) => {
-                                        setLession({
-                                          ...lession,
-                                          launchDate: date,
-                                        });
-                                        formData.set(
-                                          "launchDate",
-                                          date.toISOString()
-                                        );
-                                      }}
-                                    /> */}
 
-                                                                        <div className="input-group-append">
-                                                                            <span className="input-group-text">
-                                                                                <i
-                                                                                    className="fa fa-calendar"
-                                                                                    aria-hidden="true"
-                                                                                ></i>
-                                                                            </span>
-                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                         </div>
 
@@ -945,7 +1252,6 @@ export default function AddScheduleVideo() {
                                                                     value="" />
                                                             </div>
                                                         </div>
-
                                                         <div class="form-group m-b-0 row">
                                                             <div class="col-md-4"></div>
                                                             <div class="col-md-8">
@@ -959,10 +1265,6 @@ export default function AddScheduleVideo() {
 
 
                                             </div>
-
-
-
-
 
 
                                         </div>
