@@ -110,8 +110,6 @@ export default function Languages() {
                           </button>
                         </Link>
                       </div>
-
-
                     </div>
                   </div>
                   <div className="table-responsive table-shoot">
@@ -265,8 +263,6 @@ export default function Languages() {
                                           setSuccess(!success);
                                         });
                                     }
-
-
                                   }}
                                 >
                                   Delete</button>
@@ -275,13 +271,10 @@ export default function Languages() {
                           </tr>
 
                         )
-
                         }
                       </tbody>
                     </table>
                   </div>
-
-
                   <div className="row mt-20">
                     <div className="col-sm-12 col-md-6 mb-20">
                       <div className="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
@@ -306,28 +299,18 @@ export default function Languages() {
                           <li className="paginate_button page-item ">
                             <a href="#" aria-controls="datatable" data-dt-idx="3" tabIndex="0" className="page-link">3</a>
                           </li>
-
-
                           <li className="paginate_button page-item next">
                             <a href="#" tabIndex="0" className="page-link">Next</a>
                           </li>
-
                         </ul>
                       </div>
                     </div>
-
-
-
                   </div>
-
-
                   {/* <!-- end table-responsive --> */}
                 </div>
               </div>
             </div>
           </div>
-
-
         </div>
         {/* <!-- container-fluid --> */}
       </div>

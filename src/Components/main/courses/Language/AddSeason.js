@@ -13,7 +13,7 @@ function AddSeason(props) {
   let history = useHistory();
   const [lession, setLession] = useState({
     number: null,
-    date: new Date()
+    launchDate: new Date()
 
   });
   const [seasonData, setSeasonData] = useState({});
@@ -38,7 +38,6 @@ function AddSeason(props) {
         // setSuccess(!success);
         swal({
           title: "Changes are saved Successfully!",
-
           icon: "success",
           // buttons: {
           //   SaveAndExit: {
@@ -89,27 +88,18 @@ function AddSeason(props) {
                     <li className="breadcrumb-item"><a href="javascript: void(0);">TellyTell</a></li>
                     <li className="breadcrumb-item">TV Shows - Seasons
                     </li>
-
                     <li className="breadcrumb-item">Add New Season</li>
-
-
                   </ol>
                 </div>
-
               </div>
             </div>
           </div>
-
           {/* <!-- end page title --> */}
-
-
 
           <div className="row">
             <div className="col-lg-12">
               <div className="card">
                 <div className="card-body">
-
-
                   <div className="row">
 
                     <div className="col-md-12 col-lg-6 col-xl-6">
@@ -120,7 +110,7 @@ function AddSeason(props) {
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group">
-                              <label for="basicpill-phoneno-input" className="label-100">Season Name</label>
+                              <label for="basicpill-phoneno-input" className="label-100">Season Number</label>
                               <input type="number"
                                 className="form-control input-field"
                                 name="number"
@@ -137,14 +127,14 @@ function AddSeason(props) {
                               <div className="input-group">
                                 {/* <input type="text" className="form-control input-field" data-provide="datepicker" data-date-format="dd M, yyyy" data-date-autoclose="true"/> */}
                                 <ReactDatePicker
-                                  selected={lession.date}
-                                  name="date"
+                                  selected={lession.launchDate}
+                                  name="launchDate"
                                   onChange={(date) => {
                                     setLession({
                                       ...lession,
-                                      date: date,
+                                      launchDate: date,
                                     });
-                                    setSeasonData({ ...seasonData, "date": date.toISOString() }
+                                    setSeasonData({ ...seasonData, "launchDate": date.toISOString() }
 
                                     );
                                   }}
@@ -203,7 +193,7 @@ function AddSeason(props) {
           </div>
         </div>
       </footer> */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -148,7 +148,7 @@ export default function ScheduleVideos() {
                                                 {data.length != 0 &&
                                                     currentviewer.map((lession) => {
                                                         return (
-                                                            lession.launch_flag === false &&
+                                                            lession.Id !== "" &&
                                                             <>
                                                                 <tr key={lession._id}>
                                                                     <td>{lession.title}</td>

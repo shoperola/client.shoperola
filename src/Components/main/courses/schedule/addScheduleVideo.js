@@ -520,7 +520,7 @@ export default function AddScheduleVideo() {
                 });
         } else {
 
-            console.log("here sending data", metaformData);
+            console.log("here sending data for movies", metaformData);
             axios.patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -654,7 +654,7 @@ export default function AddScheduleVideo() {
                 setmetaDataDirector(data.directors);
                 setmetaDataWriter(data.writers);
                 setmetaDataCrew(data.actorList);
-                setSeasonLength(data.tvSeriesInfo.seasons.length);
+                setSeasonLength(data.tvSeriesInfo?.seasons?.length);
                 setMetaformData({
                     ...metaformData,
                     "Id": data.id, "directors": data.directors, "type": data.type, "year": data.year, "image": data.image
@@ -666,6 +666,7 @@ export default function AddScheduleVideo() {
                 console.log(err);
             });
     }
+    console.log(metaformData)
     const onUpdatelast = (e) => {
         e.preventDefault();
         if (radioBtn === "TV Shows") {
@@ -1191,7 +1192,7 @@ export default function AddScheduleVideo() {
                                                                     <label className="pl-0 color-b label-d">Launch Date</label>
                                                                     <input
                                                                         type="datetime-local"
-                                                                        // value={lession.launchDate}
+                                                                        value={lession.launchDate}
                                                                         name="launchDate"
                                                                         onChange={(e) =>
                                                                             setLession({

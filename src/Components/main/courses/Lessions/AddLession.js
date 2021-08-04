@@ -37,6 +37,7 @@ export default function AddLession() {
 
   });
   const [loading, setLoading] = useState(false);
+  const [Validation, setValidation] = useState(false);
   const [searchMovie, setSearchMovie] = useState("");
   const [movieList, setMovieList] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -221,12 +222,17 @@ export default function AddLession() {
       setLession({ ...lession, video: URL.createObjectURL(e.target.files[0]) });
       formData.set("video", e.target.files[0]);
     } else if (name == "thumbnail") {
-      console.log(e.target.files);
-      setLession({
-        ...lession,
-        thumbnail: URL.createObjectURL(e.target.files[0]),
-      });
-      formData.set(name, e.target.files[0]);
+      console.log(e.target.files[0].type);
+      if (e.target.files[0]?.type === "image/jpeg" || e.target.files[0]?.type === "image/png" || e.target.files[0]?.type === "image/jpg") {
+        setLession({
+          ...lession,
+          thumbnail: URL.createObjectURL(e.target.files[0]),
+        });
+        formData.set(name, e.target.files[0]);
+        setValidation(false);
+      } else {
+        setValidation(true);
+      }
     } else if (name == "banner") {
       setLession({
         ...lession,
@@ -339,8 +345,8 @@ export default function AddLession() {
               text: "Save and Exit",
               value: "SaveAndExit",
             },
-            SaveAndContinue: {
-              text: "Save and Continue",
+            OkCancel: {
+              text: "Ok Cancel",
               value: "SaveAndContinue",
             },
           },
@@ -349,25 +355,28 @@ export default function AddLession() {
             case "SaveAndExit":
               history.push("/lessions");
               break;
-
             case "SaveAndContinue":
-              if (currentTab >= 1 && currentTab <= 4) {
-                switch (currentTab) {
-                  case 1:
-                    tab2.current.click();
-                    break;
-                  case 2:
-                    tab3.current.click();
-                    break;
-                  case 3:
-                    tab4.current.click();
-                    break;
-                  case 4:
-                    tab5.current.click();
-                    break;
-                }
-              }
+              history.push("/lessions");
               break;
+
+            //   case "SaveAndContinue":
+            //     if (currentTab >= 1 && currentTab <= 4) {
+            //       switch (currentTab) {
+            //         case 1:
+            //           tab2.current.click();
+            //           break;
+            //         case 2:
+            //           tab3.current.click();
+            //           break;
+            //         case 3:
+            //           tab4.current.click();
+            //           break;
+            //         case 4:
+            //           tab5.current.click();
+            //           break;
+            //       }
+            //     }
+            //     break;
 
             default:
               history.push("/dashboard");
@@ -630,6 +639,7 @@ export default function AddLession() {
                                     <span className="size">(320 x 180 px)</span>
                                   </label>
                                   <div className="col-md-8">
+                                    <span style={{ color: "red" }}>{Validation && "Not a Valid Format for Thumbnails!"}</span>
                                     <input
                                       onChange={handleChange}
                                       name="thumbnail"

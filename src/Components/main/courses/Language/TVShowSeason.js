@@ -20,7 +20,7 @@ function TVShowSeason(props) {
       })
       .then((response) => {
         const userdata = response.data;
-        console.log("here sss", userdata.season);
+        console.log("here sss", userdata);
         setSeason(userdata.season);
         console.log(response.data.season);
         //setLanguages(userdata.languages);
@@ -90,7 +90,7 @@ function TVShowSeason(props) {
                       <thead className="thead-light">
                         <tr>
                           <th>Season</th>
-                          <th>Videos</th>
+                          {/* <th>Videos</th> */}
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -98,7 +98,7 @@ function TVShowSeason(props) {
                         {season.map((data) =>
                           <tr>
                             <td>Season {data.number}</td>
-                            <td>{data.video}</td>
+                            {/* <td>{data.video}</td> */}
                             <td>
                               <Link to={`/language/season/view/${data._id}`}>
                                 <button type="button" className="btn btn-info btn-sm  waves-effect waves-light btn-table ml-2">

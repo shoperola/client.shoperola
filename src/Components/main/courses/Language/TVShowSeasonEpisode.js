@@ -21,9 +21,8 @@ function TVShowSeasonEpisode(props) {
       })
       .then((response) => {
         const userdata = response.data;
-        //console.log("here ssseason", userdata.episode);
         setEpisode(userdata.episode);
-        //console.log(response);
+        console.log(response);
         //setLanguages(userdata.languages);
       })
       .catch((err) => {

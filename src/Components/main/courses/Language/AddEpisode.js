@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import Player from 'video-react/lib/components/Player';
@@ -14,24 +14,64 @@ function AddEpisode(props) {
   const [episodeData, setEpisodeData] = useState(new FormData())
   let history = useHistory();
   const [lession, setLession] = useState({
-
     video: ""
-
   });
   const [loading, setLoading] = useState(false);
+  const [seasonId, setEpisode] = useState([])
+
   const handleChangeEpisode = (e) => {
     e.preventDefault();
     const { value, name } = e.target;
-
     if (name == "video") {
       setLession({ ...lession, video: URL.createObjectURL(e.target.files[0]) });
       episodeData.set("video", e.target.files[0]);
     } else {
       episodeData.set(name, value);
       setLession({ ...lession, [name]: value });
-
     }
   };
+
+  useEffect(() => {
+    axios
+      .get(`${API}/api/tvshow/view_season/${seasonIdparams}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const userdata = response.data;
+        setEpisode(userdata.episode);
+        console.log(response);
+        //setLanguages(userdata.languages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [])
+
+  useEffect(() => {
+    axios
+      .get(`${API}/api/tvshow/view_tvshow/${seasonIdparams}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        //setLanguages(userdata.languages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+    }
+    fetchData()
+  }, [])
+
   /////// for video episode //////////////////////
   const onUpdateVideo = (e) => {
     e.preventDefault();
@@ -131,12 +171,10 @@ function AddEpisode(props) {
                     <div className="col-md-12 col-lg-6 col-xl-6">
 
                       <form>
-
-
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group">
-                              <label for="basicpill-phoneno-input" className="label-100">Episode Name</label>
+                              <label for="basicpill-phoneno-input" className="label-100">Episode Number</label>
                               <input type="number"
                                 className="form-control input-field"
                                 name="episodeNumber"
@@ -145,9 +183,6 @@ function AddEpisode(props) {
                             </div>
                           </div>
                         </div>
-
-
-
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group mb-30 width-100 row">
@@ -205,10 +240,7 @@ function AddEpisode(props) {
         {/* <!-- container-fluid --> */}
       </div>
       {/* <!-- End Page-content --> */}
-
-
-     
-      <Footer/>
+      <Footer />
     </div>
   );
 }
