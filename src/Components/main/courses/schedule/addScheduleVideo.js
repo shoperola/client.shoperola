@@ -1194,11 +1194,13 @@ export default function AddScheduleVideo() {
                                                                         type="datetime-local"
                                                                         value={lession.launchDate}
                                                                         name="launchDate"
-                                                                        onChange={(e) =>
+                                                                        onChange={(e) => {
+                                                                            console.log(e.target.value)
                                                                             setLession({
                                                                                 ...lession,
                                                                                 launchDate: e.target.value,
                                                                             })
+                                                                        }
                                                                         }
                                                                         className="form-control input-field" ddata-provide="datepicker" data-date-autoclose="true" placeholder="Pick Launch Date" />
 

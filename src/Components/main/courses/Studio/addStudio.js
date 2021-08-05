@@ -10,11 +10,14 @@ import { API } from '../../../../API';
 import { isAutheticated } from '../../../auth/authhelper';
 import Loader from "react-loader-spinner";
 import Footer from '../../Footer';
+import ClipLoader from "react-spinners/ClipLoader";
+
 import QRCode from 'react-qr-code';
 
 function AddStudio(props) {
 
     const [imgUrl, setImgUrl] = useState("");
+    const [loading, setLoading] = useState(false);
     const [data, setdata] = useState({
         "video-name": "",
         "video-url": "",
@@ -31,6 +34,7 @@ function AddStudio(props) {
         "Studio_Id": "",
     });
     const [videos, setVideos] = useState(undefined);
+    const [HitUseEffect, setHitUseEffect] = useState(false);
     const [selectedDuration, setselectedDuration] = useState("");
     const [currentTime, setcurrentTime] = useState(0);
     const [resData, setresData] = useState();
@@ -39,6 +43,7 @@ function AddStudio(props) {
     let addpopupForShowWindow = useRef();
     let addpopupForShowScanBuy = useRef();
     let thumbnailParent = useRef();
+    let thumbnailParentForScan = useRef();
     let thumbnailParentForProduct = useRef();
     let QrCodeRef = useRef();
     let shopNowRef = useRef();
@@ -55,7 +60,6 @@ function AddStudio(props) {
                 }
             });
             setproductdata(res.data.data);
-
             let resData = await axios.get(`${API}/api/lesson/video/${props.match.params.id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -64,6 +68,7 @@ function AddStudio(props) {
             console.log(resData.data)
             if (resData.data) {
                 setVideos(resData.data);
+                localStorage.setItem("studioId", resData.data?.studio_id);
                 setdata(
                     {
                         ...data,
@@ -209,6 +214,41 @@ function AddStudio(props) {
         }
 
     }
+    const selectImagehandlerForScan = (e) => {
+        if (e.target.className === "active") {
+            e.target.classList.remove("active");
+            for (let i = 0; i < thumbnailParentForScan.current.childNodes.length; i++) {
+                thumbnailParentForScan.current.childNodes[i].childNodes[0].classList.remove("active");
+                if (thumbnailParentForScan.current.childNodes[i].childNodes[0].src === e.target.src) {
+                    setdata({
+                        ...data,
+                        "Product-name": "",
+                        "Product-Price": "",
+                        "Product_Id": "",
+                        "current-video-time": currentTime,
+                        "thumbnail-img": "",
+
+                    })
+                }
+            }
+        } else {
+            for (let i = 0; i < thumbnailParentForScan.current.childNodes.length; i++) {
+                thumbnailParentForScan.current.childNodes[i].childNodes[0].classList.remove("active");
+                if (thumbnailParentForScan.current.childNodes[i].childNodes[0].id === e.target.id) {
+                    setdata({
+                        ...data,
+                        "Product-name": thumbnailParentForScan.current.childNodes[i].childNodes[1].innerText,
+                        "Product-Price": thumbnailParentForScan.current.childNodes[i].childNodes[2].innerText,
+                        "Product_Id": thumbnailParentForScan.current.childNodes[i].childNodes[3].innerText,
+                        "thumbnail-img": e.target.src,
+                        "current-video-time": currentTime,
+                    })
+                }
+            }
+            e.target.classList.add("active");
+        }
+
+    }
     const selectOptionHandler = (e) => {
         setselectedDuration(e.target.value);
         setdata(
@@ -277,6 +317,8 @@ function AddStudio(props) {
 
     }
     const handleSubmitShopData = async () => {
+        setLoading(true);
+
         let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
@@ -290,9 +332,12 @@ function AddStudio(props) {
             }
         })
         setresData(res.data);
+        setLoading(false);
         addpopupForShowWindow.current.style.display = "none";
     }
     const handleProductSubmit = async () => {
+        setLoading(true);
+
         let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
@@ -307,9 +352,11 @@ function AddStudio(props) {
         })
         console.log(res);
         setresData(res.data);
+        setLoading(false);
         addpopupWindow.current.style.display = "none";
     }
     const handleSubmitScanToBuy = async () => {
+        setLoading(true);
         const svg = document.getElementById("QRCode");
         const svgData = new XMLSerializer().serializeToString(svg);
         const img = new Image();
@@ -337,21 +384,39 @@ function AddStudio(props) {
                     }
                 })
                 setresData(res.data);
+                setLoading(false);
                 addpopupForShowScanBuy.current.style.display = "none";
             })
-            .catch(err => console.error('Error:', err));
+            .catch(err => {
+                addpopupForShowScanBuy.current.style.display = "none";
+                console.error('Error:', err)
+            });
     }
+    let studioId = localStorage.getItem("studioId");
 
     const handleDelete = async (id) => {
-        console.log(id);
         let res = await axios.delete(`${API}/api/studio/delete_product/${data['Studio_Id']}?productid=${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
         })
-        // setresData()
+        console.log(res);
+        setresData(res.data.saved)
 
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let res = await axios.get(`${API}/api/studio/view_byid/${studioId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            console.log(res.data)
+            setresData(res.data)
+        }
+        fetchData()
+    }, [studioId])
 
     console.log([data])
     console.log(data["Qr_url"])
@@ -433,7 +498,8 @@ function AddStudio(props) {
                                                 }
                                             </div>
                                             <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Click on Save button to add this to the video</h5>
-                                            <button onClick={handleProductSubmit} id="SaveBtn">Save</button>
+                                            <button onClick={handleProductSubmit} id="SaveBtn"><ClipLoader loading={loading} size={18} />
+                                                {!loading && "Save"}</button>
                                         </div>
 
                                         <div ref={addpopupForShowWindow} className="addpopupWindow">
@@ -471,10 +537,11 @@ function AddStudio(props) {
                                                 }
 
                                             </div>
-                                            <h5 style={{ margin: "10px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Add Url <input type="text" onChange={handleInputChange} id="inputBoxInShow" /></h5>
+                                            <h5 style={{ margin: "10px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Add URL <input type="text" onChange={handleInputChange} id="inputBoxInShow" /></h5>
 
-                                            <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Click on Save button to add this to the video</h5>
-                                            <button onClick={handleSubmitShopData} id="SaveBtn">Save</button>
+                                            <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}> Step4</b>: Click on Save button to add this to the video</h5>
+                                            <button onClick={handleSubmitShopData} id="SaveBtn"><ClipLoader loading={loading} size={18} />
+                                                {!loading && "Save"}</button>
                                         </div>
                                         <div ref={addpopupForShowScanBuy} className="addpopupWindow">
                                             <span onClick={handleClosePopup} id="closeBtn">X</span>
@@ -498,7 +565,7 @@ function AddStudio(props) {
                                                 </p>
                                             </span>
                                             <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step2</b>: Select the Product</h5>
-                                            <div ref={thumbnailParent} className="thumbnails" onClick={selectImagehandler}>
+                                            <div ref={thumbnailParentForScan} className="thumbnails" onClick={selectImagehandlerForScan}>
                                                 {
                                                     productdata?.map((item, index) => (
                                                         <span className="spanForImg">
@@ -511,10 +578,11 @@ function AddStudio(props) {
                                                 }
 
                                             </div>
-                                            <h5 style={{ margin: "10px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Add Url <input type="text" onChange={handleInputChangeForQrCode} id="inputBoxInShow" /></h5>
+                                            <h5 style={{ margin: "10px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Add URL <input type="text" onChange={handleInputChangeForQrCode} id="inputBoxInShow" /></h5>
 
-                                            <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}>Step3</b>: Click on Save button to add this to the video</h5>
-                                            <button onClick={handleSubmitScanToBuy} id="SaveBtn">Save</button>
+                                            <h5 style={{ marginLeft: "5px", color: "#0f0431" }}><b style={{ fontSize: "25px", color: "#3d1f98" }}> Step4</b>: Click on Save button to add this to the video</h5>
+                                            <button onClick={handleSubmitScanToBuy} id="SaveBtn"> <ClipLoader loading={loading} size={18} />
+                                                {!loading && "Save"}</button>
                                         </div>
                                         {
                                             videos?.video ?

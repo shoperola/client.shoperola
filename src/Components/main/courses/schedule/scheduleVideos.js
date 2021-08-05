@@ -69,6 +69,38 @@ export default function ScheduleVideos() {
 
         setViewerperpage(e.target.value);
     };
+
+    const handledeleteMovie = (id) => {
+        axios.patch(`${API}/api/lesson/metadata/${id}`, {
+            "Id": "",
+            "directors": "",
+            "type": "",
+            "year": "",
+            "image": ""
+            , "genres": "",
+            "Languages": "",
+            "RuntimeStr": "",
+            "Plot": ""
+            , "Actors_list": "",
+            "Writers": "",
+            "Ratings": "",
+            "launchDate": null,
+            "launch_flag": false,
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => {
+                console.log("here sub,it response", res);
+                window.location.reload()
+            })
+            .catch((err) => {
+                window.location.reload()
+            });
+    }
+
     return (
 
 
@@ -170,9 +202,8 @@ export default function ScheduleVideos() {
                                                                         }
                                                                         {lession.live && !lession.launchDate &&
                                                                             <span className="badge badge-pill badge-primary font-size-12">
-                                                                                Pending
+                                                                                Live
                                                                             </span>
-
                                                                         }
                                                                         {lession.launch_flag && lession.live &&
                                                                             <span className="badge badge-pill badge-primary font-size-12">
@@ -262,15 +293,6 @@ export default function ScheduleVideos() {
                                                                                 Make Live
                                                                             </button>
                                                                         }
-
-                                                                        {/* <Link to={`/lessions/view/${lession._id}`}>
-                                    <button
-                                      type="button"
-                                      className="btn btn-info btn-sm  waves-effect waves-light btn-table ml-2"
-                                    >
-                                      View
-                                    </button>
-                                  </Link> */}
                                                                         <Link to={`/lessions/edit/${lession._id}`}>
                                                                             <button
                                                                                 type="button"
@@ -279,46 +301,8 @@ export default function ScheduleVideos() {
                                                                                 Edit
                                                                             </button>
                                                                         </Link>
-
                                                                         <button
-                                                                            onClick={(e) => {
-                                                                                e.preventDefault();
-                                                                                let status = window.confirm("Do you want to delete");
-                                                                                if (!status) {
-                                                                                    return;
-                                                                                } else {
-
-                                                                                    axios
-                                                                                        .delete(
-                                                                                            `${API}/api/lesson/${lession._id}`,
-                                                                                            {
-                                                                                                headers: {
-                                                                                                    Authorization: `Bearer ${token}`,
-                                                                                                },
-                                                                                            }
-                                                                                        )
-                                                                                        .then((res) => {
-                                                                                            setSuccess(!success);
-                                                                                            swal({
-                                                                                                title:
-                                                                                                    "Video deleted Successfully!",
-
-                                                                                                icon: "success",
-                                                                                                buttons: true,
-                                                                                                successMode: true,
-                                                                                                dangerMode: false,
-                                                                                            });
-                                                                                            // console.log(res);
-                                                                                        })
-                                                                                        .catch((err) => {
-                                                                                            console.log(err);
-                                                                                            setSuccess(!success);
-                                                                                        });
-
-                                                                                }
-
-
-                                                                            }}
+                                                                            onClick={() => handledeleteMovie(lession._id)}
                                                                             type="button"
                                                                             className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2"
                                                                             id="sa-params"
