@@ -94,7 +94,7 @@ export default function Sidebar() {
             </li>
             <li>
               <Link to="#" className="has-arrow">
-                <img src="/assets/images/icons/cms-icon.png" />
+                <img src="/assets/images/icons/cms-icon.png" alt=""/>
                 <span>Commerce</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
@@ -102,7 +102,14 @@ export default function Sidebar() {
                   <Link to="/comproducts">Products</Link>
                 </li>
                 <li>
+                  <Link to="/featured/products">Featured Products</Link>
+                </li>
+                <li>
                   <a href="/comcatagory">Category
+                  </a>
+                </li>
+                <li>
+                  <a href="/comcatagory">Coupons
                   </a>
                 </li>
               </ul>

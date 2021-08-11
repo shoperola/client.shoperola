@@ -105,7 +105,7 @@ export default function AddScheduleVideo() {
     }, []);
 
     const handleFilter = (e) => {
-        if (e.target.value != "") {
+        if (e.target.value !== "") {
             let res = videos?.filter(item => {
                 return item && item.title.toLowerCase().includes(e.target.value.toLowerCase())
             })
@@ -761,19 +761,19 @@ export default function AddScheduleVideo() {
 
     return (
 
-        <div class="main-content">
+        <div className="main-content">
 
-            <div class="page-content">
-                <div class="container-fluid">
+            <div className="page-content">
+                <div className="container-fluid">
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0">Content Management - Schedule launch</h4>
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">TellyTell</a></li>
-                                        <li class="breadcrumb-item">Content Management - Schedule launch</li>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 className="mb-0">Content Management - Schedule launch</h4>
+                                <div className="page-title-right">
+                                    <ol className="breadcrumb m-0">
+                                        <li className="breadcrumb-item"><a href="javascript: void(0);">TellyTell</a></li>
+                                        <li className="breadcrumb-item">Content Management - Schedule launch</li>
                                     </ol>
                                 </div>
                             </div>
@@ -781,89 +781,89 @@ export default function AddScheduleVideo() {
                     </div>
 
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
 
-                                        <div class="col-md-12 col-lg-9 col-xl-8">
+                                        <div className="col-md-12 col-lg-9 col-xl-8">
 
-                                            <h1 class="text-left head-small">Schedule Launch</h1>
+                                            <h1 className="text-left head-small">Schedule Launch</h1>
                                             {/* <h3>{new Date("2021-07-30T15:13:00.000+00:00").toLocaleString()}</h3> */}
 
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li class="nav-item waves-effect waves-light">
+                                            <ul className="nav nav-tabs" role="tablist">
+                                                <li className="nav-item waves-effect waves-light">
                                                     <a
                                                         ref={tab1}
-                                                        class="nav-link active" data-toggle="tab" href="#title"
+                                                        className="nav-link active" data-toggle="tab" href="#title"
                                                         role="tab">
-                                                        <span class="d-block d-sm-none">
+                                                        <span className="d-block d-sm-none">
                                                             <img src="assets/images/icons/title-icon.png" />
                                                         </span>
-                                                        <span class="d-none d-sm-block">Select Category</span>
+                                                        <span className="d-none d-sm-block">Select Category</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item waves-effect waves-light">
+                                                <li className="nav-item waves-effect waves-light">
                                                     <a
                                                         role="tab"
                                                         onClick={() => {
                                                             setcurrentTab(2);
                                                         }}
                                                         ref={tab2}
-                                                        class="nav-link" data-toggle="tab" href="#images" role="tab">
-                                                        <span class="d-block d-sm-none">
+                                                        className="nav-link" data-toggle="tab" href="#images" role="tab">
+                                                        <span className="d-block d-sm-none">
                                                             <img src="assets/images/icons/img-icon.png" />
                                                         </span>
-                                                        <span class="d-none d-sm-block">Banner image</span>
+                                                        <span className="d-none d-sm-block">Banner image</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item waves-effect waves-light">
+                                                <li className="nav-item waves-effect waves-light">
                                                     <a
                                                         role="tab"
                                                         onClick={() => {
                                                             setcurrentTab(3);
                                                         }}
                                                         ref={tab3}
-                                                        class="nav-link" data-toggle="tab" href="#meta-data" role="tab">
-                                                        <span class="d-block d-sm-none">
+                                                        className="nav-link" data-toggle="tab" href="#meta-data" role="tab">
+                                                        <span className="d-block d-sm-none">
                                                             <img src="assets/images/icons/info-icon.png" />
                                                         </span>
-                                                        <span class="d-none d-sm-block">Meta Information
+                                                        <span className="d-none d-sm-block">Meta Information
                                                             (Optional)</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item waves-effect waves-light">
+                                                <li className="nav-item waves-effect waves-light">
                                                     <a
                                                         role="tab"
                                                         onClick={() => {
                                                             setcurrentTab(4);
                                                         }}
                                                         ref={tab4}
-                                                        class="nav-link" data-toggle="tab" href="#launch" role="tab">
-                                                        <span class="d-block d-sm-none">
+                                                        className="nav-link" data-toggle="tab" href="#launch" role="tab">
+                                                        <span className="d-block d-sm-none">
                                                             <img src="assets/images/icons/date-icon.png" />
                                                         </span>
-                                                        <span class="d-none d-sm-block">Launch</span>
+                                                        <span className="d-none d-sm-block">Launch</span>
                                                     </a>
                                                 </li>
                                             </ul>
 
-                                            <div class="tab-content video-tab p-3 text-muted">
+                                            <div className="tab-content video-tab p-3 text-muted">
 
-                                                <div class="tab-pane active" id="title" role="tabpanel">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
+                                                <div className="tab-pane active" id="title" role="tabpanel">
+                                                    <div className="row">
+                                                        <div className="col-lg-12">
+                                                            <div className="form-group">
                                                                 <label for="basicpill-phoneno-input"
-                                                                    class="label-100">Select Category</label>
-                                                                <div class="col-md-8">
+                                                                    className="label-100">Select Category</label>
+                                                                <div className="col-md-8">
                                                                     {
                                                                         data?.map(item => (
-                                                                            <div class="custom-control custom-radio mb-2">
+                                                                            <div className="custom-control custom-radio mb-2">
                                                                                 <input onChange={handleRadioChange} type="radio" id={item.type} name="age"
-                                                                                    class="custom-control-input" value={item.name} />
-                                                                                <label class="custom-control-label"
+                                                                                    className="custom-control-input" value={item.name} />
+                                                                                <label className="custom-control-label"
                                                                                     for={item.type}>{item.name}</label>
                                                                             </div>
                                                                         ))
@@ -874,13 +874,13 @@ export default function AddScheduleVideo() {
                                                     </div>
                                                     {
                                                         radioBtn === "Movies" &&
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <div class="form-group">
+                                                        <div className="row">
+                                                            <div className="col-lg-12">
+                                                                <div className="form-group">
                                                                     <label for="basicpill-phoneno-input"
-                                                                        class="label-100">Search Video from Video
+                                                                        className="label-100">Search Video from Video
                                                                         Library</label>
-                                                                    <input autoComplete={"Hello"} autoSave={false} onChange={handleFilter} type="text" class="form-control input-field"
+                                                                    <input autoComplete={"Hello"} autoSave={false} onChange={handleFilter} type="text" className="form-control input-field"
                                                                         id="basicpill-phoneno-input" />
                                                                     <div className="searchedListVideos">
                                                                         {filteredVideos &&
@@ -917,43 +917,43 @@ export default function AddScheduleVideo() {
                                                     }
                                                     {
                                                         radioBtn === "TV Shows" &&
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <div class="form-group">
+                                                        <div className="row">
+                                                            <div className="col-lg-12">
+                                                                <div className="form-group">
                                                                     <label for="basicpill-phoneno-input"
-                                                                        class="label-100">Add New Title</label>
-                                                                    <input type="text" name="title" onChange={handleChangetitle} class="form-control input-field"
+                                                                        className="label-100">Add New Title</label>
+                                                                    <input type="text" name="title" onChange={handleChangetitle} className="form-control input-field"
                                                                         id="basicpill-phoneno-input" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     }
-                                                    <div class="form-group mb-30 width-100 ">
-                                                        <label class="col-md-4 control-label"></label>
-                                                        <div class="col-md-8">
+                                                    <div className="form-group mb-30 width-100 ">
+                                                        <label className="col-md-4 control-label"></label>
+                                                        <div className="col-md-8">
                                                             <button type="button"
                                                                 onClick={radioBtn === "TV Shows" ? handleSubmitTvShows : handleSubmitOne}
-                                                                class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
+                                                                className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="tab-pane" id="images" role="tabpanel">
-                                                    <div class="panel-body p-20">
-                                                        <div class="form-group mb-30 width-100 row">
-                                                            <label class="col-md-4 control-label">Upload Banner
+                                                <div className="tab-pane" id="images" role="tabpanel">
+                                                    <div className="panel-body p-20">
+                                                        <div className="form-group mb-30 width-100 row">
+                                                            <label className="col-md-4 control-label">Upload Banner
                                                                 Image<br />
-                                                                <span class="size">(1125 x 451 px)</span></label>
-                                                            <div class="col-md-8">
-                                                                <input onChange={handleChange} type="file" name={radioBtn === "TV Shows" ? "bannerImage" : "banner"} class="form-control input-field"
+                                                                <span className="size">(1125 x 451 px)</span></label>
+                                                            <div className="col-md-8">
+                                                                <input onChange={handleChange} type="file" name={radioBtn === "TV Shows" ? "bannerImage" : "banner"} className="form-control input-field"
                                                                 />
                                                             </div>
                                                         </div>
-                                                        <div class="form-group mb-30 width-100 row">
-                                                            <label class="col-md-4 control-label"></label>
-                                                            <div class="col-md-8">
+                                                        <div className="form-group mb-30 width-100 row">
+                                                            <label className="col-md-4 control-label"></label>
+                                                            <div className="col-md-8">
                                                                 <button onClick={radioBtn === "TV Shows" ? handleSubmitBannerForTvShows : handleSubmitBanner} type="button"
-                                                                    class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
+                                                                    className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1082,44 +1082,44 @@ export default function AddScheduleVideo() {
                                                     </div>
                                                 </div>
 
-                                                <div class="tab-pane" id="crew" role="tabpanel">
-                                                    <div class="panel-body p-20">
-                                                        <div class="form-group row">
-                                                            <label class="col-md-4 control-label">Crew</label>
-                                                            <div class="col-md-8">
+                                                <div className="tab-pane" id="crew" role="tabpanel">
+                                                    <div className="panel-body p-20">
+                                                        <div className="form-group row">
+                                                            <label className="col-md-4 control-label">Crew</label>
+                                                            <div className="col-md-8">
 
-                                                                <table class="table table-hover" id="participantTable">
+                                                                <table className="table table-hover" id="participantTable">
 
                                                                     <tbody>
-                                                                        <tr class="participantRow">
+                                                                        <tr className="participantRow">
                                                                             <td>
-                                                                                <div class="crew_box">
+                                                                                <div className="crew_box">
 
-                                                                                    <div class="checkbox">
+                                                                                    <div className="checkbox">
 
-                                                                                        <div class="input-group mb-3">
+                                                                                        <div className="input-group mb-3">
                                                                                             <input type="text"
-                                                                                                class="form-control input-field"
+                                                                                                className="form-control input-field"
                                                                                                 placeholder="Search" />
                                                                                             <div
-                                                                                                class="input-group-append">
+                                                                                                className="input-group-append">
                                                                                                 <button
-                                                                                                    class="btn add_btn"
+                                                                                                    className="btn add_btn"
                                                                                                     type="button">Add</button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="checkbox">
-                                                                                        <table class="table">
+                                                                                    <div className="checkbox">
+                                                                                        <table className="table">
 
                                                                                             <tbody>
                                                                                                 <tr>
                                                                                                     <td><img src="assets/images/avatar-2.jpg"
-                                                                                                        class="img-circle"
+                                                                                                        className="img-circle"
                                                                                                         height="50" />
                                                                                                     </td>
-                                                                                                    <td class="v-mid">
+                                                                                                    <td className="v-mid">
                                                                                                         Anil Ravipudi
                                                                                                     </td>
                                                                                                     <td>
@@ -1130,10 +1130,10 @@ export default function AddScheduleVideo() {
 
                                                                                                 <tr>
                                                                                                     <td><img src="assets/images/avatar-2.jpg"
-                                                                                                        class="img-circle"
+                                                                                                        className="img-circle"
                                                                                                         height="50" />
                                                                                                     </td>
-                                                                                                    <td class="v-mid">
+                                                                                                    <td className="v-mid">
                                                                                                         Sunkara
                                                                                                         Ramabrahmam</td>
                                                                                                     <td>
@@ -1244,22 +1244,22 @@ export default function AddScheduleVideo() {
                                                 </div>
 
 
-                                                <div class="tab-pane" id="video" role="tabpanel">
-                                                    <div class="panel-body p-20">
+                                                <div className="tab-pane" id="video" role="tabpanel">
+                                                    <div className="panel-body p-20">
 
-                                                        <div class="form-group mb-30 width-100 row">
-                                                            <label class="col-md-4 control-label">Upload Video<br />
-                                                                <span class="size">(mp4 file format only)</span></label>
-                                                            <div class="col-md-8">
-                                                                <input type="file" class="form-control input-field"
+                                                        <div className="form-group mb-30 width-100 row">
+                                                            <label className="col-md-4 control-label">Upload Video<br />
+                                                                <span className="size">(mp4 file format only)</span></label>
+                                                            <div className="col-md-8">
+                                                                <input type="file" className="form-control input-field"
                                                                     value="" />
                                                             </div>
                                                         </div>
-                                                        <div class="form-group m-b-0 row">
-                                                            <div class="col-md-4"></div>
-                                                            <div class="col-md-8">
+                                                        <div className="form-group m-b-0 row">
+                                                            <div className="col-md-4"></div>
+                                                            <div className="col-md-8">
                                                                 <a href="#"><button type="button"
-                                                                    class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button></a>
+                                                                    className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button></a>
                                                             </div>
                                                         </div>
                                                     </div>

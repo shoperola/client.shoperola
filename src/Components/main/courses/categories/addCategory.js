@@ -127,18 +127,18 @@ function AddVideoCatagory() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
                                                             <label for="basicpill-phoneno-input"
-                                                                class="label-100">Select Type</label>
-                                                            <select class="form-control input-field" id="basicpill-phoneno-input" onChange={handleInputText} name="type">
+                                                                className="label-100">Select Type</label>
+                                                            <select className="form-control input-field" id="basicpill-phoneno-input" onChange={handleInputText} name="type">
                                                                 <option>Select</option>
                                                                 <option>Individual Videos</option>
                                                                 <option>Series</option>
                                                             </select>
                                                             <label for="basicpill-phoneno-input"
-                                                                class="label-100">Example of individual videos is a
+                                                                className="label-100">Example of individual videos is a
                                                                 movie. Example of Series is a collection of
                                                                 videos</label>
                                                         </div>

@@ -10,45 +10,45 @@ export default function Requests() {
     //   <Sidebar />
 
     // </div>
-    <div class="main-content">
-      <div class="page-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
+    <div className="main-content">
+      <div className="page-content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
               <div
-                class="
+                className="
                     page-title-box
                     d-flex
                     align-items-center
                     justify-content-between
                   "
               >
-                <h4 class="mb-0">Requests</h4>
+                <h4 className="mb-0">Requests</h4>
 
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">
+                <div className="page-title-right">
+                  <ol className="breadcrumb m-0">
+                    <li className="breadcrumb-item">
                       <a href="javascript: void(0);">TellyTell</a>
                     </li>
-                    <li class="breadcrumb-item active">Requests</li>
+                    <li className="breadcrumb-item active">Requests</li>
                   </ol>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row ml-0 mr-0 mb-10">
-                    <div class="col-sm-12 col-md-12">
-                      <div class="dataTables_length">
-                        <label class="w-100">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row ml-0 mr-0 mb-10">
+                    <div className="col-sm-12 col-md-12">
+                      <div className="dataTables_length">
+                        <label className="w-100">
                           Show
                           <select
                             name=""
-                            class="
+                            className="
                                 select-w
                                 custom-select custom-select-sm
                                 form-control form-control-sm
@@ -65,9 +65,9 @@ export default function Requests() {
                     </div>
                   </div>
 
-                  <div class="table-responsive table-shoot">
-                    <table class="table table-centered table-nowrap mb-0">
-                      <thead class="thead-light">
+                  <div className="table-responsive table-shoot">
+                    <table className="table table-centered table-nowrap mb-0">
+                      <thead className="thead-light">
                         <tr>
                           <th>Name</th>
                           <th>Request</th>
@@ -88,7 +88,7 @@ export default function Requests() {
                           <td>04 May 2021</td>
                           <td>
                             <span
-                              class="
+                              className="
                                   badge badge-pill badge-soft-success
                                   font-size-12
                                 "
@@ -99,7 +99,7 @@ export default function Requests() {
                           <td>
                             <button
                               type="button"
-                              class="
+                              className="
                                   btn btn-success btn-sm
                                   waves-effect waves-light
                                   btn-table
@@ -110,7 +110,7 @@ export default function Requests() {
                             <a href="/requests/view">
                               <button
                                 type="button"
-                                class="
+                                className="
                                     btn btn-info btn-sm
                                     waves-effect waves-light
                                     btn-table
@@ -131,7 +131,7 @@ export default function Requests() {
                           <td>04 May 2021</td>
                           <td>
                             <span
-                              class="
+                              className="
                                   badge badge-pill badge-soft-danger
                                   font-size-12
                                 "
@@ -145,7 +145,7 @@ export default function Requests() {
                               data-toggle="modal"
                               data-target="#record-video"
                               type="button"
-                              class="
+                              className="
                                   btn btn-danger btn-sm
                                   waves-effect waves-light
                                   btn-table
@@ -156,7 +156,7 @@ export default function Requests() {
                             <a href="/requests/view">
                               <button
                                 type="button"
-                                class="
+                                className="
                                     btn btn-info btn-sm
                                     waves-effect waves-light
                                     btn-table
@@ -172,10 +172,10 @@ export default function Requests() {
                     </table>
                   </div>
 
-                  <div class="row mt-20">
-                    <div class="col-sm-12 col-md-6 mb-20">
+                  <div className="row mt-20">
+                    <div className="col-sm-12 col-md-6 mb-20">
                       <div
-                        class="dataTables_info"
+                        className="dataTables_info"
                         id="datatable_info"
                         role="status"
                         aria-live="polite"
@@ -184,17 +184,17 @@ export default function Requests() {
                       </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6">
+                    <div className="col-sm-12 col-md-6">
                       <div
-                        class="
+                        className="
                             dataTables_paginate
                             paging_simple_numbers
                             float-right
                           "
                       >
-                        <ul class="pagination">
+                        <ul className="pagination">
                           <li
-                            class="
+                            className="
                                 paginate_button
                                 page-item
                                 previous
@@ -206,50 +206,50 @@ export default function Requests() {
                               aria-controls="datatable"
                               data-dt-idx="0"
                               tabindex="0"
-                              class="page-link"
+                              className="page-link"
                             >
                               Previous
                             </a>
                           </li>
 
-                          <li class="paginate_button page-item active">
+                          <li className="paginate_button page-item active">
                             <a
                               href="#"
                               aria-controls="datatable"
                               data-dt-idx="1"
                               tabindex="0"
-                              class="page-link"
+                              className="page-link"
                             >
                               1
                             </a>
                           </li>
 
-                          <li class="paginate_button page-item">
+                          <li className="paginate_button page-item">
                             <a
                               href="#"
                               aria-controls="datatable"
                               data-dt-idx="2"
                               tabindex="0"
-                              class="page-link"
+                              className="page-link"
                             >
                               2
                             </a>
                           </li>
 
-                          <li class="paginate_button page-item">
+                          <li className="paginate_button page-item">
                             <a
                               href="#"
                               aria-controls="datatable"
                               data-dt-idx="3"
                               tabindex="0"
-                              class="page-link"
+                              className="page-link"
                             >
                               3
                             </a>
                           </li>
 
-                          <li class="paginate_button page-item next">
-                            <a href="#" tabindex="0" class="page-link">
+                          <li className="paginate_button page-item next">
+                            <a href="#" tabindex="0" className="page-link">
                               Next
                             </a>
                           </li>
@@ -264,10 +264,10 @@ export default function Requests() {
         </div>
       </div>
 
-      {/* <footer class="footer">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-12">
+      {/* <footer className="footer">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-12">
               <script>document.write(new Date().getFullYear());</script>© TellyTell.
             </div>
           </div>

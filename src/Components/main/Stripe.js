@@ -2,19 +2,19 @@ import React from "react";
 
 export default function Stripe() {
   return (
-    <div class="stripe-box container-fluid">
-      <div class="row h-100">
-        <div class="col-md-5 h-100 bg-stripe">
+    <div className="stripe-box container-fluid">
+      <div className="row h-100">
+        <div className="col-md-5 h-100 bg-stripe">
           <p>
             <a href="payment-setting.html">
-              <span class="rounded back-arrow">
-                <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+              <span className="rounded back-arrow">
+                <i className="fa fa-long-arrow-left" aria-hidden="true"></i>
               </span>
               <img
                 src="/assets/images/logo-dark.png"
                 alt=""
                 height="20"
-                class="logo"
+                className="logo"
               />
             </a>
           </p>
@@ -24,11 +24,11 @@ export default function Stripe() {
             Stripe for secure payments.
           </h1>
 
-          <div class="stripe-powered">
+          <div className="stripe-powered">
             <span>
               Powered by Stripe
               <i
-                class="fa fa-info-circle"
+                className="fa fa-info-circle"
                 data-container="body"
                 data-toggle="popover"
                 data-placement="top"
@@ -40,7 +40,7 @@ export default function Stripe() {
               <select
                 id="country"
                 name="country"
-                class="form-control input-field"
+                className="form-control input-field"
               >
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Åland Islands">Åland Islands</option>
@@ -358,26 +358,26 @@ export default function Stripe() {
             </span>
           </div>
         </div>
-        <div class="col-md-7 h-100">
-          <div class="row align-items-center justify-content-left">
-            <div class="stripe-form">
-              <div class="text-center mt-2">
-                <h5 class="text-primary welcome-text">
+        <div className="col-md-7 h-100">
+          <div className="row align-items-center justify-content-left">
+            <div className="stripe-form">
+              <div className="text-center mt-2">
+                <h5 className="text-primary welcome-text">
                   Get started with Stripe
                 </h5>
-                <p class="text-muted">
+                <p className="text-muted">
                   Please have the owner of this business or someone with
                   significant management responsibility complete this form.
                 </p>
               </div>
 
-              <div class="p-2 mt-4">
+              <div className="p-2 mt-4">
                 <form>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label for="username">Email</label>
                     <input
                       type="text"
-                      class="form-control input-field"
+                      className="form-control input-field"
                       placeholder="Enter Email ID"
                     />
                     <span style={{ color: "#7050d4" }}>
@@ -385,9 +385,9 @@ export default function Stripe() {
                     </span>
                   </div>
 
-                  <div class="mt-3 text-right">
+                  <div className="mt-3 text-right">
                     <a href="#">
-                      <button class="btn btn-primary w-sm waves-effect waves-light">
+                      <button className="btn btn-primary w-sm waves-effect waves-light">
                         Next
                       </button>
                     </a>

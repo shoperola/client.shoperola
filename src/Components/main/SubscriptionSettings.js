@@ -10,27 +10,27 @@ export default function SubscriptionSettings() {
     //   <Sidebar />
 
     // </div>
-    <div class="main-content">
-      <div class="page-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
+    <div className="main-content">
+      <div className="page-content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
               <div
-                class="
+                className="
                     page-title-box
                     d-flex
                     align-items-center
                     justify-content-between
                   "
               >
-                <h4 class="mb-0">Subscription Settings</h4>
+                <h4 className="mb-0">Subscription Settings</h4>
 
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">
+                <div className="page-title-right">
+                  <ol className="breadcrumb m-0">
+                    <li className="breadcrumb-item">
                       <a href="javascript: void(0);">TellyTell</a>
                     </li>
-                    <li class="breadcrumb-item active">
+                    <li className="breadcrumb-item active">
                       Subscription Settings
                     </li>
                   </ol>
@@ -39,32 +39,32 @@ export default function SubscriptionSettings() {
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h1 class="text-left head-small">Subscription Plans</h1>
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <h1 className="text-left head-small">Subscription Plans</h1>
 
-                      <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-6 mb-20">
-                          <div class="h-100 p-relative">
-                            <div class="cur_plan">
+                      <div className="row">
+                        <div className="col-lg-3 col-md-6 col-sm-6 mb-20">
+                          <div className="h-100 p-relative">
+                            <div className="cur_plan">
                               <p>Your Current Plan</p>
                             </div>
-                            <div class="card pricing-box text-center">
-                              <div class="card-body p-4">
+                            <div className="card pricing-box text-center">
+                              <div className="card-body p-4">
                                 <div>
                                   <div>
-                                    <h5 class="mb-1">Silver</h5>
+                                    <h5 className="mb-1">Silver</h5>
                                   </div>
                                 </div>
-                                <ul class="list-unstyled plan-features mt-3">
+                                <ul className="list-unstyled plan-features mt-3">
                                   <li>
                                     Lipsum generator:
                                     <span
-                                      class="
+                                      className="
                                           text-primary
                                           font-weight-semibold
                                         "
@@ -75,7 +75,7 @@ export default function SubscriptionSettings() {
                                   <li>
                                     Lorem Ipsum
                                     <span
-                                      class="
+                                      className="
                                           text-primary
                                           font-weight-semibold
                                         "
@@ -86,7 +86,7 @@ export default function SubscriptionSettings() {
                                   <li>
                                     Lorem Ipsum - All the facts:
                                     <span
-                                      class="
+                                      className="
                                           text-primary
                                           font-weight-semibold
                                         "
@@ -95,21 +95,21 @@ export default function SubscriptionSettings() {
                                     </span>
                                   </li>
                                 </ul>
-                                <div class="py-4">
+                                <div className="py-4">
                                   <h3>
                                     <sup>
                                       <small>$</small>
                                     </sup>{" "}
                                     19/
-                                    <span class="font-size-13 text-muted">
+                                    <span className="font-size-13 text-muted">
                                       Per month
                                     </span>
                                   </h3>
                                 </div>
-                                <div class="text-center plan-btn my-2">
+                                <div className="text-center plan-btn my-2">
                                   <a
                                     href="#"
-                                    class="
+                                    className="
                                         btn btn-primary
                                         waves-effect waves-light
                                       "
@@ -122,49 +122,49 @@ export default function SubscriptionSettings() {
                           </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-6 col-sm-6 mb-20">
-                          <div class="card pricing-box text-center">
-                            <div class="card-body p-4">
+                        <div className="col-lg-3 col-md-6 col-sm-6 mb-20">
+                          <div className="card pricing-box text-center">
+                            <div className="card-body p-4">
                               <div>
                                 <div>
-                                  <h5 class="mb-1">Gold</h5>
+                                  <h5 className="mb-1">Gold</h5>
                                 </div>
                               </div>
-                              <ul class="list-unstyled plan-features mt-3">
+                              <ul className="list-unstyled plan-features mt-3">
                                 <li>
                                   Lipsum generator:
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     1
                                   </span>
                                 </li>
                                 <li>
                                   Lorem Ipsum
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     01 GB
                                   </span>
                                 </li>
                                 <li>
                                   Lorem Ipsum - All the facts:
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     No
                                   </span>
                                 </li>
                               </ul>
-                              <div class="py-4">
+                              <div className="py-4">
                                 <h3>
                                   <sup>
                                     <small>$</small>
                                   </sup>{" "}
                                   39/
-                                  <span class="font-size-13 text-muted">
+                                  <span className="font-size-13 text-muted">
                                     Per month
                                   </span>
                                 </h3>
                               </div>
-                              <div class="text-center plan-btn my-2">
+                              <div className="text-center plan-btn my-2">
                                 <a
                                   href="#"
-                                  class="
+                                  className="
                                       btn btn-primary
                                       waves-effect waves-light
                                     "
@@ -176,49 +176,49 @@ export default function SubscriptionSettings() {
                           </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-6 col-sm-6 mb-20">
-                          <div class="card pricing-box text-center">
-                            <div class="card-body p-4">
+                        <div className="col-lg-3 col-md-6 col-sm-6 mb-20">
+                          <div className="card pricing-box text-center">
+                            <div className="card-body p-4">
                               <div>
                                 <div>
-                                  <h5 class="mb-1">Dimond</h5>
+                                  <h5 className="mb-1">Dimond</h5>
                                 </div>
                               </div>
-                              <ul class="list-unstyled plan-features mt-3">
+                              <ul className="list-unstyled plan-features mt-3">
                                 <li>
                                   Lipsum generator:
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     1
                                   </span>
                                 </li>
                                 <li>
                                   Lorem Ipsum
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     01 GB
                                   </span>
                                 </li>
                                 <li>
                                   Lorem Ipsum - All the facts:
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     No
                                   </span>
                                 </li>
                               </ul>
-                              <div class="py-4">
+                              <div className="py-4">
                                 <h3>
                                   <sup>
                                     <small>$</small>
                                   </sup>{" "}
                                   59/
-                                  <span class="font-size-13 text-muted">
+                                  <span className="font-size-13 text-muted">
                                     Per month
                                   </span>
                                 </h3>
                               </div>
-                              <div class="text-center plan-btn my-2">
+                              <div className="text-center plan-btn my-2">
                                 <a
                                   href="#"
-                                  class="
+                                  className="
                                       btn btn-primary
                                       waves-effect waves-light
                                     "
@@ -230,49 +230,49 @@ export default function SubscriptionSettings() {
                           </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-6 col-sm-6 mb-20">
-                          <div class="card pricing-box text-center">
-                            <div class="card-body p-4">
+                        <div className="col-lg-3 col-md-6 col-sm-6 mb-20">
+                          <div className="card pricing-box text-center">
+                            <div className="card-body p-4">
                               <div>
                                 <div>
-                                  <h5 class="mb-1">Platinum</h5>
+                                  <h5 className="mb-1">Platinum</h5>
                                 </div>
                               </div>
-                              <ul class="list-unstyled plan-features mt-3">
+                              <ul className="list-unstyled plan-features mt-3">
                                 <li>
                                   Lipsum generator:
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     1
                                   </span>
                                 </li>
                                 <li>
                                   Lorem Ipsum
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     01 GB
                                   </span>
                                 </li>
                                 <li>
                                   Lorem Ipsum - All the facts:
-                                  <span class="text-primary font-weight-semibold">
+                                  <span className="text-primary font-weight-semibold">
                                     No
                                   </span>
                                 </li>
                               </ul>
-                              <div class="py-4">
+                              <div className="py-4">
                                 <h3>
                                   <sup>
                                     <small>$</small>
                                   </sup>{" "}
                                   99/
-                                  <span class="font-size-13 text-muted">
+                                  <span className="font-size-13 text-muted">
                                     Per month
                                   </span>
                                 </h3>
                               </div>
-                              <div class="text-center plan-btn my-2">
+                              <div className="text-center plan-btn my-2">
                                 <a
                                   href="#"
-                                  class="
+                                  className="
                                       btn btn-primary
                                       waves-effect waves-light
                                     "
@@ -290,21 +290,21 @@ export default function SubscriptionSettings() {
               </div>
             </div>
 
-            <div class="col-lg-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h1 class="text-left head-small">Invoices</h1>
+            <div className="col-lg-12">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <h1 className="text-left head-small">Invoices</h1>
 
-                      <div class="row ml-0 mr-0 mb-10">
-                        <div class="col-sm-12 col-md-12">
-                          <div class="dataTables_length">
-                            <label class="w-100">
+                      <div className="row ml-0 mr-0 mb-10">
+                        <div className="col-sm-12 col-md-12">
+                          <div className="dataTables_length">
+                            <label className="w-100">
                               Show
                               <select
                                 name=""
-                                class="
+                                className="
                                     select-w
                                     custom-select custom-select-sm
                                     form-control form-control-sm
@@ -321,9 +321,9 @@ export default function SubscriptionSettings() {
                         </div>
                       </div>
 
-                      <div class="table-responsive table-shoot">
-                        <table class="table table-centered table-nowrap mb-0">
-                          <thead class="thead-light">
+                      <div className="table-responsive table-shoot">
+                        <table className="table table-centered table-nowrap mb-0">
+                          <thead className="thead-light">
                             <tr>
                               <th>Order ID</th>
                               <th>Order Amount</th>
@@ -337,7 +337,7 @@ export default function SubscriptionSettings() {
                               <td>$ 49</td>
                               <td>
                                 <span
-                                  class="
+                                  className="
                                       badge badge-pill badge-soft-success
                                       font-size-12
                                     "
@@ -349,7 +349,7 @@ export default function SubscriptionSettings() {
                                 <a href="invoice-view.html">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                         btn btn-info btn-sm
                                         waves-effect waves-light
                                         btn-table
@@ -367,7 +367,7 @@ export default function SubscriptionSettings() {
                               <td>$ 49</td>
                               <td>
                                 <span
-                                  class="
+                                  className="
                                       badge badge-pill badge-soft-success
                                       font-size-12
                                     "
@@ -379,7 +379,7 @@ export default function SubscriptionSettings() {
                                 <a href="invoice-view.html">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                         btn btn-info btn-sm
                                         waves-effect waves-light
                                         btn-table
@@ -397,7 +397,7 @@ export default function SubscriptionSettings() {
                               <td>$ 49</td>
                               <td>
                                 <span
-                                  class="
+                                  className="
                                       badge badge-pill badge-soft-success
                                       font-size-12
                                     "
@@ -409,7 +409,7 @@ export default function SubscriptionSettings() {
                                 <a href="invoice-view.html">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                         btn btn-info btn-sm
                                         waves-effect waves-light
                                         btn-table
@@ -427,7 +427,7 @@ export default function SubscriptionSettings() {
                               <td>$ 49</td>
                               <td>
                                 <span
-                                  class="
+                                  className="
                                       badge badge-pill badge-soft-success
                                       font-size-12
                                     "
@@ -439,7 +439,7 @@ export default function SubscriptionSettings() {
                                 <a href="invoice-view.html">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                         btn btn-info btn-sm
                                         waves-effect waves-light
                                         btn-table
@@ -457,7 +457,7 @@ export default function SubscriptionSettings() {
                               <td>$ 49</td>
                               <td>
                                 <span
-                                  class="
+                                  className="
                                       badge badge-pill badge-soft-success
                                       font-size-12
                                     "
@@ -469,7 +469,7 @@ export default function SubscriptionSettings() {
                                 <a href="invoice-view.html">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                         btn btn-info btn-sm
                                         waves-effect waves-light
                                         btn-table
@@ -487,7 +487,7 @@ export default function SubscriptionSettings() {
                               <td>$ 49</td>
                               <td>
                                 <span
-                                  class="
+                                  className="
                                       badge badge-pill badge-soft-success
                                       font-size-12
                                     "
@@ -499,7 +499,7 @@ export default function SubscriptionSettings() {
                                 <a href="invoice-view.html">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                         btn btn-info btn-sm
                                         waves-effect waves-light
                                         btn-table
@@ -515,10 +515,10 @@ export default function SubscriptionSettings() {
                         </table>
                       </div>
 
-                      <div class="row mt-20">
-                        <div class="col-sm-12 col-md-6 mb-20">
+                      <div className="row mt-20">
+                        <div className="col-sm-12 col-md-6 mb-20">
                           <div
-                            class="dataTables_info"
+                            className="dataTables_info"
                             id="datatable_info"
                             role="status"
                             aria-live="polite"
@@ -527,17 +527,17 @@ export default function SubscriptionSettings() {
                           </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-6">
+                        <div className="col-sm-12 col-md-6">
                           <div
-                            class="
+                            className="
                                 dataTables_paginate
                                 paging_simple_numbers
                                 float-right
                               "
                           >
-                            <ul class="pagination">
+                            <ul className="pagination">
                               <li
-                                class="
+                                className="
                                     paginate_button
                                     page-item
                                     previous
@@ -549,50 +549,50 @@ export default function SubscriptionSettings() {
                                   aria-controls="datatable"
                                   data-dt-idx="0"
                                   tabindex="0"
-                                  class="page-link"
+                                  className="page-link"
                                 >
                                   Previous
                                 </a>
                               </li>
 
-                              <li class="paginate_button page-item active">
+                              <li className="paginate_button page-item active">
                                 <a
                                   href="#"
                                   aria-controls="datatable"
                                   data-dt-idx="1"
                                   tabindex="0"
-                                  class="page-link"
+                                  className="page-link"
                                 >
                                   1
                                 </a>
                               </li>
 
-                              <li class="paginate_button page-item">
+                              <li className="paginate_button page-item">
                                 <a
                                   href="#"
                                   aria-controls="datatable"
                                   data-dt-idx="2"
                                   tabindex="0"
-                                  class="page-link"
+                                  className="page-link"
                                 >
                                   2
                                 </a>
                               </li>
 
-                              <li class="paginate_button page-item">
+                              <li className="paginate_button page-item">
                                 <a
                                   href="#"
                                   aria-controls="datatable"
                                   data-dt-idx="3"
                                   tabindex="0"
-                                  class="page-link"
+                                  className="page-link"
                                 >
                                   3
                                 </a>
                               </li>
 
-                              <li class="paginate_button page-item next">
-                                <a href="#" tabindex="0" class="page-link">
+                              <li className="paginate_button page-item next">
+                                <a href="#" tabindex="0" className="page-link">
                                   Next
                                 </a>
                               </li>
@@ -609,10 +609,10 @@ export default function SubscriptionSettings() {
         </div>
       </div>
 
-      {/* <footer class="footer">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-12">
+      {/* <footer className="footer">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-12">
               <script>document.write(new Date().getFullYear());</script>© TellyTell.
             </div>
           </div>
