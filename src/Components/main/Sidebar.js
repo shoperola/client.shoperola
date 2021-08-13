@@ -90,6 +90,14 @@ export default function Sidebar() {
                   <Link to="/categories">Categories
                   </Link>
                 </li>
+                <li>
+                  <Link to="/allCoupons">Coupons
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/categories">Shipping
+                  </Link>
+                </li>
               </ul>
             </li>
             <li>

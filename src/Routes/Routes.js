@@ -60,6 +60,7 @@ import EditVideoCatagory from "../Components/main/courses/categories/EditCategor
 import VideoCatagory from "../Components/main/courses/categories/viewCategory";
 import scheduleVideos from "../Components/main/courses/schedule/scheduleVideos";
 import AddScheduleVideo from "../Components/main/courses/schedule/addScheduleVideo";
+import AllCoupons from "../Components/main/courses/coupons/coupons";
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -365,7 +366,17 @@ export default function Routes() {
             exact
             path="/comcatagory/add"
           ></PrivateRoute>
+          {/* coupons */}
+          <PrivateRoute
+            component={AllCoupons}
+            exact
+            path="/allCoupons"
+          ></PrivateRoute>
+
+
+
           {/* video categories */}
+
           <PrivateRoute
             component={AddVideoCatagory}
             exact
