@@ -12,14 +12,14 @@ function EditVideoCatagory(props) {
         name: "",
         type: "",
     });
-    console.log(props.match.params.id)
     const handleInputText = (e) => {
         setinputText({
             ...inputText,
             [e.target.name]: (e.target.value).charAt(0).toUpperCase() + e.target.value.slice(1)
         })
     }
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         let res = await axios.patch(`${API}/api/categories/update_categories/${props.match.params.id}`, {
             name: inputText.name,
             type: inputText.type

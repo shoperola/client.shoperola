@@ -6,7 +6,7 @@ import { API } from '../../../../API';
 import { isAutheticated } from '../../../auth/authhelper';
 import ClipLoader from "react-spinners/ClipLoader";
 import Footer from '../../Footer';
-function EditCoupon() {
+function EditShipping() {
 
     const [inputText, setinputText] = useState({
         name: "",
@@ -84,14 +84,13 @@ function EditCoupon() {
                     <div className="row">
                         <div className="col-12">
                             <div className="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 className="mb-0">Content Management - Add Coupon
+                                <h4 className="mb-0">Content Management - Edit Shipping Rate
                                 </h4>
 
                                 <div className="page-title-right">
                                     <ol className="breadcrumb m-0">
                                         <li className="breadcrumb-item"><Link to="/dashboard">TellyTell</Link></li>
-                                        <li className="breadcrumb-item">Content Management - Add Coupon</li>
-                                        <li className="breadcrumb-item">Add Coupon</li>
+                                        <li className="breadcrumb-item">Content Management - Edit Shipping Rate</li>
                                     </ol>
                                 </div>
 
@@ -106,7 +105,7 @@ function EditCoupon() {
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group text-right">
-                                <a href="commerce-coupons.html">
+                                <a href="commerce-shipping.html">
                                     <button type="button"
                                         class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                 </a>
@@ -128,26 +127,30 @@ function EditCoupon() {
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label for="basicpill-phoneno-input" class="label-100">
-                                                                Name
+                                                                Shipping Method Name
                                                             </label>
                                                             <input type="text" class="form-control input-field" />
-                                                            <label for="basicpill-phoneno-input" class="label-100">
-                                                                This name is shown to customers at checkout.
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label for="basicpill-phoneno-input" class="label-100">
-                                                                Coupon Code
+                                                                Description (Optional)
+                                                            </label>
+                                                            <textarea class="form-control input-field"
+                                                                rows="5"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                                Rate
                                                             </label>
                                                             <input type="text" class="form-control input-field" />
-                                                            <label for="basicpill-phoneno-input" class="label-100">
-                                                                Customers enter this code at checkout.
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -180,20 +183,6 @@ function EditCoupon() {
                                                 </div>
                                             </form>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <label class="col-md-12 control-label">This coupon never expires</label>
-                                                <div class="col-md-8">
-                                                    <div class="custom-control custom-radio mb-2">
-                                                        <input type="radio" id="age1" name="age"
-                                                            class="custom-control-input" />
-                                                        <label class="custom-control-label" for="age1">Yes</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -205,56 +194,20 @@ function EditCoupon() {
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <label class="col-md-4 control-label">Promotion</label>
-                                            <div class="col-md-8">
-                                                <div class="custom-control custom-radio mb-2">
-                                                    <input type="radio" id="age1" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age1">Percentage
-                                                        Off</label>
-                                                    <input type="text" class="form-control input-field" />
-                                                </div>
-
-                                                <div class="custom-control custom-radio mb-2">
-                                                    <input type="radio" id="age2" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age2">Amount Off</label>
-                                                    <input type="text" class="form-control input-field" />
-                                                </div>
-
-                                                <div class="custom-control custom-radio mb-2">
-                                                    <input type="radio" id="age3" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age3">Free Shipping</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
                                         <div class="col-md-12">
                                             <form>
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label for="basicpill-phoneno-input" class="label-100">
-                                                                Applies to
+                                                                Select Country
                                                             </label>
                                                             <select name="currency" value=""
                                                                 class="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">Any Order</option>
-                                                                <option value="Inactive">Orders Over</option>
-                                                                <option value="Inactive">Single Product</option>
-                                                                <option value="Inactive">Products by Category</option>
+                                                                <option value="Active">All Countries</option>
+                                                                <option value="Inactive">Afghanisthan</option>
+                                                                <option value="Inactive">Aland Islands</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -262,7 +215,6 @@ function EditCoupon() {
                                             </form>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-12">
                                             <form>
@@ -270,13 +222,14 @@ function EditCoupon() {
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label for="basicpill-phoneno-input" class="label-100">
-                                                                Limit Total User
+                                                                Select State
                                                             </label>
                                                             <select name="currency" value=""
                                                                 class="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">Unlimited</option>
-                                                                <option value="Inactive">Limited Users</option>
+                                                                <option value="Active">All States</option>
+                                                                <option value="Inactive">Assam</option>
+                                                                <option value="Inactive">Arunachal Pradesh</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -284,64 +237,10 @@ function EditCoupon() {
                                             </form>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <label class="col-md-4 control-label">Customer limit</label>
-                                            <div class="col-md-8">
-                                                <div class="custom-control custom-radio mb-2">
-                                                    <input type="radio" id="age1" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age1">Limit one per
-                                                        customer</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="basicpill-phoneno-input" class="label-100">
-                                                    Start Date
-                                                </label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control input-field"
-                                                        data-provide="datepicker" data-date-format="dd M, yyyy"
-                                                        data-date-autoclose="true" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"
-                                                            aria-hidden="true"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="basicpill-phoneno-input" class="label-100">
-                                                    End Date
-                                                </label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control input-field"
-                                                        data-provide="datepicker" data-date-format="dd M, yyyy"
-                                                        data-date-autoclose="true" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"
-                                                            aria-hidden="true"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 {/* <!-- container-fluid --> */}
             </div>
@@ -359,8 +258,8 @@ function EditCoupon() {
                 </div>
             </footer> */}
             <Footer />
-        </div>
+        </div >
     );
 }
 
-export default EditCoupon;
+export default EditShipping;

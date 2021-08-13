@@ -64,6 +64,14 @@ import VideoCatagory from "../Components/main/courses/categories/viewCategory";
 import scheduleVideos from "../Components/main/courses/schedule/scheduleVideos";
 import AddScheduleVideo from "../Components/main/courses/schedule/addScheduleVideo";
 import AllCoupons from "../Components/main/courses/coupons/coupons";
+import AddCoupon from "../Components/main/courses/coupons/addCoupon";
+import EditCoupon from "../Components/main/courses/coupons/editCoupon";
+import AllShippings from "../Components/main/courses/shipping/shippings";
+import AddShipping from "../Components/main/courses/shipping/addShipping";
+import EditShipping from "../Components/main/courses/shipping/editShipping";
+import TaxRates from "../Components/main/courses/payments/taxRates";
+import AddTaxRate from "../Components/main/courses/payments/addTaxRate";
+import EditTaxRate from "../Components/main/courses/payments/editTaxRate";
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -97,7 +105,7 @@ export default function Routes() {
 
   }, 3000000);
   return (
-    <Router>
+    <Router >
       <Switch>
         <Route path="/" exact component={Login}></Route>
         <Route path="/customer" exact component={Home}></Route>
@@ -359,7 +367,7 @@ export default function Routes() {
             exact
             path="/add/feature/product"
           ></PrivateRoute>
-            <PrivateRoute
+          <PrivateRoute
             component={EditFeacheredProducts}
             exact
             path="/edit/feature/product/:id"
@@ -377,6 +385,7 @@ export default function Routes() {
           <PrivateRoute
             component={Catagory}
             exact
+
             path="/comcatagory"
           ></PrivateRoute>
           <PrivateRoute
@@ -391,7 +400,50 @@ export default function Routes() {
             path="/allCoupons"
           ></PrivateRoute>
 
+          <PrivateRoute
+            component={AddCoupon}
+            exact
+            path="/coupon_add"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={EditCoupon}
+            exact
+            path="/coupon_edit"
+          ></PrivateRoute>
+          {/* shipping  */}
+          <PrivateRoute
+            component={AllShippings}
+            exact
+            path="/allShippings"
+          ></PrivateRoute>
 
+          <PrivateRoute
+            component={AddShipping}
+            exact
+            path="/shipping_add"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={EditShipping}
+            exact
+            path="/shipping_edit"
+          ></PrivateRoute>
+
+          {/* payments  */}
+          <PrivateRoute
+            component={TaxRates}
+            exact
+            path="/tax-rates"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={AddTaxRate}
+            exact
+            path="/add_taxRate"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={EditTaxRate}
+            exact
+            path="/edit_taxRate"
+          ></PrivateRoute>
 
           {/* video categories */}
 

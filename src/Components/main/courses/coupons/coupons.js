@@ -46,12 +46,13 @@ function AllCoupons(props) {
                     <div className="row">
                         <div className="col-12">
                             <div className="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 className="mb-0">Commerce - Categories</h4>
+                                <h4 className="mb-0">Commerce - Coupons
+                                </h4>
 
                                 <div className="page-title-right">
                                     <ol className="breadcrumb m-0">
                                         <li className="breadcrumb-item"><Link to="/dashboard">TellyTell</Link></li>
-                                        <li className="breadcrumb-item">Commerce - Categories</li>
+                                        <li className="breadcrumb-item">Commerce - Coupons</li>
                                     </ol>
                                 </div>
 
@@ -73,7 +74,7 @@ function AllCoupons(props) {
                                         <div className="col-sm-12 col-md-6">&nbsp;</div>
                                         <div className="col-sm-12 col-md-6">
                                             <div className="dropdown d-block">
-                                                <a href="/comcatagory/add">
+                                                <a href="/coupon_add">
                                                     <button type="button" className="btn btn-primary add-btn waves-effect waves-light float-right">
                                                         <i className="fa fa-plus" aria-hidden="true"></i> Add New
                                                     </button>
@@ -85,12 +86,16 @@ function AllCoupons(props) {
                                         <table className="table table-centered table-nowrap mb-0">
                                             <thead className="thead-light">
                                                 <tr>
-                                                    <th>Category Name</th>
+                                                    <th>Name</th>
+                                                    <th>Code</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {
+                                                {/* {
                                                     data.length > 0 ?
                                                         data.map(item => (
                                                             <tr key={item._id}>
@@ -109,7 +114,28 @@ function AllCoupons(props) {
                                                                 </td>
                                                             </tr>
                                                         ))
-                                                        : ""}
+                                                        : ""} */}
+                                                <tr>
+                                                    <td>First One</td>
+                                                    <td>code123</td>
+                                                    <td>{new Date().toDateString()}</td>
+                                                    <td>{new Date().toDateString()}</td>
+                                                    <td>
+                                                        <span class="badge badge-pill badge-success font-size-12">
+                                                            Live
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <Link to={`/coupon_edit`}>
+                                                            <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
+                                                                Edit</button>
+                                                        </Link>
+
+                                                        <button onClick={() => handleDelete("dummy")} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
+                                                            Delete</button>
+
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

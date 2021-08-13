@@ -5,21 +5,17 @@ import { API } from '../../../../API';
 import { isAutheticated } from '../../../auth/authhelper';
 import Footer from '../../Footer';
 
-function VideoCatagory(props) {
+function AllShippings(props) {
     const { token } = isAutheticated();
     const [data, setdata] = useState([]);
-    const [Loading, setLoading] = useState();
     useEffect(() => {
-
-        const fetchData = async () => {
-            setLoading(true);
-            let res = await axios.get(`${API}/api/categories/view_all_categories`, {
+        async function fetchData() {
+            let res = await axios.get(`${API}/api/category`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
             setdata(res.data);
-            setLoading(false)
         }
         fetchData();
     }, [])
@@ -28,7 +24,7 @@ function VideoCatagory(props) {
         if (!status) {
             return;
         }
-        let res = await axios.delete(`${API}/api/categories/delete_categories/${id}`, {
+        let res = await axios.delete(`${API}/api/category/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
@@ -50,18 +46,20 @@ function VideoCatagory(props) {
                     <div className="row">
                         <div className="col-12">
                             <div className="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 className="mb-0">Content Management - Categories</h4>
+                                <h4 className="mb-0">Commerce - Shipping
+                                </h4>
 
                                 <div className="page-title-right">
                                     <ol className="breadcrumb m-0">
                                         <li className="breadcrumb-item"><Link to="/dashboard">TellyTell</Link></li>
-                                        <li className="breadcrumb-item">Content Management - Categories</li>
+                                        <li className="breadcrumb-item">Commerce - Shipping</li>
                                     </ol>
                                 </div>
 
                             </div>
                         </div>
                     </div>
+
 
                     {/* <!-- end page title --> */}
 
@@ -76,9 +74,9 @@ function VideoCatagory(props) {
                                         <div className="col-sm-12 col-md-6">&nbsp;</div>
                                         <div className="col-sm-12 col-md-6">
                                             <div className="dropdown d-block">
-                                                <a href="/add-category">
+                                                <a href="/shipping_add">
                                                     <button type="button" className="btn btn-primary add-btn waves-effect waves-light float-right">
-                                                        <i className="fa fa-plus" aria-hidden="true"></i> Add New
+                                                        <i className="fa fa-plus" aria-hidden="true"></i> Add New Shipping Rate
                                                     </button>
                                                 </a>
                                             </div>
@@ -88,32 +86,63 @@ function VideoCatagory(props) {
                                         <table className="table table-centered table-nowrap mb-0">
                                             <thead className="thead-light">
                                                 <tr>
-                                                    <th>Category Name</th>
+                                                    <th>Name</th>
+                                                    <th>Rate</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {
-                                                    data?.length > 0 ?
+                                                {/* {
+                                                    data.length > 0 ?
                                                         data.map(item => (
                                                             <tr key={item._id}>
                                                                 <td>
-                                                                    {item.name}
+                                                                    {item.category}
                                                                 </td>
                                                                 <td>
-                                                                    <Link to={`/edit-category/${item._id}`}>
+                                                                    <Link to={`/comcatagory/edit/${item._id}`}>
                                                                         <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
                                                                             Edit</button>
                                                                     </Link>
+
                                                                     <button onClick={() => handleDelete(item._id)} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
                                                                         Delete</button>
+
                                                                 </td>
                                                             </tr>
                                                         ))
-                                                        : ""}
+                                                        : ""} */}
+                                                <tr>
+                                                    <td>Flat India</td>
+                                                    <td>Rs.300</td>
+                                                    <td>
+                                                        <span class="badge badge-pill badge-success font-size-12">
+                                                            Live
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-success btn-sm  waves-effect waves-light btn-table"
+                                                        >
+                                                            Suspend
+                                                        </button>
+                                                        <Link to={`/shipping_edit`}>
+                                                            <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
+                                                                Edit</button>
+                                                        </Link>
+
+                                                        <button onClick={() => handleDelete("dummy")} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
+                                                            Delete</button>
+
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
+
+
                                     {/* <!-- end table-responsive --> */}
                                 </div>
                             </div>
@@ -142,4 +171,4 @@ function VideoCatagory(props) {
     );
 }
 
-export default VideoCatagory;
+export default AllShippings;

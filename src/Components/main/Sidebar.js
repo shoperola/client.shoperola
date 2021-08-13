@@ -87,22 +87,15 @@ export default function Sidebar() {
                   </Link>
                 </li> */}
                 <li>
-                  <Link to="/categories">Categories
-                  </Link>
+                  <a href="/categories">Categories
+                  </a>
                 </li>
-                <li>
-                  <Link to="/allCoupons">Coupons
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/categories">Shipping
-                  </Link>
-                </li>
+
               </ul>
             </li>
             <li>
               <Link to="#" className="has-arrow">
-                <img src="/assets/images/icons/cms-icon.png" alt=""/>
+                <img src="/assets/images/icons/cms-icon.png" alt="" />
                 <span>Commerce</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
@@ -113,12 +106,16 @@ export default function Sidebar() {
                   <Link to="/featured/products">Featured Products</Link>
                 </li>
                 <li>
-                  <a href="/comcatagory">Category
+                  <a href="/comcatagory" > Category
                   </a>
                 </li>
                 <li>
-                  <a href="/comcatagory">Coupons
-                  </a>
+                  <Link to="/allCoupons">Coupons
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/allShippings">Shipping
+                  </Link>
                 </li>
               </ul>
 
@@ -131,10 +128,20 @@ export default function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link to="/payment">
+              <Link to="#">
                 <img src="/assets/images/icons/payment-settings-icon.png" />
                 <span>Payment Settings</span>
               </Link>
+              <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/payment">Settings</Link>
+                </li>
+                <li>
+                  <a href="/tax-rates">Tax Rates
+                  </a>
+                </li>
+              </ul>
+
             </li>
             {/* <li>
               <Link to="/notification">
