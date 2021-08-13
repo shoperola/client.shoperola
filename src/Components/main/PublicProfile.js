@@ -81,34 +81,34 @@ export default function Profile(props){
     return (
         <>
       <div
-        class="modal fade"
+        className="modal fade"
         id="website"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content popup-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content popup-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add / Edit Website
               </h5>
               <button
                 type="button"
-                class="close close-b"
+                className="close close-b"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span>x</span>
               </button>
             </div>
-            <div class="modal-body">
-              <div class="form-group mt-20 mb-20">
-                <label for="basicpill-phoneno-input" class="label-100">
+            <div className="modal-body">
+              <div className="form-group mt-20 mb-20">
+                <label for="basicpill-phoneno-input" className="label-100">
                   Add or Edit Website Url
                 </label>
                 {/* <input
-                  class="form-control input-field"
+                  className="form-control input-field"
                   value={userData.websiteLink}
                   name="websiteLink"
                   onChange={handleUrlChange}
@@ -117,12 +117,12 @@ export default function Profile(props){
                 <span className="text-danger"> {urlError}</span> */}
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 on
                 click={handleURLSubmit}
                 type="button"
-                class="btn btn-primary save-btn"
+                className="btn btn-primary save-btn"
               >
                 Save
               </button> */}
@@ -132,34 +132,34 @@ export default function Profile(props){
       </div>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="facebook"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content popup-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content popup-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add / Edit Facebook
               </h5>
               <button
                 type="button"
-                class="close close-b"
+                className="close close-b"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span>x</span>
               </button>
             </div>
-            <div class="modal-body">
-              <div class="form-group mt-20 mb-20">
-                <label for="basicpill-phoneno-input" class="label-100">
+            <div className="modal-body">
+              <div className="form-group mt-20 mb-20">
+                <label for="basicpill-phoneno-input" className="label-100">
                   Add or Edit Facebook Url
                 </label>
                 {/* <input
-                  class="form-control input-field"
+                  className="form-control input-field"
                   value={userData.facebookLink}
                   name="facebookLink"
                   onChange={handleUrlChange}
@@ -168,12 +168,12 @@ export default function Profile(props){
                 <span className="text-danger"> {urlError}</span> */}
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 on
                 click={handleURLSubmit}
                 type="button"
-                class="btn btn-primary save-btn"
+                className="btn btn-primary save-btn"
               >
                 Save
               </button> */}
@@ -183,34 +183,34 @@ export default function Profile(props){
       </div>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="linkedin"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content popup-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content popup-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add / Edit Linkedin
               </h5>
               {/* <button
                 type="button"
-                class="close close-b"
+                className="close close-b"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span>x</span>
               </button> */}
             </div>
-            <div class="modal-body">
-              <div class="form-group mt-20 mb-20">
-                <label for="basicpill-phoneno-input" class="label-100">
+            <div className="modal-body">
+              <div className="form-group mt-20 mb-20">
+                <label for="basicpill-phoneno-input" className="label-100">
                   Add or Edit Linkedin Url
                 </label>
                 {/* <input
-                  class="form-control input-field"
+                  className="form-control input-field"
                   value={userData.linkedinLink}
                   name="linkedinLink"
                   onChange={handleUrlChange}
@@ -219,12 +219,12 @@ export default function Profile(props){
                 <span className="text-danger"> {urlError}</span> */}
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 on
                 click={handleURLSubmit}
                 type="button"
-                class="btn btn-primary save-btn"
+                className="btn btn-primary save-btn"
               >
                 Save
               </button> */}
@@ -234,34 +234,34 @@ export default function Profile(props){
       </div>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="twitter"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content popup-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content popup-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add / Edit Twitter
               </h5>
               <button
                 type="button"
-                class="close close-b"
+                className="close close-b"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span>x</span>
               </button>
             </div>
-            <div class="modal-body">
-              <div class="form-group mt-20 mb-20">
-                <label for="basicpill-phoneno-input" class="label-100">
+            <div className="modal-body">
+              <div className="form-group mt-20 mb-20">
+                <label for="basicpill-phoneno-input" className="label-100">
                   Add or Edit Twitter Url
                 </label>
                 {/* <input
-                  class="form-control input-field"
+                  className="form-control input-field"
                   value={userData.twitterLink}
                   name="twitterLink"
                   onChange={handleUrlChange}
@@ -270,12 +270,12 @@ export default function Profile(props){
                 <span className="text-danger"> {urlError}</span> */}
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 on
                 click={handleURLSubmit}
                 type="button"
-                class="btn btn-primary save-btn"
+                className="btn btn-primary save-btn"
               >
                 Save
               </button> */}
@@ -285,41 +285,41 @@ export default function Profile(props){
       </div>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="website"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content popup-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content popup-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add / Edit Website
               </h5>
               {/* <button
                 type="button"
-                class="close close-b"
+                className="close close-b"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span>x</span>
               </button> */}
             </div>
-            <div class="modal-body">
-              <div class="form-group mt-20 mb-20">
-                <label for="basicpill-phoneno-input" class="label-100">
+            <div className="modal-body">
+              <div className="form-group mt-20 mb-20">
+                <label for="basicpill-phoneno-input" className="label-100">
                   Add or Edit Website Url
                 </label>
-                {/* <input class="form-control input-field" /> */}
+                {/* <input className="form-control input-field" /> */}
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 on
                 click={handleURLSubmit}
                 type="button"
-                class="btn btn-primary save-btn"
+                className="btn btn-primary save-btn"
               >
                 Save
               </button> */}
@@ -329,78 +329,78 @@ export default function Profile(props){
       </div>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="addprofileimg"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content popup-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content popup-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add Profile Image
               </h5>
               {/* <button
                 type="button"
-                class="close close-b"
+                className="close close-b"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span>x</span>
               </button> */}
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-lg-12 mx-auto">
-                  <div class="input-group mb-3 px-2 py-1 bg-white file-upload-bdr">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-lg-12 mx-auto">
+                  <div className="input-group mb-3 px-2 py-1 bg-white file-upload-bdr">
                     {/* <input
                       id="upload"
                       type="file"
                       name="picture"
                       onChange={onProfileChange}
-                      class="form-control"
+                      className="form-control"
                     /> */}
                     <label
                       id="upload-label"
                       for="upload"
-                      class="font-weight-light text-muted"
+                      className="font-weight-light text-muted"
                     >
                       Add Profile Image
                     </label>
-                    <div class="input-group-append">
+                    <div className="input-group-append">
                       <label
                         for="upload"
-                        class="btn btn-light m-0 rounded-pill px-4"
+                        className="btn btn-light m-0 rounded-pill px-4"
                       >
-                        <i class="fa fa-cloud-upload mr-2 text-muted"></i>
-                        <small class="text-uppercase font-weight-bold text-muted">
+                        <i className="fa fa-cloud-upload mr-2 text-muted"></i>
+                        <small className="text-uppercase font-weight-bold text-muted">
                           Choose Image
                         </small>
                       </label>
                     </div>
                   </div>
 
-                  <p class="error font-size-12">
+                  <p className="error font-size-12">
                     Please use image with size less than 3 MB and dimensions 1x1
                     ratio (200 x 200 Pixels)
                   </p>
-                  <div class="image-area mt-4">
+                  <div className="image-area mt-4">
                     {/* <img
                       id="imageResult"
                       src={newUserProfile}
                       alt=""
-                      class="img-fluid rounded shadow-sm mx-auto d-block"
+                      className="img-fluid rounded shadow-sm mx-auto d-block"
                     /> */}
                   </div>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 onClick={handleProfileSubmit}
                 type="button"
-                class="btn btn-primary save-btn"
+                className="btn btn-primary save-btn"
               >
                 Save
               </button> */}
@@ -416,36 +416,36 @@ export default function Profile(props){
         <Sidebar />
         
       </div> */}
-      <div class="main-content">
-        <div class="public-page-content">
+      <div className="main-content">
+        <div className="public-page-content">
           {/* <div className="col-12" style={{display:"flex",flexDirection:"row-reverse",backgroundColor:"#75a2eb"}}> 
           <div style={{margin:"3px 5vw 3px 3vw",fontSize: "xx-large"}}><Link>Sign Un</Link></div>
           <div style={{margin:"3px",fontSize: "xx-large"}}><Link>Sign In</Link></div>
           </div> */}
-          <div class="container-fluid" style={{backgroundColor:"#e4e8ed"}}>
+          <div className="container-fluid" style={{backgroundColor:"#e4e8ed"}}>
           <div className="col-12" style={{display:"flex",flexDirection:"row-reverse"}}> 
           <div style={{margin:"3px 3vw 3px 3vw",fontSize: "xx-large"}}><Link to="/register/cognito">Sign Up</Link></div>
           <div style={{margin:"3px 3vw 3px 3vw",fontSize: "xx-large"}}><Link to="/sign/cognito">Sign In</Link></div>
           <div style={{margin:"3px",fontSize: "xx-large"}}><Link to="/subscription">Subscribe</Link></div>
           </div>
-            <div class="row">
-              <div class="col-12">
+            <div className="row">
+              <div className="col-12">
                 <div
-                  class="
+                  className="
                     page-title-box
                     d-flex
                     align-items-center
                     justify-content-between
                   "
                 >
-                  {/* <h4 class="mb-0">Profile</h4> */}
+                  {/* <h4 className="mb-0">Profile</h4> */}
 
-                  {/* <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                      <li class="breadcrumb-item">
+                  {/* <div className="page-title-right">
+                    <ol className="breadcrumb m-0">
+                      <li className="breadcrumb-item">
                         <a href="javascript: void(0);">Konsult</a>
                       </li>
-                      <li class="breadcrumb-item active">Profile</li>
+                      <li className="breadcrumb-item active">Profile</li>
                     </ol>
                   </div> */}
                 </div>
@@ -453,15 +453,15 @@ export default function Profile(props){
             </div>
 
             <div className="row" style={{backgroundColor:"#e4e8ed"}}>
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body" style={{backgroundColor:"#b1b3b5"}}>  {/*main bosy here*/}
-                    <div class="profile-area">
-                      <div class="form-group text-right">
+              <div className="col-lg-12">
+                <div className="card">
+                  <div className="card-body" style={{backgroundColor:"#b1b3b5"}}>  {/*main bosy here*/}
+                    <div className="profile-area">
+                      <div className="form-group text-right">
                         {/* <Link to="/edit/profile">
                           <button
                             type="button"
-                            class="btn btn-profile waves-effect waves-light"
+                            className="btn btn-profile waves-effect waves-light"
                           >
                             Edit Profile
                           </button>
@@ -469,14 +469,14 @@ export default function Profile(props){
                       </div>
 
                       <div
-                        class="profile-banner"
+                        className="profile-banner"
                         style={{
                           background: `url(${userData.bannerImage})top center no-repeat`,
                           backgroundSize: "cover",
                         }}
                       >
-                        <div class="media profile-konsult">
-                          <div class="mr-4">
+                        <div className="media profile-konsult">
+                          <div className="mr-4">
                             <img
                               key={userData.picture}
                               src={userData.picture}
@@ -484,29 +484,29 @@ export default function Profile(props){
                               className="avatar-profile"
                             />
                             {/* <span
-                              class="profile-img-upload"
+                              className="profile-img-upload"
                               data-toggle="modal"
                               data-target="#addprofileimg"
                             >
                               <i
-                                class="fa fa-pencil-square-o"
+                                className="fa fa-pencil-square-o"
                                 aria-hidden="true"
                               ></i>
                             </span> */}
                           </div>
-                          <div class="media-body align-self-center overflow-hidden">
+                          <div className="media-body align-self-center overflow-hidden">
                             <div>
-                              <h5 class="text-truncate">
+                              <h5 className="text-truncate">
                                 {userData.firstName} {userData.lastName}
                               </h5>
-                              <p class="data">
+                              <p className="data">
                                 {userData.profession
                                   ? userData.profession
                                   : "Your designation is displayed here"}
                               </p>
-                              <p class="location">
+                              <p className="location">
                                 <i
-                                  class="fa fa-map-marker"
+                                  className="fa fa-map-marker"
                                   aria-hidden="true"
                                 ></i>
                                 {userData.location
@@ -514,11 +514,11 @@ export default function Profile(props){
                                   : "Your location is displayed here"}
                               </p>
 
-                              <div class="form-group text-left m-0">
+                              <div className="form-group text-left m-0">
                                 {/* <a href="#">
                                   <button
                                     type="button"
-                                    class="
+                                    className="
                                       btn btn-profile
                                       waves-effect waves-light
                                     "
@@ -530,9 +530,9 @@ export default function Profile(props){
                                 </a> */}
                               </div>
 
-                              <p class="mt-2 user-profile">
+                              <p className="mt-2 user-profile">
                                 <i
-                                  class="fa fa-user-circle"
+                                  className="fa fa-user-circle"
                                   aria-hidden="true"
                                 ></i>
                                 {userData.publicUrl
@@ -544,7 +544,7 @@ export default function Profile(props){
                         </div>
                       </div>
 
-                      <div class="profile-data">
+                      <div className="profile-data">
                         <h4>About me</h4>
                         {userData.about ? (
                           <p>{userData.about}</p>
@@ -556,7 +556,7 @@ export default function Profile(props){
                         )}
                       </div>
 
-                      <div class="profile-data">
+                      <div className="profile-data">
                         <h4>Services offered by me</h4>
                         {userData.services ? (
                           <p>{userData.services}</p>
@@ -571,29 +571,29 @@ export default function Profile(props){
                       <Featured publicUp={true} featuredData={userData.featured}/>
                       
 
-                      <div class="profile-data">
-                        <div class="row">
-                          <div class="col-md-3">
+                      <div className="profile-data">
+                        <div className="row">
+                          <div className="col-md-3">
                             <div
-                              class="social-link"
+                              className="social-link"
                               data-toggle="modal"
                               data-target="#website"
                             ><Link>
-                              <i class="fa fa-globe" aria-hidden="true"></i>
+                              <i className="fa fa-globe" aria-hidden="true"></i>
                               <br />
                               Website
                               </Link>
                             </div>
                           </div>
 
-                          <div class="col-md-3">
+                          <div className="col-md-3">
                             <div
-                              class="social-link"
+                              className="social-link"
                               data-toggle="modal"
                               data-target="#facebook"
                             ><Link>
                               <i
-                                class="fa fa-facebook-square"
+                                className="fa fa-facebook-square"
                                 aria-hidden="true"
                               ></i>
                               <br />
@@ -602,14 +602,14 @@ export default function Profile(props){
                             </div>
                           </div>
 
-                          <div class="col-md-3">
+                          <div className="col-md-3">
                             <div
-                              class="social-link"
+                              className="social-link"
                               data-toggle="modal"
                               data-target="#linkedin"
                             ><Link>
                               <i
-                                class="fa fa-linkedin-square"
+                                className="fa fa-linkedin-square"
                                 aria-hidden="true"
                               ></i>
                               <br />
@@ -618,14 +618,14 @@ export default function Profile(props){
                             </div>
                           </div>
 
-                          <div class="col-md-3">
+                          <div className="col-md-3">
                             <div
-                              class="social-link"
+                              className="social-link"
                               data-toggle="modal"
                               data-target="#twitter"
                             ><Link>
                               <i
-                                class="fa fa-twitter-square"
+                                className="fa fa-twitter-square"
                                 aria-hidden="true"
                               ></i>
                               <br />
@@ -643,10 +643,10 @@ export default function Profile(props){
           </div>
         </div>
 
-        <footer class="footer" >
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
+        <footer className="footer" >
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-12">
                 <script>document.write(new Date().getFullYear());</script>©
                 TellyTell.
               </div>

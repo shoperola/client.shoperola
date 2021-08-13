@@ -2,61 +2,61 @@ import React from "react";
 
 export default function Paypal() {
   return (
-    <div class="container">
-      <div class="row mt-50 mb-50">
-        <div class="col-sm-6 text-left">
+    <div className="container">
+      <div className="row mt-50 mb-50">
+        <div className="col-sm-6 text-left">
           <img
             src="/assets/images/paypal-logo.png"
             alt=""
             height="25"
-            class="logo"
+            className="logo"
           />
         </div>
-        <div class="col-sm-6 text-right">
+        <div className="col-sm-6 text-right">
           <img
             src="/assets/images/logo-dark.png"
             alt=""
             height="20"
-            class="logo"
+            className="logo"
           />
         </div>
       </div>
 
-      <div class="authentication-bg h-100">
-        <div class="account-pages pt-sm-5">
-          <div class="container">
-            <div class="row align-items-center justify-content-center">
-              <div class="col-md-8 col-lg-6 col-xl-5">
-                <div class="card">
-                  <div class="card-body p-4">
-                    <div class="text-center mt-2">
-                      <h5 class="text-primary welcome-text">
+      <div className="authentication-bg h-100">
+        <div className="account-pages pt-sm-5">
+          <div className="container">
+            <div className="row align-items-center justify-content-center">
+              <div className="col-md-8 col-lg-6 col-xl-5">
+                <div className="card">
+                  <div className="card-body p-4">
+                    <div className="text-center mt-2">
+                      <h5 className="text-primary welcome-text">
                         Connect a PayPal account to start accepting payments on
                         Konsult Inc
                       </h5>
-                      <p class="text-muted">
+                      <p className="text-muted">
                         It’s free to connect, whether you have an existing
                         PayPal account, or want to create a new account.
                       </p>
                     </div>
-                    <div class="p-2 mt-4">
+                    <div className="p-2 mt-4">
                       <form>
-                        <div class="form-group">
+                        <div className="form-group">
                           <label for="username">Email</label>
                           <input
                             type="text"
-                            class="form-control input-field"
+                            className="form-control input-field"
                             placeholder="Enter Email ID"
                           />
                         </div>
 
-                        <div class="form-group">
+                        <div className="form-group">
                           <label for="userpassword">Contry or Region</label>
 
                           <select
                             id="country"
                             name="country"
-                            class="form-control input-field"
+                            className="form-control input-field"
                           >
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Åland Islands">Åland Islands</option>
@@ -411,10 +411,10 @@ export default function Paypal() {
                           </select>
                         </div>
 
-                        <div class="mt-3 text-right">
+                        <div className="mt-3 text-right">
                           <a href="index.html">
                             <button
-                              class="
+                              className="
                                 btn btn-primary
                                 w-sm
                                 waves-effect waves-light

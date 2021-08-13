@@ -42,6 +42,9 @@ import StripePayment from "../Components/customer/StripePayment";
 import PaymentGate from "../Components/customer/PaymentGate";
 import FakePath from "../Components/FakePath";
 import Products from "../Components/main/Commerce/Products/Products";
+import FeacheredProducts from "../Components/main/Commerce/Products/FeatureProduct/FeaturedProducts";
+import AddFeacheredProducts from "../Components/main/Commerce/Products/FeatureProduct/AddFeatureProduct";
+import EditFeacheredProducts from "../Components/main/Commerce/Products/FeatureProduct/EditFeatureProduct";
 import AddProducts from "../Components/main/Commerce/Products/AddProducts";
 import Editproducts from "../Components/main/Commerce/Products/Editproducts";
 import Catagory from "../Components/main/Commerce/Catagory/Catagory";
@@ -345,6 +348,21 @@ export default function Routes() {
             component={Products}
             exact
             path="/comproducts"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={FeacheredProducts}
+            exact
+            path="/featured/products"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={AddFeacheredProducts}
+            exact
+            path="/add/feature/product"
+          ></PrivateRoute>
+            <PrivateRoute
+            component={EditFeacheredProducts}
+            exact
+            path="/edit/feature/product/:id"
           ></PrivateRoute>
           <PrivateRoute
             component={AddProducts}

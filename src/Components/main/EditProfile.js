@@ -416,10 +416,10 @@ export default function EditProfile() {
                                 >
                                   Public URL
                                 </label>
-                                <div class="input-group mb-3">
-                                  <div class="input-group-prepend">
+                                <div className="input-group mb-3">
+                                  <div className="input-group-prepend">
                                     <span
-                                      class="input-group-text"
+                                      className="input-group-text"
                                       id="basic-addon3"
                                     >
                                      https://kourse-53d4f.web.app/#/public
@@ -452,7 +452,7 @@ export default function EditProfile() {
 
                                     <textarea
                                       id="textarea"
-                                      class="form-control"
+                                      className="form-control"
                                       name="about"
                                       onChange={(e) => {
                                         handleChange(e);
@@ -488,7 +488,7 @@ export default function EditProfile() {
                                     </label>
                                     <textarea
                                       id="textarea"
-                                      class="form-control"
+                                      className="form-control"
                                       name="services"
                                       onChange={(e) => {
                                         handleChange(e);

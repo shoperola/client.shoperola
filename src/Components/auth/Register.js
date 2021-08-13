@@ -142,44 +142,44 @@ export default function Register() {
   };
 
   return (
-    <div class="authentication-bg h-100">
-      <div class="account-pages pt-sm-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="text-center">
-                <a href="https://tellytell.com" class="mb-5 d-block auth-logo">
+    <div className="authentication-bg h-100">
+      <div className="account-pages pt-sm-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="text-center">
+                <a href="https://tellytell.com" className="mb-5 d-block auth-logo">
                   <img
                     src="assets/images/logo-dark.png"
                     alt=""
                     height="25"
-                    class="logo logo-dark"
+                    className="logo logo-dark"
                   />
                   <img
                     src="assets/images/logo-light.png"
                     alt=""
                     height="25"
-                    class="logo logo-light"
+                    className="logo logo-light"
                   />
                 </a>
               </div>
             </div>
           </div>
-          <div class="row align-items-center justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5">
-              <div class="card">
-                <div class="card-body p-4">
-                  <div class="text-center mt-2">
-                    <h5 class="text-primary welcome-text">Signup!</h5>
+          <div className="row align-items-center justify-content-center">
+            <div className="col-md-8 col-lg-6 col-xl-5">
+              <div className="card">
+                <div className="card-body p-4">
+                  <div className="text-center mt-2">
+                    <h5 className="text-primary welcome-text">Signup!</h5>
                   </div>
-                  <div class="p-2 mt-4">
+                  <div className="p-2 mt-4">
                     <form>
-                      <div class="form-group">
+                      <div className="form-group">
                         <label for="username">First Name</label>
                         <input
                           type="text"
                           onChange={handleChange}
-                          class="form-control input-field"
+                          className="form-control input-field"
                           value={user.firstName}
                           name="firstName"
                           placeholder="First Name"
@@ -189,7 +189,7 @@ export default function Register() {
                           {errors.firstNameError}
                         </span>
                       </div>
-                      <div class="form-group">
+                      <div className="form-group">
                         <label for="username">Last Name</label>
                         <input
                           type="text"
@@ -204,7 +204,7 @@ export default function Register() {
                           {errors.lastNameError}
                         </span>
                       </div>
-                      <div class="form-group">
+                      <div className="form-group">
                         <label for="username">Email</label>
                         <input
                           value={user.email}
@@ -212,13 +212,13 @@ export default function Register() {
                           onChange={handleChange}
                           type="email"
                           required
-                          class="form-control input-field"
+                          className="form-control input-field"
                           placeholder="Enter Email ID"
                         />
                         <span className="text-danger">{errors.emailError}</span>
                       </div>
 
-                      <div class="form-group">
+                      <div className="form-group">
                         <label for="userpassword">Password</label>
                         <input
                           value={user.password}
@@ -226,7 +226,7 @@ export default function Register() {
                           required
                           onChange={handleChange}
                           type="password"
-                          class="form-control input-field"
+                          className="form-control input-field"
                           placeholder="Enter password"
                         />
 
@@ -235,12 +235,12 @@ export default function Register() {
                         </span>
                       </div>
 
-                      <div class="mt-3 text-right">
+                      <div className="mt-3 text-right">
                         <a href="index.html">
                           <button
                             disabled={!validForm}
                             onClick={handleSubmit}
-                            class="
+                            className="
                               btn btn-primary
                               w-sm
                               waves-effect waves-light

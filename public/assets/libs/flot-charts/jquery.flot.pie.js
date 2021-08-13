@@ -325,7 +325,7 @@ More detail and specific examples can be found in the included HTML file.
 
 			if (attempts >= REDRAW_ATTEMPTS) {
 				clear();
-				target.prepend("<div class='error'>Could not draw pie with labels contained inside canvas</div>");
+				target.prepend("<div className='error'>Could not draw pie with labels contained inside canvas</div>");
 			}
 
 			if (plot.setSeries && plot.insertLegend) {
@@ -492,7 +492,7 @@ More detail and specific examples can be found in the included HTML file.
 						var x = centerLeft + Math.round(Math.cos(halfAngle) * radius);
 						var y = centerTop + Math.round(Math.sin(halfAngle) * radius) * options.series.pie.tilt;
 
-						var html = "<span class='pieLabel' id='pieLabel" + index + "' style='position:absolute;top:" + y + "px;left:" + x + "px;'>" + text + "</span>";
+						var html = "<span className='pieLabel' id='pieLabel" + index + "' style='position:absolute;top:" + y + "px;left:" + x + "px;'>" + text + "</span>";
 						target.append(html);
 
 						var label = target.children("#pieLabel" + index);
@@ -519,7 +519,7 @@ More detail and specific examples can be found in the included HTML file.
 							}
 
 							var pos = "top:" + labelTop + "px;left:" + labelLeft + "px;";
-							$("<div class='pieLabelBackground' style='position:absolute;width:" + label.width() + "px;height:" + label.height() + "px;" + pos + "background-color:" + c + ";'></div>")
+							$("<div className='pieLabelBackground' style='position:absolute;width:" + label.width() + "px;height:" + label.height() + "px;" + pos + "background-color:" + c + ";'></div>")
 								.css("opacity", options.series.pie.label.background.opacity)
 								.insertBefore(label);
 						}

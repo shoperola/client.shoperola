@@ -421,37 +421,37 @@ function AddStudio(props) {
     console.log([data])
     console.log(data["Qr_url"])
     return (
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0">Content Management - Studio</h4>
+        <div className="main-content">
+            <div className="page-content">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 className="mb-0">Content Management - Studio</h4>
                                 {/* {console.log(subjects)} */}
                                 {/* {console.log(languages)} */}
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item">
+                                <div className="page-title-right">
+                                    <ol className="breadcrumb m-0">
+                                        <li className="breadcrumb-item">
                                             <a href="javascript: void(0);">TellyTell</a>
                                         </li>
-                                        <li class="breadcrumb-item">Content Management - Studio</li>
+                                        <li className="breadcrumb-item">Content Management - Studio</li>
                                     </ol>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="card">
+                                <div className="card-body">
 
-                                    {/* <div class="row ml-0 mr-0  mb-10">
-                                        <div class="col-sm-12 col-md-6">&nbsp;</div>
+                                    {/* <div className="row ml-0 mr-0  mb-10">
+                                        <div className="col-sm-12 col-md-6">&nbsp;</div>
 
                                     </div>
-                                    <div class="table-responsive table-shoot">
+                                    <div className="table-responsive table-shoot">
 
                                     </div> */}
                                     <div className="VideoContainer">

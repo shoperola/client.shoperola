@@ -8,39 +8,39 @@ export default function RequestView() {
     <div id="layout-wrapper">
       <Header />
       <Sidebar />
-      <div class="main-content">
-        <div class="page-content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <div class="page-title-box d-flex align-items-center justify-content-between">
-                  <h4 class="mb-0">View Request</h4>
+      <div className="main-content">
+        <div className="page-content">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-12">
+                <div className="page-title-box d-flex align-items-center justify-content-between">
+                  <h4 className="mb-0">View Request</h4>
 
-                  <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                      <li class="breadcrumb-item">
+                  <div className="page-title-right">
+                    <ol className="breadcrumb m-0">
+                      <li className="breadcrumb-item">
                         <a href="javascript: void(0);">TellyTell</a>
                       </li>
-                      <li class="breadcrumb-item active">Requests</li>
+                      <li className="breadcrumb-item active">Requests</li>
                     </ol>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row ml-0 mr-0  mb-10">
-                      <div class="col-sm-12 col-md-6"></div>
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row ml-0 mr-0  mb-10">
+                      <div className="col-sm-12 col-md-6"></div>
 
-                      <div class="col-sm-12 col-md-6">
-                        <div class="dropdown d-block">
+                      <div className="col-sm-12 col-md-6">
+                        <div className="dropdown d-block">
                           <a href="/requests">
                             <button
                               type="button"
-                              class="btn btn-primary add-btn waves-effect waves-light float-right"
+                              className="btn btn-primary add-btn waves-effect waves-light float-right"
                             >
                               Back
                             </button>
@@ -49,8 +49,8 @@ export default function RequestView() {
                       </div>
                     </div>
 
-                    <div class="table-responsive table-shoot">
-                      <table class="table table-centered table-nowrap mb-0">
+                    <div className="table-responsive table-shoot">
+                      <table className="table table-centered table-nowrap mb-0">
                         <tbody>
                           <tr>
                             <td width="20%">
@@ -82,7 +82,7 @@ export default function RequestView() {
                             </td>
                             <td style={{ verticalAlign: "top" }}>
                               {" "}
-                              <div class="answer-video">
+                              <div className="answer-video">
                                 <video width="100%" height="100%" autoplay>
                                   <source
                                     src="/assets/images/movie.mp4"
@@ -110,20 +110,20 @@ export default function RequestView() {
                 </div>
               </div>
 
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="table-responsive table-shoot">
-                      <table class="table table-centered table-nowrap mb-0">
+              <div className="col-lg-12">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="table-responsive table-shoot">
+                      <table className="table table-centered table-nowrap mb-0">
                         <tbody>
                           <tr>
                             <td width="20%" style={{ verticalAlign: "top" }}>
                               {" "}
-                              <h4 class="answer">My Answer</h4>
+                              <h4 className="answer">My Answer</h4>
                             </td>
                             <td style={{ verticalAlign: "top" }}>
                               {" "}
-                              <div class="answer-video">
+                              <div className="answer-video">
                                 <video width="100%" height="100%" autoplay>
                                   <source
                                     src="/assets/images/movie.mp4"
@@ -146,10 +146,10 @@ export default function RequestView() {
         </div>
       </div>
 
-      {/* <footer class="footer">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-12">
+      {/* <footer className="footer">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-12">
               <script>document.write(new Date().getFullYear())</script> © TellyTell.
             </div>
           </div>
