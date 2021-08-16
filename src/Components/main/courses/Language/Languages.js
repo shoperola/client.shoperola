@@ -128,7 +128,7 @@ export default function Languages() {
                           <tr key={data._id}>
                             <td>{data.title}</td>
                             <td>
-                              <img
+                              <img alt=""
                                 src={data.thumbnail}
                                 style={{ width: "67px", height: "67px" }}
                               />

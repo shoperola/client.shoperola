@@ -442,7 +442,7 @@ export default function Routes() {
           <PrivateRoute
             component={EditTaxRate}
             exact
-            path="/edit_taxRate"
+            path="/edit_taxRate/:id"
           ></PrivateRoute>
 
           {/* video categories */}

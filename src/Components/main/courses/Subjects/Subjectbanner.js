@@ -52,6 +52,7 @@ export default function Subjectbanner() {
                               <img
                                 src="assets/images/banner-img.png"
                                 height="100"
+                                alt=""
                               />
                               <span>
                                 <button

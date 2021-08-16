@@ -169,7 +169,6 @@ export default function Addsubject() {
                               <label for="basicpill-phoneno-input" className="label-100">Upload Banner Image</label>
                               <input type="file" className="form-control input-field"
                                 id="basicpill-phoneno-input"
-                                type="file"
                                 name="file"
                                 onChange={handleChange}
                               />

@@ -82,7 +82,7 @@ export default function ViewLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/title-icon.png" />
+                             <img alt="" src="assets/images/icons/title-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Title</span>
                           </a>
@@ -96,7 +96,7 @@ export default function ViewLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/img-icon.png" />
+                             <img alt="" src="assets/images/icons/img-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Images</span>
                           </a>
@@ -110,7 +110,7 @@ export default function ViewLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/date-icon.png" />
+                             <img alt="" src="assets/images/icons/date-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Launch Date</span>
                           </a>
@@ -124,7 +124,7 @@ export default function ViewLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/video-icon.png" />
+                             <img alt="" src="assets/images/icons/video-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Video</span>
                           </a>
@@ -182,7 +182,7 @@ export default function ViewLession() {
                               </label>
                               <div className="col-md-8">
                                 <div className="col-md-12 p-0 mt-20">
-                                  <img src={lession.thumbnail} height="100" />
+                                 <img alt="" src={lession.thumbnail} height="100" />
                                 </div>
                               </div>
                             </div>
@@ -194,7 +194,7 @@ export default function ViewLession() {
                               </label>
                               <div className="col-md-8">
                                 <div className="col-md-12 p-0 mt-20">
-                                  <img src={lession.banner} height="100" />
+                                 <img alt="" src={lession.banner} height="100" />
                                 </div>
                               </div>
                             </div>

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 function AddProducts(props) {
 	let EditorRef = useRef();
-
+	const [tax,setTax]=useState([])
 	const { token } = isAutheticated();
 	const [state, setstate] = useState({
 		title: "",
@@ -27,6 +27,18 @@ function AddProducts(props) {
 	const [loading,setLoading]=useState(false);
 	useEffect(() => {
 		async function fetchData() {
+		  let res = await axios.get(`${API}/api/tax_rates/view_taxs`, {
+			headers: {
+			  Authorization: `Bearer ${token}`,
+			},
+		  });
+		  setTax(res.data.data);
+		}
+		fetchData();
+	  }, [token]);
+
+	useEffect(() => {
+		async function fetchData() {
 			let res = await axios.get(`${API}/api/category`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -37,7 +49,7 @@ function AddProducts(props) {
 			}
 		}
 		fetchData();
-	}, [])
+	}, [token])
 	const handleSubmit = async () => {
 		if(state.title==="" || state.image==="" || state.price==="" || 
 		state.sale_price==="" || state.quantity==="" || state.sku==="" ||
@@ -68,9 +80,6 @@ function AddProducts(props) {
 		}
 		setLoading(false);
 	}
-	const onCancel=(e)=>{
-		window.location="/comproducts"
-	}
 
 	const handleChange = (e) => {
 		setstate({
@@ -93,7 +102,6 @@ function AddProducts(props) {
 			...state, [e.target.name]: e.target.checked
 		})
 	}
-	console.log(state);
 	return (
 		<div className="main-content">
 
@@ -125,7 +133,9 @@ function AddProducts(props) {
 								<ClipLoader loading={loading} size={18} />
                                   {!loading && "Save"}
 								</button>
-								<button onClick={onCancel} type="button" className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
+								<Link to="/comproducts">
+								<button type="button" className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -143,7 +153,7 @@ function AddProducts(props) {
 												<div className="row">
 													<div className="col-lg-12">
 														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
 																Title*
 															</label>
 															<input type="text" name="title" className="form-control input-field"
@@ -195,17 +205,18 @@ function AddProducts(props) {
 									<div className="row">
 										<div className="col-md-12">
 											<form>
-												<div className="row">
+												
+											<div className="row">
 													<div className="col-lg-12">
 														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
-																Select Category*
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
+																Select Tax*
 															</label>
 															<select name="category" value={state.category} onChange={handleChange} className="form-control  input-field">
-																<option value="">--select--</option>
-																{Categories?.map(item => (
+															<option value="">Zero Tax 0</option>
+																{tax?.map(item => (
 																	<>
-																		<option>{item.category}</option>
+																		<option key={item._id}>{item.tax_name} - {item.tax_percentage}%</option>
 																	</>
 																))
 																}
@@ -213,10 +224,33 @@ function AddProducts(props) {
 														</div>
 													</div>
 												</div>
+												
+
 												<div className="row">
 													<div className="col-lg-12">
 														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
+																Select Category*
+															</label>
+															<select name="category" value={state.category} onChange={handleChange} className="form-control  input-field">
+																<option value="">--select--</option>
+																{Categories?.map(item => (
+																	<>
+																		<option key={item._id}>{item.category}</option>
+																	</>
+																))
+																}
+															</select>
+														</div>
+													</div>
+												</div>
+												
+												
+												
+												<div className="row">
+													<div className="col-lg-12">
+														<div className="form-group">
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
 																Status*
 															</label>
 															<select name="status" value={state.status} onChange={handleChange} className="form-control  input-field">
@@ -249,7 +283,7 @@ function AddProducts(props) {
 												<div className="row">
 													<div className="col-lg-12">
 														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
 																Upload Image*
 															</label>
 														</div>
@@ -289,7 +323,7 @@ function AddProducts(props) {
 												<div className="row">
 													<div className="col-lg-4">
 														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
 																Price*
 															</label>
 															<input type="text" name="price" onChange={handleChange} className="form-control input-field" />
@@ -299,7 +333,7 @@ function AddProducts(props) {
 												<div className="row">
 													<div className="col-lg-4">
 														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
+															<label htmlFor="basicpill-phoneno-input" className="label-100">
 																Sale Price*
 															</label>
 															<input name="sale_price" onChange={handleChange} type="text" className="form-control input-field" />

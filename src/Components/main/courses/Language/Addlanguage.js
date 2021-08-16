@@ -659,7 +659,7 @@ export default function AddLanguage() {
 
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/title-icon.png" />
+                             <img alt="" src="assets/images/icons/title-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Title</span>
                           </a>
@@ -673,7 +673,7 @@ export default function AddLanguage() {
                             }}
                             data-toggle="tab" href="#images" role="tab" ref={tab2}>
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/img-icon.png" />
+                             <img alt="" src="assets/images/icons/img-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Images</span>
                           </a>
@@ -687,7 +687,7 @@ export default function AddLanguage() {
                             }}
                             data-toggle="tab" href="#meta-data" role="tab" ref={tab3}>
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/info-icon.png" />
+                             <img alt="" src="assets/images/icons/info-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Meta Data</span>
                           </a>
@@ -701,7 +701,7 @@ export default function AddLanguage() {
                             }}
                             data-toggle="tab" href="#seasons" role="tab" ref={tab4}>
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/info-icon.png" />
+                             <img alt="" src="assets/images/icons/info-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Seasons</span>
                           </a>
@@ -714,7 +714,7 @@ export default function AddLanguage() {
                             }}
                             data-toggle="tab" href="#video" role="tab" ref={tab5}>
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/video-icon.png" />
+                             <img alt="" src="assets/images/icons/video-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Video</span>
                           </a>
@@ -1034,7 +1034,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                                   onClick={() => fillMetadata(movie.id)}
                                 >
 
-                                  <img src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
+                                 <img alt="" src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                   <span>{movie.title}</span>
                                   <span>{movie.description}</span>
                                 </Link>
@@ -1101,7 +1101,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                                     <tbody>
                                       {metaDataCrew && metaDataCrew.map((actor) =>
                                         <tr>
-                                          <td><img src={actor.image} className="img-circle" height="50" /></td>
+                                          <td><img src={actor.image} className="img-circle" height="50" 
+                                          alt=""/></td>
                                           <td>
                                             {actor.name}
                                           </td>

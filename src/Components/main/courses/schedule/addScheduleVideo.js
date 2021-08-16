@@ -799,7 +799,7 @@ export default function AddScheduleVideo() {
                                                         className="nav-link active" data-toggle="tab" href="#title"
                                                         role="tab">
                                                         <span className="d-block d-sm-none">
-                                                            <img src="assets/images/icons/title-icon.png" />
+                                                            <iimg alt="" src="assets/images/icons/title-icon.png" />
                                                         </span>
                                                         <span className="d-none d-sm-block">Select Category</span>
                                                     </a>
@@ -813,7 +813,7 @@ export default function AddScheduleVideo() {
                                                         ref={tab2}
                                                         className="nav-link" data-toggle="tab" href="#images" role="tab">
                                                         <span className="d-block d-sm-none">
-                                                            <img src="assets/images/icons/img-icon.png" />
+                                                            <iimg alt="" src="assets/images/icons/img-icon.png" />
                                                         </span>
                                                         <span className="d-none d-sm-block">Banner image</span>
                                                     </a>
@@ -827,7 +827,7 @@ export default function AddScheduleVideo() {
                                                         ref={tab3}
                                                         className="nav-link" data-toggle="tab" href="#meta-data" role="tab">
                                                         <span className="d-block d-sm-none">
-                                                            <img src="assets/images/icons/info-icon.png" />
+                                                            <iimg alt="" src="assets/images/icons/info-icon.png" />
                                                         </span>
                                                         <span className="d-none d-sm-block">Meta Information
                                                             (Optional)</span>
@@ -842,7 +842,7 @@ export default function AddScheduleVideo() {
                                                         ref={tab4}
                                                         className="nav-link" data-toggle="tab" href="#launch" role="tab">
                                                         <span className="d-block d-sm-none">
-                                                            <img src="assets/images/icons/date-icon.png" />
+                                                            <iimg alt="" src="assets/images/icons/date-icon.png" />
                                                         </span>
                                                         <span className="d-none d-sm-block">Launch</span>
                                                     </a>
@@ -888,7 +888,7 @@ export default function AddScheduleVideo() {
                                                                                 <Link style={{ height: "7vh", display: "block" }}
                                                                                     onClick={() => handleClickOnMovie(movie.thumbnail, movie.title, movie._id)}
                                                                                 >
-                                                                                    <img src={movie.thumbnail} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
+                                                                                    <iimg alt="" src={movie.thumbnail} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                                                                     <span>{movie.title}</span>
                                                                                     {"                  "}
                                                                                     <span>{movie.description}</span>
@@ -904,7 +904,7 @@ export default function AddScheduleVideo() {
                                                                     <span>
                                                                         <b>Movie Image
                                                                         </b>
-                                                                        <img src={SelectedMovieData.movieImage} />
+                                                                        <iimg alt="" src={SelectedMovieData.movieImage} />
                                                                     </span>
                                                                     <span>
                                                                         <b>Movie Title
@@ -978,7 +978,7 @@ export default function AddScheduleVideo() {
                                                                     <Link style={{ height: "7vh", display: "block" }}
                                                                         onClick={() => fillMetadata(movie.id)}
                                                                     >
-                                                                        <img src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
+                                                                        <iimg alt="" src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                                                         <span>{movie.title}</span>
                                                                         <span>{movie.description}</span>
                                                                     </Link>
@@ -1007,7 +1007,7 @@ export default function AddScheduleVideo() {
                                                                     <table className="table">
                                                                         <tbody>
                                                                             <tr>
-                                                                                {/* <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
+                                                                                {/* <td><iimg alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                                                                 <td>
                                                                                     {metaDataDirector}
                                                                                 </td>
@@ -1026,7 +1026,7 @@ export default function AddScheduleVideo() {
                                                                     <table className="table">
                                                                         <tbody>
                                                                             <tr>
-                                                                                {/* <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
+                                                                                {/* <td><iimg alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                                                                 <td>
                                                                                     {metaDataWriter}
                                                                                 </td>
@@ -1046,7 +1046,7 @@ export default function AddScheduleVideo() {
                                                                         <tbody>
                                                                             {metaDataCrew && metaDataCrew.map((actor) =>
                                                                                 <tr>
-                                                                                    <td><img src={actor.image} className="img-circle" height="50" /></td>
+                                                                                    <td><iimg alt="" src={actor.image} className="img-circle" height="50" /></td>
                                                                                     <td>
                                                                                         {actor.name}
                                                                                     </td>
@@ -1057,7 +1057,7 @@ export default function AddScheduleVideo() {
                                                                             }
 
                                                                             {/* <tr>
-<td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
+<td><iimg alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
 <td>Anil Ravipudi</td>
 <td>Actor</td>
 </tr>							 */}
@@ -1115,7 +1115,7 @@ export default function AddScheduleVideo() {
 
                                                                                             <tbody>
                                                                                                 <tr>
-                                                                                                    <td><img src="assets/images/avatar-2.jpg"
+                                                                                                    <td><iimg alt="" src="assets/images/avatar-2.jpg"
                                                                                                         className="img-circle"
                                                                                                         height="50" />
                                                                                                     </td>
@@ -1129,7 +1129,7 @@ export default function AddScheduleVideo() {
 
 
                                                                                                 <tr>
-                                                                                                    <td><img src="assets/images/avatar-2.jpg"
+                                                                                                    <td><iimg alt="" src="assets/images/avatar-2.jpg"
                                                                                                         className="img-circle"
                                                                                                         height="50" />
                                                                                                     </td>

@@ -9,6 +9,7 @@ function Products(props) {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [pagination,setPagination] = useState(null)
   const { token } = isAutheticated();
+
   const getFeatureData=async(page=1,size=10)=>{
     let res = await axios.get(`${API}/api/feature_product/view_featured_products?page=${page}&size=${size}`, {
       headers: {
@@ -18,9 +19,19 @@ function Products(props) {
     setPagination({size:res.data.size, page:res.data.page})
     setFeaturedProducts(res.data.data);
   }
+  
   useEffect( () => {
-
-    getFeatureData()
+    
+  const getFeaturedData=async(page=1,size=10)=>{
+    let res = await axios.get(`${API}/api/feature_product/view_featured_products?page=${page}&size=${size}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setPagination({size:res.data.size, page:res.data.page})
+    setFeaturedProducts(res.data.data);
+  }
+  getFeaturedData()
   }, [token]);
   const handleDelete = async (id) => {
     let status = window.confirm("Do you want to delete");
@@ -102,10 +113,8 @@ function Products(props) {
                           <th>Action</th>
                         </tr>
                       </thead>
-
-                  
-                     {featuredProducts.length&& <tbody>
-                          {featuredProducts.map(feature=>
+                      <tbody>
+                          {featuredProducts.length && featuredProducts.map(feature=>
                           <tr key={feature._id}>
                             <td>
                               <img src={`${feature.feautred_image}`} width="110"
@@ -139,7 +148,7 @@ function Products(props) {
                             </td>
                           </tr>
                           )}
-                        </tbody>}
+                        </tbody>
                     </table>
                   </div>
                           {pagination&&

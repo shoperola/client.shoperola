@@ -117,7 +117,7 @@ function AllShippings(props) {
                                                     <td>Flat India</td>
                                                     <td>Rs.300</td>
                                                     <td>
-                                                        <span class="badge badge-pill badge-success font-size-12">
+                                                        <span className="badge badge-pill badge-success font-size-12">
                                                             Live
                                                         </span>
                                                     </td>

@@ -103,49 +103,49 @@ function EditCoupon() {
 
 
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group text-right">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="form-group text-right">
                                 <a href="commerce-coupons.html">
                                     <button type="button"
-                                        class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
+                                        className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                 </a>
                                 <a href="#">
                                     <button type="button"
-                                        class="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
+                                        className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Name
                                                             </label>
-                                                            <input type="text" class="form-control input-field" />
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                            <input type="text" className="form-control input-field" />
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 This name is shown to customers at checkout.
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Coupon Code
                                                             </label>
-                                                            <input type="text" class="form-control input-field" />
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                            <input type="text" className="form-control input-field" />
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Customers enter this code at checkout.
                                                             </label>
                                                         </div>
@@ -157,20 +157,20 @@ function EditCoupon() {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                        <div className="col-lg-4">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Status
                                                             </label>
                                                             <select name="currency" value=""
-                                                                class="form-control  input-field">
+                                                                className="form-control  input-field">
                                                                 <option value="">--select--</option>
                                                                 <option value="Active">Active</option>
                                                                 <option value="Inactive">Inactive</option>
@@ -181,14 +181,14 @@ function EditCoupon() {
                                             </form>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <label class="col-md-12 control-label">This coupon never expires</label>
-                                                <div class="col-md-8">
-                                                    <div class="custom-control custom-radio mb-2">
+                                        <div className="row">
+                                            <div className="col-lg-12">
+                                                <label className="col-md-12 control-label">This coupon never expires</label>
+                                                <div className="col-md-8">
+                                                    <div className="custom-control custom-radio mb-2">
                                                         <input type="radio" id="age1" name="age"
-                                                            class="custom-control-input" />
-                                                        <label class="custom-control-label" for="age1">Yes</label>
+                                                            className="custom-control-input" />
+                                                        <label className="custom-control-label" for="age1">Yes</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -200,33 +200,33 @@ function EditCoupon() {
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <label class="col-md-4 control-label">Promotion</label>
-                                            <div class="col-md-8">
-                                                <div class="custom-control custom-radio mb-2">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <label className="col-md-4 control-label">Promotion</label>
+                                            <div className="col-md-8">
+                                                <div className="custom-control custom-radio mb-2">
                                                     <input type="radio" id="age1" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age1">Percentage
+                                                        className="custom-control-input" />
+                                                    <label className="custom-control-label" for="age1">Percentage
                                                         Off</label>
-                                                    <input type="text" class="form-control input-field" />
+                                                    <input type="text" className="form-control input-field" />
                                                 </div>
 
-                                                <div class="custom-control custom-radio mb-2">
+                                                <div className="custom-control custom-radio mb-2">
                                                     <input type="radio" id="age2" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age2">Amount Off</label>
-                                                    <input type="text" class="form-control input-field" />
+                                                        className="custom-control-input" />
+                                                    <label className="custom-control-label" for="age2">Amount Off</label>
+                                                    <input type="text" className="form-control input-field" />
                                                 </div>
 
-                                                <div class="custom-control custom-radio mb-2">
+                                                <div className="custom-control custom-radio mb-2">
                                                     <input type="radio" id="age3" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age3">Free Shipping</label>
+                                                        className="custom-control-input" />
+                                                    <label className="custom-control-label" for="age3">Free Shipping</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -235,21 +235,21 @@ function EditCoupon() {
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Applies to
                                                             </label>
                                                             <select name="currency" value=""
-                                                                class="form-control  input-field">
+                                                                className="form-control  input-field">
                                                                 <option value="">--select--</option>
                                                                 <option value="Active">Any Order</option>
                                                                 <option value="Inactive">Orders Over</option>
@@ -263,13 +263,13 @@ function EditCoupon() {
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Limit Total User
                                                             </label>
                                                             <select name="currency" value=""
@@ -285,32 +285,32 @@ function EditCoupon() {
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <label class="col-md-4 control-label">Customer limit</label>
-                                            <div class="col-md-8">
-                                                <div class="custom-control custom-radio mb-2">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <label className="col-md-4 control-label">Customer limit</label>
+                                            <div className="col-md-8">
+                                                <div className="custom-control custom-radio mb-2">
                                                     <input type="radio" id="age1" name="age"
-                                                        class="custom-control-input" />
-                                                    <label class="custom-control-label" for="age1">Limit one per
+                                                        className="custom-control-input" />
+                                                    <label className="custom-control-label" for="age1">Limit one per
                                                         customer</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="basicpill-phoneno-input" class="label-100">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <div className="form-group">
+                                                <label for="basicpill-phoneno-input" className="label-100">
                                                     Start Date
                                                 </label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control input-field"
+                                                <div className="input-group">
+                                                    <input type="text" className="form-control input-field"
                                                         data-provide="datepicker" data-date-format="dd M, yyyy"
                                                         data-date-autoclose="true" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"
+                                                    <div className="input-group-append">
+                                                        <span className="input-group-text"><i className="fa fa-calendar"
                                                             aria-hidden="true"></i></span>
                                                     </div>
                                                 </div>
@@ -318,18 +318,18 @@ function EditCoupon() {
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="basicpill-phoneno-input" class="label-100">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <div className="form-group">
+                                                <label for="basicpill-phoneno-input" className="label-100">
                                                     End Date
                                                 </label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control input-field"
+                                                <div className="input-group">
+                                                    <input type="text" className="form-control input-field"
                                                         data-provide="datepicker" data-date-format="dd M, yyyy"
                                                         data-date-autoclose="true" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"
+                                                    <div className="input-group-append">
+                                                        <span className="input-group-text"><i className="fa fa-calendar"
                                                             aria-hidden="true"></i></span>
                                                     </div>
                                                 </div>

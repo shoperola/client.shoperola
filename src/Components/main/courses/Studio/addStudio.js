@@ -665,7 +665,9 @@ function AddStudio(props) {
                                                                     resData.products?.map((item, index) => (
 
                                                                         <td>
-                                                                            <img src={item.image} />
+                                                                            <img
+                                                                            alt=""
+                                                                            src={item.image}alt="" />
                                                                         </td>
 
                                                                     ))
@@ -735,7 +737,9 @@ function AddStudio(props) {
                                                             {
                                                                 resData?.products?.map(item => (
                                                                     <p>
-                                                                        <img id="headerImg" src={item.image} ></img>
+                                                                        <img 
+                                                                        alt=""
+                                                                        id="headerImg" src={item.image} ></img>
                                                                     </p>
                                                                 ))
                                                             }

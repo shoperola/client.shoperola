@@ -689,7 +689,7 @@ export default function PaymentSettting() {
 
                             <div className="method-row">
                               <span className="method-icon">
-                                <img src="assets/images/icons/stripe-icon.png" />
+                                <img src="assets/images/icons/stripe-icon.png" alt=""/>
                               </span>
                               <span className="method-text">
                                 <h1>Stripe</h1>

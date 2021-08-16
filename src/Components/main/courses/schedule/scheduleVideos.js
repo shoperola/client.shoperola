@@ -185,7 +185,7 @@ export default function ScheduleVideos() {
                                                                 <tr key={lession._id}>
                                                                     <td>{lession.title}</td>
                                                                     <td>
-                                                                        <img
+                                                                        <img alt=""
                                                                             src={lession.thumbnail ? lession.thumbnail : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/thumbnail-default.png"}
                                                                             style={{ width: "67px", height: "67px" }}
                                                                         />
@@ -329,7 +329,7 @@ export default function ScheduleVideos() {
                                                         <tr>
                                                             <td>{data.title}</td>
                                                             <td>
-                                                                <img src={data.thumbnail} style={{ width: "67px", height: "67px" }} />
+                                                                <img alt="" src={data.thumbnail} style={{ width: "67px", height: "67px" }} />
                                                             </td>
                                                             <td>TV Shows</td>
                                                             <td>{new Date(data.date).toDateString()}</td>

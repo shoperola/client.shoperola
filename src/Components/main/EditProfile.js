@@ -177,7 +177,7 @@ export default function EditProfile() {
                   <div className="image-area mt-4">
                     <img
                       id="imageResult"
-                      src="#"
+                      src="#/"
                       alt=""
                       className="img-fluid rounded shadow-sm mx-auto d-block"
                     />

@@ -121,7 +121,7 @@ function AllCoupons(props) {
                                                     <td>{new Date().toDateString()}</td>
                                                     <td>{new Date().toDateString()}</td>
                                                     <td>
-                                                        <span class="badge badge-pill badge-success font-size-12">
+                                                        <span className="badge badge-pill badge-success font-size-12">
                                                             Live
                                                         </span>
                                                     </td>

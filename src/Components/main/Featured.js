@@ -444,7 +444,7 @@ export default function Featured(props) {
                       className="img-fluid rounded shadow-sm mx-auto d-block"
                     />
 
-                    <img src="assets/images/4-3-ratio.png" className="img-fluid" />
+                    <img src="assets/images/4-3-ratio.png" className="img-fluid" alt=""/>
                   </div>
                 </div>
               </div>
@@ -517,7 +517,7 @@ export default function Featured(props) {
 
                 <img
                   src={currentFeature.url ? currentFeature.url : "#"}
-                  className="img-fluid"
+                  className="img-fluid" alt=""
                 />
               </div>
             </div>

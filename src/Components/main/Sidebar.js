@@ -48,35 +48,35 @@ export default function Sidebar() {
           <ul className="metismenu list-unstyled" id="side-menu">
             <li>
               <Link to="/dashboard">
-                <img src="/assets/images/icons/dashboard-icon.png" />
+                <img alt="" src="/assets/images/icons/dashboard-icon.png" />
                 <span>Dashboard</span>
               </Link>
             </li>
             {/* <li>
               <Link to="/requests">
-                <img src="/assets/images/icons/request-icon.png" />
+                <img alt="" src="/assets/images/icons/request-icon.png" />
                 <span>Requests</span>
               </Link>
             </li> */}
             <li>
               <Link to="/subscribers">
-                <img src="/assets/images/icons/viewer-icon.png" />
+                <img alt="" src="/assets/images/icons/viewer-icon.png" />
                 <span>Subscribers</span>
               </Link>
             </li>
 
             <li>
-              <Link to="#" className="has-arrow">
-                <img src="/assets/images/icons/cms-icon.png" />
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/cms-icon.png" />
                 <span>Content Management</span>
               </Link>
 
               <ul className="sub-menu" aria-expanded={false}>
                 <li>
-                  <a href="/lessions">Videos</a>
+                  <Link to="/lessions">Videos</Link>
                 </li>
                 <li>
-                  <a href="/scheduleVideos">Schedule</a>
+                  <Link to="/scheduleVideos">Schedule</Link>
                 </li>
                 <li>
                   <Link to="/subjects">Banners
@@ -87,15 +87,15 @@ export default function Sidebar() {
                   </Link>
                 </li> */}
                 <li>
-                  <a href="/categories">Categories
-                  </a>
+                  <Link to="/categories">Categories
+                  </Link>
                 </li>
 
               </ul>
             </li>
             <li>
-              <Link to="#" className="has-arrow">
-                <img src="/assets/images/icons/cms-icon.png" alt="" />
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/cms-icon.png" />
                 <span>Commerce</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
@@ -106,8 +106,8 @@ export default function Sidebar() {
                   <Link to="/featured/products">Featured Products</Link>
                 </li>
                 <li>
-                  <a href="/comcatagory" > Category
-                  </a>
+                  <Link to="/comcatagory" > Category
+                  </Link>
                 </li>
                 <li>
                   <Link to="/allCoupons">Coupons
@@ -123,13 +123,13 @@ export default function Sidebar() {
 
             <li>
               <Link to="/earning">
-                <img src="/assets/images/icons/earning-icon.png" />
+                <img src="/assets/images/icons/earning-icon.png" alt=""/>
                 <span>Earnings</span>
               </Link>
             </li>
             <li>
               <Link to="#">
-                <img src="/assets/images/icons/payment-settings-icon.png" />
+                <img src="/assets/images/icons/payment-settings-icon.png" alt="" />
                 <span>Payment Settings</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
@@ -137,8 +137,8 @@ export default function Sidebar() {
                   <Link to="/payment">Settings</Link>
                 </li>
                 <li>
-                  <a href="/tax-rates">Tax Rates
-                  </a>
+                  <Link to="/tax-rates">Tax Rates
+                  </Link>
                 </li>
               </ul>
 
@@ -159,7 +159,7 @@ export default function Sidebar() {
 
             <li>
               <Link to="/profile">
-                <img src="/assets/images/icons/site-preference.png" />
+                <img src="/assets/images/icons/site-preference.png" alt=""/>
                 <span>Profile</span>
               </Link>
             </li>

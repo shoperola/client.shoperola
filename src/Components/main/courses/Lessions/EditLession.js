@@ -273,7 +273,7 @@ export default function EditLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/title-icon.png" />
+                              <img alt="" src="assets/images/icons/title-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Title</span>
                           </a>
@@ -285,7 +285,7 @@ export default function EditLession() {
                             href="#meta-data"
                             role="tab">
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/info-icon.png" />
+                              <img alt="" src="assets/images/icons/info-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Meta Data</span>
                           </a>
@@ -299,7 +299,7 @@ export default function EditLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/img-icon.png" />
+                              <img alt="" src="assets/images/icons/img-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Images</span>
                           </a>
@@ -313,7 +313,7 @@ export default function EditLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/video-icon.png" />
+                              <img alt="" src="assets/images/icons/video-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Video</span>
                           </a>
@@ -331,7 +331,7 @@ export default function EditLession() {
                           >
                             <span className="d-block d-sm-none">
                               {console.log(lession)}
-                              <img src="assets/images/icons/date-icon.png" />
+                              <img alt="" src="assets/images/icons/date-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Launch Date</span>
                           </a>
@@ -423,7 +423,7 @@ export default function EditLession() {
                                   onClick={() => fillMetadata(movie.id)}
                                 >
 
-                                  <img src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
+                                  <img alt="" src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                   <span>{movie.title}</span>
                                   <span>{movie.description}</span>
 
@@ -452,7 +452,7 @@ export default function EditLession() {
                                   <table className="table">
                                     <tbody>
                                       <tr>
-                                        {/* <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
+                                        {/* <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                         <td>
                                           {fill ? metaDataDirector : lession.directors}
                                         </td>
@@ -471,7 +471,7 @@ export default function EditLession() {
                                   <table className="table">
                                     <tbody>
                                       <tr>
-                                        {/* <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
+                                        {/* <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                         <td>
                                           {fill ? metaDataWriter : lession.Writers}
                                         </td>
@@ -491,7 +491,7 @@ export default function EditLession() {
                                     <tbody>
                                       {fill ? metaDataCrew && metaDataCrew.map((actor) =>
                                         <tr>
-                                          <td><img src={actor.image} className="img-circle" height="50" /></td>
+                                          <td><img alt="" src={actor.image} className="img-circle" height="50" /></td>
                                           <td>
                                             {actor.name}
                                           </td>
@@ -500,7 +500,7 @@ export default function EditLession() {
                                       ) :
                                         lession.Actors_list && lession.Actors_list.map((actor) =>
                                           <tr key={actor.id}>
-                                            <td><img src={actor.image} className="img-circle" height="50" /></td>
+                                            <td><img alt="" src={actor.image} className="img-circle" height="50" /></td>
                                             <td>
                                               {actor.name}
                                             </td>

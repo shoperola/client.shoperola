@@ -102,55 +102,55 @@ function EditShipping() {
 
 
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group text-right">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="form-group text-right">
                                 <a href="commerce-shipping.html">
                                     <button type="button"
-                                        class="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
+                                        className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
                                 </a>
                                 <a href="#">
                                     <button type="button"
-                                        class="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
+                                        className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Shipping Method Name
                                                             </label>
-                                                            <input type="text" class="form-control input-field" />
+                                                            <input type="text" className="form-control input-field" />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Description (Optional)
                                                             </label>
-                                                            <textarea class="form-control input-field"
+                                                            <textarea className="form-control input-field"
                                                                 rows="5"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Rate
                                                             </label>
-                                                            <input type="text" class="form-control input-field" />
+                                                            <input type="text" className="form-control input-field" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -160,20 +160,20 @@ function EditShipping() {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                        <div className="col-lg-4">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Status
                                                             </label>
                                                             <select name="currency" value=""
-                                                                class="form-control  input-field">
+                                                                className="form-control  input-field">
                                                                 <option value="">--select--</option>
                                                                 <option value="Active">Active</option>
                                                                 <option value="Inactive">Inactive</option>
@@ -189,21 +189,21 @@ function EditShipping() {
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Select Country
                                                             </label>
                                                             <select name="currency" value=""
-                                                                class="form-control  input-field">
+                                                                className="form-control  input-field">
                                                                 <option value="">--select--</option>
                                                                 <option value="Active">All Countries</option>
                                                                 <option value="Inactive">Afghanisthan</option>
@@ -215,17 +215,17 @@ function EditShipping() {
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
+                                    <div className="row">
+                                        <div className="col-md-12">
                                             <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="basicpill-phoneno-input" class="label-100">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div className="form-group">
+                                                            <label for="basicpill-phoneno-input" className="label-100">
                                                                 Select State
                                                             </label>
                                                             <select name="currency" value=""
-                                                                class="form-control  input-field">
+                                                                className="form-control  input-field">
                                                                 <option value="">--select--</option>
                                                                 <option value="Active">All States</option>
                                                                 <option value="Inactive">Assam</option>

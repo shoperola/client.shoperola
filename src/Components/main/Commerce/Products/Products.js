@@ -8,15 +8,17 @@ import Footer from '../../Footer';
 function Products(props) {
     const [data, setData] = useState([]);
     const { token } = isAutheticated();
-    useEffect(async () => {
-        let res = await axios.get(`${API}/api/product`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-        setData(res.data.data);
-        console.log(res);
-    }, [])
+    useEffect(() => {
+        const getData=async()=>{
+            let res = await axios.get(`${API}/api/product`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            setData(res.data.data);
+        }
+        getData()
+    }, [token])
 
     const handleDelete = async (id) => {
         let status=window.confirm("Do you want to delete");
@@ -71,11 +73,11 @@ function Products(props) {
                                                 </select> entries</label></div></div>
                                         <div className="col-sm-12 col-md-6">
                                             <div className="dropdown d-block">
-                                                <a href="/comproducts/add">
+                                                <Link to="/comproducts/add">
                                                     <button type="button" className="btn btn-primary add-btn waves-effect waves-light float-right">
                                                         <i className="fa fa-plus" aria-hidden="true"></i> Add New Product
                                                     </button>
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +101,8 @@ function Products(props) {
                                                             <tr key={item._id}>
 
                                                                 <td>
-                                                                    <img src={item.image} width="110" height="60" />
+                                                                    <img src={item.image} width="110" height="60" 
+                                                                    alt=""/>
                                                                 </td>
                                                                 <td>{item.title}</td>
                                                                 <td>{item.quantity}</td>

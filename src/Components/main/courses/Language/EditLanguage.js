@@ -1465,7 +1465,7 @@ ref={tab1}
 
 >
 <span className="d-block d-sm-none">
-<img src="assets/images/icons/title-icon.png"/>
+<img alt="" src="assets/images/icons/title-icon.png"/>
 </span>
 <span className="d-none d-sm-block">Title</span> 
 </a>
@@ -1475,7 +1475,7 @@ ref={tab1}
 <a className={`nav-link`}
 data-toggle="tab" href="#images" role="tab" ref={tab2}>
 <span className="d-block d-sm-none">
-<img src="assets/images/icons/img-icon.png"/>
+<img alt="" src="assets/images/icons/img-icon.png"/>
 </span>
 <span className="d-none d-sm-block">Images</span> 
 </a>
@@ -1485,7 +1485,7 @@ data-toggle="tab" href="#images" role="tab" ref={tab2}>
 <a className={`nav-link`}
 data-toggle="tab" href="#meta-data" role="tab" ref={tab3}>
 <span className="d-block d-sm-none">
-<img src="assets/images/icons/info-icon.png"/>
+<img alt="" src="assets/images/icons/info-icon.png"/>
 </span>
 <span className="d-none d-sm-block">Meta Data</span>   
 </a>
@@ -1495,7 +1495,7 @@ data-toggle="tab" href="#meta-data" role="tab" ref={tab3}>
 <a className={`nav-link`}
 data-toggle="tab" href="#seasons" role="tab" ref={tab4}>
 <span className="d-block d-sm-none">
-<img src="assets/images/icons/info-icon.png"/>
+<img alt="" src="assets/images/icons/info-icon.png"/>
 </span>
 <span className="d-none d-sm-block">Seasons</span>   
 </a>
@@ -1504,7 +1504,7 @@ data-toggle="tab" href="#seasons" role="tab" ref={tab4}>
 <a className={`nav-link`}
 data-toggle="tab" href="#video" role="tab" ref={tab5}>
 <span className="d-block d-sm-none">
-<img src="assets/images/icons/video-icon.png"/>
+<img alt="" src="assets/images/icons/video-icon.png"/>
 </span>
 <span className="d-none d-sm-block">Video</span>   
 </a>
@@ -1524,7 +1524,7 @@ data-toggle="tab" href="#video" role="tab" ref={tab5}>
           }}
 data-toggle="tab" href="#launch" role="tab" ref={tab6}>
 <span className="d-block d-sm-none">
-<img src="assets/images/icons/date-icon.png"/>
+<img alt="" src="assets/images/icons/date-icon.png"/>
 </span>
 <span className="d-none d-sm-block">Launch</span>   
 </a>
@@ -1745,7 +1745,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 <table className="table">
 <tbody>
   <tr>
-  <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
+  <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
   <td>Anil Ravipudi</td>
   <td></td>
   </tr>
@@ -1762,7 +1762,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 <table className="table">
 <tbody>
   <tr>
-  <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
+  <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
   <td>Anil Ravipudi</td>
   <td></td>
   </tr>
@@ -1779,12 +1779,12 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 <table className="table">
 <tbody>
   <tr>
-  <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
+  <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
   <td>Anil Ravipudi</td>
   <td>Actor</td>
   </tr>
   <tr>
-  <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
+  <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td>
   <td>Anil Ravipudi</td>
   <td>Actor</td>
   </tr>							
@@ -1824,7 +1824,7 @@ onChange={(e)=>{handleSearchMovie(e.target.value);setSearchMovie(e.target.value)
       onClick={()=>fillMetadata(movie.id)}
     >
       
-      <img src={movie.image} style={{height:"90%",width:"6vw",marginRight:"8vw"}}/>
+      <img alt="" src={movie.image} style={{height:"90%",width:"6vw",marginRight:"8vw"}}/>
       <span>{movie.title}</span>
       <span>{movie.description}</span>
       
@@ -1853,7 +1853,7 @@ onChange={(e)=>{handleSearchMovie(e.target.value);setSearchMovie(e.target.value)
 <table className="table">
 <tbody>
 <tr>
-{/* <td><img src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
+{/* <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
 <td>
 {metaDataDirector}
 </td>

@@ -483,7 +483,7 @@ export default function AddLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/title-icon.png" />
+                              <img alt="" src="assets/images/icons/title-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Title</span>
                           </a>
@@ -500,7 +500,7 @@ export default function AddLession() {
                             }}
                             role="tab">
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/info-icon.png" />
+                              <img alt="" src="assets/images/icons/info-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Meta Data</span>
                           </a>
@@ -519,7 +519,7 @@ export default function AddLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/img-icon.png" />
+                              <img alt="" src="assets/images/icons/img-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Images</span>
                           </a>
@@ -539,7 +539,7 @@ export default function AddLession() {
                             ref={tab2}
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/video-icon.png" />
+                              <img alt="" src="assets/images/icons/video-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Video</span>
                           </a>
@@ -562,7 +562,7 @@ export default function AddLession() {
                             ref={tab5}
                           >
                             <span className="d-block d-sm-none">
-                              <img src="assets/images/icons/date-icon.png" />
+                              <img alt="" src="assets/images/icons/date-icon.png" />
                             </span>
                             <span className="d-none d-sm-block">Launch Date</span>
                           </a>
@@ -770,7 +770,7 @@ export default function AddLession() {
                                   <Link style={{ height: "7vh", display: "block" }}
                                     onClick={() => fillMetadata(movie.id)}
                                   >
-                                    <img src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
+                                    <img alt="" src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
                                     <span>{movie.title}</span>
                                     <span>{movie.description}</span>
 
