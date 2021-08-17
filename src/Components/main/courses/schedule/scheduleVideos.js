@@ -27,16 +27,12 @@ export default function ScheduleVideos() {
             })
             .then((response) => {
                 const userdata = response.data.show;
-                console.log(response.data);
                 setTvshow(userdata);
-                //console.log(response.data.show);
-                //setLanguages(userdata.languages);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
-
+    }, [token]);
     useEffect(() => {
         const fetchData = () => {
             axios
@@ -46,7 +42,7 @@ export default function ScheduleVideos() {
                     },
                 })
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data,"Movies");
                     setData([...response.data.data]);
                 })
                 .catch((err) => {
@@ -55,12 +51,12 @@ export default function ScheduleVideos() {
         }
 
         fetchData()
-    }, [success, !success]);
+    }, [success,token]);
 
-    const lastindex = Currentpage * Viewerperpage;
-    const firstindex = lastindex - Viewerperpage;
+    // const lastindex = Currentpage * Viewerperpage;
+    // const firstindex = lastindex - Viewerperpage;
 
-    const currentviewer = data.slice(firstindex, lastindex);
+    // const currentviewer = data.slice(firstindex, lastindex);
 
     const paginate = (pageNumber) => setCurrentpage(pageNumber);
 
@@ -177,10 +173,9 @@ export default function ScheduleVideos() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {data.length != 0 &&
-                                                    currentviewer.map((lession) => {
+                                                {data.length !== 0 &&
+                                                    data.map((lession) => {
                                                         return (
-                                                            lession.Id !== "" &&
                                                             <>
                                                                 <tr key={lession._id}>
                                                                     <td>{lession.title}</td>
@@ -191,7 +186,7 @@ export default function ScheduleVideos() {
                                                                         />
                                                                     </td>
                                                                     <td>Movies</td>
-                                                                    <td>{new Date(lession.launchDate).toDateString()}</td>
+                                                                    <td>{lession.launchDate?new Date().toDateString(lession.launchDate):"Not Declared"}</td>
                                                                     {/* <td>{lession?.subject?.name}</td> */}
                                                                     <td>
                                                                         {!lession.launch_flag && lession.launchDate && lession.live &&
@@ -326,7 +321,7 @@ export default function ScheduleVideos() {
                                                     })}
                                                 {
                                                     tvshow?.map(data => (
-                                                        <tr>
+                                                        <tr key={data._id}>
                                                             <td>{data.title}</td>
                                                             <td>
                                                                 <img alt="" src={data.thumbnail} style={{ width: "67px", height: "67px" }} />

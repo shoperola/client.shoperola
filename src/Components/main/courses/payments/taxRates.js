@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useHistory} from 'react-router-dom';
 import { API } from '../../../../API';
 import { isAutheticated } from '../../../auth/authhelper';
 import Footer from '../../Footer';
 import swal from "sweetalert";
 
 function TaxRates(props) {
+    const history = useHistory();
     const { token } = isAutheticated();
     const [data, setdata] = useState([]);
     useEffect(() => {
@@ -21,9 +22,16 @@ function TaxRates(props) {
         fetchData();
     }, [token])
     const handleDelete = async (id) => {
+        let res = await axios.post(`${API}/api/product/count_delete_tax/${id}`, {
+
+        },{
+            headers: {
+                authorization: `Bearer ${token}`,
+            }
+        });
         const done=await swal({
             title: "Confirm Your Choice!",
-            text: "There are XX products with this tax rate. If you delete, Zero Tax Rate (0%) will be applicable to all the XX products in the future",
+            text: `There are ${res.data.data} products with this tax rate. If you delete, Zero Tax Rate (0%) will be applicable to all the products in the future`,
             icon: "warning",
             buttons: {
               Done: {
@@ -37,7 +45,9 @@ function TaxRates(props) {
             }
           })
         if(done==="Confirm"){
-            let res = await axios.delete(`${API}/api/tax_rates/remove_tax/${id}`, {
+            let res = await axios.post(`${API}/api/product/count_delete_tax/${id}`,{
+                flag:"true"
+            } ,{
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
@@ -46,6 +56,9 @@ function TaxRates(props) {
                 window.location.reload()
             }
         }
+    }
+    const handleEdit = async (id) => {
+        history.push(`/edit_taxRate/${id}`)
     }
 
     return (
@@ -106,32 +119,19 @@ function TaxRates(props) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <tr >
-                                                    <td>Zero Tax</td>
-                                                <td>0%</td>
-                                                    <td>
-                                                    
-                                                            <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
-                                                            disabled={true}
-                                                            >
-                                                                Edit</button>
-                                                       
-                                                        <button 
-                                                        disabled={true} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
-                                                            Delete</button>
-
-                                                    </td>
-                                                </tr>
                                                 {data&&data.map(e=>{
                                                     return <tr key={e._id}>
                                                     <td>{e.tax_name}</td>
                                                 <td>{e.tax_percentage}%</td>
                                                     <td>
-                                                        <Link to={`/edit_taxRate/${e._id}`}>
-                                                            <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
+                                                            <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2" 
+                                                            disabled={e.tax_name==="ZERO_TAX"}
+                                                            onClick={()=>handleEdit(e._id)}
+                                                            >
                                                                 Edit</button>
-                                                        </Link>
-                                                        <button onClick={() => handleDelete(e._id)} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
+                                                        <button onClick={() => handleDelete(e._id)} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params"
+                                                        disabled={e.tax_name==="ZERO_TAX"}
+                                                        >
                                                             Delete</button>
 
                                                     </td>

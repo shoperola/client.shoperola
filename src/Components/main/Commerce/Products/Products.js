@@ -89,6 +89,8 @@ function Products(props) {
                                                     <th>Name</th>
                                                     <th>Stock</th>
                                                     <th>Price</th>
+                                                    <th>Tax</th>
+                                                    <th>Total Price</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -106,17 +108,19 @@ function Products(props) {
                                                                 </td>
                                                                 <td>{item.title}</td>
                                                                 <td>{item.quantity}</td>
-                                                                <td>{item.sale_price}</td>
+                                                                <td>Rs. {item.sale_price}</td>
+                                                                <td>{item.tax?.tax_percentage}%</td>
+                                                               <td>Rs. {item.total_price}</td>
                                                                 <td>
                                                                     <span className="badge badge-pill badge-soft-success font-size-12">Live</span></td>
                                                                 <td>
                                                                     <button type="button" className="btn btn-success btn-sm  waves-effect waves-light btn-table">
                                                                         Suspend
                                                                     </button>
-                                                                    <a href={`/comproducts/edit/${item._id}`}>
+                                                                    <Link href={`/comproducts/edit/${item._id}`}>
                                                                         <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
                                                                             Edit</button>
-                                                                    </a>
+                                                                    </Link>
                                                                     <button type="button" onClick={() => handleDelete(item._id)} className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
                                                                         Delete</button>
                                                                 </td>
@@ -140,24 +144,24 @@ function Products(props) {
                                                 <ul className="pagination">
 
                                                     <li className="paginate_button page-item previous disabled">
-                                                        <a href="#" aria-controls="datatable" data-dt-idx="0" tabIndex="0" className="page-link">Previous</a>
+                                                        <a href="#/" aria-controls="datatable" data-dt-idx="0" tabIndex="0" className="page-link">Previous</a>
                                                     </li>
 
                                                     <li className="paginate_button page-item active">
-                                                        <a href="#" aria-controls="datatable" data-dt-idx="1" tabIndex="0" className="page-link">1</a>
+                                                        <a href="#/" aria-controls="datatable" data-dt-idx="1" tabIndex="0" className="page-link">1</a>
                                                     </li>
 
                                                     <li className="paginate_button page-item ">
-                                                        <a href="#" aria-controls="datatable" data-dt-idx="2" tabIndex="0" className="page-link">2</a>
+                                                        <a href="#/" aria-controls="datatable" data-dt-idx="2" tabIndex="0" className="page-link">2</a>
                                                     </li>
 
                                                     <li className="paginate_button page-item ">
-                                                        <a href="#" aria-controls="datatable" data-dt-idx="3" tabIndex="0" className="page-link">3</a>
+                                                        <a href="#/" aria-controls="datatable" data-dt-idx="3" tabIndex="0" className="page-link">3</a>
                                                     </li>
 
 
                                                     <li className="paginate_button page-item next">
-                                                        <a href="#" tabIndex="0" className="page-link">Next</a>
+                                                        <a href="#/" tabIndex="0" className="page-link">Next</a>
                                                     </li>
 
                                                 </ul>

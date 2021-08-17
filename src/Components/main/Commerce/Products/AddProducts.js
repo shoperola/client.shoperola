@@ -13,6 +13,7 @@ function AddProducts(props) {
 	const [state, setstate] = useState({
 		title: "",
 		description: "",
+		tax:"",
 		category: "",
 		status: "",
 		image: "",
@@ -61,7 +62,8 @@ function AddProducts(props) {
 		const formdata = new FormData();
 		formdata.append("title", state.title);
 		formdata.append("description", state.description);
-		// formdata.append("category", state.category);
+		formdata.append("category", state.category);
+		formdata.append("tax", state.tax);
 		formdata.append("image", state.image);
 		formdata.append("price", state.price);
 		formdata.append("sale_price", state.sale_price);
@@ -97,11 +99,11 @@ function AddProducts(props) {
 		})
 	}
 	const handleChangeCheckBox = (e) => {
-		console.log(e.target.checked);
 		setstate({
 			...state, [e.target.name]: e.target.checked
 		})
 	}
+	console.log(state);
 	return (
 		<div className="main-content">
 
@@ -129,7 +131,9 @@ function AddProducts(props) {
 					<div className="row">
 						<div className="col-12">
 							<div className="form-group text-right">
-								<button onClick={handleSubmit} type="button" className="btn btn-success btn-login waves-effect waves-light mr-3">
+								<button onClick={handleSubmit} type="button" className="btn btn-success btn-login waves-effect waves-light mr-3"
+								disabled={!(state.title && state.tax && state.category && state.status && state.image && state.price && state.sale_price && state.sku && (state.track_quantity===!!state.quantity))}
+								>
 								<ClipLoader loading={loading} size={18} />
                                   {!loading && "Save"}
 								</button>
@@ -159,7 +163,6 @@ function AddProducts(props) {
 															<input type="text" name="title" className="form-control input-field"
 																onChange={handleChange}
 																placeholder="Title" />
-
 														</div>
 													</div>
 												</div>
@@ -212,11 +215,11 @@ function AddProducts(props) {
 															<label htmlFor="basicpill-phoneno-input" className="label-100">
 																Select Tax*
 															</label>
-															<select name="category" value={state.category} onChange={handleChange} className="form-control  input-field">
-															<option value="">Zero Tax 0</option>
+															<select name="tax" value={state.tax} onChange={handleChange} className="form-control  input-field">
+															<option value="">--select--</option>
 																{tax?.map(item => (
 																	<>
-																		<option key={item._id}>{item.tax_name} - {item.tax_percentage}%</option>
+																		<option key={item._id} value={item._id}>{item.tax_name} - {item.tax_percentage}%</option>
 																	</>
 																))
 																}
@@ -224,8 +227,6 @@ function AddProducts(props) {
 														</div>
 													</div>
 												</div>
-												
-
 												<div className="row">
 													<div className="col-lg-12">
 														<div className="form-group">
@@ -236,7 +237,7 @@ function AddProducts(props) {
 																<option value="">--select--</option>
 																{Categories?.map(item => (
 																	<>
-																		<option key={item._id}>{item.category}</option>
+																		<option key={item._id} value={item._id}>{item.category}</option>
 																	</>
 																))
 																}
@@ -244,9 +245,6 @@ function AddProducts(props) {
 														</div>
 													</div>
 												</div>
-												
-												
-												
 												<div className="row">
 													<div className="col-lg-12">
 														<div className="form-group">
@@ -380,12 +378,13 @@ function AddProducts(props) {
 												<div className="row">
 													<div className="col-lg-4">
 														<div className="custom-control custom-checkbox mb-2">
-															<input type="checkbox" className="custom-control-input" id="genre1" />
-															<label className="custom-control-label" for="genre1">Continue sellng when out of stock</label>
+															<input name="continue_selling" type="checkbox" className="custom-control-input" id="genre2"  onChange={handleChangeCheckBox}/>
+															<label className="custom-control-label" for="genre2">Continue sellng when out of stock</label>
 														</div>
 													</div>
 												</div>
-												<div className="row">
+												
+												{state.track_quantity&&<div className="row">
 													<div className="col-lg-4">
 														<div className="form-group">
 															<label for="basicpill-phoneno-input" className="label-100">
@@ -394,7 +393,8 @@ function AddProducts(props) {
 															<input name="quantity" onChange={handleChange} type="text" className="form-control input-field" />
 														</div>
 													</div>
-												</div>
+												</div>}
+
 											</form>
 										</div>
 									</div>
