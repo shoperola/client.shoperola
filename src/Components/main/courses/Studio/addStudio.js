@@ -11,7 +11,7 @@ import { isAutheticated } from '../../../auth/authhelper';
 import Loader from "react-loader-spinner";
 import Footer from '../../Footer';
 import ClipLoader from "react-spinners/ClipLoader";
-
+import {Link} from "react-router-dom"
 import QRCode from 'react-qr-code';
 
 function AddStudio(props) {
@@ -51,7 +51,7 @@ function AddStudio(props) {
     const [productdata, setproductdata] = useState([]);
     const { token } = isAutheticated();
 
-    useEffect(async () => {
+    useEffect(() => {
         const fetchData = async () => {
 
             let res = await axios.get(`${API}/api/product`, {
@@ -65,7 +65,6 @@ function AddStudio(props) {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            console.log(resData.data)
             if (resData.data) {
                 setVideos(resData.data);
                 localStorage.setItem("studioId", resData.data?.studio_id);
@@ -80,7 +79,7 @@ function AddStudio(props) {
             }
         }
         fetchData();
-    }, [])
+    }, [token,props,data,currentTime])
 
     const defaultOptions = {
         id: 'VideoPlayer',
@@ -88,7 +87,7 @@ function AddStudio(props) {
         verticalVolume: true,
         media: {
             sources: {
-                m4v: videos?.video.slice(0, 5) === 'https' ? videos?.video : `https://${videos?.video}`,
+                m4v: videos?.video?.slice(0, 5) === 'https' ? videos?.video : `https://${videos?.video}`,
             },
         },
     }
@@ -307,7 +306,6 @@ function AddStudio(props) {
         )
     }
     const handleInputChangeForQrCode = (e) => {
-        console.log(e.target.value)
         setdata(
             {
                 ...data,
@@ -350,7 +348,6 @@ function AddStudio(props) {
                 Authorization: `Bearer ${token}`,
             }
         })
-        console.log(res);
         setresData(res.data);
         setLoading(false);
         addpopupWindow.current.style.display = "none";
@@ -416,10 +413,7 @@ function AddStudio(props) {
             setresData(res.data)
         }
         fetchData()
-    }, [studioId])
-
-    console.log([data])
-    console.log(data["Qr_url"])
+    }, [studioId,token])
     return (
         <div className="main-content">
             <div className="page-content">
@@ -433,7 +427,7 @@ function AddStudio(props) {
                                 <div className="page-title-right">
                                     <ol className="breadcrumb m-0">
                                         <li className="breadcrumb-item">
-                                            <a href="javascript: void(0);">TellyTell</a>
+                                            <Link href="javascript: void(0);">TellyTell</Link>
                                         </li>
                                         <li className="breadcrumb-item">Content Management - Studio</li>
                                     </ol>
@@ -490,7 +484,7 @@ function AddStudio(props) {
                                                     productdata?.map((item, index) => (
                                                         <span className="spanForImg">
                                                             <img className="" id={index} src={item.image} alt="ThumbImg" />
-                                                            <strong>{item.title.slice(0, 16)}</strong>
+                                                            <strong>{item.title?.slice(0, 16)}</strong>
                                                             <strong>{item.price}</strong>
                                                             <strong style={{ display: "none" }}>{item._id}</strong>
                                                         </span>
@@ -529,7 +523,7 @@ function AddStudio(props) {
                                                     productdata?.map((item, index) => (
                                                         <span className="spanForImg">
                                                             <img className="" id={index} src={item.image} alt="ThumbImg" />
-                                                            <strong>{item.title.slice(0, 16)}</strong>
+                                                            <strong>{item.title?.slice(0, 16)}</strong>
                                                             <strong>{item.price}</strong>
                                                             <strong style={{ display: "none" }}>{item._id}</strong>
                                                         </span>
@@ -570,7 +564,7 @@ function AddStudio(props) {
                                                     productdata?.map((item, index) => (
                                                         <span className="spanForImg">
                                                             <img className="" id={index} src={item.image} alt="ThumbImg" />
-                                                            <strong>{item.title.slice(0, 16)}</strong>
+                                                            <strong>{item.title?.slice(0, 16)}</strong>
                                                             <strong>{item.price}</strong>
                                                             <strong style={{ display: "none" }}>{item._id}</strong>
                                                         </span>

@@ -122,7 +122,7 @@ export default function Lessions() {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.length != 0 &&
+                        {data.length !== 0 &&
                           currentviewer.map((lession) => {
                             return (
                               <tr key={lession._id}>

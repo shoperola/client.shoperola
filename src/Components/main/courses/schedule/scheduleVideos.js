@@ -43,7 +43,9 @@ export default function ScheduleVideos() {
                 })
                 .then((response) => {
                     console.log(response.data,"Movies");
-                    setData([...response.data.data]);
+                    const data=response.data.data.filter(video=>(video.launchDate ))
+                    console.log(data)
+                    setData([...data]);
                 })
                 .catch((err) => {
                     console.log(err);
