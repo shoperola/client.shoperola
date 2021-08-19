@@ -42,9 +42,7 @@ export default function ScheduleVideos() {
                     },
                 })
                 .then((response) => {
-                    console.log(response.data,"Movies");
                     const data=response.data.data.filter(video=>(video.launchDate ))
-                    console.log(data)
                     setData([...data]);
                 })
                 .catch((err) => {
@@ -178,13 +176,12 @@ export default function ScheduleVideos() {
                                                 {data.length !== 0 &&
                                                     data.map((lession) => {
                                                         return (
-                                                            <>
                                                                 <tr key={lession._id}>
                                                                     <td>{lession.title}</td>
                                                                     <td>
                                                                         <img alt=""
                                                                             src={lession.thumbnail ? lession.thumbnail : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/thumbnail-default.png"}
-                                                                            style={{ width: "67px", height: "67px" }}
+                                                                            width="110" height="60" 
                                                                         />
                                                                     </td>
                                                                     <td>Movies</td>
@@ -290,7 +287,7 @@ export default function ScheduleVideos() {
                                                                                 Make Live
                                                                             </button>
                                                                         }
-                                                                        <Link to={`/lessions/edit/${lession._id}`}>
+                                                                        <Link to={`/edit-schedule-video/lesson/${lession._id}`}>
                                                                             <button
                                                                                 type="button"
                                                                                 className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
@@ -318,7 +315,6 @@ export default function ScheduleVideos() {
                                                                 </tr>
 
 
-                                                            </>
                                                         );
                                                     })}
                                                 {
@@ -326,7 +322,7 @@ export default function ScheduleVideos() {
                                                         <tr key={data._id}>
                                                             <td>{data.title}</td>
                                                             <td>
-                                                                <img alt="" src={data.thumbnail} style={{ width: "67px", height: "67px" }} />
+                                                                <img alt="" src={data.thumbnail} width="110" height="60" />
                                                             </td>
                                                             <td>TV Shows</td>
                                                             <td>{new Date(data.date).toDateString()}</td>
@@ -413,7 +409,7 @@ export default function ScheduleVideos() {
                                                                     <button type="button" className="btn btn-info btn-sm  waves-effect waves-light btn-table ml-2">
                                                                         Seasons</button>
                                                                 </Link>
-                                                                <Link to={`/languages/edit/${data._id}`}>
+                                                                <Link to={`/edit-schedule-video/view_tvshow/${data._id}`}>
                                                                     <button
                                                                         type="button"
                                                                         className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"

@@ -63,6 +63,7 @@ import EditVideoCatagory from "../Components/main/courses/categories/EditCategor
 import VideoCatagory from "../Components/main/courses/categories/viewCategory";
 import scheduleVideos from "../Components/main/courses/schedule/scheduleVideos";
 import AddScheduleVideo from "../Components/main/courses/schedule/addScheduleVideo";
+import EditScheduleVideo from "../Components/main/courses/schedule/editSchedualVideo";
 import AllCoupons from "../Components/main/courses/coupons/coupons";
 import AddCoupon from "../Components/main/courses/coupons/addCoupon";
 import EditCoupon from "../Components/main/courses/coupons/editCoupon";
@@ -474,6 +475,11 @@ export default function Routes() {
             component={scheduleVideos}
             exact
             path="/scheduleVideos"
+          ></PrivateRoute>
+           <PrivateRoute
+            component={EditScheduleVideo}
+            exact
+            path="/edit-schedule-video/:typevideo/:id"
           ></PrivateRoute>
           <PrivateRoute
             component={AddScheduleVideo}

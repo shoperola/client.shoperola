@@ -134,7 +134,7 @@ export default function Subjects() {
 
                         {subjects.map((subjects) =>
                           <tr key={subjects._id}>
-                            <td><img src={subjects.bannerimage ? subjects.bannerimage : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/banner-default.png"} height="50" alt=""/></td>
+                            <td><img src={subjects.bannerimage ? subjects.bannerimage : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/banner-default.png"} width="110" height="60" alt=""/></td>
                             <td>{subjects.title}</td>
                             <td>{subjects.category}</td>
                             <td>{(new Date(subjects.startdate)).toDateString()}</td>

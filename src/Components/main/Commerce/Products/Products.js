@@ -112,12 +112,12 @@ function Products(props) {
                                                                 <td>{item.tax?.tax_percentage}%</td>
                                                                <td>Rs. {item.total_price}</td>
                                                                 <td>
-                                                                    <span className="badge badge-pill badge-soft-success font-size-12">Live</span></td>
+                                                                    <span className="badge badge-pill badge-success font-size-12">Live</span></td>
                                                                 <td>
                                                                     <button type="button" className="btn btn-success btn-sm  waves-effect waves-light btn-table">
                                                                         Suspend
                                                                     </button>
-                                                                    <Link href={`/comproducts/edit/${item._id}`}>
+                                                                    <Link to={`/comproducts/edit/${item._id}`}>
                                                                         <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
                                                                             Edit</button>
                                                                     </Link>

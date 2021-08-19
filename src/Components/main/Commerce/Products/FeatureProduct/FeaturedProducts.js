@@ -29,6 +29,7 @@ function Products(props) {
       },
     });
     setPagination({size:res.data.size, page:res.data.page})
+    console.log(res.data)
     setFeaturedProducts(res.data.data);
   }
   getFeaturedData()

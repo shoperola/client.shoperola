@@ -24,13 +24,14 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, User }) => {
           <div className="dataTables_paginate paging_simple_numbers float-right">
             <ul className="pagination">
               {pageNumbers.map((number) => (
-                <li className="paginate_button ">
+                <li className="paginate_button " key={number}>
                   <a
                     onClick={() => paginate(number)}
                     aria-controls="datatable"
                     data-dt-idx={0}
                     tabIndex={0}
                     className="page-link"
+                    href="#/"
                   >
                     {number}
                   </a>

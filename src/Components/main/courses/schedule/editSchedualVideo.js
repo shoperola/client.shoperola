@@ -6,9 +6,10 @@ import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useHistory, Link } from "react-router-dom";
 import Footer from "../../Footer";
-// import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function AddScheduleVideo() {
+  let { id, typevideo } = useParams();
   const { token } = isAutheticated();
   const [radioBtn, setRadioBtn] = useState("");
   const tab1 = useRef(null);
@@ -31,13 +32,11 @@ export default function AddScheduleVideo() {
     launchDate: "",
     video: "",
   });
+  const [video,setVideo]=useState(null)
   const [loading, setLoading] = useState(false);
   const [searchMovie, setSearchMovie] = useState("");
   const [movieList, setMovieList] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [languages, setLanguages] = useState([]);
   const [metaformData, setMetaformData] = useState({});
-  const [validForm, setvalidForm] = useState(false);
   const [SeasonLength, setSeasonLength] = useState(0);
   const [error, setError] = useState(false);
   const [lessionId, setLessionId] = useState(null);
@@ -53,12 +52,13 @@ export default function AddScheduleVideo() {
   const history = useHistory();
 
   const [data, setdata] = useState([]);
-  const [videos, setVideodata] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [filteredVideos, setFilteredVideo] = useState([]);
   const [booltoshowSelectedMoview, setbooltoshowSelectedMoview] = useState(
     false
   );
   const [SelectedMovieData, setSelectedMovieData] = useState();
+
   useEffect(() => {
     async function fetchData() {
       let res = await axios.get(`${API}/api/categories/view_all_categories`, {
@@ -66,11 +66,25 @@ export default function AddScheduleVideo() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
+    //   console.log(res.data,"This is all Category");
       setdata(res.data);
     }
     fetchData();
   }, [token]);
+  useEffect(() => {
+    async function fetchData() {
+        let temp=typevideo==="lesson"?"lesson":"tvshow/view_tvshow"
+        // console.log("This is temp");
+      let res = await axios.get(`${API}/api/${temp}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data,"this is single video");
+      typevideo==="lesson"?setVideo(res.data.data):setVideo(res.data)
+    }
+    fetchData();
+  }, [token,typevideo,id]);
 
   const handleRadioChange = (e) => {
     setRadioBtn(e.target.value);
@@ -78,23 +92,24 @@ export default function AddScheduleVideo() {
 
   useEffect(() => {
     const fetchData = () => {
+        let temp=typevideo==="lesson"?"lesson":"tvshow/viewall_Tvshow"
       axios
-        .get(`${API}/api/lesson/`, {
+        .get(`${API}/api/${temp}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          console.log(response);
-          setVideodata([...response.data.data]);
+          console.log(response.data.show, "this is data");
+          typevideo==="lesson"?setVideos([...response.data.data]):setVideos([...response.data.show])
+          
         })
         .catch((err) => {
           console.log(err);
         });
     };
-
     fetchData();
-  }, [token]);
+  }, [token, id, typevideo]);
 
   const handleFilter = (e) => {
     if (e.target.value !== "") {
@@ -249,7 +264,7 @@ export default function AddScheduleVideo() {
                   //     tab5.current.click();
                   //     break;
                   default:
-                    console.log("")
+                    console.log("");
                 }
               }
               break;
@@ -351,7 +366,7 @@ export default function AddScheduleVideo() {
                   case 4:
                     tab5.current.click();
                     break;
-                  default:
+                default:
                     console.log("");
                 }
               }
@@ -430,7 +445,7 @@ export default function AddScheduleVideo() {
                   case 4:
                     tab5.current.click();
                     break;
-                  default:
+                default:
                     console.log("");
                 }
               }
@@ -505,7 +520,7 @@ export default function AddScheduleVideo() {
                       tab5.current.click();
                       break;
                     default:
-                        console.log("")
+                    console.log("");
                   }
                 }
                 break;
@@ -577,7 +592,7 @@ export default function AddScheduleVideo() {
                       tab5.current.click();
                       break;
                     default:
-                    console.log("")
+                    console.log("");
                   }
                 }
                 break;
@@ -696,7 +711,6 @@ export default function AddScheduleVideo() {
         console.log(err);
       });
   };
-  console.log(metaformData);
   const onUpdatelast = (e) => {
     e.preventDefault();
     if (radioBtn === "TV Shows") {
@@ -819,7 +833,7 @@ export default function AddScheduleVideo() {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 col-lg-9 col-xl-8">
-                      <h1 className="text-left head-small">Schedule Launch</h1>
+                      <h1 className="text-left head-small">Edit Schedule</h1>
                       {/* <h3>{new Date("2021-07-30T15:13:00.000+00:00").toLocaleString()}</h3> */}
 
                       <ul className="nav nav-tabs" role="tablist">
@@ -832,7 +846,7 @@ export default function AddScheduleVideo() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/title-icon.png"
                               />
@@ -854,7 +868,7 @@ export default function AddScheduleVideo() {
                             href="#images"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/img-icon.png"
                               />
@@ -876,7 +890,7 @@ export default function AddScheduleVideo() {
                             href="#meta-data"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/info-icon.png"
                               />
@@ -898,7 +912,7 @@ export default function AddScheduleVideo() {
                             href="#launch"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/date-icon.png"
                               />
@@ -915,28 +929,29 @@ export default function AddScheduleVideo() {
                           role="tabpanel"
                         >
                           <div className="row">
+                              
                             <div className="col-lg-12">
                               <div className="form-group">
                                 <label
-                                  for="basicpill-phoneno-input"
+                                  htmlFor="basicpill-phoneno-input"
                                   className="label-100"
                                 >
                                   Select Category
                                 </label>
                                 <div className="col-md-8">
                                   {data?.map((item) => (
-                                    <div className="custom-control custom-radio mb-2">
+                                    <div className="custom-control custom-radio mb-2" key={item._id}>
                                       <input
                                         onChange={handleRadioChange}
                                         type="radio"
                                         id={item.type}
                                         name="age"
                                         className="custom-control-input"
-                                        value={item.name}
+                                        defaultValue={item.name}
                                       />
                                       <label
                                         className="custom-control-label"
-                                        for={item.type}
+                                        htmlFor={item.type}
                                       >
                                         {item.name}
                                       </label>
@@ -951,14 +966,14 @@ export default function AddScheduleVideo() {
                               <div className="col-lg-12">
                                 <div className="form-group">
                                   <label
-                                    for="basicpill-phoneno-input"
+                                    htmlFor="basicpill-phoneno-input"
                                     className="label-100"
                                   >
                                     Search Video from Video Library
                                   </label>
                                   <input
                                     autoComplete={"Hello"}
-                                    autoSave={false}
+                                    // autoSave={false}
                                     onChange={handleFilter}
                                     type="text"
                                     className="form-control input-field"
@@ -967,7 +982,7 @@ export default function AddScheduleVideo() {
                                   <div className="searchedListVideos">
                                     {filteredVideos &&
                                       filteredVideos?.map((movie) => (
-                                        <Link
+                                        <Link to=""
                                           style={{
                                             height: "7vh",
                                             display: "block",
@@ -980,7 +995,7 @@ export default function AddScheduleVideo() {
                                             )
                                           }
                                         >
-                                          <iimg
+                                          <img
                                             alt=""
                                             src={movie.thumbnail}
                                             style={{
@@ -1001,7 +1016,7 @@ export default function AddScheduleVideo() {
                                 <div className="showData">
                                   <span>
                                     <b>Movie Image</b>
-                                    <iimg
+                                    <img
                                       alt=""
                                       src={SelectedMovieData.movieImage}
                                     />
@@ -1019,7 +1034,7 @@ export default function AddScheduleVideo() {
                               <div className="col-lg-12">
                                 <div className="form-group">
                                   <label
-                                    for="basicpill-phoneno-input"
+                                    htmlFor="basicpill-phoneno-input"
                                     className="label-100"
                                   >
                                     Add New Title
@@ -1107,7 +1122,7 @@ export default function AddScheduleVideo() {
                                 <input
                                   type="text"
                                   className="form-control input-field"
-                                  value={searchMovie}
+                                  defaultValue={searchMovie}
                                   onChange={(e) => {
                                     handleSearchMovie(e.target.value);
                                     setSearchMovie(e.target.value);
@@ -1118,10 +1133,12 @@ export default function AddScheduleVideo() {
                             <div className="searchedList">
                               {movieList?.map((movie) => (
                                 <Link
+                                to=""
                                   style={{ height: "7vh", display: "block" }}
                                   onClick={() => fillMetadata(movie.id)}
+                                  key={movie._id}
                                 >
-                                  <iimg
+                                  <img
                                     alt=""
                                     src={movie.image}
                                     style={{
@@ -1159,7 +1176,7 @@ export default function AddScheduleVideo() {
                                   <table className="table">
                                     <tbody>
                                       <tr>
-                                        {/* <td><iimg alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
+                                        {/* <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                         <td>{metaDataDirector}</td>
                                         <td></td>
                                       </tr>
@@ -1200,7 +1217,7 @@ export default function AddScheduleVideo() {
                                         metaDataCrew.map((actor) => (
                                           <tr>
                                             <td>
-                                              <iimg
+                                              <img
                                                 alt=""
                                                 src={actor.image}
                                                 className="img-circle"
@@ -1226,7 +1243,7 @@ export default function AddScheduleVideo() {
                             <div className="form-group width-100 mb-30 row">
                               <label className="col-md-4 control-label"></label>
                               <div className="col-md-8">
-                                <Link>
+                                <Link to="">
                                   <button
                                     type="button"
                                     onClick={() => postMetaData(lessionId)}
@@ -1278,7 +1295,7 @@ export default function AddScheduleVideo() {
                                               <tbody>
                                                 <tr>
                                                   <td>
-                                                    <iimg
+                                                    <img
                                                       alt=""
                                                       src="assets/images/avatar-2.jpg"
                                                       className="img-circle"
@@ -1293,7 +1310,7 @@ export default function AddScheduleVideo() {
 
                                                 <tr>
                                                   <td>
-                                                    <iimg
+                                                    <img
                                                       alt=""
                                                       src="assets/images/avatar-2.jpg"
                                                       className="img-circle"
@@ -1353,7 +1370,7 @@ export default function AddScheduleVideo() {
                                   </label>
                                   <input
                                     type="datetime-local"
-                                    value={lession.launchDate}
+                                    defaultValue={lession.launchDate}
                                     name="launchDate"
                                     onChange={(e) => {
                                       console.log(e.target.value);
@@ -1420,7 +1437,7 @@ export default function AddScheduleVideo() {
                                 <input
                                   type="file"
                                   className="form-control input-field"
-                                  value=""
+                                  defaultValue=""
                                 />
                               </div>
                             </div>

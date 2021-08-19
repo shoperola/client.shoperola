@@ -130,7 +130,7 @@ export default function Lessions() {
                                 <td>
                                   <img
                                     src={lession.thumbnail ? lession.thumbnail : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/thumbnail-default.png"}
-                                    style={{ width: "67px", height: "67px" }}
+                                    width="110" height="60"
                                     alt=""
                                   />
                                 </td>
