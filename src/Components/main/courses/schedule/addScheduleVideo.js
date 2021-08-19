@@ -11,6 +11,7 @@ import Footer from "../../Footer";
 export default function AddScheduleVideo() {
   const { token } = isAutheticated();
   const [radioBtn, setRadioBtn] = useState("");
+  const [videoType, setVideoType] = useState("");
   const tab1 = useRef(null);
   const tab2 = useRef(null);
   const tab3 = useRef(null);
@@ -34,10 +35,7 @@ export default function AddScheduleVideo() {
   const [loading, setLoading] = useState(false);
   const [searchMovie, setSearchMovie] = useState("");
   const [movieList, setMovieList] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [languages, setLanguages] = useState([]);
   const [metaformData, setMetaformData] = useState({});
-  const [validForm, setvalidForm] = useState(false);
   const [SeasonLength, setSeasonLength] = useState(0);
   const [error, setError] = useState(false);
   const [lessionId, setLessionId] = useState(null);
@@ -59,6 +57,7 @@ export default function AddScheduleVideo() {
     false
   );
   const [SelectedMovieData, setSelectedMovieData] = useState();
+
   useEffect(() => {
     async function fetchData() {
       let res = await axios.get(`${API}/api/categories/view_all_categories`, {
@@ -66,7 +65,7 @@ export default function AddScheduleVideo() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
+      console.log("All Cate",res.data)
       setdata(res.data);
     }
     fetchData();
@@ -85,7 +84,6 @@ export default function AddScheduleVideo() {
           },
         })
         .then((response) => {
-          console.log(response);
           setVideodata([...response.data.data]);
         })
         .catch((err) => {
@@ -696,7 +694,6 @@ export default function AddScheduleVideo() {
         console.log(err);
       });
   };
-  console.log(metaformData);
   const onUpdatelast = (e) => {
     e.preventDefault();
     if (radioBtn === "TV Shows") {
@@ -718,10 +715,7 @@ export default function AddScheduleVideo() {
           }
         )
         .then((response) => {
-          // console.log(response);
           setLoading(false);
-          // console.log(response);
-          // setSuccess(!success);
           swal({
             title: "Video added Successfully!",
             icon: "success",
@@ -747,8 +741,6 @@ export default function AddScheduleVideo() {
         });
     } else {
       setLoading(true);
-      //console.log(lessionId);
-      // setSuccess(false);
       const formData = new FormData();
       formData.set("launchDate", lession.launchDate);
       axios
@@ -759,10 +751,7 @@ export default function AddScheduleVideo() {
           },
         })
         .then((response) => {
-          // console.log(response);
           setLoading(false);
-          // console.log(response);
-          // setSuccess(!success);
           swal({
             title: "Video added Successfully!",
             icon: "success",
@@ -789,7 +778,6 @@ export default function AddScheduleVideo() {
     }
   };
 
-  console.log(lession);
 
   return (
     <div className="main-content">
@@ -832,7 +820,7 @@ export default function AddScheduleVideo() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/title-icon.png"
                               />
@@ -854,7 +842,7 @@ export default function AddScheduleVideo() {
                             href="#images"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/img-icon.png"
                               />
@@ -876,7 +864,7 @@ export default function AddScheduleVideo() {
                             href="#meta-data"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/info-icon.png"
                               />
@@ -898,7 +886,7 @@ export default function AddScheduleVideo() {
                             href="#launch"
                           >
                             <span className="d-block d-sm-none">
-                              <iimg
+                              <img
                                 alt=""
                                 src="assets/images/icons/date-icon.png"
                               />
@@ -918,25 +906,27 @@ export default function AddScheduleVideo() {
                             <div className="col-lg-12">
                               <div className="form-group">
                                 <label
-                                  for="basicpill-phoneno-input"
+                                  htmlFor="basicpill-phoneno-input"
                                   className="label-100"
                                 >
                                   Select Category
                                 </label>
                                 <div className="col-md-8">
                                   {data?.map((item) => (
-                                    <div className="custom-control custom-radio mb-2">
+                                    <div className="custom-control custom-radio mb-2" key={item._id}>
                                       <input
-                                        onChange={handleRadioChange}
+                                        onChange={(e)=>{
+                                        handleRadioChange(e);
+                                        setVideoType(item.type)}}
                                         type="radio"
-                                        id={item.type}
+                                        id={item._id}
                                         name="age"
                                         className="custom-control-input"
                                         value={item.name}
                                       />
                                       <label
                                         className="custom-control-label"
-                                        for={item.type}
+                                        htmlFor={item._id}
                                       >
                                         {item.name}
                                       </label>
@@ -946,19 +936,19 @@ export default function AddScheduleVideo() {
                               </div>
                             </div>
                           </div>
-                          {radioBtn === "Movies" && (
+                          {videoType === "Individual Videos" && (
                             <div className="row">
                               <div className="col-lg-12">
                                 <div className="form-group">
                                   <label
-                                    for="basicpill-phoneno-input"
+                                    htmlFor="basicpill-phoneno-input"
                                     className="label-100"
                                   >
                                     Search Video from Video Library
                                   </label>
                                   <input
                                     autoComplete={"Hello"}
-                                    autoSave={false}
+                                    // autoSave={false}
                                     onChange={handleFilter}
                                     type="text"
                                     className="form-control input-field"
@@ -967,7 +957,7 @@ export default function AddScheduleVideo() {
                                   <div className="searchedListVideos">
                                     {filteredVideos &&
                                       filteredVideos?.map((movie) => (
-                                        <Link
+                                        <span
                                           style={{
                                             height: "7vh",
                                             display: "block",
@@ -979,8 +969,9 @@ export default function AddScheduleVideo() {
                                               movie._id
                                             )
                                           }
+                                          key={movie._id}
                                         >
-                                          <iimg
+                                          <img
                                             alt=""
                                             src={movie.thumbnail}
                                             style={{
@@ -992,7 +983,7 @@ export default function AddScheduleVideo() {
                                           <span>{movie.title}</span>
                                           {"                  "}
                                           <span>{movie.description}</span>
-                                        </Link>
+                                        </span>
                                       ))}
                                   </div>
                                 </div>
@@ -1001,7 +992,7 @@ export default function AddScheduleVideo() {
                                 <div className="showData">
                                   <span>
                                     <b>Movie Image</b>
-                                    <iimg
+                                    <img
                                       alt=""
                                       src={SelectedMovieData.movieImage}
                                     />
@@ -1014,12 +1005,12 @@ export default function AddScheduleVideo() {
                               )}
                             </div>
                           )}
-                          {radioBtn === "TV Shows" && (
+                          {videoType === "Series" && (
                             <div className="row">
                               <div className="col-lg-12">
                                 <div className="form-group">
                                   <label
-                                    for="basicpill-phoneno-input"
+                                    htmlFor="basicpill-phoneno-input"
                                     className="label-100"
                                   >
                                     Add New Title
@@ -1117,11 +1108,12 @@ export default function AddScheduleVideo() {
                             </div>
                             <div className="searchedList">
                               {movieList?.map((movie) => (
-                                <Link
+                                <span
                                   style={{ height: "7vh", display: "block" }}
                                   onClick={() => fillMetadata(movie.id)}
+                                  key={movie._id}
                                 >
-                                  <iimg
+                                  <img
                                     alt=""
                                     src={movie.image}
                                     style={{
@@ -1132,7 +1124,7 @@ export default function AddScheduleVideo() {
                                   />
                                   <span>{movie.title}</span>
                                   <span>{movie.description}</span>
-                                </Link>
+                                </span>
                               ))}
                             </div>
 
@@ -1198,9 +1190,9 @@ export default function AddScheduleVideo() {
                                     <tbody>
                                       {metaDataCrew &&
                                         metaDataCrew.map((actor) => (
-                                          <tr>
+                                          <tr key={actor._id}>
                                             <td>
-                                              <iimg
+                                              <img
                                                 alt=""
                                                 src={actor.image}
                                                 className="img-circle"
@@ -1226,7 +1218,6 @@ export default function AddScheduleVideo() {
                             <div className="form-group width-100 mb-30 row">
                               <label className="col-md-4 control-label"></label>
                               <div className="col-md-8">
-                                <Link>
                                   <button
                                     type="button"
                                     onClick={() => postMetaData(lessionId)}
@@ -1234,7 +1225,6 @@ export default function AddScheduleVideo() {
                                   >
                                     Save
                                   </button>
-                                </Link>
                               </div>
                             </div>
                           </div>
@@ -1278,7 +1268,7 @@ export default function AddScheduleVideo() {
                                               <tbody>
                                                 <tr>
                                                   <td>
-                                                    <iimg
+                                                    <img
                                                       alt=""
                                                       src="assets/images/avatar-2.jpg"
                                                       className="img-circle"
@@ -1293,7 +1283,7 @@ export default function AddScheduleVideo() {
 
                                                 <tr>
                                                   <td>
-                                                    <iimg
+                                                    <img
                                                       alt=""
                                                       src="assets/images/avatar-2.jpg"
                                                       className="img-circle"
@@ -1420,7 +1410,6 @@ export default function AddScheduleVideo() {
                                 <input
                                   type="file"
                                   className="form-control input-field"
-                                  value=""
                                 />
                               </div>
                             </div>
