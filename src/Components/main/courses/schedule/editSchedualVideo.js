@@ -1073,7 +1073,8 @@ export default function AddScheduleVideo() {
                                     onClick={() => postMetaData(lessionId)}
                                     className="btn btn-success btn-login waves-effect waves-light mr-3"
                                   >
-                                    Save
+                                    <ClipLoader loading={loading} size={18} />
+                                    {!loading && "Save"}
                                   </button>
                               </div>
                             </div>
@@ -1273,7 +1274,8 @@ export default function AddScheduleVideo() {
                                     type="button"
                                     className="btn btn-success btn-login waves-effect waves-light mr-3"
                                   >
-                                    Save
+                                    <ClipLoader loading={loading} size={18} />
+                                  {!loading && "Save"}
                                   </button>
                                 </a>
                               </div>
