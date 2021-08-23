@@ -1032,7 +1032,7 @@ export default function AddScheduleVideo() {
                               <button
                                 type="button"
                                 onClick={
-                                  radioBtn === "TV Shows"
+                                  videoType === "Series"
                                     ? handleSubmitTvShows
                                     : handleSubmitOne
                                 }
