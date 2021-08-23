@@ -31,6 +31,7 @@ export default function AddScheduleVideo() {
     launch: false,
     launchDate: "",
     video: "",
+    bannerImageUrl:""
   });
   const [video,setVideo]=useState(null)
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ export default function AddScheduleVideo() {
   const [error, setError] = useState(false);
   const [lessionId, setLessionId] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [currentTab, setcurrentTab] = useState(1);
+  const [currentTab, setcurrentTab] = useState(2);
   const [metaDataTitle, setmetaDataTitle] = useState("");
   const [metaDataPlot, setmetaDataPlot] = useState("");
   const [metaDataDirector, setmetaDataDirector] = useState("");
@@ -74,14 +75,55 @@ export default function AddScheduleVideo() {
   useEffect(() => {
     async function fetchData() {
         let temp=typevideo==="lesson"?"lesson":"tvshow/view_tvshow"
-        // console.log("This is temp");
-      let res = await axios.get(`${API}/api/${temp}/${id}`, {
+        let res = await axios.get(`${API}/api/${temp}/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       console.log(res.data,"this is single video");
+      typevideo==="lesson"?setLession({...lession,bannerImageUrl:res.data.data.banner,launchDate:res.data.data.launchDate}):setLession({...lession,bannerImageUrl:res.data.bannerimage,launchDate:res.data.date})
       typevideo==="lesson"?setVideo(res.data.data):setVideo(res.data)
+      if(typevideo==="lesson"){
+        setmetaDataTitle(res.data.data.title);
+        setmetaDataPlot(res.data.data.Plot);
+        setmetaDataDirector(res.data.data.directors);
+        setmetaDataWriter(res.data.data.Writers);
+        setmetaDataCrew(res.data.data.Actors_list);
+        setMetaformData({
+          Id: res.data.data.Id,
+          directors: res.data.data.directors,
+          type: res.data.data.type,
+          year: res.data.data.year,
+          image: res.data.data.image,
+          genres: res.data.data.genres,
+          Languages: res.data.data.Languages,
+          RuntimeStr: res.data.data.RuntimeStr,
+          Plot: res.data.data.Plot,
+          Actors_list: res.data.data.Actors_list,
+          Writers: res.data.data.Writers,
+          Ratings: res.data.data.Ratings,
+        });
+      }else{
+        setmetaDataTitle(res.data.title);
+        setmetaDataPlot(res.data.Plot);
+        setmetaDataDirector(res.data.directors);
+        setmetaDataWriter(res.data.Writers);
+        setmetaDataCrew(res.data.Actors_list);
+        setMetaformData({
+          Id: res.data.Id,
+          directors: res.data.directors,
+          type: res.data.type,
+          year: res.data.year,
+          image: res.data.image,
+          genres: res.data.genres,
+          Languages: res.data.Languages,
+          RuntimeStr: res.data.RuntimeStr,
+          Plot: res.data.Plot,
+          Actors_list: res.data.Actors_list,
+          Writers: res.data.Writers,
+          Ratings: res.data.Ratings,
+        });
+      }
     }
     fetchData();
   }, [token,typevideo,id]);
@@ -89,7 +131,6 @@ export default function AddScheduleVideo() {
   const handleRadioChange = (e) => {
     setRadioBtn(e.target.value);
   };
-
   useEffect(() => {
     const fetchData = () => {
         let temp=typevideo==="lesson"?"lesson":"tvshow/viewall_Tvshow"
@@ -110,7 +151,6 @@ export default function AddScheduleVideo() {
     };
     fetchData();
   }, [token, id, typevideo]);
-
   const handleFilter = (e) => {
     if (e.target.value !== "") {
       let res = videos?.filter((item) => {
@@ -133,7 +173,6 @@ export default function AddScheduleVideo() {
     setbooltoshowSelectedMoview(true);
     setFilteredVideo([]);
   };
-
   const handleSubmitOne = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -295,111 +334,92 @@ export default function AddScheduleVideo() {
     });
   };
   const handleChange = (e) => {
-    if (e.target.name === "SeasonNum") {
-      if (SeasonLength >= e.target.value) {
-        setLession({
-          ...lession,
-          [e.target.name]: e.target.value,
-        });
-        setError(false);
-      } else {
-        setError(true);
-      }
-    } else {
       setLession({
         ...lession,
-        [e.target.name]: e.target.files[0],
+        bannerImage: e.target.files[0],
+        bannerImageUrl: URL.createObjectURL(e.target.files[0]),
       });
-    }
   };
-  const handleSubmitBanner = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    // setSuccess(false);
-    console.log(lession);
-    const formData = new FormData();
-    formData.append("banner", lession.banner);
-    axios
-      .put(`${API}/api/lesson/${lessionId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/formdata",
-        },
-      })
-      .then((response) => {
-        console.log("updated object", response);
-        setLoading(false);
-        // console.log(response);
-        // setSuccess(!success);
-        swal({
-          title: "Changes are saved Successfully!",
 
-          icon: "success",
-          buttons: {
-            SaveAndExit: {
-              text: "Save and Exit",
-              value: "SaveAndExit",
-            },
-            SaveAndContinue: {
-              text: "Save and Continue",
-              value: "SaveAndContinue",
-            },
+  const handleSubmitBannerImage=(e)=>{
+    setLoading(true);
+    if(typevideo==="lesson"){
+      const formData = new FormData();
+      formData.append("banner", lession.bannerImage);
+      axios
+        .put(`${API}/api/lesson/${id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/formdata",
           },
-        }).then((value) => {
-          switch (value) {
-            case "SaveAndExit":
-              history.push("/lessions");
-              break;
-
-            case "SaveAndContinue":
-              if (currentTab >= 1 && currentTab <= 4) {
-                switch (currentTab) {
-                  case 1:
-                    tab2.current.click();
-                    break;
-                  case 2:
-                    tab3.current.click();
-                    break;
-                  case 3:
-                    tab4.current.click();
-                    break;
-                  case 4:
-                    tab5.current.click();
-                    break;
-                default:
-                    console.log("");
+        })
+        .then((response) => {
+          console.log("updated object", response);
+          setLoading(false);
+          swal({
+            title: "Changes are saved Successfully!",
+  
+            icon: "success",
+            buttons: {
+              SaveAndExit: {
+                text: "Save and Exit",
+                value: "SaveAndExit",
+              },
+              SaveAndContinue: {
+                text: "Save and Continue",
+                value: "SaveAndContinue",
+              },
+            },
+          }).then((value) => {
+            switch (value) {
+              case "SaveAndExit":
+                history.push("/scheduleVideos");
+                break;
+  
+              case "SaveAndContinue":
+                if (currentTab >= 1 && currentTab <= 4) {
+                  switch (currentTab) {
+                    case 1:
+                      tab2.current.click();
+                      break;
+                    case 2:
+                      tab3.current.click();
+                      break;
+                    case 3:
+                      tab4.current.click();
+                      break;
+                    case 4:
+                      tab5.current.click();
+                      break;
+                  default:
+                      console.log("");
+                  }
                 }
-              }
-              break;
-
-            default:
-              history.push("/dashboard");
-          }
+                break;
+              default:
+                history.push("/dashboard");
+            }
+          });
+        })
+        .catch((err) => {
+          setLoading(false);
+          // setSuccess(!success);
+          let message = "errror";
+          swal({
+            title: "Error",
+            text: { message },
+            icon: "error",
+            buttons: true,
+            dangerMode: true,
+          });
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        setLoading(false);
-        // setSuccess(!success);
-        let message = "errror";
-        swal({
-          title: "Error",
-          text: { message },
-          icon: "error",
-          buttons: true,
-          dangerMode: true,
-        });
-        console.log(err);
-      });
-  };
-  const handleSubmitBannerForTvShows = (e) => {
-    e.preventDefault();
-    console.log(lession);
-    setLoading(true);
-    // setSuccess(false);
-    const formData = new FormData();
+    }
+    else{
+      const formData = new FormData();
     formData.append("bannerImage", lession.bannerImage);
     axios
-      .patch(`${API}/api/tvshow/edit_banner/${lessionId}`, formData, {
+      .patch(`${API}/api/tvshow/edit_banner/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/formdata",
@@ -427,7 +447,7 @@ export default function AddScheduleVideo() {
         }).then((value) => {
           switch (value) {
             case "SaveAndExit":
-              history.push("/lessions");
+              history.push("/scheduleVideos");
               break;
 
             case "SaveAndContinue":
@@ -469,10 +489,11 @@ export default function AddScheduleVideo() {
         });
         console.log(err);
       });
-  };
+    }
 
-  const postMetaData = (id) => {
-    if (radioBtn === "TV Shows") {
+  }
+  const postMetaData = () => {
+    if (typevideo!=="lesson") {
       axios
         .patch(`${API}/api/tvshow/metadata/${id}`, metaformData, {
           headers: {
@@ -481,10 +502,7 @@ export default function AddScheduleVideo() {
           },
         })
         .then((res) => {
-          console.log("here sub,it response", res);
           setLoading(false);
-          // console.log(response);
-          // setSuccess(!success);
           swal({
             title: "Changes are saved Successfully!",
             icon: "success",
@@ -501,10 +519,11 @@ export default function AddScheduleVideo() {
           }).then((value) => {
             switch (value) {
               case "SaveAndExit":
-                history.push("/lessions");
+                history.push("/scheduleVideos");
                 break;
 
               case "SaveAndContinue":
+                console.log(currentTab,"this is currentTab")
                 if (currentTab >= 1 && currentTab <= 4) {
                   switch (currentTab) {
                     case 1:
@@ -544,19 +563,15 @@ export default function AddScheduleVideo() {
           console.log(err);
         });
     } else {
-      console.log("here sending data for movies", metaformData);
       axios
-        .patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          //console.log("here sub,it response", res);
+      .patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
           setLoading(false);
-          // console.log(response);
-          // setSuccess(!success);
           swal({
             title: "Changes are saved Successfully!",
             icon: "success",
@@ -596,7 +611,6 @@ export default function AddScheduleVideo() {
                   }
                 }
                 break;
-
               default:
                 history.push("/dashboard");
             }
@@ -618,11 +632,7 @@ export default function AddScheduleVideo() {
     }
   };
   const handleSearchMovie = (searchText) => {
-    //e.preventDefault();
-    //await setSearchMovie(e.target.value);
-    console.log("namesearch", searchText);
-    console.log(radioBtn);
-    if (radioBtn === "TV Shows") {
+    if (typevideo!=="lesson") {
       axios
         .post(
           `${API}/api/tvshow/search_tv/${searchText}`,
@@ -637,8 +647,6 @@ export default function AddScheduleVideo() {
           console.log(response.data.data);
           const userdata = response.data.data;
           setMovieList(userdata.results);
-
-          //console.log(userdata);
         })
         .catch((err) => {
           console.log(err);
@@ -656,13 +664,7 @@ export default function AddScheduleVideo() {
         )
         .then((response) => {
           const userdata = response.data;
-
-          //console.log(response.data);
-          //console.log(userdata);
           setMovieList(userdata.results);
-          //console.log("here i;m ",movieList,typeof(movieList))
-          //setSubjects([...subjects, ...userdata.subjects]);
-          //setLanguages([...languages, ...userdata.languages]);
         })
         .catch((err) => {
           console.log(err);
@@ -713,13 +715,13 @@ export default function AddScheduleVideo() {
   };
   const onUpdatelast = (e) => {
     e.preventDefault();
-    if (radioBtn === "TV Shows") {
+    if (typevideo!=="lesson") {
       setLoading(true);
       //console.log(lessionId);
       // setSuccess(false);
       axios
         .patch(
-          `${API}/api/tvshow/edit_season/${lessionId}`,
+          `${API}/api/tvshow/edit_season/${id}`,
           {
             number: Number(lession.SeasonNum),
             launchDate: lession.launchDate,
@@ -732,10 +734,7 @@ export default function AddScheduleVideo() {
           }
         )
         .then((response) => {
-          // console.log(response);
           setLoading(false);
-          // console.log(response);
-          // setSuccess(!success);
           swal({
             title: "Video added Successfully!",
             icon: "success",
@@ -761,24 +760,19 @@ export default function AddScheduleVideo() {
         });
     } else {
       setLoading(true);
-      //console.log(lessionId);
-      // setSuccess(false);
       const formData = new FormData();
       formData.set("launchDate", lession.launchDate);
       axios
-        .put(`${API}/api/lesson/${lessionId}`, formData, {
+        .put(`${API}/api/lesson/${id}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/formdata",
           },
         })
         .then((response) => {
-          // console.log(response);
           setLoading(false);
-          // console.log(response);
-          // setSuccess(!success);
           swal({
-            title: "Video added Successfully!",
+            title: "Video Edited Successfully!",
             icon: "success",
             buttons: true,
             successMode: true,
@@ -789,7 +783,6 @@ export default function AddScheduleVideo() {
         })
         .catch((err) => {
           setLoading(false);
-          // setSuccess(!success);
           let message = "errror";
           swal({
             title: "Error",
@@ -839,31 +832,12 @@ export default function AddScheduleVideo() {
                       <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item waves-effect waves-light">
                           <a
-                            ref={tab1}
-                            className="nav-link active"
-                            data-toggle="tab"
-                            href="#title"
-                            role="tab"
-                          >
-                            <span className="d-block d-sm-none">
-                              <img
-                                alt=""
-                                src="assets/images/icons/title-icon.png"
-                              />
-                            </span>
-                            <span className="d-none d-sm-block">
-                              Select Category
-                            </span>
-                          </a>
-                        </li>
-                        <li className="nav-item waves-effect waves-light">
-                          <a
                             role="tab"
                             onClick={() => {
                               setcurrentTab(2);
                             }}
                             ref={tab2}
-                            className="nav-link"
+                            className="nav-link active"
                             data-toggle="tab"
                             href="#images"
                           >
@@ -923,185 +897,37 @@ export default function AddScheduleVideo() {
                       </ul>
 
                       <div className="tab-content video-tab p-3 text-muted">
-                        <div
-                          className="tab-pane active"
-                          id="title"
-                          role="tabpanel"
-                        >
-                          <div className="row">
-                              
-                            <div className="col-lg-12">
-                              <div className="form-group">
-                                <label
-                                  htmlFor="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Select Category
-                                </label>
-                                <div className="col-md-8">
-                                  {data?.map((item) => (
-                                    <div className="custom-control custom-radio mb-2" key={item._id}>
-                                      <input
-                                        onChange={handleRadioChange}
-                                        type="radio"
-                                        id={item.type}
-                                        name="age"
-                                        className="custom-control-input"
-                                        defaultValue={item.name}
-                                      />
-                                      <label
-                                        className="custom-control-label"
-                                        htmlFor={item.type}
-                                      >
-                                        {item.name}
-                                      </label>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {radioBtn === "Movies" && (
-                            <div className="row">
-                              <div className="col-lg-12">
-                                <div className="form-group">
-                                  <label
-                                    htmlFor="basicpill-phoneno-input"
-                                    className="label-100"
-                                  >
-                                    Search Video from Video Library
-                                  </label>
-                                  <input
-                                    autoComplete={"Hello"}
-                                    // autoSave={false}
-                                    onChange={handleFilter}
-                                    type="text"
-                                    className="form-control input-field"
-                                    id="basicpill-phoneno-input"
-                                  />
-                                  <div className="searchedListVideos">
-                                    {filteredVideos &&
-                                      filteredVideos?.map((movie) => (
-                                        <Link to=""
-                                          style={{
-                                            height: "7vh",
-                                            display: "block",
-                                          }}
-                                          onClick={() =>
-                                            handleClickOnMovie(
-                                              movie.thumbnail,
-                                              movie.title,
-                                              movie._id
-                                            )
-                                          }
-                                        >
-                                          <img
-                                            alt=""
-                                            src={movie.thumbnail}
-                                            style={{
-                                              height: "90%",
-                                              width: "6vw",
-                                              marginRight: "8vw",
-                                            }}
-                                          />
-                                          <span>{movie.title}</span>
-                                          {"                  "}
-                                          <span>{movie.description}</span>
-                                        </Link>
-                                      ))}
-                                  </div>
-                                </div>
-                              </div>
-                              {booltoshowSelectedMoview && (
-                                <div className="showData">
-                                  <span>
-                                    <b>Movie Image</b>
-                                    <img
-                                      alt=""
-                                      src={SelectedMovieData.movieImage}
-                                    />
-                                  </span>
-                                  <span>
-                                    <b>Movie Title</b>
-                                    <p> {SelectedMovieData.movieTitle}</p>
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                          {radioBtn === "TV Shows" && (
-                            <div className="row">
-                              <div className="col-lg-12">
-                                <div className="form-group">
-                                  <label
-                                    htmlFor="basicpill-phoneno-input"
-                                    className="label-100"
-                                  >
-                                    Add New Title
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="title"
-                                    onChange={handleChangetitle}
-                                    className="form-control input-field"
-                                    id="basicpill-phoneno-input"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                          <div className="form-group mb-30 width-100 ">
-                            <label className="col-md-4 control-label"></label>
-                            <div className="col-md-8">
-                              <button
-                                type="button"
-                                onClick={
-                                  radioBtn === "TV Shows"
-                                    ? handleSubmitTvShows
-                                    : handleSubmitOne
-                                }
-                                className="btn btn-success btn-login waves-effect waves-light mr-3"
-                              >
-                                Save
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="tab-pane" id="images" role="tabpanel">
+                        <div className="tab-pane active" id="images" role="tabpanel">
                           <div className="panel-body p-20">
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
+                              <label className="col-md-3 control-label">
                                 Upload Banner Image
                                 <br />
                                 <span className="size">(1125 x 451 px)</span>
                               </label>
-                              <div className="col-md-8">
+                              <div className="col-md-3">
+                              <img src={lession?.bannerImageUrl} alt="" width="110" height="60" />
+                              </div>
+                              <div className="col-md-6">
                                 <input
                                   onChange={handleChange}
                                   type="file"
-                                  name={
-                                    radioBtn === "TV Shows"
-                                      ? "bannerImage"
-                                      : "banner"
-                                  }
                                   className="form-control input-field"
                                 />
                               </div>
                             </div>
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label"></label>
-                              <div className="col-md-8">
+                              <label className="col-md-6 control-label"></label>
+                              <div className="col-md-6">
                                 <button
                                   onClick={
-                                    radioBtn === "TV Shows"
-                                      ? handleSubmitBannerForTvShows
-                                      : handleSubmitBanner
+                                    handleSubmitBannerImage
                                   }
                                   type="button"
                                   className="btn btn-success btn-login waves-effect waves-light mr-3"
                                 >
-                                  Save
+                                  <ClipLoader loading={loading} size={18} />
+                                  {!loading && "Save"}
                                 </button>
                               </div>
                             </div>
@@ -1132,8 +958,7 @@ export default function AddScheduleVideo() {
                             </div>
                             <div className="searchedList">
                               {movieList?.map((movie) => (
-                                <Link
-                                to=""
+                                <span
                                   style={{ height: "7vh", display: "block" }}
                                   onClick={() => fillMetadata(movie.id)}
                                   key={movie._id}
@@ -1149,7 +974,7 @@ export default function AddScheduleVideo() {
                                   />
                                   <span>{movie.title}</span>
                                   <span>{movie.description}</span>
-                                </Link>
+                                </span>
                               ))}
                             </div>
 
@@ -1215,7 +1040,7 @@ export default function AddScheduleVideo() {
                                     <tbody>
                                       {metaDataCrew &&
                                         metaDataCrew.map((actor) => (
-                                          <tr>
+                                          <tr key={actor._id}>
                                             <td>
                                               <img
                                                 alt=""
@@ -1243,7 +1068,6 @@ export default function AddScheduleVideo() {
                             <div className="form-group width-100 mb-30 row">
                               <label className="col-md-4 control-label"></label>
                               <div className="col-md-8">
-                                <Link to="">
                                   <button
                                     type="button"
                                     onClick={() => postMetaData(lessionId)}
@@ -1251,7 +1075,6 @@ export default function AddScheduleVideo() {
                                   >
                                     Save
                                   </button>
-                                </Link>
                               </div>
                             </div>
                           </div>
@@ -1368,9 +1191,10 @@ export default function AddScheduleVideo() {
                                   <label className="pl-0 color-b label-d">
                                     Launch Date
                                   </label>
+                                  {/* {console.log(new Date(lession.launchDate).toIsoString(),"this is date")} */}
                                   <input
                                     type="datetime-local"
-                                    defaultValue={lession.launchDate}
+                                    defaultValue={(new Date(lession?.launchDate).getDate()).toString()+"-"+(new Date(lession?.launchDate).getMonth()+1)+"-"+new Date(lession?.launchDate).getFullYear().toString()+","}
                                     name="launchDate"
                                     onChange={(e) => {
                                       console.log(e.target.value);

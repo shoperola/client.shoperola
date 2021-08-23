@@ -185,7 +185,7 @@ export default function ScheduleVideos() {
                                                                         />
                                                                     </td>
                                                                     <td>Movies</td>
-                                                                    <td>{lession.launchDate?new Date().toDateString(lession.launchDate):"Not Declared"}</td>
+                                                                    <td>{lession.launchDate?new Date(lession.launchDate).toDateString(lession.launchDate):"Not Declared"}</td>
                                                                     {/* <td>{lession?.subject?.name}</td> */}
                                                                     <td>
                                                                         {!lession.launch_flag && lession.launchDate && lession.live &&
