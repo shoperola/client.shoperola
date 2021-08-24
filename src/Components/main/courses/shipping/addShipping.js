@@ -7,70 +7,53 @@ import { isAutheticated } from '../../../auth/authhelper';
 import ClipLoader from "react-spinners/ClipLoader";
 import Footer from '../../Footer';
 function AddShipping() {
-
-    const [inputText, setinputText] = useState({
-        name: "",
-        type: "",
-    });
-    //let history=useHistory();
-    const [loading, setLoading] = useState(false);
+    const history=useHistory();
+    const [isLoading, setIsLoading] = useState(false);
+    const [shippingName, setShippingName] = useState('');
+    const [shippingDescription, setShippingDescription] = useState('')
+    const [rate, setRate] = useState(0);
+    const [country, setCountry] = useState('')
+    const [shippingState, setShippingState] = useState('')
+    const [status, setStatus] = useState('')
 
     const { token } = isAutheticated();
-    const handleInputText = (e) => {
-        setinputText({
-            ...inputText,
-            [e.target.name]: (e.target.value).charAt(0).toUpperCase() + e.target.value.slice(1)
-        })
-    }
-    console.log(inputText)
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        let res = await axios.post(`${API}/api/categories/add_categories`, {
-            name: inputText.name,
-            type: inputText.type
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-        if (res.data) {
-            // console.log(res);
-            window.location = "/categories";
-            // history.push("/categories");
+    const addShippingHandler = async (e) => {
+        const done = null;
+
+        setIsLoading(true);
+        const data = {
+            "shipping_name": shippingName,
+            "shipping_description": shippingDescription,
+            "shipping_rate": rate,
+            "shipping_country": country,
+            "shipping_state": shippingState,
+            "status": status.toLowerCase(),
         }
-        //     axios
-        //   .post(`${API}/api/category/`, {category: inputText}, {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   })
-        //   .then((response) => {
-        //     setLoading(false);
-        //     swal( {
-        //       title: "Category added Successfully!",
 
-        //       icon: "success",
-        //       buttons: true,
-        //       successMode: true,
-        //       dangerMode: false,
-        //     }).then((value) => {
-        //         history.push("/comcatagory");
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     setLoading(false);
-        //     let message = "errror";
-        //     swal({
-        //       title: "Error",
-        //       text: { message },
-        //       icon: "error",
-        //       buttons: true,
-        //       dangerMode: true,
-        //     });
-        //     console.log(err);
-        //   });
+        await axios.post(`${API}/api/shipment/add_shipment`, data, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			}
+		}).then(async res => {
+            const done = await swal({
+                title: "Created Successfully!",
+                icon: "success",
+                buttons: {
+                    Done: {
+                        text: "Done",
+                        value: "Done",
+                    },
+                }
+            })
+            setIsLoading(false)
+
+            if (done === 'Done') {
+                history.push('/allShippings')
+            }
+        }).catch(error => {
+            setIsLoading(false)
+        })
     }
 
     return (
@@ -105,14 +88,17 @@ function AddShipping() {
                     <div className="row">
                         <div className="col-12">
                             <div className="form-group text-right">
-                                <a href="commerce-shipping.html">
-                                    <button type="button"
-                                        className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
-                                </a>
-                                <a href="#">
+                                {/* <a href="commerce-shipping.html"> */}
+                                    <button type="button" onClick={addShippingHandler}
+                                        className="btn btn-success btn-login waves-effect waves-light mr-3">
+                                            <ClipLoader loading={isLoading} size={18} />
+                                            {!isLoading && "Save"}
+                                    </button>
+                                {/* </a> */}
+                                <Link to="/allShippings">
                                     <button type="button"
                                         className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -129,7 +115,7 @@ function AddShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Shipping Method Name
                                                             </label>
-                                                            <input type="text" className="form-control input-field" />
+                                                            <input type="text" className="form-control input-field" value={shippingName} onChange={e => setShippingName(e.target.value)} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -140,7 +126,7 @@ function AddShipping() {
                                                                 Description (Optional)
                                                             </label>
                                                             <textarea className="form-control input-field"
-                                                                rows="5"></textarea>
+                                                                rows="5" value={shippingDescription} onChange={e => setShippingDescription(e.target.value)} ></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,7 +136,7 @@ function AddShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Rate
                                                             </label>
-                                                            <input type="text" className="form-control input-field" />
+                                                            <input type="text" className="form-control input-field" value={rate} onChange={e => setRate(e.target.value)} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -172,7 +158,7 @@ function AddShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Status
                                                             </label>
-                                                            <select name="currency" value=""
+                                                            <select name="currency" value={status} onChange={e => setStatus(e.target.value)} 
                                                                 className="form-control  input-field">
                                                                 <option value="">--select--</option>
                                                                 <option value="Active">Active</option>
@@ -202,12 +188,10 @@ function AddShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Select Country
                                                             </label>
-                                                            <select name="currency" value=""
+                                                            <select name="currency" value={country} onChange={e => setCountry(e.target.value)}
                                                                 className="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">All Countries</option>
-                                                                <option value="Inactive">Afghanisthan</option>
-                                                                <option value="Inactive">Aland Islands</option>
+                                                                <option value="India">India</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -224,12 +208,10 @@ function AddShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Select State
                                                             </label>
-                                                            <select name="currency" value=""
+                                                            <select name="currency" value={shippingState} onChange={e => setShippingState(e.target.value)}
                                                                 className="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">All States</option>
-                                                                <option value="Inactive">Assam</option>
-                                                                <option value="Inactive">Arunachal Pradesh</option>
+                                                                <option value="Delhi">Delhi</option>
                                                             </select>
                                                         </div>
                                                     </div>

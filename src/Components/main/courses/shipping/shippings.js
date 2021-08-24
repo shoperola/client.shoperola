@@ -8,29 +8,75 @@ import Footer from '../../Footer';
 function AllShippings(props) {
     const { token } = isAutheticated();
     const [data, setdata] = useState([]);
+
     useEffect(() => {
         async function fetchData() {
-            let res = await axios.get(`${API}/api/category`, {
+            await axios.get(`${API}/api/shipment/view_shipments`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
-            });
-            setdata(res.data);
+            }).then(res => {
+                setdata(res.data.data);
+            }).catch(error => {
+                console.log(error);
+            })
         }
         fetchData();
+        
     }, [])
+    
     const handleDelete = async (id) => {
-        let status = window.confirm("Do you want to delete");
-        if (!status) {
+        let delShipment = window.confirm("Do you want to delete");
+        if (!delShipment) {
             return;
         }
-        let res = await axios.delete(`${API}/api/category/${id}`, {
+        let res = await axios.delete(`${API}/api/shipment/delete_shipment/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
         });
         if (res) {
             window.location.reload()
+        }
+    }
+
+    const handleSuspend = async (id, status) => {
+        let sus = null;
+
+        if (status === 'active') {
+            sus = window.confirm("Do you want to suspend the shipment?")
+
+            if (!sus) {
+                return
+            }
+
+            await axios.get(`${API}/api/shipment/change_status/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }).then(res => {
+                window.location.reload()
+            }).alert(error => {
+                console.log(error)
+                window.alert("Suspending of the current shipment failed");
+            })
+        } else {
+            sus = window.confirm("Do you want to activate the shipment?")
+
+            if (!sus) {
+                return
+            }
+
+            await axios.get(`${API}/api/shipment/change_status/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }).then(res => {
+                window.location.reload()
+            }).alert(error => {
+                console.log(error)
+                window.alert("Activation of the current shipment failed");
+            })
         }
     }
 
@@ -93,14 +139,25 @@ function AllShippings(props) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {/* {
+                                                {
                                                     data.length > 0 ?
                                                         data.map(item => (
                                                             <tr key={item._id}>
                                                                 <td>
-                                                                    {item.category}
+                                                                    {item.shipping_name}
+                                                                </td>
+                                                                <td>{item.shipping_rate}</td>
+                                                                <td>
+                                                                    <span className="badge badge-pill badge-success font-size-12">
+                                                                        {item.status}
+                                                                    </span>
                                                                 </td>
                                                                 <td>
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-success btn-sm  waves-effect waves-light btn-table" onClick={() => handleSuspend(item._id, item.status)}>
+                                                                        {item.status === 'active' ? "Suspend" : "Activate"}
+                                                                    </button>
                                                                     <Link to={`/comcatagory/edit/${item._id}`}>
                                                                         <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
                                                                             Edit</button>
@@ -112,32 +169,7 @@ function AllShippings(props) {
                                                                 </td>
                                                             </tr>
                                                         ))
-                                                        : ""} */}
-                                                <tr>
-                                                    <td>Flat India</td>
-                                                    <td>Rs.300</td>
-                                                    <td>
-                                                        <span className="badge badge-pill badge-success font-size-12">
-                                                            Live
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-success btn-sm  waves-effect waves-light btn-table"
-                                                        >
-                                                            Suspend
-                                                        </button>
-                                                        <Link to={`/shipping_edit`}>
-                                                            <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
-                                                                Edit</button>
-                                                        </Link>
-
-                                                        <button onClick={() => handleDelete("dummy")} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
-                                                            Delete</button>
-
-                                                    </td>
-                                                </tr>
+                                                        : ""}
                                             </tbody>
                                         </table>
                                     </div>
