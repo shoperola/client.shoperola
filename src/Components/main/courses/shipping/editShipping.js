@@ -1,76 +1,77 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import { API } from '../../../../API';
 import { isAutheticated } from '../../../auth/authhelper';
 import ClipLoader from "react-spinners/ClipLoader";
 import Footer from '../../Footer';
 function EditShipping() {
+    const history=useHistory();
+    const params = useParams()
 
-    const [inputText, setinputText] = useState({
-        name: "",
-        type: "",
-    });
-    //let history=useHistory();
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [shippingName, setShippingName] = useState('');
+    const [shippingDescription, setShippingDescription] = useState('')
+    const [rate, setRate] = useState(0);
+    const [country, setCountry] = useState('')
+    const [shippingState, setShippingState] = useState('')
+    const [status, setStatus] = useState('')
 
     const { token } = isAutheticated();
-    const handleInputText = (e) => {
-        setinputText({
-            ...inputText,
-            [e.target.name]: (e.target.value).charAt(0).toUpperCase() + e.target.value.slice(1)
-        })
-    }
-    console.log(inputText)
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        let res = await axios.post(`${API}/api/categories/add_categories`, {
-            name: inputText.name,
-            type: inputText.type
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-        if (res.data) {
-            // console.log(res);
-            window.location = "/categories";
-            // history.push("/categories");
+    useEffect(() => {
+        const getData = async () => {
+            await axios.get(`${API}/api/shipment/view_shipment/${params.id}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }).then(res => {
+                  const data = res.data.data;
+                  setShippingName(data.shipping_name)
+                  setShippingDescription(data.shipping_description)
+                  setRate(data.shipping_rate)
+                  setCountry(data.shipping_country)
+                  setShippingState(data.shipping_state)
+                  setStatus(data.status)
+              })
         }
-        //     axios
-        //   .post(`${API}/api/category/`, {category: inputText}, {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   })
-        //   .then((response) => {
-        //     setLoading(false);
-        //     swal( {
-        //       title: "Category added Successfully!",
+        getData()
+    }, [token, params])
 
-        //       icon: "success",
-        //       buttons: true,
-        //       successMode: true,
-        //       dangerMode: false,
-        //     }).then((value) => {
-        //         history.push("/comcatagory");
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     setLoading(false);
-        //     let message = "errror";
-        //     swal({
-        //       title: "Error",
-        //       text: { message },
-        //       icon: "error",
-        //       buttons: true,
-        //       dangerMode: true,
-        //     });
-        //     console.log(err);
-        //   });
+    const sumbitHandler = async () => {
+        setIsLoading(true)
+        const data = {
+            shipping_name: shippingName,
+            shipping_description: shippingDescription,
+            shipping_rate: rate,
+            shipping_country: country,
+            shipping_state: shippingState,
+            status: status,
+        }
+        await axios.patch(`${API}/api/shipment/update_shipment/${params.id}`, data, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(async res => {
+                const done = await swal({
+                    title: "Created Successfully!",
+                    icon: "success",
+                    buttons: {
+                        Done: {
+                            text: "Done",
+                            value: "Done",
+                        },
+                    }
+                })
+                setIsLoading(false)
+
+                if (done === 'Done') {
+                    history.push('/allShippings')
+                }
+          }).catch(error => {
+              console.log(error)
+          })
     }
 
     return (
@@ -105,14 +106,15 @@ function EditShipping() {
                     <div className="row">
                         <div className="col-12">
                             <div className="form-group text-right">
-                                <a href="commerce-shipping.html">
                                     <button type="button"
-                                        className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
-                                </a>
-                                <a href="#">
+                                        className="btn btn-success btn-login waves-effect waves-light mr-3" onClick={sumbitHandler}>
+                                            <ClipLoader loading={isLoading} size={18} />
+                                            {!isLoading && "Save"}
+                                        </button>
+                                <Link to="/allShippings">
                                     <button type="button"
                                         className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -129,7 +131,7 @@ function EditShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Shipping Method Name
                                                             </label>
-                                                            <input type="text" className="form-control input-field" />
+                                                            <input type="text" className="form-control input-field" value={shippingName} onChange={e => {setShippingName(e.target.value)}} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,8 +141,8 @@ function EditShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Description (Optional)
                                                             </label>
-                                                            <textarea className="form-control input-field"
-                                                                rows="5"></textarea>
+                                                            <textarea className="form-control input-field" value={shippingDescription} onChange={e => {setShippingDescription(e.target.value)}}
+                                                                rows="5"></textarea> 
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,7 +152,7 @@ function EditShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Rate
                                                             </label>
-                                                            <input type="text" className="form-control input-field" />
+                                                            <input type="text" className="form-control input-field" value={rate} onChange={e => setRate(e.target.value)} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -173,10 +175,10 @@ function EditShipping() {
                                                                 Status
                                                             </label>
                                                             <select name="currency" value=""
-                                                                className="form-control  input-field">
+                                                                className="form-control  input-field" value={status} onChange={e => setStatus(e.target.value)}>
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">Active</option>
-                                                                <option value="Inactive">Inactive</option>
+                                                                <option value="active">Active</option>
+                                                                <option value="inactive">Inactive</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -202,12 +204,12 @@ function EditShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Select Country
                                                             </label>
-                                                            <select name="currency" value=""
+                                                            <select name="currency" value={country} onChange={e => setCountry(e.target.value)}
                                                                 className="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">All Countries</option>
-                                                                <option value="Inactive">Afghanisthan</option>
-                                                                <option value="Inactive">Aland Islands</option>
+                                                                <option value="India">India</option>
+                                                                <option value="Afganisthan">Afghanisthan</option>
+                                                                <option value="Aland Islands">Aland Islands</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -224,12 +226,12 @@ function EditShipping() {
                                                             <label for="basicpill-phoneno-input" className="label-100">
                                                                 Select State
                                                             </label>
-                                                            <select name="currency" value=""
+                                                            <select name="currency" value={shippingState} onChange={e => setShippingState(e.target.value)}
                                                                 className="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">All States</option>
-                                                                <option value="Inactive">Assam</option>
-                                                                <option value="Inactive">Arunachal Pradesh</option>
+                                                                <option value="MP">MP</option>
+                                                                <option value="Assam">Assam</option>
+                                                                <option value="AP">Arunachal Pradesh</option>
                                                             </select>
                                                         </div>
                                                     </div>

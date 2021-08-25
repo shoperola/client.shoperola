@@ -426,7 +426,7 @@ export default function Routes() {
           <PrivateRoute
             component={EditShipping}
             exact
-            path="/shipping_edit"
+            path="/shipping_edit/:id"
           ></PrivateRoute>
 
           {/* payments  */}

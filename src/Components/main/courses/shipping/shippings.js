@@ -56,9 +56,9 @@ function AllShippings(props) {
                 }
             }).then(res => {
                 window.location.reload()
-            }).alert(error => {
+            }).catch(error => {
                 console.log(error)
-                window.alert("Suspending of the current shipment failed");
+                // window.alert("Suspending of the current shipment failed");
             })
         } else {
             sus = window.confirm("Do you want to activate the shipment?")
@@ -73,7 +73,7 @@ function AllShippings(props) {
                 }
             }).then(res => {
                 window.location.reload()
-            }).alert(error => {
+            }).catch(error => {
                 console.log(error)
                 window.alert("Activation of the current shipment failed");
             })
@@ -158,7 +158,7 @@ function AllShippings(props) {
                                                                         className="btn btn-success btn-sm  waves-effect waves-light btn-table" onClick={() => handleSuspend(item._id, item.status)}>
                                                                         {item.status === 'active' ? "Suspend" : "Activate"}
                                                                     </button>
-                                                                    <Link to={`/comcatagory/edit/${item._id}`}>
+                                                                    <Link to={`/shipping_edit/${item._id}`}>
                                                                         <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
                                                                             Edit</button>
                                                                     </Link>

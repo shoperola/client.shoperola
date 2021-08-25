@@ -28,7 +28,7 @@ function AddShipping() {
             "shipping_rate": rate,
             "shipping_country": country,
             "shipping_state": shippingState,
-            "status": status.toLowerCase(),
+            "status": status,
         }
 
         await axios.post(`${API}/api/shipment/add_shipment`, data, {
@@ -88,13 +88,11 @@ function AddShipping() {
                     <div className="row">
                         <div className="col-12">
                             <div className="form-group text-right">
-                                {/* <a href="commerce-shipping.html"> */}
                                     <button type="button" onClick={addShippingHandler}
                                         className="btn btn-success btn-login waves-effect waves-light mr-3">
                                             <ClipLoader loading={isLoading} size={18} />
                                             {!isLoading && "Save"}
                                     </button>
-                                {/* </a> */}
                                 <Link to="/allShippings">
                                     <button type="button"
                                         className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
@@ -161,8 +159,8 @@ function AddShipping() {
                                                             <select name="currency" value={status} onChange={e => setStatus(e.target.value)} 
                                                                 className="form-control  input-field">
                                                                 <option value="">--select--</option>
-                                                                <option value="Active">Active</option>
-                                                                <option value="Inactive">Inactive</option>
+                                                                <option value="active">Active</option>
+                                                                <option value="inactive">Inactive</option>
                                                             </select>
                                                         </div>
                                                     </div>
