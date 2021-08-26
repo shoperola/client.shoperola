@@ -31,9 +31,11 @@ export default function AddScheduleVideo() {
     launch: false,
     launchDate: "",
     video: "",
-    bannerImageUrl:""
+    bannerImageUrl: "",
   });
-  const [video,setVideo]=useState(null)
+
+  const [videoType, setVideoType] = useState("");
+  const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchMovie, setSearchMovie] = useState("");
   const [movieList, setMovieList] = useState([]);
@@ -42,12 +44,15 @@ export default function AddScheduleVideo() {
   const [error, setError] = useState(false);
   const [lessionId, setLessionId] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [currentTab, setcurrentTab] = useState(2);
+  const [currentTab, setcurrentTab] = useState(0);
   const [metaDataTitle, setmetaDataTitle] = useState("");
   const [metaDataPlot, setmetaDataPlot] = useState("");
   const [metaDataDirector, setmetaDataDirector] = useState("");
   const [metaDataWriter, setmetaDataWriter] = useState("");
   const [metaDataCrew, setmetaDataCrew] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
+  const [movieData, setMovieData] = useState({})
+  const [image, setImage] = useState('')
   // var metaformData={}
 
   const history = useHistory();
@@ -55,9 +60,8 @@ export default function AddScheduleVideo() {
   const [data, setdata] = useState([]);
   const [videos, setVideos] = useState([]);
   const [filteredVideos, setFilteredVideo] = useState([]);
-  const [booltoshowSelectedMoview, setbooltoshowSelectedMoview] = useState(
-    false
-  );
+  const [booltoshowSelectedMoview, setbooltoshowSelectedMoview] =
+    useState(false);
   const [SelectedMovieData, setSelectedMovieData] = useState();
 
   useEffect(() => {
@@ -67,23 +71,40 @@ export default function AddScheduleVideo() {
           Authorization: `Bearer ${token}`,
         },
       });
-    //   console.log(res.data,"This is all Category");
+      //   console.log(res.data,"This is all Category");
       setdata(res.data);
     }
     fetchData();
   }, [token]);
   useEffect(() => {
     async function fetchData() {
-        let temp=typevideo==="lesson"?"lesson":"tvshow/view_tvshow"
-        let res = await axios.get(`${API}/api/${temp}/${id}`, {
+      let temp = typevideo === "lesson" ? "lesson" : "tvshow/view_tvshow";
+
+      await axios.get(`${API}/api/${temp}/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      console.log(res.data,"this is single video");
-      typevideo==="lesson"?setLession({...lession,bannerImageUrl:res.data.data.banner,launchDate:res.data.data.launchDate}):setLession({...lession,bannerImageUrl:res.data.bannerimage,launchDate:res.data.date})
-      typevideo==="lesson"?setVideo(res.data.data):setVideo(res.data)
-      if(typevideo==="lesson"){
+      }).then(res => {
+        console.log(res.data, "this is single video");
+        
+        typevideo === 'lesson' 
+          ? setImage('https://' + res.data.data.banner) 
+          : setImage('https://' + res.data.bannerimage) 
+        
+      typevideo === "lesson"
+        ? setLession({
+            ...lession,
+            bannerImageUrl: res.data.data.banner,
+            launchDate: res.data.data.launchDate,
+          })
+        : setLession({
+            ...lession,
+            bannerImageUrl: res.data.bannerimage,
+            launchDate: res.data.date,
+          });
+      typevideo === "lesson" ? setVideo(res.data.data) : setVideo(res.data);
+      if (typevideo === "lesson") {
+        setMovieData(res.data.data)
         setmetaDataTitle(res.data.data.title);
         setmetaDataPlot(res.data.data.Plot);
         setmetaDataDirector(res.data.data.directors);
@@ -103,7 +124,7 @@ export default function AddScheduleVideo() {
           Writers: res.data.data.Writers,
           Ratings: res.data.data.Ratings,
         });
-      }else{
+      } else {
         setmetaDataTitle(res.data.title);
         setmetaDataPlot(res.data.Plot);
         setmetaDataDirector(res.data.directors);
@@ -123,17 +144,19 @@ export default function AddScheduleVideo() {
           Writers: res.data.Writers,
           Ratings: res.data.Ratings,
         });
-      }
+      }}).catch(err => {
+        console.log(err)
+      })
     }
     fetchData();
-  }, [token,typevideo,id]);
+  }, [token, typevideo, id]);
 
   const handleRadioChange = (e) => {
     setRadioBtn(e.target.value);
   };
   useEffect(() => {
     const fetchData = () => {
-        let temp=typevideo==="lesson"?"lesson":"tvshow/viewall_Tvshow"
+      let temp = typevideo === "lesson" ? "lesson" : "tvshow/viewall_Tvshow";
       axios
         .get(`${API}/api/${temp}`, {
           headers: {
@@ -142,8 +165,9 @@ export default function AddScheduleVideo() {
         })
         .then((response) => {
           console.log(response.data.show, "this is data");
-          typevideo==="lesson"?setVideos([...response.data.data]):setVideos([...response.data.show])
-          
+          typevideo === "lesson"
+            ? setVideos([...response.data.data])
+            : setVideos([...response.data.show]);
         })
         .catch((err) => {
           console.log(err);
@@ -164,29 +188,23 @@ export default function AddScheduleVideo() {
       setFilteredVideo([]);
     }
   };
-  const handleClickOnMovie = (movieImage, movieTitle, id) => {
-    setLessionId(id);
-    setSelectedMovieData({
-      movieImage: movieImage,
-      movieTitle: movieTitle,
-    });
-    setbooltoshowSelectedMoview(true);
-    setFilteredVideo([]);
-  };
+  
   const handleSubmitOne = (e) => {
     e.preventDefault();
     setLoading(true);
+    const formData = new FormData();
+    formData.append('category', categoryId)
     axios
-      .get(`${API}/api/lesson/${lessionId}`, {
+      .put(`${API}/api/lesson/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log(response);
-        setLoading(false);
-        // console.log(response);
         setLessionId(response.data.data._id);
+        setLoading(false)
+
+      setLoading(false);
         setSuccess(true);
         swal({
           title: "Created Successfully!",
@@ -247,14 +265,14 @@ export default function AddScheduleVideo() {
         console.log(err);
       });
   };
+  
   const handleSubmitTvShows = (e) => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post(
-        `${API}/api/tvshow/addtvshow`,
-        {
-          title: lession.title,
+      .patch(
+        `${API}/api/tvshow/metadata/${id}`, {
+          category: categoryId
         },
         {
           headers: {
@@ -263,10 +281,9 @@ export default function AddScheduleVideo() {
         }
       )
       .then((response) => {
-        console.log(response);
         setLoading(false);
         // console.log(response);
-        setLessionId(response.data.data._id);
+        // setLessionId(response.data.data._id);
         setSuccess(true);
         swal({
           title: "Created Successfully!",
@@ -315,14 +332,14 @@ export default function AddScheduleVideo() {
       })
       .catch((err) => {
         setLoading(false);
-        let message = err.response.data.message;
-        swal({
-          title: "Error",
-          text: { message },
-          icon: "error",
-          buttons: true,
-          dangerMode: true,
-        });
+        // let message = err.response.data.message;
+        // swal({
+        //   title: "Error",
+        //   text: { message },
+        //   icon: "error",
+        //   buttons: true,
+        //   dangerMode: true,
+        // });
         console.log(err);
       });
   };
@@ -334,16 +351,18 @@ export default function AddScheduleVideo() {
     });
   };
   const handleChange = (e) => {
-      setLession({
-        ...lession,
-        bannerImage: e.target.files[0],
-        bannerImageUrl: URL.createObjectURL(e.target.files[0]),
-      });
+    setImage(URL.createObjectURL(e.target.files[0]))
+    setLession({
+      ...lession,
+      bannerImage: e.target.files[0],
+      bannerImageUrl: URL.createObjectURL(e.target.files[0]),
+    });
   };
 
-  const handleSubmitBannerImage=(e)=>{
+  const handleSubmitBannerImage = (e) => {
     setLoading(true);
-    if(typevideo==="lesson"){
+    if (typevideo === "lesson") {
+      console.log(lession.bannerImage, lession.bannerImageUrl)
       const formData = new FormData();
       formData.append("banner", lession.bannerImage);
       axios
@@ -358,7 +377,7 @@ export default function AddScheduleVideo() {
           setLoading(false);
           swal({
             title: "Changes are saved Successfully!",
-  
+
             icon: "success",
             buttons: {
               SaveAndExit: {
@@ -375,7 +394,7 @@ export default function AddScheduleVideo() {
               case "SaveAndExit":
                 history.push("/scheduleVideos");
                 break;
-  
+
               case "SaveAndContinue":
                 if (currentTab >= 1 && currentTab <= 4) {
                   switch (currentTab) {
@@ -391,7 +410,7 @@ export default function AddScheduleVideo() {
                     case 4:
                       tab5.current.click();
                       break;
-                  default:
+                    default:
                       console.log("");
                   }
                 }
@@ -414,86 +433,84 @@ export default function AddScheduleVideo() {
           });
           console.log(err);
         });
-    }
-    else{
+    } else {
       const formData = new FormData();
-    formData.append("bannerImage", lession.bannerImage);
-    axios
-      .patch(`${API}/api/tvshow/edit_banner/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/formdata",
-        },
-      })
-      .then((response) => {
-        console.log("updated object", response);
-        setLoading(false);
-        // console.log(response);
-        // setSuccess(!success);
-        swal({
-          title: "Changes are saved Successfully!",
-
-          icon: "success",
-          buttons: {
-            SaveAndExit: {
-              text: "Save and Exit",
-              value: "SaveAndExit",
-            },
-            SaveAndContinue: {
-              text: "Save and Continue",
-              value: "SaveAndContinue",
-            },
+      formData.append("bannerImage", lession.bannerImage);
+      axios
+        .patch(`${API}/api/tvshow/edit_banner/${id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/formdata",
           },
-        }).then((value) => {
-          switch (value) {
-            case "SaveAndExit":
-              history.push("/scheduleVideos");
-              break;
+        })
+        .then((response) => {
+          console.log("updated object", response);
+          setLoading(false);
+          // console.log(response);
+          // setSuccess(!success);
+          swal({
+            title: "Changes are saved Successfully!",
 
-            case "SaveAndContinue":
-              if (currentTab >= 1 && currentTab <= 4) {
-                switch (currentTab) {
-                  case 1:
-                    tab2.current.click();
-                    break;
-                  case 2:
-                    tab3.current.click();
-                    break;
-                  case 3:
-                    tab4.current.click();
-                    break;
-                  case 4:
-                    tab5.current.click();
-                    break;
-                default:
-                    console.log("");
+            icon: "success",
+            buttons: {
+              SaveAndExit: {
+                text: "Save and Exit",
+                value: "SaveAndExit",
+              },
+              SaveAndContinue: {
+                text: "Save and Continue",
+                value: "SaveAndContinue",
+              },
+            },
+          }).then((value) => {
+            switch (value) {
+              case "SaveAndExit":
+                history.push("/scheduleVideos");
+                break;
+
+              case "SaveAndContinue":
+                if (currentTab >= 1 && currentTab <= 4) {
+                  switch (currentTab) {
+                    case 1:
+                      tab2.current.click();
+                      break;
+                    case 2:
+                      tab3.current.click();
+                      break;
+                    case 3:
+                      tab4.current.click();
+                      break;
+                    case 4:
+                      tab5.current.click();
+                      break;
+                    default:
+                      console.log("");
+                  }
                 }
-              }
-              break;
+                break;
 
-            default:
-              history.push("/dashboard");
-          }
+              default:
+                history.push("/dashboard");
+            }
+          });
+        })
+        .catch((err) => {
+          setLoading(false);
+          // setSuccess(!success);
+          let message = "errror";
+          swal({
+            title: "Error",
+            text: { message },
+            icon: "error",
+            buttons: true,
+            dangerMode: true,
+          });
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        setLoading(false);
-        // setSuccess(!success);
-        let message = "errror";
-        swal({
-          title: "Error",
-          text: { message },
-          icon: "error",
-          buttons: true,
-          dangerMode: true,
-        });
-        console.log(err);
-      });
     }
-
-  }
+  };
   const postMetaData = () => {
-    if (typevideo!=="lesson") {
+    if (typevideo !== "lesson") {
       axios
         .patch(`${API}/api/tvshow/metadata/${id}`, metaformData, {
           headers: {
@@ -523,7 +540,7 @@ export default function AddScheduleVideo() {
                 break;
 
               case "SaveAndContinue":
-                console.log(currentTab,"this is currentTab")
+                console.log(currentTab, "this is currentTab");
                 if (currentTab >= 1 && currentTab <= 4) {
                   switch (currentTab) {
                     case 1:
@@ -539,7 +556,7 @@ export default function AddScheduleVideo() {
                       tab5.current.click();
                       break;
                     default:
-                    console.log("");
+                      console.log("");
                   }
                 }
                 break;
@@ -564,13 +581,13 @@ export default function AddScheduleVideo() {
         });
     } else {
       axios
-      .patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
+        .patch(`${API}/api/lesson/metadata/${id}`, metaformData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
           setLoading(false);
           swal({
             title: "Changes are saved Successfully!",
@@ -607,7 +624,7 @@ export default function AddScheduleVideo() {
                       tab5.current.click();
                       break;
                     default:
-                    console.log("");
+                      console.log("");
                   }
                 }
                 break;
@@ -632,7 +649,7 @@ export default function AddScheduleVideo() {
     }
   };
   const handleSearchMovie = (searchText) => {
-    if (typevideo!=="lesson") {
+    if (typevideo !== "lesson") {
       axios
         .post(
           `${API}/api/tvshow/search_tv/${searchText}`,
@@ -715,7 +732,7 @@ export default function AddScheduleVideo() {
   };
   const onUpdatelast = (e) => {
     e.preventDefault();
-    if (typevideo!=="lesson") {
+    if (typevideo !== "lesson") {
       setLoading(true);
       //console.log(lessionId);
       // setSuccess(false);
@@ -796,7 +813,18 @@ export default function AddScheduleVideo() {
     }
   };
 
-  console.log(lession);
+  const formatDate = dateStr => {
+    const date = new Date(dateStr);
+    let d = date.toDateString(dateStr) 
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    let strTime = hours + ':' + minutes + ' ' + ampm;
+    return d + ', ' + strTime;
+  }
 
   return (
     <div className="main-content">
@@ -832,12 +860,31 @@ export default function AddScheduleVideo() {
                       <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item waves-effect waves-light">
                           <a
+                            ref={tab1}
+                            className="nav-link active"
+                            data-toggle="tab"
+                            href="#title"
+                            role="tab"
+                          >
+                            <span className="d-block d-sm-none">
+                              <img
+                                alt=""
+                                src="assets/images/icons/title-icon.png"
+                              />
+                            </span>
+                            <span className="d-none d-sm-block">
+                              Select Category
+                            </span>
+                          </a>
+                        </li>
+                        <li className="nav-item waves-effect waves-light">
+                          <a
                             role="tab"
                             onClick={() => {
                               setcurrentTab(2);
                             }}
                             ref={tab2}
-                            className="nav-link active"
+                            className="nav-link"
                             data-toggle="tab"
                             href="#images"
                           >
@@ -897,7 +944,70 @@ export default function AddScheduleVideo() {
                       </ul>
 
                       <div className="tab-content video-tab p-3 text-muted">
-                        <div className="tab-pane active" id="images" role="tabpanel">
+                        <div
+                          className="tab-pane active"
+                          id="title"
+                          role="tabpanel"
+                        >
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Select Category
+                                </label>
+                                <div className="col-md-8">
+                                  {data?.filter(item => typevideo === "lesson" ? item.type === "Individual Videos" : item.type === 'Series').map((item) => (
+                                    <div
+                                      className="custom-control custom-radio mb-2"
+                                      key={item._id}
+                                    >
+                                      <input
+                                        onChange={(e) => {
+                                          handleRadioChange(e);
+                                          setVideoType(item.type);
+                                          setCategoryId(item._id);
+                                        }}
+                                        type="radio"
+                                        id={item._id}
+                                        name="age"
+                                        className="custom-control-input"
+                                        value={item.name}
+                                        checked={item._id === categoryId}
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        htmlFor={item._id}
+                                      >
+                                        {item.name} ({item.type})
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="form-group mb-30 width-100 ">
+                            <label className="col-md-4 control-label"></label>
+                            <div className="col-md-8">
+                              <button
+                                type="button"
+                                onClick={
+                                  videoType === "Series"
+                                    ? handleSubmitTvShows
+                                    : handleSubmitOne
+                                }
+                                className="btn btn-success btn-login waves-effect waves-light mr-3"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="tab-pane" id="images" role="tabpanel">
                           <div className="panel-body p-20">
                             <div className="form-group mb-30 width-100 row">
                               <label className="col-md-3 control-label">
@@ -905,24 +1015,38 @@ export default function AddScheduleVideo() {
                                 <br />
                                 <span className="size">(1125 x 451 px)</span>
                               </label>
-                              <div className="col-md-3">
-                              <img src={lession?.bannerImageUrl} alt="" width="110" height="60" />
-                              </div>
+                              {/* <div className="col-md-3">
+                                <img
+                                  src={lession?.bannerImageUrl}
+                                  alt=""
+                                  width="110"
+                                  height="60"
+                                />
+                              </div> */}
                               <div className="col-md-6">
                                 <input
                                   onChange={handleChange}
                                   type="file"
                                   className="form-control input-field"
                                 />
+                                <div>
+                                  <img
+                                    className="img-fluid mt-2"
+                                    style={{
+                                      width: "235px",
+                                      height: "125px",
+                                    }}
+                                    alt="200x200"
+                                    src={lession?.bannerImageUrl ? image : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/banner-default.png"}
+                                  />
+                                </div>
                               </div>
                             </div>
                             <div className="form-group mb-30 width-100 row">
                               <label className="col-md-6 control-label"></label>
                               <div className="col-md-6">
                                 <button
-                                  onClick={
-                                    handleSubmitBannerImage
-                                  }
+                                  onClick={handleSubmitBannerImage}
                                   type="button"
                                   className="btn btn-success btn-login waves-effect waves-light mr-3"
                                 >
@@ -1068,14 +1192,14 @@ export default function AddScheduleVideo() {
                             <div className="form-group width-100 mb-30 row">
                               <label className="col-md-4 control-label"></label>
                               <div className="col-md-8">
-                                  <button
-                                    type="button"
-                                    onClick={() => postMetaData(lessionId)}
-                                    className="btn btn-success btn-login waves-effect waves-light mr-3"
-                                  >
-                                      <ClipLoader loading={loading} size={18} />
-                                      {!loading && "Save"}
-                                  </button>
+                                <button
+                                  type="button"
+                                  onClick={() => postMetaData(lessionId)}
+                                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                                >
+                                  <ClipLoader loading={loading} size={18} />
+                                  {!loading && "Save"}
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -1189,13 +1313,28 @@ export default function AddScheduleVideo() {
                                 )}
 
                                 <div className="form-group width-100">
+                                <h4 className="pl-0 color-b" >Launch Date: <span className="text-secondary">{formatDate(lession?.launchDate)}</span></h4>
                                   <label className="pl-0 color-b label-d">
-                                    Launch Date
+                                    Choose new launch date
                                   </label>
                                   {/* {console.log(new Date(lession.launchDate).toIsoString(),"this is date")} */}
                                   <input
                                     type="datetime-local"
-                                    defaultValue={(new Date(lession?.launchDate).getDate()).toString()+"-"+(new Date(lession?.launchDate).getMonth()+1)+"-"+new Date(lession?.launchDate).getFullYear().toString()+","}
+                                    defaultValue={
+                                      new Date(lession?.launchDate)
+                                        .getDate()
+                                        .toString() +
+                                      "-" +
+                                      (new Date(
+                                        lession?.launchDate
+                                      ).getMonth() +
+                                        1) +
+                                      "-" +
+                                      new Date(lession?.launchDate)
+                                        .getFullYear()
+                                        .toString() +
+                                      ","
+                                    }
                                     name="launchDate"
                                     onChange={(e) => {
                                       console.log(e.target.value);
@@ -1275,7 +1414,7 @@ export default function AddScheduleVideo() {
                                     className="btn btn-success btn-login waves-effect waves-light mr-3"
                                   >
                                     <ClipLoader loading={loading} size={18} />
-                                  {!loading && "Save"}
+                                    {!loading && "Save"}
                                   </button>
                                 </a>
                               </div>

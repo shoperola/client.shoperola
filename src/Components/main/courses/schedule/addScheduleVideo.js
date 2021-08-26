@@ -46,6 +46,8 @@ export default function AddScheduleVideo() {
   const [metaDataDirector, setmetaDataDirector] = useState("");
   const [metaDataWriter, setmetaDataWriter] = useState("");
   const [metaDataCrew, setmetaDataCrew] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
+  const [image, setImage] = useState('');
   // var metaformData={}
 
   const history = useHistory();
@@ -199,6 +201,7 @@ export default function AddScheduleVideo() {
         `${API}/api/tvshow/addtvshow`,
         {
           title: lession.title,
+          category: categoryId,
         },
         {
           headers: {
@@ -289,6 +292,7 @@ export default function AddScheduleVideo() {
         setError(true);
       }
     } else {
+      setImage(URL.createObjectURL(e.target.files[0]))
       setLession({
         ...lession,
         [e.target.name]: e.target.files[0],
@@ -917,7 +921,8 @@ export default function AddScheduleVideo() {
                                       <input
                                         onChange={(e)=>{
                                         handleRadioChange(e);
-                                        setVideoType(item.type)}}
+                                        setVideoType(item.type)
+                                        setCategoryId(item._id)}}
                                         type="radio"
                                         id={item._id}
                                         name="age"
@@ -928,7 +933,7 @@ export default function AddScheduleVideo() {
                                         className="custom-control-label"
                                         htmlFor={item._id}
                                       >
-                                        {item.name}
+                                        {item.name} ({item.type})
                                       </label>
                                     </div>
                                   ))}
@@ -1063,6 +1068,15 @@ export default function AddScheduleVideo() {
                                   }
                                   className="form-control input-field"
                                 />
+                                <img
+                                    classNameName="img-fluid mt-2"
+                                    style={{
+                                      width: "235px",
+                                      height: "125px",
+                                    }}
+                                    alt="200x200"
+                                    src={image ? image : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/banner-default.png"}
+                                  />
                               </div>
                             </div>
                             <div className="form-group mb-30 width-100 row">
