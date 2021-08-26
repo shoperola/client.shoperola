@@ -88,8 +88,8 @@ export default function AddScheduleVideo() {
         console.log(res.data, "this is single video");
         
         typevideo === 'lesson' 
-          ? setImage('https://' + res.data.data.banner) 
-          : setImage('https://' + res.data.bannerimage) 
+          ? setImage(res.data.data.banner) 
+          : setImage(res.data.bannerimage) 
         
       typevideo === "lesson"
         ? setLession({
@@ -362,7 +362,7 @@ export default function AddScheduleVideo() {
   const handleSubmitBannerImage = (e) => {
     setLoading(true);
     if (typevideo === "lesson") {
-      console.log(lession.bannerImage, lession.bannerImageUrl)
+      console.log(lession.bannerImage, 'image')
       const formData = new FormData();
       formData.append("banner", lession.bannerImage);
       axios
