@@ -343,7 +343,7 @@ function AddStudio(props) {
     }
     const handleProductSubmit = async () => {
         setLoading(true);
-        let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
+        await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
             products: data['Product_Id'],
