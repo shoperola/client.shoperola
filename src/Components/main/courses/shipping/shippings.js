@@ -1,194 +1,209 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { API } from '../../../../API';
-import { isAutheticated } from '../../../auth/authhelper';
-import Footer from '../../Footer';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { API } from "../../../../API";
+import { isAutheticated } from "../../../auth/authhelper";
+import Footer from "../../Footer";
 
 function AllShippings(props) {
-    const { token } = isAutheticated();
-    const [data, setdata] = useState([]);
+  const { token } = isAutheticated();
+  const [data, setdata] = useState([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            await axios.get(`${API}/api/shipment/view_shipments`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then(res => {
-                setdata(res.data.data);
-            }).catch(error => {
-                console.log(error);
-            })
-        }
-        fetchData();
-        
-    }, [])
-    
-    const handleDelete = async (id) => {
-        let delShipment = window.confirm("Do you want to delete");
-        if (!delShipment) {
-            return;
-        }
-        let res = await axios.delete(`${API}/api/shipment/delete_shipment/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
+  useEffect(() => {
+    async function fetchData() {
+      await axios
+        .get(`${API}/api/shipment/view_shipments`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setdata(res.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        if (res) {
-            window.location.reload()
-        }
     }
+    fetchData();
+  }, [token]);
 
-    const handleSuspend = async (id, status) => {
-        let sus = null;
-
-        if (status === 'active') {
-            sus = window.confirm("Do you want to suspend the shipment?")
-
-            if (!sus) {
-                return
-            }
-
-            await axios.get(`${API}/api/shipment/change_status/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then(res => {
-                window.location.reload()
-            }).catch(error => {
-                console.log(error)
-                // window.alert("Suspending of the current shipment failed");
-            })
-        } else {
-            sus = window.confirm("Do you want to activate the shipment?")
-
-            if (!sus) {
-                return
-            }
-
-            await axios.get(`${API}/api/shipment/change_status/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then(res => {
-                window.location.reload()
-            }).catch(error => {
-                console.log(error)
-                window.alert("Activation of the current shipment failed");
-            })
-        }
+  const handleDelete = async (id) => {
+    let delShipment = window.confirm("Do you want to delete");
+    if (!delShipment) {
+      return;
     }
+    let res = await axios.delete(`${API}/api/shipment/delete_shipment/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res) {
+      window.location.reload();
+    }
+  };
 
-    return (
-        <div className="main-content">
+  const handleSuspend = async (id, status) => {
+    let sus = null;
 
-            <div className="page-content">
-                <div className="container-fluid">
+    if (status === "active") {
+      sus = window.confirm("Do you want to suspend the shipment?");
 
-                    {/* <!-- start page title --> */}
+      if (!sus) {
+        return;
+      }
 
+      await axios
+        .get(`${API}/api/shipment/change_status/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          // window.location.reload()
+        })
+        .catch((error) => {
+          console.log(error);
+          // window.alert("Suspending of the current shipment failed");
+        });
+    } else {
+      sus = window.confirm("Do you want to activate the shipment?");
 
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 className="mb-0">Commerce - Shipping
-                                </h4>
+      if (!sus) {
+        return;
+      }
 
-                                <div className="page-title-right">
-                                    <ol className="breadcrumb m-0">
-                                        <li className="breadcrumb-item"><Link to="/dashboard">TellyTell</Link></li>
-                                        <li className="breadcrumb-item">Commerce - Shipping</li>
-                                    </ol>
-                                </div>
+      await axios
+        .get(`${API}/api/shipment/change_status/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+          window.alert("Activation of the current shipment failed");
+        });
+    }
+  };
 
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <div className="main-content">
+      <div className="page-content">
+        <div className="container-fluid">
+          {/* <!-- start page title --> */}
 
+          <div className="row">
+            <div className="col-12">
+              <div className="page-title-box d-flex align-items-center justify-content-between">
+                <h4 className="mb-0">Commerce - Shipping</h4>
 
-                    {/* <!-- end page title --> */}
-
-
-
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="card">
-                                <div className="card-body">
-
-                                    <div className="row ml-0 mr-0  mb-10">
-                                        <div className="col-sm-12 col-md-6">&nbsp;</div>
-                                        <div className="col-sm-12 col-md-6">
-                                            <div className="dropdown d-block">
-                                                <a href="/shipping_add">
-                                                    <button type="button" className="btn btn-primary add-btn waves-effect waves-light float-right">
-                                                        <i className="fa fa-plus" aria-hidden="true"></i> Add New Shipping Rate
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="table-responsive table-shoot">
-                                        <table className="table table-centered table-nowrap mb-0">
-                                            <thead className="thead-light">
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Rate</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    data.length > 0 ?
-                                                        data.map(item => (
-                                                            <tr key={item._id}>
-                                                                <td>
-                                                                    {item.shipping_name}
-                                                                </td>
-                                                                <td>{item.shipping_rate}</td>
-                                                                <td>
-                                                                    <span className="badge badge-pill badge-success font-size-12">
-                                                                        {item.status}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-success btn-sm  waves-effect waves-light btn-table" onClick={() => handleSuspend(item._id, item.status)}>
-                                                                        {item.status === 'active' ? "Suspend" : "Activate"}
-                                                                    </button>
-                                                                    <Link to={`/shipping_edit/${item._id}`}>
-                                                                        <button type="button" className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
-                                                                            Edit</button>
-                                                                    </Link>
-
-                                                                    <button onClick={() => handleDelete(item._id)} type="button" className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2" id="sa-params">
-                                                                        Delete</button>
-
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                        : ""}
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-
-                                    {/* <!-- end table-responsive --> */}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                <div className="page-title-right">
+                  <ol className="breadcrumb m-0">
+                    <li className="breadcrumb-item">
+                      <Link to="/dashboard">TellyTell</Link>
+                    </li>
+                    <li className="breadcrumb-item">Commerce - Shipping</li>
+                  </ol>
                 </div>
-                {/* <!-- container-fluid --> */}
+              </div>
             </div>
-            {/* <!-- End Page-content --> */}
+          </div>
 
+          {/* <!-- end page title --> */}
 
-            {/* <footer className="footer">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row ml-0 mr-0  mb-10">
+                    <div className="col-sm-12 col-md-6">&nbsp;</div>
+                    <div className="col-sm-12 col-md-6">
+                      <div className="dropdown d-block">
+                        <a href="/shipping_add">
+                          <button
+                            type="button"
+                            className="btn btn-primary add-btn waves-effect waves-light float-right"
+                          >
+                            <i className="fa fa-plus" aria-hidden="true"></i>{" "}
+                            Add New Shipping Rate
+                          </button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="table-responsive table-shoot">
+                    <table className="table table-centered table-nowrap mb-0">
+                      <thead className="thead-light">
+                        <tr>
+                          <th>Name</th>
+                          <th>Rate</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.length > 0
+                          ? data.map((item) => (
+                              <tr key={item._id}>
+                                <td>{item.shipping_name}</td>
+                                <td>{item.shipping_rate}</td>
+                                <td>
+                                  <span className="badge badge-pill badge-success font-size-12">
+                                    {item.status === "active"
+                                      ? "Live"
+                                      : "Suspended"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <button
+                                    type="button"
+                                    className="btn btn-success btn-sm  waves-effect waves-light btn-table"
+                                    onClick={() =>
+                                      handleSuspend(item._id, item.status)
+                                    }
+                                  >
+                                    {item.status === "active"
+                                      ? "Suspend"
+                                      : "Make Live"}
+                                  </button>
+                                  <Link to={`/shipping_edit/${item._id}`}>
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
+                                    >
+                                      Edit
+                                    </button>
+                                  </Link>
+
+                                  <button
+                                    onClick={() => handleDelete(item._id)}
+                                    type="button"
+                                    className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2"
+                                    id="sa-params"
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                          : ""}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* <!-- end table-responsive --> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- container-fluid --> */}
+      </div>
+      {/* <!-- End Page-content --> */}
+
+      {/* <footer className="footer">
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-sm-12">
@@ -198,9 +213,9 @@ function AllShippings(props) {
 					</div>
 				</div>
 			</footer> */}
-            <Footer />
-        </div>
-    );
+      <Footer />
+    </div>
+  );
 }
 
 export default AllShippings;
