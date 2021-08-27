@@ -79,7 +79,7 @@ function AddStudio(props) {
             }
         }
         fetchData();
-    }, [token,props,data,currentTime])
+    }, [])
 
     const defaultOptions = {
         id: 'VideoPlayer',
@@ -131,9 +131,9 @@ function AddStudio(props) {
         setdata(
             {
                 ...data,
-                "current-video-time": currentTime,
+                "Button-clicked": "Shop on device",
+                "current-video-time": Math.floor(str),
                 "Video-Duration": Math.floor(document.getElementsByClassName("jp-media").item(0)?.duration),
-                "Button-clicked": "Shop on device"
             }
         )
         addpopupWindow.current.style.display = "flex";
@@ -274,9 +274,9 @@ function AddStudio(props) {
         setdata(
             {
                 ...data,
-                "current-video-time": currentTime,
+                "Button-clicked": "Shop on website",
+                "current-video-time": Math.floor(str),
                 "Video-Duration": Math.floor(document.getElementsByClassName("jp-media").item(0)?.duration),
-                "Button-clicked": "Shop on website"
             }
         )
         addpopupForShowWindow.current.style.display = "flex";
@@ -287,9 +287,9 @@ function AddStudio(props) {
         setdata(
             {
                 ...data,
-                "current-video-time": currentTime,
+                "Button-clicked": "Scan to Buy",
+                "current-video-time": Math.floor(str),
                 "Video-Duration": Math.floor(document.getElementsByClassName("jp-media").item(0)?.duration),
-                "Button-clicked": "Scan to Buy"
             }
         )
         addpopupForShowScanBuy.current.style.display = "flex";
@@ -312,11 +312,12 @@ function AddStudio(props) {
                 "Qr_url": e.target.value
             }
         )
-
+            
     }
-    const handleSubmitShopData = async () => {
+    console.log(data)
+    const handleSubmitShopData = () => {
         setLoading(true);
-        await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
+        axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
             url: data['Added-Url'],
@@ -341,9 +342,10 @@ function AddStudio(props) {
         // setLoading(false);
         // addpopupForShowWindow.current.style.display = "none";
     }
-    const handleProductSubmit = async () => {
+    const handleProductSubmit = () => {
         setLoading(true);
-        await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
+        console.log(studioId, data)
+        axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
             products: data['Product_Id'],
@@ -364,10 +366,10 @@ function AddStudio(props) {
             alert("Adding Failed")
             console.log(error)
         })
-        
     }
-    const handleSubmitScanToBuy = async () => {
+    const handleSubmitScanToBuy = () => {
         setLoading(true);
+        console.log(data)
         const svg = document.getElementById("QRCode");
         const svgData = new XMLSerializer().serializeToString(svg);
         const img = new Image();
@@ -380,8 +382,8 @@ function AddStudio(props) {
             method: 'post',
             body: formData
         }).then(response => response.json())
-            .then(async (item) => {
-                let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
+            .then((item) => {
+                axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
                     duration: data['selected-duration'],
                     current_time: data['current-video-time'],
                     products: data['Product_Id'],
@@ -393,10 +395,15 @@ function AddStudio(props) {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
+                }).then(res => {
+                    setresData(res.data);
+                    setLoading(false);
+                    addpopupForShowScanBuy.current.style.display = "none";
+                }).catch(error => {
+                    setLoading(false)
+                    console.log(error)
                 })
-                setresData(res.data);
-                setLoading(false);
-                addpopupForShowScanBuy.current.style.display = "none";
+                
             })
             .catch(err => {
                 addpopupForShowScanBuy.current.style.display = "none";
@@ -424,7 +431,7 @@ function AddStudio(props) {
             setresData(res.data)
         }
         fetchData()
-    }, [studioId,token])
+    }, [])
     return (
         <div className="main-content">
             <div className="page-content">
