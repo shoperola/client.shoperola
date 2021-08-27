@@ -4,10 +4,32 @@ import { Link } from "react-router-dom";
 import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 function AllShippings(props) {
   const { token } = isAutheticated();
   const [data, setdata] = useState([]);
+  const [currency, setCurrency] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      await axios
+        .get(`${API}/api/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setCurrency(res.data.data.settings.currency);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    fetchData();
+  }, [token]);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +47,7 @@ function AllShippings(props) {
         });
     }
     fetchData();
-  }, [token]);
+  }, [token, data]);
 
   const handleDelete = async (id) => {
     let delShipment = window.confirm("Do you want to delete");
@@ -138,7 +160,7 @@ function AllShippings(props) {
                       <thead className="thead-light">
                         <tr>
                           <th>Name</th>
-                          <th>Rate</th>
+                          <th>Price</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -148,16 +170,44 @@ function AllShippings(props) {
                           ? data.map((item) => (
                               <tr key={item._id}>
                                 <td>{item.shipping_name}</td>
-                                <td>{item.shipping_rate}</td>
                                 <td>
-                                  <span className="badge badge-pill badge-success font-size-12">
-                                    {item.status === "active"
-                                      ? "Live"
-                                      : "Suspended"}
-                                  </span>
+                                  {getSymbolFromCurrency(currency)}{" "}
+                                  {item.shipping_rate}
                                 </td>
                                 <td>
-                                  <button
+                                  {item.status === "active" ? (
+                                    <span className="badge badge-pill badge-success font-size-12">
+                                      Live
+                                    </span>
+                                  ) : (
+                                    <span className="badge badge-pill badge-danger font-size-12">
+                                      Suspended
+                                    </span>
+                                  )}
+                                </td>
+                                <td>
+                                  {item.status === "active" ? (
+                                    <button
+                                      type="button"
+                                      className="btn btn-danger btn-sm  waves-effect waves-light btn-table"
+                                      onClick={() =>
+                                        handleSuspend(item._id, item.status)
+                                      }
+                                    >
+                                      Suspend
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="btn btn-success btn-sm  waves-effect waves-light btn-table"
+                                      onClick={() =>
+                                        handleSuspend(item._id, item.status)
+                                      }
+                                    >
+                                      Make Live
+                                    </button>
+                                  )}
+                                  {/* <button
                                     type="button"
                                     className="btn btn-success btn-sm  waves-effect waves-light btn-table"
                                     onClick={() =>
@@ -167,7 +217,7 @@ function AllShippings(props) {
                                     {item.status === "active"
                                       ? "Suspend"
                                       : "Make Live"}
-                                  </button>
+                                  </button> */}
                                   <Link to={`/shipping_edit/${item._id}`}>
                                     <button
                                       type="button"

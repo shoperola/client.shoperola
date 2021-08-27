@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 import { useHistory } from "react-router";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
+import { getAllISOCodes, getParamByParam } from "iso-country-currency";
 
 export default function PaymentSettting() {
   const [showSubscription,setShowSubscription]=useState(true);
@@ -21,6 +22,10 @@ export default function PaymentSettting() {
   const history=useHistory();
   const [feesMonth,setfeesMonth]=useState(0);
   const [feesyear,setfeesyear]=useState(0);
+  const [currCountry, setcCurrCountry] = useState('');
+
+  const contCurr = getAllISOCodes()
+  contCurr.sort((a, b)=> a.countryName > b.countryName ? 1 : -1)
   // const [permissionsGranted,setPermissionsGranted]=useState(false);
   // const [consentStatus,setConsentStatus]=useState(false);
   // const [productIntentId,setProductIntentId]=useState("");
@@ -259,6 +264,7 @@ export default function PaymentSettting() {
       console.log("user data response",response);
       setCurrency(response.data.data.settings.currency)
       setCountry(response.data.data.settings.country)
+      setcCurrCountry(getParamByParam('currency', response.data.data.settings.currency, 'countryName'))
       if(response.data.data.feesPerMonth==0 && response.data.data.feesPerYear==0){
         setShowSubscription(false);
         setfeesyear(response.data.data.feesPerYear);
@@ -317,6 +323,12 @@ export default function PaymentSettting() {
         console.log(err);
       });
   },[success]);
+
+  const handleCurrency = e => {
+    setCurrency(getParamByParam('countryName', e.target.value, 'currency'))
+    setcCurrCountry(e.target.value)
+  }
+
   return (
     <>
       <div
@@ -493,7 +505,12 @@ export default function PaymentSettting() {
                                   onChange={(e)=>setCountry(e.target.value)}
                                 >
                                   {country==="" && <option value="">--select--</option>}
-                                  {!(country==="") && <option value="">{country}</option>}
+                                  {contCurr.map(item => (
+                                    <option key={item.iso} value={item.currency}>
+                                      {item.countryName}
+                                    </option>
+                                  ))}
+                                  {/* {!(country==="") && <option value="">{country}</option>}
                                   <option value="INR" selected>
                                     India
                                   </option>
@@ -501,7 +518,7 @@ export default function PaymentSettting() {
                                     United States of America
                                   </option>
                                   <option value="AED">Argentina</option>
-                                  <option value="AUD">United Kingdon</option>
+                                  <option value="AUD">United Kingdon</option> */}
                                 </select>
                               </div>
                             </div>
@@ -517,15 +534,21 @@ export default function PaymentSettting() {
                                   Select the currency in which you would like to
                                   accept your payments
                                 </label>
+                                
                                 <select
                                   name="currency"
-                                  value={currency}
+                                  value={currCountry}
                                   className="form-control input-field"
-                                  onChange={(e)=>setCurrency(e.target.value)}
+                                  onChange={handleCurrency}
                                 >
                                   {currency==="" && <option value="">--select--</option>}
+                                  {contCurr.map(item => (
+                                    <option key={item.iso} value={item.countryName}>
+                                      {item.countryName} ({item.currency})
+                                    </option>
+                                  ))}
+                                  {/* {currency==="" && <option value="">--select--</option>}
                                   {!(currency==="") && <option value="">{currency}</option>}
-                                  {/* <option value="">--select--</option> */}
                                   <option value="INR" selected>
                                     INR
                                   </option>
@@ -538,7 +561,7 @@ export default function PaymentSettting() {
                                   <option value="HKD">HKD</option>
                                   <option value="INR">INR</option>
                                   <option value="JPY">JPY</option>
-                                  <option value="SGD">SGD</option>
+                                  <option value="SGD">SGD</option> */}
                                 </select>
                               </div>
                             </div>

@@ -17,6 +17,9 @@ function AddShipping() {
   const [country, setCountry] = useState("");
   const [shippingState, setShippingState] = useState("");
   const [status, setStatus] = useState("");
+  const [wordsName, setWordsName] = useState(45);
+  const [wordsDesc, setWordsDesc] = useState(250);
+  const [wordsRate, setWordsRate] = useState(5);
 
   const { token } = isAutheticated();
 
@@ -59,6 +62,30 @@ function AddShipping() {
       .catch((error) => {
         setIsLoading(false);
       });
+  };
+
+  const handleNameEdit = (e) => {
+    if (45 - e.target.value.length !== -1) {
+      setShippingName(e.target.value);
+      setWordsName(45 - e.target.value.length);
+    }
+  };
+
+  const handleDesc = (e) => {
+    if (250 - e.target.value.length !== -1) {
+      setShippingDescription(e.target.value);
+      setWordsDesc(250 - e.target.value.length);
+    }
+  };
+
+  const handleRate = (e) => {
+    if (
+      e.target.value === "" ||
+      (!isNaN(e.target.value) && 5 - e.target.value.length !== -1)
+    ) {
+      setRate(e.target.value);
+      setWordsRate(5 - e.target.value);
+    }
   };
 
   return (
@@ -132,10 +159,11 @@ function AddShipping() {
                                 type="text"
                                 className="form-control input-field"
                                 value={shippingName}
-                                onChange={(e) =>
-                                  setShippingName(e.target.value)
-                                }
+                                onChange={handleNameEdit}
                               />
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordsName}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -152,16 +180,17 @@ function AddShipping() {
                                 className="form-control input-field"
                                 rows="5"
                                 value={shippingDescription}
-                                onChange={(e) =>
-                                  setShippingDescription(e.target.value)
-                                }
+                                onChange={handleDesc}
                               ></textarea>
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordsDesc}
+                              </p>
                             </div>
                           </div>
                         </div>
                         <div className="row">
                           <div className="col-lg-12">
-                            <div className="form-group">
+                            <div className="form-group col-sm-2">
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
@@ -170,9 +199,9 @@ function AddShipping() {
                               </label>
                               <input
                                 type="text"
-                                className="form-control input-field"
+                                className="form-control input-field .col-sm-*"
                                 value={rate}
-                                onChange={(e) => setRate(e.target.value)}
+                                onChange={handleRate}
                               />
                             </div>
                           </div>
@@ -266,7 +295,11 @@ function AddShipping() {
                                 country={country}
                                 value={shippingState}
                                 disableWhenEmpty
-                                onChange={(val) => val === "" ? setShippingState("All States") : setShippingState(val)}
+                                onChange={(val) =>
+                                  val === ""
+                                    ? setShippingState("All States")
+                                    : setShippingState(val)
+                                }
                               />
                             </div>
                           </div>
