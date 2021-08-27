@@ -281,13 +281,12 @@ function EditShipping() {
                               </label>
                               <RegionDropdown
                                 blankOptionLabel="No Country Selected"
-                                defaultOptionLabel="Select State"
+                                defaultOptionLabel="All States"
                                 className="form-control  input-field"
                                 country={country}
                                 value={shippingState}
                                 disableWhenEmpty
-                                customOptions={["All States"]}
-                                onChange={(val) => setShippingState(val)}
+                                onChange={(val) => val === "" ? setShippingState("All States") : setShippingState(val)}
                               />
                             </div>
                           </div>
