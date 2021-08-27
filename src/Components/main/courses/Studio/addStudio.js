@@ -651,7 +651,56 @@ function AddStudio(props) {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {resData.map(item => (
+                                                    <tr>
+                                                            {
+                                                                resData ?
+                                                                    resData.products?.map((item, index) => (
+
+                                                                        <td>
+                                                                            <img
+                                                                            alt=""
+                                                                            src={item.image}alt="" />
+                                                                        </td>
+
+                                                                    ))
+                                                                    : <p style={{ padding: "7px", color: "grey", textAlign: "center" }}>No Data To Show!</p>
+                                                            }
+                                                        </tr>
+                                                        <tr>
+
+                                                            {
+                                                                resData ?
+                                                                    resData.CTA?.map(item => (
+                                                                        <td>{item}</td>
+                                                                    ))
+                                                                    : <p style={{ padding: "7px", color: "grey", textAlign: "center" }}>No Data To Show!</p>
+                                                            }
+                                                        </tr>
+                                                        <tr>
+
+                                                            {
+                                                                resData ?
+                                                                    resData?.duration?.map((item, index) => (
+                                                                        <td>{item}</td>
+
+                                                                    ))
+                                                                    : <p style={{ padding: "7px", color: "grey", textAlign: "center" }}>No Data To Show!</p>
+                                                            }
+                                                        </tr>
+                                                        <tr>
+
+                                                            {
+                                                                resData ?
+                                                                    resData.products?.map((item, index) => (
+                                                                        <td>
+                                                                            <button onClick={() => handleDelete(item._id)} id="btn">Delete</button>
+                                                                        </td>
+
+                                                                    ))
+                                                                    : <p style={{ padding: "7px", color: "grey", textAlign: "center" }}>No Data To Show!</p>
+                                                            }
+                                                        </tr>
+                                                        {/* {resData?.map(item => (
                                                             <tr>
                                                                 <td><img alt="product" src={item.product.image} /></td>
                                                                 <td>{item.CTA}</td>
@@ -660,7 +709,7 @@ function AddStudio(props) {
                                                                     <button onClick={() => handleDelete(item.product._id)} id="btn">Delete</button>
                                                                 </td>
                                                             </tr>
-                                                        ))}
+                                                        ))} */}
                                                         
 
                                                         {/* {
