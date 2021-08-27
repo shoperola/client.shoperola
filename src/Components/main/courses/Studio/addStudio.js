@@ -316,7 +316,7 @@ function AddStudio(props) {
     }
     const handleSubmitShopData = async () => {
         setLoading(true);
-        let res = await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
+        await axios.post(`${API}/api/studio/add_product_list/${data['Studio_Id']}`, {
             duration: data['selected-duration'],
             current_time: data['current-video-time'],
             url: data['Added-Url'],
@@ -327,10 +327,19 @@ function AddStudio(props) {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
+        }).then(res => {
+            console.log(res.data)
+            setresData(res.data);
+            setLoading(false);
+            addpopupForShowWindow.current.style.display = "none";
+        }).catch(error => {
+            alert("Adding Failed")
+            setLoading(false);
+            console.log(error)
         })
-        setresData(res.data);
-        setLoading(false);
-        addpopupForShowWindow.current.style.display = "none";
+        // setresData(res.data);
+        // setLoading(false);
+        // addpopupForShowWindow.current.style.display = "none";
     }
     const handleProductSubmit = async () => {
         setLoading(true);
@@ -345,10 +354,17 @@ function AddStudio(props) {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
+        }).then(res => {
+            console.log(res.data)
+            setresData(res.data);
+            setLoading(false);
+            addpopupWindow.current.style.display = "none";
+        }).catch(error => {
+            setLoading(false)
+            alert("Adding Failed")
+            console.log(error)
         })
-        setresData(res.data);
-        setLoading(false);
-        addpopupWindow.current.style.display = "none";
+        
     }
     const handleSubmitScanToBuy = async () => {
         setLoading(true);
@@ -394,10 +410,7 @@ function AddStudio(props) {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
-        })
-        console.log(res);
-        setresData(res.data.saved)
-
+        }).then(res => {setresData(res.data.saved)})
     }
 
     useEffect(() => {
