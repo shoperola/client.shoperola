@@ -1,5 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Switch, Redirect, useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
 import Login from "../Components/auth/Login";
 import Register from "../Components/auth/Register";
 import Subscribers from "../Components/main/Subscribers";
@@ -73,88 +80,105 @@ import EditShipping from "../Components/main/courses/shipping/editShipping";
 import TaxRates from "../Components/main/courses/payments/taxRates";
 import AddTaxRate from "../Components/main/courses/payments/addTaxRate";
 import EditTaxRate from "../Components/main/courses/payments/editTaxRate";
+
+// Configuration
+import ConfigProfile from "../Components/main/configurations/Profile";
+import ConfigText from "../Components/main/configurations/Text";
+import ConfigTextEdit from "../Components/main/configurations/TextEdit";
+import ConfigAddress from "../Components/main/configurations/Address";
+import ConfigSocialMedia from "../Components/main/configurations/SocialMedia";
+import ConfigLogo from "../Components/main/configurations/Logo";
+import ConfigMobileTV from "../Components/main/configurations/MobileTV";
+
 const { token } = isAutheticated();
 
 export default function Routes() {
-
   setInterval(async () => {
     let idToken = sessionStorage.getItem("id_token");
     let refresh_token = sessionStorage.getItem("refresh_token");
     let params = new URLSearchParams({ refresh_token });
-    refresh_token && await axios
-      .post(`${API}/api/client/refreshToken`, params, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Bearer ${idToken}`,
-        },
-      })
-      .then((response) => {
-        console.log("cognito data", response);
-        let data = response.data.data
-        sessionStorage.setItem(
-          "access_token", data.AccessToken
-        );
-        sessionStorage.setItem(
-          "id_token", data.IdToken
-        );
-
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+    refresh_token &&
+      (await axios
+        .post(`${API}/api/client/refreshToken`, params, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${idToken}`,
+          },
+        })
+        .then((response) => {
+          console.log("cognito data", response);
+          let data = response.data.data;
+          sessionStorage.setItem("access_token", data.AccessToken);
+          sessionStorage.setItem("id_token", data.IdToken);
+        })
+        .catch((err) => {
+          console.log(err);
+        }));
   }, 3000000);
   return (
-    <Router >
+    <Router>
       <Switch>
         <Route path="/" exact component={Login}></Route>
         <Route path="/customer" exact component={Home}></Route>
         <Route path="/register" exact component={Register}></Route>
         {/* <Route path="/profile/:username" exact component={PublicProfile}></Route> */}
-        <Route path="/subscription" exact component={() => {
-
-          let idToken = sessionStorage.getItem("id_token");
-          if (idToken) {
-            return <Redirect to="/customer" />
-          } else {
-            return <Redirect to="/register/cognito" />
-          }
-
-        }
-
-        }></Route>
+        <Route
+          path="/subscription"
+          exact
+          component={() => {
+            let idToken = sessionStorage.getItem("id_token");
+            if (idToken) {
+              return <Redirect to="/customer" />;
+            } else {
+              return <Redirect to="/register/cognito" />;
+            }
+          }}
+        ></Route>
         <Route path="/user/paypal" exact component={UserPaypal}></Route>
         <Route path="/user/stripe" exact component={StripePayment}></Route>
         <Route path="/user/payment" exact component={UserPaypal}></Route>
         <Route path="/paymentDetails" exact component={PaymentDetails}></Route>
-        <Route path="/public/:username" render={(props) => {
-          return <PublicProfile {...props} />;
-
-        }} />
-        <Route path="/register/cognito" exact
+        <Route
+          path="/public/:username"
+          render={(props) => {
+            return <PublicProfile {...props} />;
+          }}
+        />
+        <Route
+          path="/register/cognito"
+          exact
           component={() => {
-            window.location.href = "https://kourses.auth.ap-south-1.amazoncognito.com/signup?client_id=l0npk96glld2b02at5nidndcq&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://kourse-53d4f.web.app/cognito/callback"
+            window.location.href =
+              "https://kourses.auth.ap-south-1.amazoncognito.com/signup?client_id=l0npk96glld2b02at5nidndcq&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://kourse-53d4f.web.app/cognito/callback";
             return null;
-          }
-          }
+          }}
         />
-        <Route path="/sign/cognito" exact
+        <Route
+          path="/sign/cognito"
+          exact
           component={() => {
-            window.location.href = "https://kourses.auth.ap-south-1.amazoncognito.com/login?client_id=l0npk96glld2b02at5nidndcq&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://kourse-53d4f.web.app/cognito/callback"
+            window.location.href =
+              "https://kourses.auth.ap-south-1.amazoncognito.com/login?client_id=l0npk96glld2b02at5nidndcq&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://kourse-53d4f.web.app/cognito/callback";
             return null;
-          }
-          }
+          }}
         />
-        <Route path="/cognito/callback" exact render={(props) => {
-          return <FakePath {...props} />
-        }}
-
+        <Route
+          path="/cognito/callback"
+          exact
+          render={(props) => {
+            return <FakePath {...props} />;
+          }}
         />
-        <Route path="/fakepath" exact component={() => {
-          return <Redirect to="/customer" />
-        }} />
-        <Route path="/payment/stripe/refresh" exact
+        <Route
+          path="/fakepath"
+          exact
+          component={() => {
+            return <Redirect to="/customer" />;
+          }}
+        />
+        <Route
+          path="/payment/stripe/refresh"
+          exact
           component={() => {
             axios
               .get(`${API}/api/user/stripe/onboard-user/refresh`, {
@@ -171,15 +195,13 @@ export default function Routes() {
                 console.log(err);
               });
             return null;
-          }
-
-          }
-
+          }}
         />
 
-        <Route path="/payment/stripe/return" exact
+        <Route
+          path="/payment/stripe/return"
+          exact
           component={() => {
-
             axios
               .get(`${API}/api/user/stripe/checkAccountStatus`, {
                 headers: {
@@ -191,17 +213,12 @@ export default function Routes() {
                 console.log("token data", getData);
                 // history.push("/payment");
                 //window.location.href="http://localhost:3000/#/payment";
-
-
               })
               .catch((err) => {
                 console.log(err);
               });
-            return <Redirect to="/payment" />
-          }
-
-          }
-
+            return <Redirect to="/payment" />;
+          }}
         />
         <Base>
           {/* BASE STARTING HERE */}
@@ -218,9 +235,8 @@ export default function Routes() {
           <PrivateRoute
             path="/payment"
             exact
-            component={PaymentSettting}>
-
-          </PrivateRoute>
+            component={PaymentSettting}
+          ></PrivateRoute>
           {/* <Route path="/payment" exact component={PaymentSettting}></Route> */}
           <PrivateRoute
             path="/profile"
@@ -263,7 +279,6 @@ export default function Routes() {
             component={Subscribers}
             exact
             path="/subscribers"
-
           ></PrivateRoute>
           <PrivateRoute
             component={Lessions}
@@ -386,7 +401,6 @@ export default function Routes() {
           <PrivateRoute
             component={Catagory}
             exact
-
             path="/comcatagory"
           ></PrivateRoute>
           <PrivateRoute
@@ -427,6 +441,44 @@ export default function Routes() {
             component={EditShipping}
             exact
             path="/shipping_edit/:id"
+          ></PrivateRoute>
+
+          {/* Configurations */}
+
+          <PrivateRoute
+            component={ConfigProfile}
+            exact
+            path="/configuration/profile"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ConfigText}
+            exact
+            path="/configuration/text"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ConfigTextEdit}
+            exact
+            path="/configuration/text/textedit/:id"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ConfigAddress}
+            exact
+            path="/configuration/address"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ConfigSocialMedia}
+            exact
+            path="/configuration/social-media"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ConfigLogo}
+            exact
+            path="/configuration/logo"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ConfigMobileTV}
+            exact
+            path="/configuration/mobile-tv"
           ></PrivateRoute>
 
           {/* payments  */}
@@ -476,7 +528,7 @@ export default function Routes() {
             exact
             path="/scheduleVideos"
           ></PrivateRoute>
-           <PrivateRoute
+          <PrivateRoute
             component={EditScheduleVideo}
             exact
             path="/edit-schedule-video/:typevideo/:id"
@@ -486,7 +538,6 @@ export default function Routes() {
             exact
             path="/add-schedule-video"
           ></PrivateRoute>
-
 
           {/* BASE ENDING HERE */}
         </Base>
@@ -515,9 +566,7 @@ export default function Routes() {
           exact
           component={PublicProfile}
         ></PrivateRoute> */}
-
-
       </Switch>
-    </Router >
+    </Router>
   );
 }

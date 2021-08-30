@@ -79,18 +79,15 @@ export default function Sidebar() {
                   <Link to="/scheduleVideos">Schedule</Link>
                 </li>
                 <li>
-                  <Link to="/subjects">Banners
-                  </Link>
+                  <Link to="/subjects">Banners</Link>
                 </li>
                 {/* <li>
                   <Link to="/alllanguages">TV Shows
                   </Link>
                 </li> */}
                 <li>
-                  <Link to="/categories">Categories
-                  </Link>
+                  <Link to="/categories">Categories</Link>
                 </li>
-
               </ul>
             </li>
             <li>
@@ -106,30 +103,29 @@ export default function Sidebar() {
                   <Link to="/featured/products">Featured Products</Link>
                 </li>
                 <li>
-                  <Link to="/comcatagory" > Category
-                  </Link>
+                  <Link to="/comcatagory"> Category</Link>
                 </li>
                 <li>
-                  <Link to="/allCoupons">Coupons
-                  </Link>
+                  <Link to="/allCoupons">Coupons</Link>
                 </li>
                 <li>
-                  <Link to="/allShippings">Shipping
-                  </Link>
+                  <Link to="/allShippings">Shipping</Link>
                 </li>
               </ul>
-
             </li>
 
             <li>
               <Link to="/earning">
-                <img src="/assets/images/icons/earning-icon.png" alt=""/>
+                <img src="/assets/images/icons/earning-icon.png" alt="" />
                 <span>Earnings</span>
               </Link>
             </li>
             <li>
               <Link to="#">
-                <img src="/assets/images/icons/payment-settings-icon.png" alt="" />
+                <img
+                  src="/assets/images/icons/payment-settings-icon.png"
+                  alt=""
+                />
                 <span>Payment Settings</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
@@ -137,11 +133,9 @@ export default function Sidebar() {
                   <Link to="/payment">Settings</Link>
                 </li>
                 <li>
-                  <Link to="/tax-rates">Tax Rates
-                  </Link>
+                  <Link to="/tax-rates">Tax Rates</Link>
                 </li>
               </ul>
-
             </li>
             {/* <li>
               <Link to="/notification">
@@ -159,9 +153,36 @@ export default function Sidebar() {
 
             <li>
               <Link to="/profile">
-                <img src="/assets/images/icons/site-preference.png" alt=""/>
+                <img src="/assets/images/icons/site-preference.png" alt="" />
                 <span>Profile</span>
               </Link>
+            </li>
+
+            <li>
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/cms-icon.png" />
+                <span>Configuration</span>
+              </Link>
+              <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/configuration/profile">Profile</Link>
+                </li>
+                <li>
+                  <Link to="/configuration/text">Text</Link>
+                </li>
+                <li>
+                  <Link to="/configuration/address"> Address</Link>
+                </li>
+                <li>
+                  <Link to="/configuration/social-media">Social Media</Link>
+                </li>
+                <li>
+                  <Link to="/configuration/logo">Logo</Link>
+                </li>
+                <li>
+                  <Link to="/configuration/mobile-tv">Mobile and TV Apps</Link>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
