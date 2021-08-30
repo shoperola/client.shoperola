@@ -19,7 +19,7 @@ function AddShipping() {
   const [status, setStatus] = useState("");
   const [wordsName, setWordsName] = useState(45);
   const [wordsDesc, setWordsDesc] = useState(250);
-  const [wordsRate, setWordsRate] = useState(5);
+  const [wordsRate, setWordsRate] = useState(12);
 
   const { token } = isAutheticated();
 
@@ -81,10 +81,10 @@ function AddShipping() {
   const handleRate = (e) => {
     if (
       e.target.value === "" ||
-      (!isNaN(e.target.value) && 5 - e.target.value.length !== -1)
+      (!isNaN(e.target.value) && 12 - e.target.value.length !== -1)
     ) {
       setRate(e.target.value);
-      setWordsRate(5 - e.target.value);
+      setWordsRate(12 - e.target.value);
     }
   };
 
