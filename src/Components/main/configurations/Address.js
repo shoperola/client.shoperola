@@ -7,7 +7,6 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import axios from "axios";
 import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
-import PhoneInput from "react-phone-number-input";
 
 const Address = () => {
   const { token } = isAutheticated();
