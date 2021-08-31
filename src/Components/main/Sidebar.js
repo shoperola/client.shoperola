@@ -174,12 +174,12 @@ export default function Sidebar() {
               </Link>
             </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/profile">
                 <img src="/assets/images/icons/site-preference.png" alt="" />
                 <span>Profile</span>
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link to="#/" className="has-arrow">
