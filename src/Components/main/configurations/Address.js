@@ -7,7 +7,7 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import axios from "axios";
 import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
-import { set } from "lodash-es";
+import PhoneInput from "react-phone-number-input";
 
 const Address = () => {
   const { token } = isAutheticated();
@@ -23,6 +23,20 @@ const Address = () => {
   const [contNumber, setContNumber] = useState("");
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
+
+  const wordLimit = {
+    compName: 50,
+    address: 100,
+    city: 50,
+    pincode: 6,
+    contNumber: 15,
+  };
+
+  const [wordCompName, setWordCompName] = useState(wordLimit.compName);
+  const [wordAddress, setWordAddress] = useState(wordLimit.address);
+  const [wordCity, setWordCity] = useState(wordLimit.city);
+  const [wordPincode, setWordPincode] = useState(wordLimit.pincode);
+  const [wordContNumber, setWordContNumber] = useState(wordLimit.contNumber);
 
   useEffect(() => {
     const fetchData = () => {
@@ -43,6 +57,12 @@ const Address = () => {
           setContNumber(res.data.data.contact_number);
           setEmail(res.data.data.email);
           setId(res.data.data._id);
+
+          setWordCompName(
+            wordLimit.compName - res.data.data.company_name.length
+          );
+          setWordAddress(wordLimit.address - res.data.data.AdminAddress.length);
+          setWordCity(wordLimit.city - res.data.data.city.length);
         })
         .catch((error) => {
           console.log(error);
@@ -51,17 +71,48 @@ const Address = () => {
     fetchData();
   }, [token]);
 
+  const validateEmail = (s) => {
+    const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (s.match(mailformat)) {
+      return true;
+    }
+    return false;
+  };
+
+  const validateURL = (s) => {
+    const urlFormat =
+      /(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    if (s.match(urlFormat)) {
+      return true;
+    }
+    return false;
+  };
+
+  const validatePhoneNumber = (s) => {
+    const phoneValid =
+      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    if (s.match(phoneValid)) {
+      return true;
+    }
+    return false;
+  };
+
   const saveHandler = () => {
-    const formdata = new FormData();
-    formdata.append("company_name", compName);
-    formdata.append("AdminAddress", address);
-    formdata.append("city", city);
-    formdata.append("state", region);
-    formdata.append("country", country);
-    formdata.append("pincode", pincode);
-    formdata.append("website", website);
-    formdata.append("contact_number", contNumber);
-    formdata.append("email", email);
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email");
+      return;
+    }
+
+    if (!validateURL(website)) {
+      alert("Please enter a valid URL");
+      return;
+    }
+
+    if (!validatePhoneNumber(contNumber)) {
+      alert("Please enter a valid Contact Number");
+      return;
+    }
 
     axios
       .put(
@@ -85,7 +136,6 @@ const Address = () => {
         }
       )
       .then(async (res) => {
-        console.log(res);
         const done = await swal({
           title: "Saved Successfully!",
           icon: "success",
@@ -101,6 +151,49 @@ const Address = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleEdit = (e, type) => {
+    const length = e.target.value.length;
+    const value = e.target.value;
+
+    switch (type) {
+      case "compName":
+        if (wordLimit.appName - length !== -1) {
+          setCompName(value);
+          setWordCompName(wordLimit.compName - length);
+        }
+        break;
+      case "address":
+        if (wordLimit.address - length !== -1) {
+          setAddress(value);
+          setWordAddress(wordLimit.address - length);
+        }
+        break;
+      case "city":
+        if (wordLimit.city - length !== -1) {
+          setCity(value);
+          setWordCity(wordLimit.city - length);
+        }
+        break;
+      case "pincode":
+        if (
+          value === "" ||
+          (!isNaN(value) && wordLimit.pincode - length !== -1)
+        ) {
+          setPincode(value);
+          setWordPincode(wordLimit.pincode - length);
+        }
+        break;
+      case "contNumber":
+        if (wordLimit.contNumber - length !== -1) {
+          setContNumber(value);
+          setWordContNumber(wordLimit.contNumber - length);
+        }
+        break;
+      default:
+        console.log("Incorrect Type");
+    }
   };
 
   return (
@@ -146,8 +239,11 @@ const Address = () => {
                                 type="text"
                                 className="form-control input-field"
                                 value={compName}
-                                onChange={(e) => setCompName(e.target.value)}
+                                onChange={(e) => handleEdit(e, "compName")}
                               />
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordCompName}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -160,12 +256,15 @@ const Address = () => {
                               >
                                 Address
                               </label>
-                              <input
-                                type="text"
+                              <textarea
                                 className="form-control input-field"
+                                rows="3"
                                 value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                              />
+                                onChange={(e) => handleEdit(e, "address")}
+                              ></textarea>
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordAddress}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -182,8 +281,11 @@ const Address = () => {
                                 type="text"
                                 className="form-control input-field"
                                 value={city}
-                                onChange={(e) => setCity(e.target.value)}
+                                onChange={(e) => handleEdit(e, "city")}
                               />
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordCity}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -238,9 +340,7 @@ const Address = () => {
                                 type="text"
                                 className="form-control input-field"
                                 value={pincode}
-                                onChange={(e) => {
-                                  setPincode(e.target.value);
-                                }}
+                                onChange={(e) => handleEdit(e, "pincode")}
                               />
                             </div>
                           </div>
@@ -273,10 +373,10 @@ const Address = () => {
                                 Contact Number
                               </label>
                               <input
-                                type="text"
+                                type="tel"
                                 className="form-control input-field"
                                 value={contNumber}
-                                onChange={(e) => setContNumber(e.target.value)}
+                                onChange={(e) => handleEdit(e, "contNumber")}
                               />
                             </div>
                           </div>

@@ -1,12 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Collapse } from "react-bootstrap";
+import { API } from "../../API";
+import { isAutheticated, signout } from "../auth/authhelper";
 
 export default function Sidebar() {
+  const { token } = isAutheticated();
   const [open, setOpen] = useState(false);
+  const [logo, setLogo] = useState("");
+
+  useEffect(() => {
+    const fetchData = () => {
+      axios
+        .get(`${API}/api/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.data.picture !== "") {
+            setLogo(res.data.data.picture);
+          }
+        });
+    };
+
+    fetchData();
+  }, [token]);
+
   return (
     <div className="vertical-menu">
       <div className="navbar-brand-box">
@@ -15,7 +38,7 @@ export default function Sidebar() {
             <img src="/assets/images/logo-sm.png" alt="" height="40" />
           </span>
           <span className="logo-lg">
-            <img src="/assets/images/logo-lights.png" alt="" height="20" />
+            <img src={logo} alt="" height="20" />
           </span>
         </Link>
 

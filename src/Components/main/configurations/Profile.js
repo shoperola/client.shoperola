@@ -16,6 +16,16 @@ const Profile = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
+  const wordLimit = {
+    appName: 40,
+    firstName: 40,
+    lastName: 40,
+  };
+
+  const [wordAppName, setWordAppName] = useState(wordLimit.appName);
+  const [wordFirstName, setWordFirstName] = useState(wordLimit.firstName);
+  const [wordLastName, setWordLastName] = useState(wordLimit.lastName);
+
   useEffect(() => {
     const fetchData = () => {
       axios
@@ -29,6 +39,12 @@ const Profile = () => {
           setFirstName(res.data.data.firstName);
           setLastName(res.data.data.lastName);
           setEmail(res.data.data.email);
+
+          setWordAppName(wordLimit.appName - res.data.data.username.length);
+          setWordFirstName(
+            wordLimit.firstName - res.data.data.firstName.length
+          );
+          setWordLastName(wordLimit.lastName - res.data.data.lastName.length);
         })
         .catch((error) => {
           console.log(error);
@@ -37,7 +53,19 @@ const Profile = () => {
     fetchData();
   }, [token]);
 
+  const validateEmail = (s) => {
+    const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (s.match(mailformat)) {
+      return true;
+    }
+    return false;
+  };
+
   const saveHandler = () => {
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email");
+      return;
+    }
     const formdata = new FormData();
     formdata.append("username", appName);
     formdata.append("firstName", firstName);
@@ -66,6 +94,33 @@ const Profile = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleEdit = (e, type) => {
+    const length = e.target.value.length;
+    const value = e.target.value;
+    switch (type) {
+      case "appName":
+        if (wordLimit.appName - length !== -1) {
+          setAppName(value);
+          setWordAppName(wordLimit.appName - length);
+        }
+        break;
+      case "firstName":
+        if (wordLimit.firstName - length !== -1) {
+          setFirstName(value);
+          setWordFirstName(wordLimit.firstName - length);
+        }
+        break;
+      case "lastName":
+        if (wordLimit.lastName - length !== -1) {
+          setLastName(value);
+          setWordLastName(wordLimit.lastName - length);
+        }
+        break;
+      default:
+        console.log("Incorrect Type");
+    }
   };
 
   return (
@@ -110,8 +165,11 @@ const Profile = () => {
                                 type="text"
                                 className="form-control input-field"
                                 value={appName}
-                                onChange={(e) => setAppName(e.target.value)}
+                                onChange={(e) => handleEdit(e, "appName")}
                               />
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordAppName}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -129,8 +187,11 @@ const Profile = () => {
                                 type="text"
                                 className="form-control input-field"
                                 value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                onChange={(e) => handleEdit(e, "firstName")}
                               />
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordFirstName}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -148,8 +209,11 @@ const Profile = () => {
                                 type="text"
                                 className="form-control input-field"
                                 value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
+                                onChange={(e) => handleEdit(e, "lastName")}
                               />
+                              <p className="pt-1 pl-2 text-secondary">
+                                Remaining words : {wordLastName}
+                              </p>
                             </div>
                           </div>
                         </div>

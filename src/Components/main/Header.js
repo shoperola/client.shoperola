@@ -206,11 +206,11 @@ export default function Header() {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <img
+              {/* <img
                 className="rounded-circle header-profile-user"
                 src={data.picture}
                 alt="Header Avatar"
-              />
+              /> */}
               <span
                 className="
                     d-none d-xl-inline-block

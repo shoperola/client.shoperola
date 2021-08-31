@@ -89,7 +89,7 @@ const Text = () => {
                       <thead className="thead-light">
                         <tr>
                           <th>Title</th>
-                          <th>Added On</th>
+                          <th>Updated On</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -98,9 +98,11 @@ const Text = () => {
                           <tr key={item._id}>
                             <td>{item.title}</td>
                             <td>
-                              {new Date(item.createdAt).toDateString(
-                                item.createdAt
-                              )}
+                              {new Date(item.updatedAt)
+                                .toDateString(item.updatedAt)
+                                .split(" ")
+                                .slice(1)
+                                .join(" ")}
                             </td>
                             <td>
                               <Link to={`text/textedit/${item._id}`}>

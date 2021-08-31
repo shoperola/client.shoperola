@@ -3,15 +3,13 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { API } from "../../../API";
 import { isAutheticated } from "../../auth/authhelper";
 import Footer from "../Footer";
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw, ContentState } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import axios from "axios";
 import htmlToDraft from "html-to-draftjs";
 import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
-import { set } from "lodash-es";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
+import TextEditor from "./TextEditor";
 
 const TextEdit = () => {
   const history = useHistory();
@@ -25,7 +23,7 @@ const TextEdit = () => {
     EditorState.createEmpty()
   );
 
-  const defaultToolBar = {
+  const toolbar = {
     options: [
       "inline",
       "blockType",
@@ -33,22 +31,6 @@ const TextEdit = () => {
       "fontFamily",
       "list",
       "textAlign",
-      "history",
-    ],
-    inline: {
-      options: ["bold", "italic", "underline", "strikethrough"],
-    },
-  };
-
-  const toolBarwithImage = {
-    options: [
-      "inline",
-      "blockType",
-      "fontSize",
-      "fontFamily",
-      "list",
-      "textAlign",
-      "image",
       "history",
     ],
     inline: {
@@ -82,7 +64,6 @@ const TextEdit = () => {
 
   const handleSave = () => {
     const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    console.log(text);
     axios
       .put(
         `${API}/api/user/updatetext/${id}`,
@@ -113,6 +94,7 @@ const TextEdit = () => {
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         console.log(error);
       });
   };
@@ -167,17 +149,11 @@ const TextEdit = () => {
                   <div className="row">
                     <div className="col-md-12">
                       <div style={{ minHeight: "400px" }}>
-                        {title == "About Us" ? (
-                          <Editor
+                        {title && (
+                          <TextEditor
+                            title={title}
                             editorState={editorState}
-                            onEditorStateChange={setEditorState}
-                            toolbar={toolBarwithImage}
-                          />
-                        ) : (
-                          <Editor
-                            editorState={editorState}
-                            onEditorStateChange={setEditorState}
-                            toolbar={defaultToolBar}
+                            setEditorState={setEditorState}
                           />
                         )}
                       </div>

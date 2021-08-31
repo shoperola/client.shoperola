@@ -40,7 +40,33 @@ const SocialMedia = () => {
     fetchData();
   }, [token]);
 
+  const validateURL = (s) => {
+    const urlFormat =
+      /(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    if (s.match(urlFormat)) {
+      return true;
+    }
+    return false;
+  };
+
   const saveHandler = () => {
+    if (!validateURL(facebook)) {
+      alert("Facebook url is not correct");
+      return;
+    }
+    if (!validateURL(twitter)) {
+      alert("Twitter url is not correct");
+      return;
+    }
+    if (!validateURL(instagram)) {
+      alert("Instagram url is not correct");
+      return;
+    }
+    if (!validateURL(linkedIn)) {
+      alert("LinkedIn url is not correct");
+      return;
+    }
+
     axios
       .put(
         `${API}/api/user/social`,

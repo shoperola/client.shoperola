@@ -1,10 +1,79 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../../../API";
 import { isAutheticated } from "../../auth/authhelper";
 import Footer from "../Footer";
+import swal from "sweetalert";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ConfigLogo = () => {
+  const { token } = isAutheticated();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const fetchData = () => {
+      axios
+        .get(`${API}/api/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.data.picture !== "") {
+            setImageUrl(res.data.data.picture);
+          }
+        });
+    };
+
+    fetchData();
+  }, [token]);
+
+  const handleFile = (event) => {
+    const file = event.target.files[0];
+    if (file && file["type"].split("/")[0] === "image") {
+      setImage(file);
+      setImageUrl(URL.createObjectURL(file));
+    } else {
+      alert("Please upload a valid image");
+    }
+  };
+
+  const handleSave = () => {
+    if (image !== imageUrl) {
+    }
+    setIsLoading(true);
+    const formdata = new FormData();
+    formdata.append("picture", image);
+    axios
+      .put(`${API}/api/user/profile`, formdata, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (res) => {
+        const done = await swal({
+          title: "Saved Successfully!",
+          icon: "success",
+          buttons: {
+            Done: {
+              text: "Done",
+              value: "Done",
+            },
+          },
+        });
+        setIsLoading(false);
+        window.location.reload();
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
   return (
     <div className="main-content">
       <div className="page-content">
@@ -45,8 +114,20 @@ const ConfigLogo = () => {
                                 <input
                                   type="file"
                                   className="form-control input-field"
-                                  value=""
+                                  onChange={handleFile}
+                                  accept="image/*"
                                 />
+                                {imageUrl && (
+                                  <img
+                                    className="img-fluid mt-2"
+                                    style={{
+                                      width: "235px",
+                                      height: "125px",
+                                    }}
+                                    alt="200x200"
+                                    src={imageUrl}
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -54,22 +135,21 @@ const ConfigLogo = () => {
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group text-left">
-                              <a href="footer-social-media.html">
-                                <button
-                                  type="button"
-                                  className="btn btn-success btn-login waves-effect waves-light mr-3"
-                                >
-                                  Save
-                                </button>
-                              </a>
-                              <a href="#">
-                                <button
-                                  type="button"
-                                  className="btn btn-success btn-cancel waves-effect waves-light mr-3"
-                                >
-                                  Cancel
-                                </button>
-                              </a>
+                              <button
+                                type="button"
+                                className="btn btn-success btn-login waves-effect waves-light mr-3"
+                                onClick={handleSave}
+                              >
+                                <ClipLoader loading={isLoading} size={18} />
+                                {!isLoading && "Save"}
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-success btn-cancel waves-effect waves-light mr-3"
+                                onClick={() => window.location.reload()}
+                              >
+                                Cancel
+                              </button>
                             </div>
                           </div>
                         </div>
