@@ -207,6 +207,33 @@ export default function Sidebar() {
                 </li>
               </ul>
             </li>
+
+            <li>
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/revenue-icon.png" />
+                <span>Orders Management</span>
+              </Link>
+              <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/orders/new">New</Link>
+                </li>
+                <li>
+                  <Link to="/orders/processing">Processing</Link>
+                </li>
+                <li>
+                  <Link to="/orders/dispatched">Dispatched</Link>
+                </li>
+                <li>
+                  <Link to="/orders/delivered">Delievered</Link>
+                </li>
+                <li>
+                  <Link to="/orders/cancelled">Cancelled</Link>
+                </li>
+                <li>
+                  <Link to="/orders/returned">Returned</Link>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

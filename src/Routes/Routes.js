@@ -90,6 +90,10 @@ import ConfigSocialMedia from "../Components/main/configurations/SocialMedia";
 import ConfigLogo from "../Components/main/configurations/Logo";
 import ConfigMobileTV from "../Components/main/configurations/MobileTV";
 
+// Orders
+import OrdMngOrder from "../Components/main/ordersManagement/Orders";
+import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
+
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -480,6 +484,14 @@ export default function Routes() {
             exact
             path="/configuration/mobile-tv"
           ></PrivateRoute>
+
+          {/* Orders Management */}
+          <PrivateRoute component={OrdMngOrder} exact path="/orders/:status" />
+          <PrivateRoute
+            component={OrdMngOrderEdit}
+            exact
+            path="/orders/:status/:id"
+          />
 
           {/* payments  */}
           <PrivateRoute
