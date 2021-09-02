@@ -32,13 +32,13 @@ export default function Sidebar() {
 
   return (
     <div className="vertical-menu">
-      <div className="navbar-brand-box">
+      <div className="navbar-brand-box text-center">
         <Link to="/dashboard" className="logo logo-dark">
           <span className="logo-sm">
-            <img src="/assets/images/logo-sm.png" alt="" height="40" />
+            <img src={logo} alt="" height="15" />
           </span>
           <span className="logo-lg">
-            <img src={logo} alt="" height="20" />
+            <img src={logo} alt="" height="25" />
           </span>
         </Link>
 
@@ -138,6 +138,33 @@ export default function Sidebar() {
             </li>
 
             <li>
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/revenue-icon.png" />
+                <span>Orders Management</span>
+              </Link>
+              <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/orders/new">New</Link>
+                </li>
+                <li>
+                  <Link to="/orders/processing">Processing</Link>
+                </li>
+                <li>
+                  <Link to="/orders/dispatched">Dispatched</Link>
+                </li>
+                <li>
+                  <Link to="/orders/delivered">Delievered</Link>
+                </li>
+                <li>
+                  <Link to="/orders/cancelled">Cancelled</Link>
+                </li>
+                <li>
+                  <Link to="/orders/returned">Returned</Link>
+                </li>
+              </ul>
+            </li>
+
+            <li>
               <Link to="/earning">
                 <img src="/assets/images/icons/earning-icon.png" alt="" />
                 <span>Earnings</span>
@@ -182,6 +209,16 @@ export default function Sidebar() {
             </li> */}
 
             <li>
+              <Link to="/email-templates">
+                <img
+                  src="/assets/images/icons/email-template-icon.png"
+                  alt=""
+                />
+                <span>Email Templates</span>
+              </Link>
+            </li>
+
+            <li>
               <Link to="#/" className="has-arrow">
                 <img alt="" src="/assets/images/icons/cms-icon.png" />
                 <span>Configuration</span>
@@ -204,33 +241,6 @@ export default function Sidebar() {
                 </li>
                 <li>
                   <Link to="/configuration/mobile-tv">Mobile and TV Apps</Link>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <Link to="#/" className="has-arrow">
-                <img alt="" src="/assets/images/icons/revenue-icon.png" />
-                <span>Orders Management</span>
-              </Link>
-              <ul className="sub-menu" aria-expanded={false}>
-                <li>
-                  <Link to="/orders/new">New</Link>
-                </li>
-                <li>
-                  <Link to="/orders/processing">Processing</Link>
-                </li>
-                <li>
-                  <Link to="/orders/dispatched">Dispatched</Link>
-                </li>
-                <li>
-                  <Link to="/orders/delivered">Delievered</Link>
-                </li>
-                <li>
-                  <Link to="/orders/cancelled">Cancelled</Link>
-                </li>
-                <li>
-                  <Link to="/orders/returned">Returned</Link>
                 </li>
               </ul>
             </li>

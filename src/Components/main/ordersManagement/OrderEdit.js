@@ -128,7 +128,7 @@ const OrderEdit = () => {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <a href="javascript: void(0);">TellyTell</a>
+                      <Link to="/dashboard">TellyTell</Link>
                     </li>
                     <li className="breadcrumb-item active">Orders</li>
                     <li className="breadcrumb-item active">

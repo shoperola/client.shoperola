@@ -94,6 +94,10 @@ import ConfigMobileTV from "../Components/main/configurations/MobileTV";
 import OrdMngOrder from "../Components/main/ordersManagement/Orders";
 import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 
+// Email Templates
+import EmailTemplate from "../Components/main/emailTemplates/EmailTemplates";
+import EmailTemplateEdit from "../Components/main/emailTemplates/EmailTempalteEdit";
+
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -486,12 +490,28 @@ export default function Routes() {
           ></PrivateRoute>
 
           {/* Orders Management */}
-          <PrivateRoute component={OrdMngOrder} exact path="/orders/:status" />
+          <PrivateRoute
+            component={OrdMngOrder}
+            exact
+            path="/orders/:status"
+          ></PrivateRoute>
           <PrivateRoute
             component={OrdMngOrderEdit}
             exact
             path="/orders/:status/:id"
-          />
+          ></PrivateRoute>
+
+          {/* Email Templates */}
+          <PrivateRoute
+            component={EmailTemplate}
+            exact
+            path="/email-templates"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={EmailTemplateEdit}
+            exact
+            path="/email-templates/:id"
+          ></PrivateRoute>
 
           {/* payments  */}
           <PrivateRoute

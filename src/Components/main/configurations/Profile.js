@@ -15,6 +15,9 @@ const Profile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [emailToSend, setEmailToSend] = useState("");
+  const [updatedEmailToSend, setUpdatedEmailToSend] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
 
   const wordLimit = {
     appName: 40,
@@ -35,10 +38,13 @@ const Profile = () => {
           },
         })
         .then((res) => {
+          console.log(res);
           setAppName(res.data.data.username);
           setFirstName(res.data.data.firstName);
           setLastName(res.data.data.lastName);
           setEmail(res.data.data.email);
+          setEmailToSend(res.data.data.email_to_send);
+          setUpdatedEmailToSend(res.data.data.email_to_send);
 
           setWordAppName(wordLimit.appName - res.data.data.username.length);
           setWordFirstName(
@@ -53,6 +59,23 @@ const Profile = () => {
     fetchData();
   }, [token]);
 
+  useEffect(() => {
+    const fetchData = () => {
+      axios
+        .get(`${API}/api/sendEmail/get_list`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setIsVerified(res.data.data);
+        });
+    };
+
+    fetchData();
+  }, [emailToSend]);
+
   const validateEmail = (s) => {
     const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (s.match(mailformat)) {
@@ -61,16 +84,46 @@ const Profile = () => {
     return false;
   };
 
+  const sendVerification = (email) => {
+    axios
+      .post(
+        `${API}/api/sendEmail/verify`,
+        {
+          email: email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const saveHandler = () => {
+    console.log(emailToSend);
     if (!validateEmail(email)) {
-      alert("Please enter a valid email");
+      alert("Please enter a valid email to login");
       return;
     }
+
+    if (!validateEmail(updatedEmailToSend)) {
+      alert("Please enter a valid email to send");
+      return;
+    }
+
+    setIsLoading(true);
     const formdata = new FormData();
     formdata.append("username", appName);
     formdata.append("firstName", firstName);
     formdata.append("lastName", lastName);
     formdata.append("email", email);
+    formdata.append("email_to_send", updatedEmailToSend);
 
     axios
       .put(`${API}/api/user`, formdata, {
@@ -90,11 +143,16 @@ const Profile = () => {
           },
         });
         setIsLoading(false);
+        window.location.reload();
       })
       .catch((error) => {
         setIsLoading(false);
         console.log(error);
       });
+
+    if (updatedEmailToSend !== emailToSend) {
+      sendVerification(updatedEmailToSend);
+    }
   };
 
   const handleEdit = (e, type) => {
@@ -226,7 +284,7 @@ const Profile = () => {
                                 for="basicpill-phoneno-input"
                                 className="label-100"
                               >
-                                Email
+                                Email to Login
                               </label>
                               <input
                                 type="text"
@@ -234,6 +292,50 @@ const Profile = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                               />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Email to Send
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control input-field"
+                                value={updatedEmailToSend}
+                                onChange={(e) =>
+                                  setUpdatedEmailToSend(e.target.value)
+                                }
+                              />
+                              {isVerified ? (
+                                <div className="pt-1 text-right">
+                                  <span className="badge badge-pill badge-success font-size-14">
+                                    Verified
+                                  </span>
+                                </div>
+                              ) : (
+                                <div className="pt-1 text-right">
+                                  <span className="badge badge-pill badge-danger font-size-14">
+                                    Not Verified
+                                  </span>
+                                  <span
+                                    onClick={() => {
+                                      sendVerification(updatedEmailToSend);
+                                      alert("Verification send!");
+                                    }}
+                                    className="btn-secondary btn-sm ml-2 font-size-14"
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    Send Verification Again!
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

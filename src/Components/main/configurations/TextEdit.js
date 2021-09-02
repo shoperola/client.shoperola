@@ -148,15 +148,13 @@ const TextEdit = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12">
-                      <div style={{ minHeight: "400px" }}>
-                        {title && (
-                          <TextEditor
-                            title={title}
-                            editorState={editorState}
-                            setEditorState={setEditorState}
-                          />
-                        )}
-                      </div>
+                      {title && (
+                        <TextEditor
+                          title={title}
+                          editorState={editorState}
+                          setEditorState={setEditorState}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>

@@ -8,6 +8,8 @@ const TextEditor = ({ title, editorState, setEditorState }) => {
     <div>
       {title == "About Us" ? (
         <Editor
+          editorClassName="border"
+          editorStyle={{ minHeight: "400px" }}
           editorState={editorState}
           onEditorStateChange={setEditorState}
           toolbar={{
@@ -28,6 +30,8 @@ const TextEditor = ({ title, editorState, setEditorState }) => {
         />
       ) : (
         <Editor
+          editorClassName="border"
+          editorStyle={{ minHeight: "400px" }}
           editorState={editorState}
           onEditorStateChange={setEditorState}
           toolbar={{
