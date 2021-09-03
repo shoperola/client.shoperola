@@ -19,79 +19,117 @@ const EmailTemplateEdit = () => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [subject, setSubject] = useState("");
+  const [status, setStatus] = useState("");
 
-  // const handleSave = () => {
-  //   const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-  //   axios
-  //     .put(
-  //       `${API}/api/user/updatetext/${id}`,
-  //       {
-  //         Text: text,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //     .then(async (res) => {
-  //       const done = await swal({
-  //         title: "Saved Successfully!",
-  //         icon: "success",
-  //         buttons: {
-  //           Done: {
-  //             text: "Done",
-  //             value: "Done",
-  //           },
-  //         },
-  //       });
-  //       setIsLoading(false);
+  useEffect(() => {
+    const fetchData = () => {
+      axios
+        .get(`${API}/api/sendEmail/view_email_template/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setTitle(res.data.title);
+          setSubject(res.data.subject);
+          setStatus(res.data.status);
+          const blocksFromHtml = htmlToDraft(res.data.body);
+          const { contentBlocks, entityMap } = blocksFromHtml;
+          const contentState = ContentState.createFromBlockArray(
+            contentBlocks,
+            entityMap
+          );
+          setEditorState(EditorState.createWithContent(contentState));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
-  //       if (done === "Done") {
-  //         history.push("/configuration/text");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       setIsLoading(false);
-  //       console.log(error);
-  //     });
-  // };
+    fetchData();
+  }, [token]);
+
+  const handleSave = () => {
+    setIsLoading(true);
+    const body = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    axios
+      .put(
+        `${API}/api/sendEmail/update_email_template/${id}`,
+        {
+          title: title,
+          status: status,
+          subject: subject,
+          body: body,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(async (res) => {
+        const done = await swal({
+          title: "Saved Successfully!",
+          icon: "success",
+          buttons: {
+            Done: {
+              text: "Done",
+              value: "Done",
+            },
+          },
+        });
+        setIsLoading(false);
+
+        if (done === "Done") {
+          history.push("/email-templates");
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
 
   return (
-    <div class="main-content">
-      <div class="page-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div class="page-title-box d-flex align-items-center justify-content-between">
-                <h4 class="mb-0">Edit Welcome User Email Template</h4>
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">
+    <div className="main-content">
+      <div className="page-content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div className="page-title-box d-flex align-items-center justify-content-between">
+                <h4 className="mb-0">Edit {title} Email Template</h4>
+                <div className="page-title-right">
+                  <ol className="breadcrumb m-0">
+                    <li className="breadcrumb-item">
                       <Link to="/dashboard">TellyTell</Link>
                     </li>
-                    <li class="breadcrumb-item active">Email Template</li>
-                    <li class="breadcrumb-item active">
-                      Edit Welcome User email template
+                    <li className="breadcrumb-item active">Email Template</li>
+                    <li className="breadcrumb-item active">
+                      Edit {title} email template
                     </li>
                   </ol>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group text-right">
+          <div className="row">
+            <div className="col-12">
+              <div className="form-group text-right">
                 <button
                   type="button"
-                  class="btn btn-success btn-login waves-effect waves-light mr-3"
+                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                  onClick={handleSave}
                 >
-                  Save
+                  <ClipLoader loading={isLoading} size={18} />
+                  {!isLoading && "Save"}
                 </button>
                 <Link to="/email-templates">
                   <button
                     type="button"
-                    class="btn btn-success btn-cancel waves-effect waves-light mr-3"
+                    className="btn btn-success btn-cancel waves-effect waves-light mr-3"
                   >
                     Cancel
                   </button>
@@ -99,38 +137,39 @@ const EmailTemplateEdit = () => {
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12">
+          <div className="row">
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
                       <form>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <div class="form-group">
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
                               <label
                                 for="basicpill-phoneno-input"
-                                class="label-100"
+                                className="label-100"
                               >
                                 Email Subject
                               </label>
                               <input
                                 type="text"
-                                class="form-control input-field"
-                                value="1234"
+                                className="form-control input-field"
+                                value={subject}
                                 placeholder="Email Code"
+                                onChange={(e) => setSubject(e.target.value)}
                               />
                             </div>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <div class="form-group">
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
                               <label
                                 for="basicpill-phoneno-input"
-                                class="label-100"
+                                className="label-100"
                               >
                                 Contents of the Email
                               </label>
@@ -139,31 +178,28 @@ const EmailTemplateEdit = () => {
                                 editorStyle={{ minHeight: "400px" }}
                                 editorState={editorState}
                                 onEditorStateChange={setEditorState}
-                                rows={20}
+                                toolbar={{
+                                  options: [
+                                    "inline",
+                                    "blockType",
+                                    "fontSize",
+                                    "fontFamily",
+                                    "list",
+                                    "textAlign",
+                                    "link",
+                                    "image",
+                                    "history",
+                                  ],
+                                  inline: {
+                                    options: [
+                                      "bold",
+                                      "italic",
+                                      "underline",
+                                      "strikethrough",
+                                    ],
+                                  },
+                                }}
                               />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <div class="form-group text-left">
-                              <a href="email-template.html">
-                                <button
-                                  type="button"
-                                  class="btn btn-success btn-login waves-effect waves-light mr-3"
-                                >
-                                  Save
-                                </button>
-                              </a>
-                              <a href="email-template.html">
-                                <button
-                                  type="button"
-                                  class="btn btn-success btn-cancel waves-effect waves-light mr-3"
-                                >
-                                  Cancel
-                                </button>
-                              </a>
                             </div>
                           </div>
                         </div>
@@ -173,29 +209,29 @@ const EmailTemplateEdit = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-4">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12">
+            <div className="col-lg-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
                       <form>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <div class="form-group">
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
                               <label
                                 for="basicpill-phoneno-input"
-                                class="label-100"
+                                className="label-100"
                               >
                                 Change Status
                               </label>
                               <select
-                                name="currency"
-                                value=""
-                                class="form-control  input-field"
+                                name="status"
+                                value={status}
+                                className="form-control  input-field"
+                                onChange={(e) => setStatus(e.target.value)}
                               >
-                                <option value="">--select--</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
                               </select>
                             </div>
                           </div>
@@ -206,14 +242,17 @@ const EmailTemplateEdit = () => {
                 </div>
               </div>
 
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <label for="basicpill-phoneno-input" class="label-100" />
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <label
+                        for="basicpill-phoneno-input"
+                        className="label-100"
+                      />
                       Reference
-                      <table class="table table-centered table-nowrap mb-0">
-                        <thead class="thead-light">
+                      <table className="table table-centered table-nowrap mb-0">
+                        <thead className="thead-light">
                           <tr>
                             <th>Field Name</th>
                             <th>Value</th>
