@@ -5,85 +5,93 @@ import { isAutheticated } from "../auth/authhelper";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
-import Plupload from "react-plupload"
+import Plupload from "react-plupload";
 import Footer from "./Footer";
 
 export default function Earning() {
+  //   var uploader = new window.plupload.Uploader({
+  //     runtimes : 'html5,flash,silverlight,html4',
 
+  //     browse_button : 'pickfiles', // you can pass in id...
+  //     container: document.getElementById('container'), // ... or DOM Element itself
 
-//   var uploader = new window.plupload.Uploader({
-//     runtimes : 'html5,flash,silverlight,html4',
-     
-//     browse_button : 'pickfiles', // you can pass in id...
-//     container: document.getElementById('container'), // ... or DOM Element itself
-     
-//     url : "/examples/upload",
-     
-//     filters : {
-//         max_file_size : '10mb',
-//         mime_types: [
-//             {title : "Image files", extensions : "jpg,gif,png"},
-//             {title : "Zip files", extensions : "zip"}
-//         ]
-//     },
- 
-//     // Flash settings
-//     flash_swf_url : '/plupload/js/Moxie.swf',
- 
-//     // Silverlight settings
-//     silverlight_xap_url : '/plupload/js/Moxie.xap',
-     
- 
-//     init: {
-//         PostInit: function() {
-//             document.getElementById('filelist').innerHTML = '';
- 
-//             document.getElementById('uploadfiles').onclick = function() {
-//                 uploader.start();
-//                 return false;
-//             };
-//         },
- 
-//         FilesAdded: function(up, files) {
-//             window.plupload.each(files, function(file) {
-//                 document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + window.plupload.formatSize(file.size) + ') <b></b></div>';
-//             });
-//         },
- 
-//         UploadProgress: function(up, file) {
-//             document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-//         },
- 
-//         Error: function(up, err) {
-//             document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-//         }
-//     }
-// });
- 
-// uploader.init();
+  //     url : "/examples/upload",
 
+  //     filters : {
+  //         max_file_size : '10mb',
+  //         mime_types: [
+  //             {title : "Image files", extensions : "jpg,gif,png"},
+  //             {title : "Zip files", extensions : "zip"}
+  //         ]
+  //     },
 
+  //     // Flash settings
+  //     flash_swf_url : '/plupload/js/Moxie.swf',
 
+  //     // Silverlight settings
+  //     silverlight_xap_url : '/plupload/js/Moxie.xap',
 
+  //     init: {
+  //         PostInit: function() {
+  //             document.getElementById('filelist').innerHTML = '';
+
+  //             document.getElementById('uploadfiles').onclick = function() {
+  //                 uploader.start();
+  //                 return false;
+  //             };
+  //         },
+
+  //         FilesAdded: function(up, files) {
+  //             window.plupload.each(files, function(file) {
+  //                 document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + window.plupload.formatSize(file.size) + ') <b></b></div>';
+  //             });
+  //         },
+
+  //         UploadProgress: function(up, file) {
+  //             document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+  //         },
+
+  //         Error: function(up, err) {
+  //             document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+  //         }
+  //     }
+  // });
+
+  // uploader.init();
 
   const { token } = isAutheticated();
-  const [subcriber,setSubcriber]=useState([]);
-  useEffect(()=>{
+  const [subcriber, setSubcriber] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(10);
+  const [showData, setShowData] = useState(subcriber);
+
+  useEffect(() => {
     axios
-    .get(`${API}/api/user/transaction`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response)=>{
-      let data=response.data.data;
-      setSubcriber(data);
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },[]);
+      .get(`${API}/api/user/transaction`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        let data = response.data.data;
+        setSubcriber(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const loadData = () => {
+      const indexOfLastPost = currentPage * itemPerPage;
+      const indexOfFirstPost = indexOfLastPost - itemPerPage;
+      setShowData(subcriber.slice(indexOfFirstPost, indexOfLastPost));
+    };
+
+    loadData();
+  }, [subcriber, currentPage, itemPerPage]);
+
   return (
     // <div id="layout-wrapper">
     //   <Header />
@@ -133,6 +141,8 @@ export default function Earning() {
                                 custom-select custom-select-sm
                                 form-control form-control-sm
                               "
+                            value={itemPerPage}
+                            onChange={(e) => setItemPerPage(e.target.value)}
                           >
                             <option value="10">10</option>
                             <option value="25">25</option>
@@ -158,30 +168,37 @@ export default function Earning() {
                         </tr>
                       </thead>
                       <tbody>
-                        {subcriber.map((data)=>
-                        <tr key={data._id}>
-                          {data.client?<td>{data.client.firstName}&nbsp;{data.client.lastName}</td>:<td>Name not defined here</td>}
-                          <td>{data.paymentType} </td>
-                          <td>{data.amount}</td>
-                          <td>{(new Date(data.createdAt)).toDateString()}</td>
-                          <td>{data._id}</td>
-                          <td>
-                            <Link to={`/order/view/${data._id}`}>
-                              <button
-                                type="button"
-                                className="
+                        {showData.map((data) => (
+                          <tr key={data._id}>
+                            {data.client ? (
+                              <td>
+                                {data.client.firstName}&nbsp;
+                                {data.client.lastName}
+                              </td>
+                            ) : (
+                              <td>Name not defined here</td>
+                            )}
+                            <td>{data.paymentType} </td>
+                            <td>{data.amount}</td>
+                            <td>{new Date(data.createdAt).toDateString()}</td>
+                            <td>{data._id}</td>
+                            <td>
+                              <Link to={`/order/view/${data._id}`}>
+                                <button
+                                  type="button"
+                                  className="
                                     btn btn-info btn-sm
                                     waves-effect waves-light
                                     btn-table
                                     ml-2
                                   "
-                              >
-                                View
-                              </button>
-                            </Link>
-                          </td>
-                        </tr>
-                        )}
+                                >
+                                  View
+                                </button>
+                              </Link>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -194,76 +211,98 @@ export default function Earning() {
                         role="status"
                         aria-live="polite"
                       >
-                        Showing 1 to 10 of 57 entries
+                        Showing {currentPage * itemPerPage - itemPerPage + 1} to{" "}
+                        {Math.min(currentPage * itemPerPage, subcriber.length)}{" "}
+                        of {subcriber.length} entries
                       </div>
                     </div>
 
                     <div className="col-sm-12 col-md-6">
-                      <div
-                        className="
-                            dataTables_paginate
-                            paging_simple_numbers
-                            float-right
-                          "
-                      >
+                      <div className="dataTables_paginate paging_simple_numbers float-right">
                         <ul className="pagination">
                           <li
-                            className="
-                                paginate_button
-                                page-item
-                                previous
-                                disabled
-                              "
+                            className={
+                              currentPage === 1
+                                ? "paginate_button page-item previous disabled"
+                                : "paginate_button page-item previous"
+                            }
                           >
                             <a
                               href="#"
                               aria-controls="datatable"
                               data-dt-idx="0"
-                              tabIndex="0"
+                              tabindex="0"
                               className="page-link"
+                              onClick={() => setCurrentPage((prev) => prev - 1)}
                             >
                               Previous
                             </a>
                           </li>
 
+                          {!(currentPage - 1 < 1) && (
+                            <li className="paginate_button page-item">
+                              <a
+                                aria-controls="datatable"
+                                data-dt-idx="1"
+                                tabindex="0"
+                                className="page-link"
+                                onClick={(e) =>
+                                  setCurrentPage((prev) => prev - 1)
+                                }
+                              >
+                                {currentPage - 1}
+                              </a>
+                            </li>
+                          )}
+
                           <li className="paginate_button page-item active">
                             <a
                               href="#"
                               aria-controls="datatable"
-                              data-dt-idx="1"
-                              tabIndex="0"
-                              className="page-link"
-                            >
-                              1
-                            </a>
-                          </li>
-
-                          <li className="paginate_button page-item">
-                            <a
-                              href="#"
-                              aria-controls="datatable"
                               data-dt-idx="2"
-                              tabIndex="0"
+                              tabindex="0"
                               className="page-link"
                             >
-                              2
+                              {currentPage}
                             </a>
                           </li>
 
-                          <li className="paginate_button page-item">
+                          {!(
+                            (currentPage + 1) * itemPerPage - itemPerPage >
+                            subcriber.length
+                          ) && (
+                            <li className="paginate_button page-item ">
+                              <a
+                                href="#"
+                                aria-controls="datatable"
+                                data-dt-idx="3"
+                                tabindex="0"
+                                className="page-link"
+                                onClick={() => {
+                                  setCurrentPage((prev) => prev + 1);
+                                }}
+                              >
+                                {currentPage + 1}
+                              </a>
+                            </li>
+                          )}
+
+                          <li
+                            className={
+                              !(
+                                (currentPage + 1) * itemPerPage - itemPerPage >
+                                subcriber.length
+                              )
+                                ? "paginate_button page-item next"
+                                : "paginate_button page-item next disabled"
+                            }
+                          >
                             <a
                               href="#"
-                              aria-controls="datatable"
-                              data-dt-idx="3"
-                              tabIndex="0"
+                              tabindex="0"
                               className="page-link"
+                              onClick={() => setCurrentPage((prev) => prev + 1)}
                             >
-                              3
-                            </a>
-                          </li>
-
-                          <li className="paginate_button page-item next">
-                            <a href="#" tabIndex="0" className="page-link">
                               Next
                             </a>
                           </li>
@@ -298,9 +337,7 @@ export default function Earning() {
  
 <br />
 <pre id="console"></pre> */}
-      
 
-     
       <Footer />
     </div>
   );
