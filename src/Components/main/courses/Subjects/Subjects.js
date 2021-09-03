@@ -12,17 +12,24 @@ export default function Subjects() {
   const [loading, setloading] = useState(false);
   // const [onSuspend,setOnSuspend]=useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(10);
+  const [showData, setShowData] = useState(subjects);
+
   const { token } = isAutheticated();
   useEffect(() => {
     // $("#summernote").summernote();
 
     axios
-      .get(`${API}/api/banner/viewbanner
-      `, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `${API}/api/banner/viewbanner
+      `,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         const userdata = response.data.data;
@@ -38,7 +45,6 @@ export default function Subjects() {
     if (!status) {
       return;
     } else {
-
       setloading(true);
       axios
         .delete(`${API}/api/banner/delete_banner/${id}`, {
@@ -54,17 +60,23 @@ export default function Subjects() {
           setloading(false);
           console.log(err);
         });
-
     }
-
   };
+
+  useEffect(() => {
+    const loadData = () => {
+      const indexOfLastPost = currentPage * itemPerPage;
+      const indexOfFirstPost = indexOfLastPost - itemPerPage;
+      setShowData(subjects.slice(indexOfFirstPost, indexOfLastPost));
+    };
+
+    loadData();
+  }, [subjects, currentPage, itemPerPage]);
 
   return (
     <div className="main-content">
-
       <div className="page-content">
         <div className="container-fluid">
-
           {/* <!-- start page title --> */}
           <div className="row">
             <div className="col-12">
@@ -73,55 +85,62 @@ export default function Subjects() {
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
-                    <li className="breadcrumb-item"><a href="">TellyTell</a></li>
-                    <li className="breadcrumb-item">Content Management - Banners</li>
-
-
+                    <li className="breadcrumb-item">
+                      <a href="">TellyTell</a>
+                    </li>
+                    <li className="breadcrumb-item">
+                      Content Management - Banners
+                    </li>
                   </ol>
                 </div>
-
               </div>
             </div>
           </div>
           {/* <!-- end page title --> */}
 
-
-
           <div className="row">
             <div className="col-lg-12">
               <div className="card">
                 <div className="card-body">
-
                   <div className="row ml-0 mr-0  mb-10">
                     <div className="col-sm-12 col-md-6">
                       <div className="dataTables_length">
-                        <label className="w-100">Show <select name="" className="select-w custom-select custom-select-sm form-control form-control-sm">
-                          <option value="10">10</option>
-                          <option value="25">25</option>
-                          <option value="50">50</option>
-                          <option value="100">100</option>
-                        </select> entries</label></div></div>
+                        <label className="w-100">
+                          Show{" "}
+                          <select
+                            name=""
+                            className="select-w custom-select custom-select-sm form-control form-control-sm"
+                            value={itemPerPage}
+                            onChange={(e) => setItemPerPage(e.target.value)}
+                          >
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>{" "}
+                          entries
+                        </label>
+                      </div>
+                    </div>
                     <div className="col-sm-12 col-md-6">
-
-
                       <div className="dropdown d-block">
-
                         <Link to="/subjects/add">
-                          <button type="button" className="btn btn-primary add-btn waves-effect waves-light float-right">
-                            <i className="fa fa-plus" aria-hidden="true"></i> Add New Banner
+                          <button
+                            type="button"
+                            className="btn btn-primary add-btn waves-effect waves-light float-right"
+                          >
+                            <i className="fa fa-plus" aria-hidden="true"></i>{" "}
+                            Add New Banner
                           </button>
-
                         </Link>
                       </div>
-
-
                     </div>
                   </div>
                   <div className="table-responsive table-shoot">
                     <table className="table table-centered table-nowrap mb-0">
                       <thead className="thead-light">
                         <tr>
-                          <th>Thumbnail of Banner	</th>
+                          <th>Thumbnail of Banner </th>
                           <th>Title</th>
                           <th>Category</th>
                           <th>Start date</th>
@@ -131,152 +150,249 @@ export default function Subjects() {
                         </tr>
                       </thead>
                       <tbody>
-
-                        {subjects.map((subjects) =>
+                        {showData.map((subjects) => (
                           <tr key={subjects._id}>
-                            <td><img src={subjects.bannerimage ? subjects.bannerimage : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/banner-default.png"} width="110" height="60" alt=""/></td>
+                            <td>
+                              <img
+                                src={
+                                  subjects.bannerimage
+                                    ? subjects.bannerimage
+                                    : "https://sgp1.digitaloceanspaces.com/storage.tellytell.com/banner-default.png"
+                                }
+                                width="110"
+                                height="60"
+                                alt=""
+                              />
+                            </td>
                             <td>{subjects.title}</td>
                             <td>{subjects.category}</td>
-                            <td>{(new Date(subjects.startdate)).toDateString()}</td>
-                            <td>{(new Date(subjects.enddate)).toDateString()}</td>
-                            <td>{subjects.status ? <span className="badge badge-pill badge-primary font-size-12">Live</span>
-                              : <span className="badge badge-pill badge-soft-success font-size-12">Live</span>
-                            }</td>
                             <td>
-                              {subjects.status &&
-                                <button type="button"
+                              {new Date(subjects.startdate).toDateString()}
+                            </td>
+                            <td>{new Date(subjects.enddate).toDateString()}</td>
+                            <td>
+                              {subjects.status ? (
+                                <span className="badge badge-pill badge-primary font-size-12">
+                                  Live
+                                </span>
+                              ) : (
+                                <span className="badge badge-pill badge-soft-success font-size-12">
+                                  Live
+                                </span>
+                              )}
+                            </td>
+                            <td>
+                              {subjects.status && (
+                                <button
+                                  type="button"
                                   className="btn btn-success btn-sm  waves-effect waves-light btn-table"
                                   onClick={(e) => {
                                     e.preventDefault();
                                     let data = new FormData();
-                                    data.set("status", false)
+                                    data.set("status", false);
                                     axios
-                                      .patch(`${API}/api/banner/edit_banner/${subjects._id}`, data, {
-                                        headers: {
-                                          Authorization: `Bearer ${token}`,
-                                          "Content-Type": "multipart/formdata",
-                                        },
-                                      })
+                                      .patch(
+                                        `${API}/api/banner/edit_banner/${subjects._id}`,
+                                        data,
+                                        {
+                                          headers: {
+                                            Authorization: `Bearer ${token}`,
+                                            "Content-Type":
+                                              "multipart/formdata",
+                                          },
+                                        }
+                                      )
                                       .then((response) => {
                                         //console.log(response);
                                         setloading(!loading);
                                         // console.log(response);
-
                                       })
                                       .catch((err) => {
-
                                         console.log(err);
                                       });
                                   }}
                                 >
                                   Suspend
                                 </button>
-                              }
-                              {!subjects.status &&
-                                <button type="button"
+                              )}
+                              {!subjects.status && (
+                                <button
+                                  type="button"
                                   className="btn btn-success btn-sm  waves-effect waves-light btn-table"
                                   onClick={(e) => {
                                     e.preventDefault();
                                     let data = new FormData();
-                                    data.set("status", true)
+                                    data.set("status", true);
                                     axios
-                                      .patch(`${API}/api/banner/makelive/${subjects._id}`, data, {
-                                        headers: {
-                                          Authorization: `Bearer ${token}`,
-                                          "Content-Type": "multipart/formdata",
-                                        },
-                                      })
+                                      .patch(
+                                        `${API}/api/banner/makelive/${subjects._id}`,
+                                        data,
+                                        {
+                                          headers: {
+                                            Authorization: `Bearer ${token}`,
+                                            "Content-Type":
+                                              "multipart/formdata",
+                                          },
+                                        }
+                                      )
                                       .then((response) => {
                                         console.log(response);
                                         setloading(!loading);
                                         // console.log(response);
-
                                       })
                                       .catch((err) => {
-
                                         console.log(err);
                                       });
                                   }}
                                 >
                                   MakeLive
                                 </button>
-                              }
+                              )}
                               <Link to={`/subjects/edit/${subjects._id}`}>
-                                <button type="button"
-                                  className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2">
-                                  Edit</button>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
+                                >
+                                  Edit
+                                </button>
                               </Link>
                               <Link to="#">
-                                <button type="button"
+                                <button
+                                  type="button"
                                   onClick={() => {
                                     onDelete(subjects._id);
                                   }}
-                                  className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2">
-                                  Delete</button>
+                                  className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2"
+                                >
+                                  Delete
+                                </button>
                               </Link>
                             </td>
                           </tr>
-                        )}
-
+                        ))}
                       </tbody>
                     </table>
                   </div>
 
-
                   <div className="row mt-20">
                     <div className="col-sm-12 col-md-6 mb-20">
-                      <div className="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                      <div
+                        className="dataTables_info"
+                        id="datatable_info"
+                        role="status"
+                        aria-live="polite"
+                      >
+                        Showing {currentPage * itemPerPage - itemPerPage + 1} to{" "}
+                        {Math.min(currentPage * itemPerPage, subjects.length)}{" "}
+                        of {subjects.length} entries
+                      </div>
                     </div>
 
                     <div className="col-sm-12 col-md-6">
                       <div className="dataTables_paginate paging_simple_numbers float-right">
                         <ul className="pagination">
-
-                          <li className="paginate_button page-item previous disabled">
-                            <a href="#" aria-controls="datatable" data-dt-idx="0" tabIndex="0" className="page-link">Previous</a>
+                          <li
+                            className={
+                              currentPage === 1
+                                ? "paginate_button page-item previous disabled"
+                                : "paginate_button page-item previous"
+                            }
+                          >
+                            <a
+                              href="#"
+                              aria-controls="datatable"
+                              data-dt-idx="0"
+                              tabindex="0"
+                              className="page-link"
+                              onClick={() => setCurrentPage((prev) => prev - 1)}
+                            >
+                              Previous
+                            </a>
                           </li>
+
+                          {!(currentPage - 1 < 1) && (
+                            <li className="paginate_button page-item">
+                              <a
+                                aria-controls="datatable"
+                                data-dt-idx="1"
+                                tabindex="0"
+                                className="page-link"
+                                onClick={(e) =>
+                                  setCurrentPage((prev) => prev - 1)
+                                }
+                              >
+                                {currentPage - 1}
+                              </a>
+                            </li>
+                          )}
 
                           <li className="paginate_button page-item active">
-                            <a href="#" aria-controls="datatable" data-dt-idx="1" tabIndex="0" className="page-link">1</a>
+                            <a
+                              href="#"
+                              aria-controls="datatable"
+                              data-dt-idx="2"
+                              tabindex="0"
+                              className="page-link"
+                            >
+                              {currentPage}
+                            </a>
                           </li>
 
-                          <li className="paginate_button page-item ">
-                            <a href="#" aria-controls="datatable" data-dt-idx="2" tabIndex="0" className="page-link">2</a>
-                          </li>
+                          {!(
+                            (currentPage + 1) * itemPerPage - itemPerPage >
+                            subjects.length
+                          ) && (
+                            <li className="paginate_button page-item ">
+                              <a
+                                href="#"
+                                aria-controls="datatable"
+                                data-dt-idx="3"
+                                tabindex="0"
+                                className="page-link"
+                                onClick={() => {
+                                  setCurrentPage((prev) => prev + 1);
+                                }}
+                              >
+                                {currentPage + 1}
+                              </a>
+                            </li>
+                          )}
 
-                          <li className="paginate_button page-item ">
-                            <a href="#" aria-controls="datatable" data-dt-idx="3" tabIndex="0" className="page-link">3</a>
+                          <li
+                            className={
+                              !(
+                                (currentPage + 1) * itemPerPage - itemPerPage >
+                                subjects.length
+                              )
+                                ? "paginate_button page-item next"
+                                : "paginate_button page-item next disabled"
+                            }
+                          >
+                            <a
+                              href="#"
+                              tabindex="0"
+                              className="page-link"
+                              onClick={() => setCurrentPage((prev) => prev + 1)}
+                            >
+                              Next
+                            </a>
                           </li>
-
-                          <li className="paginate_button page-item next">
-                            <a href="#" tabIndex="0" className="page-link">Next</a>
-                          </li>
-
                         </ul>
                       </div>
                     </div>
-
-
-
                   </div>
-
 
                   {/* <!-- end table-responsive --> */}
                 </div>
               </div>
             </div>
           </div>
-
-
         </div>
         {/* <!-- container-fluid --> */}
       </div>
       {/* <!-- End Page-content --> */}
 
-
-
       <Footer />
     </div>
-
   );
 }
