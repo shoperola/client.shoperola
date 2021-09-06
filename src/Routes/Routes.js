@@ -431,7 +431,7 @@ export default function Routes() {
           <PrivateRoute
             component={EditCoupon}
             exact
-            path="/coupon_edit"
+            path="/coupon_edit/:id"
           ></PrivateRoute>
           {/* shipping  */}
           <PrivateRoute
