@@ -146,8 +146,11 @@ function AddCoupon() {
           }
 
           if (res.data.data.limit === "limited") {
-            console.log(res.data.data.limit, res.data.data);
             setNumLimitedUser(res.data.data.no_of_user);
+            setNumLimitedUserLen(
+              wordLimit.numLimitedUser -
+                res.data.data.no_of_user.toString().length
+            );
           }
         })
         .catch((error) => {
