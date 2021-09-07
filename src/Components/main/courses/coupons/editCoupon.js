@@ -30,6 +30,7 @@ function AddCoupon() {
   const [endDate, setEndDate] = useState();
   const [status, setStatus] = useState("");
   const [allProducts, setAllProducts] = useState([]);
+  const [numLimitedUser, setNumLimitedUser] = useState();
 
   const wordLimit = {
     name: 50,
@@ -37,6 +38,7 @@ function AddCoupon() {
     promotionPercentage: 3,
     promotionAmmount: 12,
     appliesToPrice: 12,
+    numLimitedUser: 12,
   };
 
   const [nameLen, setNameLen] = useState(wordLimit.name);
@@ -49,6 +51,9 @@ function AddCoupon() {
   );
   const [promotionPercentageLen, setPromotionPercentageLen] = useState(
     wordLimit.promotionPercentage
+  );
+  const [numLimitedUserLen, setNumLimitedUserLen] = useState(
+    wordLimit.numLimitedUser
   );
 
   useEffect(() => {
@@ -139,6 +144,11 @@ function AddCoupon() {
               );
               break;
           }
+
+          if (res.data.data.limit === "limited") {
+            console.log(res.data.data.limit, res.data.data);
+            setNumLimitedUser(res.data.data.no_of_user);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -183,7 +193,10 @@ function AddCoupon() {
         break;
     }
 
-    console.log(data);
+    if (limitedUser === "limited") {
+      data = { ...data, no_of_user: numLimitedUser };
+    }
+
     axios
       .put(`${API}/api/coupons/${id}`, data, {
         headers: {
@@ -256,6 +269,15 @@ function AddCoupon() {
         ) {
           setAppliesToPrice(value);
           setAppliesToPriceLen(wordLimit.appliesToPrice - length);
+        }
+        break;
+      case "limited_user":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.numLimitedUser - length !== -1)
+        ) {
+          setNumLimitedUser(value);
+          setNumLimitedUserLen(wordLimit.numLimitedUser - length);
         }
         break;
       default:
@@ -659,6 +681,30 @@ function AddCoupon() {
                                 <option value="unlimited">Unlimited</option>
                                 <option value="limited">Limited Users</option>
                               </select>
+                              {limitedUser === "limited" && (
+                                <div className="pt-4 form-group">
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Number of Users
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control input-field"
+                                    value={numLimitedUser}
+                                    onChange={(e) =>
+                                      editHandler(e, "limited_user")
+                                    }
+                                  />
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Remaining words : {numLimitedUserLen}
+                                  </label>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
