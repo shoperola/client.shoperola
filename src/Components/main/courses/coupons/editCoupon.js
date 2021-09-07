@@ -6,6 +6,7 @@ import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import ClipLoader from "react-spinners/ClipLoader";
 import Footer from "../../Footer";
+import DatePicker from "react-datepicker";
 
 function AddCoupon() {
   const { token } = isAutheticated();
@@ -17,6 +18,7 @@ function AddCoupon() {
   const [name, setName] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [promotionType, setPromotionType] = useState("percentage_off");
+  const [promotionPercentage, setPromotionPercentage] = useState("");
   const [promotionAmmount, setPromotionAmmount] = useState("");
   const [appliesTo, setAppliesTo] = useState("");
   const [appliesToPrice, setAppliesToPrice] = useState(0);
@@ -27,14 +29,14 @@ function AddCoupon() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [status, setStatus] = useState("");
-  const [neverExpire, setNeverExpire] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
 
   const wordLimit = {
     name: 50,
-    couponCode: 50,
-    promotionAmmount: 50,
-    appliesToPrice: 50,
-    appliesToProduct: 50,
+    couponCode: 12,
+    promotionPercentage: 3,
+    promotionAmmount: 12,
+    appliesToPrice: 12,
   };
 
   const [nameLen, setNameLen] = useState(wordLimit.name);
@@ -45,9 +47,23 @@ function AddCoupon() {
   const [appliesToPriceLen, setAppliesToPriceLen] = useState(
     wordLimit.appliesToPrice
   );
-  const [appliesToProductLen, setAppliesToProductLen] = useState(
-    wordLimit.appliesToProduct
+  const [promotionPercentageLen, setPromotionPercentageLen] = useState(
+    wordLimit.promotionPercentage
   );
+
+  useEffect(() => {
+    const getData = async () => {
+      let res = await axios.get(`${API}/api/product`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data.data);
+      setAllProducts(res.data.data);
+    };
+
+    getData();
+  }, [token]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -83,10 +99,10 @@ function AddCoupon() {
           setAppliesTo(res.data.data.applies_to);
           setLimitedUser(res.data.data.limit);
           setCustomerLimit(res.data.data.limit_one_person);
-          setNeverExpire(res.data.data.never_expire);
+          // setNeverExpire(res.data.data.never_expire);
           setStatus(res.data.data.status);
-          setStartDate(res.data.data.start_date);
-          setEndDate(res.data.data.end_date);
+          setStartDate(new Date(res.data.data.start_date));
+          setEndDate(new Date(res.data.data.end_date));
 
           setNameLen(wordLimit.name - res.data.data.coupon_name.length);
           setCouponCodeLen(
@@ -100,22 +116,18 @@ function AddCoupon() {
                 wordLimit.appliesToPrice - res.data.data.price.length
               );
               break;
-            case "single_product":
-              setAppliesToProduct(res.data.data.product_name);
-              setAppliesToProductLen(
-                wordLimit.appliesToProduct - res.data.data.product_name
-              );
-              break;
             case "product_by_category":
               setAppliesToCategory(res.data.data.product_category);
               break;
+            case "single_product":
+              setAppliesToProduct(res.data.data.product_name);
           }
 
           switch (promotionType) {
             case "percentage_off":
-              setPromotionAmmount(res.data.data.percentage_off);
-              setPromotionAmmountLen(
-                wordLimit.promotionAmmount -
+              setPromotionPercentage(res.data.data.percentage_off);
+              setPromotionPercentageLen(
+                wordLimit.promotionPercentage -
                   res.data.data.percentage_off.toString().length
               );
               break;
@@ -134,7 +146,7 @@ function AddCoupon() {
     };
 
     fetchData();
-  }, [token, allCategory]);
+  }, [token, allCategory, allProducts]);
 
   const saveHandler = () => {
     setIsLoading(true);
@@ -145,7 +157,6 @@ function AddCoupon() {
       applies_to: appliesTo,
       limit: limitedUser,
       limit_one_person: customerLimit,
-      never_expire: neverExpire,
       status: status,
       start_date: startDate,
       end_date: endDate,
@@ -165,7 +176,7 @@ function AddCoupon() {
 
     switch (promotionType) {
       case "percentage_off":
-        data = { ...data, percentage_off: promotionAmmount };
+        data = { ...data, percentage_off: promotionPercentage };
         break;
       case "amount_off":
         data = { ...data, amount_off: promotionAmmount };
@@ -220,10 +231,13 @@ function AddCoupon() {
           setCouponCodeLen(wordLimit.couponCode - length);
         }
         break;
-      case "appliesToProduct":
-        if (wordLimit.appliesToProduct - length !== -1) {
-          setAppliesToProduct(value);
-          setAppliesToProductLen(wordLimit.appliesToProduct - length);
+      case "promotionPercentage":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.promotionPercentage - length !== -1)
+        ) {
+          setPromotionPercentage(value);
+          setPromotionPercentageLen(wordLimit.promotionPercentage - length);
         }
         break;
       case "promotionAmount":
@@ -403,30 +417,6 @@ function AddCoupon() {
                         </div>
                       </form>
                     </div>
-
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <label className="col-md-12 control-label">
-                          This coupon never expires
-                        </label>
-                        <div className="col-md-8">
-                          <div className="custom-control custom-radio mb-2">
-                            <input
-                              type="radio"
-                              className="custom-control-input"
-                              checked={neverExpire}
-                              onClick={() => setNeverExpire((prev) => !prev)}
-                            />
-                            <label
-                              className="custom-control-label"
-                              onClick={() => setNeverExpire((prev) => !prev)}
-                            >
-                              Yes
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -472,7 +462,7 @@ function AddCoupon() {
                               for="basicpill-phoneno-input"
                               className="label-100"
                             >
-                              Remaining words : {promotionAmmountLen}
+                              Remaining words : {promotionPercentageLen}
                             </label>
                           )}
                         </div>
@@ -600,21 +590,21 @@ function AddCoupon() {
                                 >
                                   Name of the Product
                                 </label>
-                                <input
-                                  placeholder="Enter Product Name"
-                                  type="text"
-                                  className="form-control input-field"
+                                <select
+                                  name="single_product"
+                                  className="form-control  input-field"
                                   value={appliesToProduct}
-                                  onChange={(e) =>
-                                    editHandler(e, "appliesToProduct")
-                                  }
-                                />
-                                <label
-                                  for="basicpill-phoneno-input"
-                                  className="label-100"
+                                  onChange={(e) => {
+                                    setAppliesToProduct(e.target.value);
+                                  }}
                                 >
-                                  Remaining words : {appliesToProductLen}
-                                </label>
+                                  {allProducts.length > 0 &&
+                                    allProducts.map((item) => (
+                                      <option key={item._id} value={item._id}>
+                                        {item.title}
+                                      </option>
+                                    ))}
+                                </select>
                               </div>
                             )}
                             {appliesTo === "product_by_category" && (
@@ -710,31 +700,20 @@ function AddCoupon() {
                           Start Date
                         </label>
                         <div className="input-group">
-                          <input
-                            type="date"
+                          <DatePicker
                             className="form-control input-field"
-                            ddata-provide="datepicker"
-                            data-date-autoclose="true"
-                            defaultValue={
-                              new Date(startDate).getDate().toString() +
-                              "-" +
-                              (new Date(startDate).getMonth() + 1) +
-                              "-" +
-                              new Date(startDate).getFullYear().toString() +
-                              ","
-                            }
-                            onChange={(e) => {
-                              setStartDate(e.target.value);
-                            }}
+                            wrapperClassName="form-control input-field"
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
                           />
-                          {/* <div className="input-group-append">
+                          <div className="input-group-append">
                             <span className="input-group-text">
                               <i
                                 className="fa fa-calendar"
                                 aria-hidden="true"
                               ></i>
                             </span>
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -750,31 +729,21 @@ function AddCoupon() {
                           End Date
                         </label>
                         <div className="input-group">
-                          <input
-                            type="date"
+                          <DatePicker
                             className="form-control input-field"
-                            ddata-provide="datepicker"
-                            data-date-autoclose="true"
-                            defaultValue={
-                              new Date(endDate).getDate().toString() +
-                              "-" +
-                              (new Date(endDate).getMonth() + 1) +
-                              "-" +
-                              new Date(endDate).getFullYear().toString() +
-                              ","
-                            }
-                            onChange={(e) => {
-                              setEndDate(e.target.value);
-                            }}
+                            wrapperClassName="form-control input-field"
+                            minDate={startDate}
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
                           />
-                          {/* <div className="input-group-append">
+                          <div className="input-group-append">
                             <span className="input-group-text">
                               <i
                                 className="fa fa-calendar"
                                 aria-hidden="true"
                               ></i>
                             </span>
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     </div>
