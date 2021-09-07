@@ -37,7 +37,6 @@ export default function EditLession() {
     Writers: "",
     Actors_list: [],
     Plot: "",
-
   });
 
   const history = useHistory();
@@ -57,13 +56,26 @@ export default function EditLession() {
   const [movieList, setMovieList] = useState([]);
   const [fill, setFill] = useState(false);
 
+  const wordLimit = {
+    title: 50,
+    description: 150,
+  };
+
+  const [titleLen, setTitleLen] = useState(wordLimit.title);
+  const [descriptionLen, setDescriptionLen] = useState(wordLimit.description);
+
   const fillMetadata = (id) => {
     setMovieList([]);
-    axios.post(`${API}/api/lesson/search_metadata_id/${id}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axios
+      .post(
+        `${API}/api/lesson/search_metadata_id/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         // console.log("here meta data", response)
         const data = response.data;
@@ -77,54 +89,54 @@ export default function EditLession() {
         //   ,"genres":data.genres,"Languages":data.languages,"RuntimeStr":data.runtimeStr,"Plot":data.plot
         //   ,"Actors_list":data.actorList,"Writers":data.writers,"Ratings":data.ratings
         //  })
-        formData.set("Id", data.id)
-        formData.set("directors", data.directors)
-        formData.set("type", data.type)
-        formData.set("year", data.year)
-        formData.set("genres", data.genres)
-        formData.set("Languages", data.languages)
-        formData.set("RuntimeStr", data.runtimeStr)
-        formData.set("Plot", data.plot)
+        formData.set("Id", data.id);
+        formData.set("directors", data.directors);
+        formData.set("type", data.type);
+        formData.set("year", data.year);
+        formData.set("genres", data.genres);
+        formData.set("Languages", data.languages);
+        formData.set("RuntimeStr", data.runtimeStr);
+        formData.set("Plot", data.plot);
         if (data.actorList) {
-          formData.set("Actors_list", data.actorList)
+          formData.set("Actors_list", data.actorList);
         } else {
-          formData.set("Actors_list", [])
+          formData.set("Actors_list", []);
         }
 
-        formData.set("Writers", data.writers)
-        formData.set("Ratings", data.ratings)
+        formData.set("Writers", data.writers);
+        formData.set("Ratings", data.ratings);
         //data.actorList
-
-
       })
       .catch((err) => {
         console.log(err);
       });
-
-  }
+  };
   const handleSearchMovie = (searchText) => {
     //e.preventDefault();
     //await setSearchMovie(e.target.value);
-    console.log("namesearch", searchText)
-    console.log("token", token)
-    axios.post(`${API}/api/lesson/search_metadata/${searchText}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    console.log("namesearch", searchText);
+    console.log("token", token);
+    axios
+      .post(
+        `${API}/api/lesson/search_metadata/${searchText}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
-        const userdata = response.data
+        const userdata = response.data;
 
         //console.log(response.data);
         //console.log(userdata);
-        setMovieList(userdata.results)
+        setMovieList(userdata.results);
       })
       .catch((err) => {
         console.log(err);
       });
-
-  }
-
+  };
 
   useEffect(() => {
     // $("#summernote").summernote();
@@ -149,14 +161,20 @@ export default function EditLession() {
         },
       })
       .then((response) => {
-        //console.log(response);
+        console.log(response);
         setLession({
           ...response.data.data,
           // subject: response.data.data.subject._id,
           languageid: response.data.data.languageid,
-          launchDate: new Date(response.data.data.launchDate).toISOString().slice(0, 16),
+          launchDate: new Date(response.data.data.launchDate)
+            .toISOString()
+            .slice(0, 16),
           // launchDate:new Date("yyyy-MM-dd hh:mm").formate(new Date("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(response.data.data.launchDate))
         });
+        setTitleLen(wordLimit.title - response.data.data.title.length);
+        setDescriptionLen(
+          wordLimit.description - response.data.data.description.length
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -195,7 +213,7 @@ export default function EditLession() {
     e.preventDefault();
     setLoading(true);
     setSuccess(false);
-    console.log("here sending data", formData)
+    console.log("here sending data", formData);
     axios
       .put(`${API}/api/lesson/${lessionId}`, formData, {
         headers: {
@@ -233,6 +251,27 @@ export default function EditLession() {
         console.log(err);
       });
   };
+
+  const handleEdit = (e, type) => {
+    const length = e.target.value.length;
+    switch (type) {
+      case "title":
+        if (wordLimit.title - length !== -1) {
+          handleChange(e);
+          setTitleLen(wordLimit.title - length);
+        }
+        break;
+      case "description":
+        if (wordLimit.description - length !== -1) {
+          handleChange(e);
+          setDescriptionLen(wordLimit.description - length);
+        }
+        break;
+      default:
+        console.log("Incorrect Type");
+    }
+  };
+
   return (
     <div className="main-content">
       <div className="page-content">
@@ -248,7 +287,9 @@ export default function EditLession() {
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">TellyTell</Link>
                     </li>
-                    <li className="breadcrumb-item">Content Management - Videos</li>
+                    <li className="breadcrumb-item">
+                      Content Management - Videos
+                    </li>
                     <li className="breadcrumb-item">Edit Video</li>
                   </ol>
                 </div>
@@ -273,7 +314,10 @@ export default function EditLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img alt="" src="assets/images/icons/title-icon.png" />
+                              <img
+                                alt=""
+                                src="assets/images/icons/title-icon.png"
+                              />
                             </span>
                             <span className="d-none d-sm-block">Title</span>
                           </a>
@@ -299,7 +343,10 @@ export default function EditLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img alt="" src="assets/images/icons/img-icon.png" />
+                              <img
+                                alt=""
+                                src="assets/images/icons/img-icon.png"
+                              />
                             </span>
                             <span className="d-none d-sm-block">Images</span>
                           </a>
@@ -313,7 +360,10 @@ export default function EditLession() {
                             role="tab"
                           >
                             <span className="d-block d-sm-none">
-                              <img alt="" src="assets/images/icons/video-icon.png" />
+                              <img
+                                alt=""
+                                src="assets/images/icons/video-icon.png"
+                              />
                             </span>
                             <span className="d-none d-sm-block">Video</span>
                           </a>
@@ -339,7 +389,11 @@ export default function EditLession() {
                       </ul>
 
                       <div className="tab-content video-tab p-3 text-muted">
-                        <div className="tab-pane active" id="title" role="tabpanel">
+                        <div
+                          className="tab-pane active"
+                          id="title"
+                          role="tabpanel"
+                        >
                           <div className="panel-body p-20">
                             <div className="form-group mb-30 width-100 row">
                               <label className="col-md-4 control-label">
@@ -347,12 +401,15 @@ export default function EditLession() {
                               </label>
                               <div className="col-md-8">
                                 <input
-                                  onChange={handleChange}
+                                  onChange={(e) => handleEdit(e, "title")}
                                   type="text"
                                   className="form-control input-field"
                                   name="title"
                                   value={lession.title}
                                 />
+                                <p className="pt-1 pl-2 text-secondary">
+                                  Remaining words : {titleLen}
+                                </p>
                               </div>
                             </div>
 
@@ -362,16 +419,17 @@ export default function EditLession() {
                               </label>
                               <div className="col-md-8">
                                 <textarea
-                                  onChange={handleChange}
+                                  onChange={(e) => handleEdit(e, "description")}
                                   value={lession.description}
                                   name="description"
                                   className="form-control input-field"
                                   rows="5"
                                 ></textarea>
+                                <p className="pt-1 pl-2 text-secondary">
+                                  Remaining words : {descriptionLen}
+                                </p>
                               </div>
                             </div>
-
-
 
                             <div className="form-group width-100 mb-30 row">
                               <label className="col-md-4 control-label">
@@ -385,10 +443,7 @@ export default function EditLession() {
                                   onChange={handleChange}
                                   value={lession.languageid}
                                 >
-
-                                  <option value="">
-                                    Select Language
-                                  </option>
+                                  <option value="">Select Language</option>
                                   {languages.length != 0 &&
                                     languages.map((lang, index) => {
                                       return (
@@ -400,53 +455,72 @@ export default function EditLession() {
                                 </select>
                               </div>
                             </div>
-
                           </div>
                         </div>
                         {/*/////////////////////////////// meta dat start here //////////////////// */}
-                        <div className="tab-pane" id="meta-data" role="tabpanel">
+                        <div
+                          className="tab-pane"
+                          id="meta-data"
+                          role="tabpanel"
+                        >
                           <div className="panel-body p-20">
-
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Search Title</label>
+                              <label className="col-md-4 control-label">
+                                Search Title
+                              </label>
                               <div className="col-md-8">
-                                <input type="text"
+                                <input
+                                  type="text"
                                   className="form-control input-field"
                                   value={searchMovie}
-                                  onChange={(e) => { handleSearchMovie(e.target.value); setSearchMovie(e.target.value) }}
+                                  onChange={(e) => {
+                                    handleSearchMovie(e.target.value);
+                                    setSearchMovie(e.target.value);
+                                  }}
                                 />
                               </div>
                             </div>
-                            {
-                              movieList.map((movie) =>
-                                <Link style={{ height: "7vh", display: "block" }}
-                                  onClick={() => fillMetadata(movie.id)}
-                                >
-
-                                  <img alt="" src={movie.image} style={{ height: "90%", width: "6vw", marginRight: "8vw" }} />
-                                  <span>{movie.title}</span>
-                                  <span>{movie.description}</span>
-
-                                </Link>
-                              )
-                            }
+                            {movieList.map((movie) => (
+                              <Link
+                                style={{ height: "7vh", display: "block" }}
+                                onClick={() => fillMetadata(movie.id)}
+                              >
+                                <img
+                                  alt=""
+                                  src={movie.image}
+                                  style={{
+                                    height: "90%",
+                                    width: "6vw",
+                                    marginRight: "8vw",
+                                  }}
+                                />
+                                <span>{movie.title}</span>
+                                <span>{movie.description}</span>
+                              </Link>
+                            ))}
 
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Title</label>
+                              <label className="col-md-4 control-label">
+                                Title
+                              </label>
                               <div className="col-md-8">
                                 {fill ? metaDataTitle : lession.title}
                               </div>
                             </div>
 
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Plot</label>
+                              <label className="col-md-4 control-label">
+                                Plot
+                              </label>
                               <div className="col-md-8">
                                 {fill ? metaDataPlot : lession.Plot}
                               </div>
                             </div>
 
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Director</label>
+                              <label className="col-md-4 control-label">
+                                Director
+                              </label>
                               <div className="col-md-8">
                                 <div className="table-responsive table-shoot">
                                   <table className="table">
@@ -454,7 +528,9 @@ export default function EditLession() {
                                       <tr>
                                         {/* <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                         <td>
-                                          {fill ? metaDataDirector : lession.directors}
+                                          {fill
+                                            ? metaDataDirector
+                                            : lession.directors}
                                         </td>
                                         <td></td>
                                       </tr>
@@ -465,7 +541,9 @@ export default function EditLession() {
                             </div>
 
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Writer</label>
+                              <label className="col-md-4 control-label">
+                                Writer
+                              </label>
                               <div className="col-md-8">
                                 <div className="table-responsive table-shoot">
                                   <table className="table">
@@ -473,7 +551,9 @@ export default function EditLession() {
                                       <tr>
                                         {/* <td><img alt="" src="assets/images/avatar-2.jpg" className="img-circle" height="50"/></td> */}
                                         <td>
-                                          {fill ? metaDataWriter : lession.Writers}
+                                          {fill
+                                            ? metaDataWriter
+                                            : lession.Writers}
                                         </td>
                                         <td></td>
                                       </tr>
@@ -484,31 +564,44 @@ export default function EditLession() {
                             </div>
 
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Crew</label>
+                              <label className="col-md-4 control-label">
+                                Crew
+                              </label>
                               <div className="col-md-8">
                                 <div className="table-responsive table-shoot">
                                   <table className="table">
                                     <tbody>
-                                      {fill ? metaDataCrew && metaDataCrew.map((actor) =>
-                                        <tr>
-                                          <td><img alt="" src={actor.image} className="img-circle" height="50" /></td>
-                                          <td>
-                                            {actor.name}
-                                          </td>
-                                          <td>Actor</td>
-                                        </tr>
-                                      ) :
-                                        lession.Actors_list && lession.Actors_list.map((actor) =>
-                                          <tr key={actor.id}>
-                                            <td><img alt="" src={actor.image} className="img-circle" height="50" /></td>
-                                            <td>
-                                              {actor.name}
-                                            </td>
-                                            <td>Actor</td>
-                                          </tr>
-                                        )
-
-                                      }
+                                      {fill
+                                        ? metaDataCrew &&
+                                          metaDataCrew.map((actor) => (
+                                            <tr>
+                                              <td>
+                                                <img
+                                                  alt=""
+                                                  src={actor.image}
+                                                  className="img-circle"
+                                                  height="50"
+                                                />
+                                              </td>
+                                              <td>{actor.name}</td>
+                                              <td>Actor</td>
+                                            </tr>
+                                          ))
+                                        : lession.Actors_list &&
+                                          lession.Actors_list.map((actor) => (
+                                            <tr key={actor.id}>
+                                              <td>
+                                                <img
+                                                  alt=""
+                                                  src={actor.image}
+                                                  className="img-circle"
+                                                  height="50"
+                                                />
+                                              </td>
+                                              <td>{actor.name}</td>
+                                              <td>Actor</td>
+                                            </tr>
+                                          ))}
                                     </tbody>
                                   </table>
                                 </div>
@@ -518,14 +611,11 @@ export default function EditLession() {
                             <div className="form-group width-100 mb-30 row">
                               <label className="col-md-4 control-label"></label>
                               <div className="col-md-8">
-
                                 {/* <Link><button type="button"
 className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
 </Link> */}
-
                               </div>
                             </div>
-
                           </div>
                         </div>
                         {/*/////////////////////////////// meta dat end here //////////////////// */}
@@ -604,7 +694,9 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
                         <div className="tab-pane" id="launch" role="tabpanel">
                           <div className="panel-body p-20">
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Date</label>
+                              <label className="col-md-4 control-label">
+                                Date
+                              </label>
                               <div className="col-md-8">
                                 <div className="form-group width-100">
                                   <div className="input-group">
@@ -614,8 +706,8 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
                                       value={lession.launchDate}
                                       name="launchDate"
                                       onChange={(e) => {
-                                        console.log(lession.launchDate)
-                                        console.log(e.target.value)
+                                        console.log(lession.launchDate);
+                                        console.log(e.target.value);
                                         setLession({
                                           ...lession,
                                           launchDate: e.target.value,
@@ -625,7 +717,6 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
                                           e.target.value
                                         );
                                       }}
-
                                     />
                                     {/* <DatePicker
                                       selected={lession.launchDate}
@@ -642,7 +733,6 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
                                       }}
                                     /> */}
 
-
                                     <div className="input-group-append">
                                       <span className="input-group-text">
                                         <i
@@ -658,7 +748,6 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
 
                             <div className="form-group m-b-0 row">
                               <div className="col-md-4"></div>
-
                             </div>
                           </div>
                         </div>
@@ -669,7 +758,9 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
                               <label className="col-md-4 control-label">
                                 Upload Video
                                 <br />
-                                <span className="size">(mp4 file format only)</span>
+                                <span className="size">
+                                  (mp4 file format only)
+                                </span>
                               </label>
                               <div className="col-md-8">
                                 <input
@@ -680,14 +771,20 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
                                 />
                                 <Player key={lession.video}>
                                   {/* <source src={lession.video} /> */}
-                                  <source src={lession.video.slice(0, 5) === 'https' ? lession.video : `https://${lession.video}`} type="video/mp4" />
+                                  <source
+                                    src={
+                                      lession.video.slice(0, 5) === "https"
+                                        ? lession.video
+                                        : `https://${lession.video}`
+                                    }
+                                    type="video/mp4"
+                                  />
                                 </Player>
                               </div>
                             </div>
 
                             <div className="form-group m-b-0 row">
                               <div className="col-md-4"></div>
-
                             </div>
                           </div>
                         </div>
@@ -719,7 +816,6 @@ className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button
           </div>
         </div>
       </div>
-
 
       <Footer />
     </div>

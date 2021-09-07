@@ -30,6 +30,23 @@ function Editproducts(props) {
     initialCategory: "",
     tax: "",
   });
+
+  const wordLimit = {
+    title: 50,
+    description: 250,
+    price: 12,
+    salePrice: 12,
+    SKU: 15,
+    quantity: 15,
+  };
+
+  const [titleLen, setTitleLen] = useState(wordLimit.title);
+  const [descriptionLen, setDescriptionLen] = useState(wordLimit.description);
+  const [priceLen, setPriceLen] = useState(wordLimit.price);
+  const [salePriceLen, setSalePriceLen] = useState(wordLimit.salePrice);
+  const [SKULen, setSKULen] = useState(wordLimit.SKU);
+  const [quantityLen, setQuantityLen] = useState(wordLimit.quantity);
+
   // useEffect(() => {
   // 	async function fetchData() {
   // 		let res = await axios.get(`${API}/api/category`, {
@@ -60,9 +77,9 @@ function Editproducts(props) {
     formdata.append("sku", state.sku);
     formdata.append("quantity", state.quantity);
     formdata.append("continue_selling", state.continue_selling);
-	formdata.append("track_quantity", state.track_quantity);
-	formdata.append("tax_id", state.tax);
-	// formdata.append("track_quantity", state.track_quantity);
+    formdata.append("track_quantity", state.track_quantity);
+    formdata.append("tax_id", state.tax);
+    // formdata.append("track_quantity", state.track_quantity);
 
     let res = await axios.put(`${API}/api/product/${productId}`, formdata, {
       headers: {
@@ -111,8 +128,8 @@ function Editproducts(props) {
       setTax(filtertax);
       const tax = taxes.data.data.find(
         (tax) => tax._id === res.data?.data?.tax
-	  );
-	  console.log(tax,"Thuis us tax")
+      );
+      console.log(tax, "Thuis us tax");
       setstate({
         title: res.data?.data?.title,
         description: res.data?.data?.description,
@@ -131,6 +148,19 @@ function Editproducts(props) {
         tax: tax._id,
         initialTax: tax,
       });
+
+      setTitleLen(wordLimit.title - res.data?.data?.title.length);
+      setDescriptionLen(
+        wordLimit.description - res.data?.data?.description.length
+      );
+      setPriceLen(wordLimit.price - res.data?.data?.price.toString().length);
+      setSalePriceLen(
+        wordLimit.salePrice - res.data?.data?.sale_price.toString().length
+      );
+      setSKULen(wordLimit.SKU - res.data?.data?.sku.toString().length);
+      setQuantityLen(
+        wordLimit.quantity - res.data?.data?.quantity.toString().length
+      );
     };
     getData();
   }, [token, props.match.params.productId]);
@@ -156,6 +186,64 @@ function Editproducts(props) {
     });
   };
   console.log(state, "this is state");
+
+  const editHandler = (e, type) => {
+    const value = e.target.value;
+    const length = value.length;
+
+    switch (type) {
+      case "title":
+        if (wordLimit.title - length !== -1) {
+          handleChange(e);
+          setTitleLen(wordLimit.title - length);
+        }
+        break;
+      case "description":
+        if (wordLimit.description - length !== -1) {
+          handleChange(e);
+          setDescriptionLen(wordLimit.description - length);
+        }
+        break;
+      case "price":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.price - length !== -1)
+        ) {
+          handleChange(e);
+          setPriceLen(wordLimit.price - length);
+        }
+        break;
+      case "salePrice":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.salePrice - length !== -1)
+        ) {
+          handleChange(e);
+          setSalePriceLen(wordLimit.salePrice - length);
+        }
+        break;
+      case "SKU":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.SKU - length !== -1)
+        ) {
+          handleChange(e);
+          setSKULen(wordLimit.SKU - length);
+        }
+        break;
+      case "quantity":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.quantity - length !== -1)
+        ) {
+          handleChange(e);
+          setQuantityLen(wordLimit.quantity - length);
+        }
+        break;
+      default:
+        console.log("Incorrect Type");
+    }
+  };
   return (
     <div className="main-content">
       <div className="page-content">
@@ -225,12 +313,18 @@ function Editproducts(props) {
                               </label>
                               <input
                                 name="title"
-                                onChange={handleChange}
+                                onChange={(e) => editHandler(e, "title")}
                                 type="text"
                                 value={state.title}
                                 className="form-control input-field"
                                 placeholder="Title"
                               />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {titleLen}
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -241,13 +335,19 @@ function Editproducts(props) {
                             </label>
                             <div className="col-md-13">
                               <textarea
-                                onChange={handleChange}
+                                onChange={(e) => editHandler(e, "description")}
                                 value={state.description}
                                 name="description"
                                 className="form-control input-field"
                                 rows="5"
                                 placeholder="Add description"
                               ></textarea>
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {descriptionLen}
+                              </label>
                             </div>
                           </div>
                           {/* <div className="col-lg-12">
@@ -291,7 +391,8 @@ function Editproducts(props) {
                                 className="form-control  input-field"
                               >
                                 <option value={state.initialTax?._id}>
-                                  {state.initialTax?.tax_name} - {state.initialTax?.tax_percentage}%
+                                  {state.initialTax?.tax_name} -{" "}
+                                  {state.initialTax?.tax_percentage}%
                                 </option>
                                 {taxs?.map((tax) => (
                                   <>
@@ -447,9 +548,15 @@ function Editproducts(props) {
                                 type="text"
                                 value={state.price}
                                 name="price"
-                                onChange={handleChange}
+                                onChange={(e) => editHandler(e, "price")}
                                 className="form-control input-field"
                               />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {priceLen}
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -465,10 +572,16 @@ function Editproducts(props) {
                               <input
                                 name="sale_price"
                                 value={state.sale_price}
-                                onChange={handleChange}
+                                onChange={(e) => editHandler(e, "salePrice")}
                                 type="text"
                                 className="form-control input-field"
                               />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {salePriceLen}
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -503,10 +616,16 @@ function Editproducts(props) {
                               <input
                                 name="sku"
                                 value={state.sku}
-                                onChange={handleChange}
+                                onChange={(e) => editHandler(e, "SKU")}
                                 type="text"
                                 className="form-control input-field"
                               />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {SKULen}
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -559,10 +678,16 @@ function Editproducts(props) {
                               <input
                                 name="quantity"
                                 value={state.quantity}
-                                onChange={handleChange}
+                                onChange={(e) => editHandler(e, "quantity")}
                                 type="text"
                                 className="form-control input-field"
                               />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {quantityLen}
+                              </label>
                             </div>
                           </div>
                         </div>

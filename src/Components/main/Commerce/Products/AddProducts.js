@@ -1,188 +1,318 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
-import { API } from '../../../../API';
-import { isAutheticated } from '../../../auth/authhelper';
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { API } from "../../../../API";
+import { isAutheticated } from "../../../auth/authhelper";
 import ClipLoader from "react-spinners/ClipLoader";
-import Footer from '../../Footer';
-import { Link } from 'react-router-dom';
+import Footer from "../../Footer";
+import { Link } from "react-router-dom";
 
 function AddProducts(props) {
-	let EditorRef = useRef();
-	const [tax,setTax]=useState([])
-	const { token } = isAutheticated();
-	const [state, setstate] = useState({
-		title: "",
-		description: "",
-		tax:"",
-		category: "",
-		status: "",
-		image: "",
-		price: "",
-		sale_price: "",
-		sku: "",
-		quantity: "",
-		continue_selling: false,
-		track_quantity: false,
-	})
-	const [Categories, setCategories] = useState([]);
-	const [loading,setLoading]=useState(false);
-	useEffect(() => {
-		async function fetchData() {
-		  let res = await axios.get(`${API}/api/tax_rates/view_taxs`, {
-			headers: {
-			  Authorization: `Bearer ${token}`,
-			},
-		  });
-		  setTax(res.data.data);
-		}
-		fetchData();
-	  }, [token]);
+  let EditorRef = useRef();
+  const [tax, setTax] = useState([]);
+  const { token } = isAutheticated();
+  const [state, setstate] = useState({
+    title: "",
+    description: "",
+    tax: "",
+    category: "",
+    status: "",
+    image: "",
+    price: "",
+    sale_price: "",
+    sku: "",
+    quantity: "",
+    continue_selling: false,
+    track_quantity: false,
+  });
+  const [Categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-	useEffect(() => {
-		async function fetchData() {
-			let res = await axios.get(`${API}/api/category`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				}
-			});
-			if (res.data.length > 0) {
-				setCategories(res.data)
-			}
-		}
-		fetchData();
-	}, [token])
-	const handleSubmit = async () => {
-		if(state.title==="" || state.image==="" || state.price==="" || 
-		state.sale_price==="" || state.quantity==="" || state.sku==="" ||
-		state.category==="" || state.status===""){
-			alert("Please fill required field ")
-			return
-		}
-        setLoading(true);
-		const formdata = new FormData();
-		formdata.append("title", state.title);
-		formdata.append("description", state.description);
-		formdata.append("category", state.category);
-		formdata.append("tax", state.tax);
-		formdata.append("image", state.image);
-		formdata.append("price", state.price);
-		formdata.append("sale_price", state.sale_price);
-		formdata.append("sku", state.sku);
-		formdata.append("quantity", state.quantity);
-		formdata.append("continue_selling", state.continue_selling);
-		formdata.append("track_quantity", state.track_quantity);
+  const wordLimit = {
+    title: 50,
+    description: 250,
+    price: 12,
+    salePrice: 12,
+    SKU: 15,
+    quantity: 15,
+  };
 
-		let res = await axios.post(`${API}/api/product`, formdata, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			}
-		});
-		if (res) {
-			window.location = "/comproducts"
-		}
-		setLoading(false);
-	}
+  const [titleLen, setTitleLen] = useState(wordLimit.title);
+  const [descriptionLen, setDescriptionLen] = useState(wordLimit.description);
+  const [priceLen, setPriceLen] = useState(wordLimit.price);
+  const [salePriceLen, setSalePriceLen] = useState(wordLimit.salePrice);
+  const [SKULen, setSKULen] = useState(wordLimit.SKU);
+  const [quantityLen, setQuantityLen] = useState(wordLimit.quantity);
 
-	const handleChange = (e) => {
-		setstate({
-			...state, [e.target.name]: e.target.value
-		})
-	}
-	const onFileChange = (e) => {
-		setstate({
-			...state, image: e.target.files[0]
-		})
-	}
-	const handleChangeEditor = (e) => {
-		setstate({
-			...state, description: e.target.innerText
-		})
-	}
-	const handleChangeCheckBox = (e) => {
-		setstate({
-			...state, [e.target.name]: e.target.checked
-		})
-	}
-	console.log(state);
-	return (
-		<div className="main-content">
+  useEffect(() => {
+    async function fetchData() {
+      let res = await axios.get(`${API}/api/tax_rates/view_taxs`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTax(res.data.data);
+    }
+    fetchData();
+  }, [token]);
 
-			<div className="page-content">
-				<div className="container-fluid">
+  useEffect(() => {
+    async function fetchData() {
+      let res = await axios.get(`${API}/api/category`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.data.length > 0) {
+        setCategories(res.data);
+      }
+    }
+    fetchData();
+  }, [token]);
+  const handleSubmit = async () => {
+    if (
+      state.title === "" ||
+      state.image === "" ||
+      state.price === "" ||
+      state.sale_price === "" ||
+      state.quantity === "" ||
+      state.sku === "" ||
+      state.category === "" ||
+      state.status === ""
+    ) {
+      alert("Please fill required field ");
+      return;
+    }
+    setLoading(true);
+    const formdata = new FormData();
+    formdata.append("title", state.title);
+    formdata.append("description", state.description);
+    formdata.append("category", state.category);
+    formdata.append("tax", state.tax);
+    formdata.append("image", state.image);
+    formdata.append("price", state.price);
+    formdata.append("sale_price", state.sale_price);
+    formdata.append("sku", state.sku);
+    formdata.append("quantity", state.quantity);
+    formdata.append("continue_selling", state.continue_selling);
+    formdata.append("track_quantity", state.track_quantity);
 
-					{/* <!-- start page title --> */}
-					<div className="row">
-						<div className="col-12">
-							<div className="page-title-box d-flex align-items-center justify-content-between">
-								<h4 className="mb-0">Add New Product</h4>
-								<div className="page-title-right">
-									<ol className="breadcrumb m-0">
-										<li className="breadcrumb-item"><Link to="/dashboard">TellyTell</Link></li>
-										<li className="breadcrumb-item active">Commerce</li>
-										<li className="breadcrumb-item active">Add New Product</li>
-									</ol>
-								</div>
-							</div>
-						</div>
-					</div>
-					{/* <!-- end page title --> */}
+    let res = await axios.post(`${API}/api/product`, formdata, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res) {
+      window.location = "/comproducts";
+    }
+    setLoading(false);
+  };
 
-					{/* <!-- Save options Begins--> */}
-					<div className="row">
-						<div className="col-12">
-							<div className="form-group text-right">
-								<button onClick={handleSubmit} type="button" className="btn btn-success btn-login waves-effect waves-light mr-3"
-								disabled={!(state.title && state.tax && state.category && state.status && state.image && state.price && state.sale_price && state.sku && (state.track_quantity===!!state.quantity))}
-								>
-								<ClipLoader loading={loading} size={18} />
-                                  {!loading && "Save"}
-								</button>
-								<Link to="/comproducts">
-								<button type="button" className="btn btn-success btn-cancel waves-effect waves-light mr-3">Cancel</button>
-								</Link>
-							</div>
-						</div>
-					</div>
-					{/* <!-- Save options Ends-->             */}
+  const handleChange = (e) => {
+    setstate({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const onFileChange = (e) => {
+    setstate({
+      ...state,
+      image: e.target.files[0],
+    });
+  };
+  const handleChangeEditor = (e) => {
+    setstate({
+      ...state,
+      description: e.target.innerText,
+    });
+  };
+  const handleChangeCheckBox = (e) => {
+    setstate({
+      ...state,
+      [e.target.name]: e.target.checked,
+    });
+  };
+  console.log(state);
 
-					{/* <!-- Row 1 Begins -->                */}
-					<div className="row">
-						{/* <!--Left Column Begins--> */}
-						<div className="col-lg-8">
-							<div className="card">
-								<div className="card-body">
-									<div className="row">
-										<div className="col-md-12">
-											<form>
-												<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Title*
-															</label>
-															<input type="text" name="title" className="form-control input-field"
-																onChange={handleChange}
-																placeholder="Title" />
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group mb-30 width-100 row">
-															<label className="col-md-4 control-label">
-																Description(optional)
-															</label>
-															<div className="col-md-13">
-																<textarea
-																	onChange={handleChange}
-																	name="description"
-																	className="form-control input-field"
-																	rows="5"
-																	placeholder="Add description"
-																></textarea>
-															</div>
-														</div>
-														{/* <div className="form-group">
+  const editHandler = (e, type) => {
+    const value = e.target.value;
+    const length = value.length;
+
+    switch (type) {
+      case "title":
+        if (wordLimit.title - length !== -1) {
+          handleChange(e);
+          setTitleLen(wordLimit.title - length);
+        }
+        break;
+      case "description":
+        if (wordLimit.description - length !== -1) {
+          handleChange(e);
+          setDescriptionLen(wordLimit.description - length);
+        }
+        break;
+      case "price":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.price - length !== -1)
+        ) {
+          handleChange(e);
+          setPriceLen(wordLimit.price - length);
+        }
+        break;
+      case "salePrice":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.salePrice - length !== -1)
+        ) {
+          handleChange(e);
+          setSalePriceLen(wordLimit.salePrice - length);
+        }
+        break;
+      case "SKU":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.SKU - length !== -1)
+        ) {
+          handleChange(e);
+          setSKULen(wordLimit.SKU - length);
+        }
+        break;
+      case "quantity":
+        if (
+          e.target.value === "" ||
+          (!isNaN(value) && wordLimit.quantity - length !== -1)
+        ) {
+          handleChange(e);
+          setQuantityLen(wordLimit.quantity - length);
+        }
+        break;
+      default:
+        console.log("Incorrect Type");
+    }
+  };
+
+  return (
+    <div className="main-content">
+      <div className="page-content">
+        <div className="container-fluid">
+          {/* <!-- start page title --> */}
+          <div className="row">
+            <div className="col-12">
+              <div className="page-title-box d-flex align-items-center justify-content-between">
+                <h4 className="mb-0">Add New Product</h4>
+                <div className="page-title-right">
+                  <ol className="breadcrumb m-0">
+                    <li className="breadcrumb-item">
+                      <Link to="/dashboard">TellyTell</Link>
+                    </li>
+                    <li className="breadcrumb-item active">Commerce</li>
+                    <li className="breadcrumb-item active">Add New Product</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- end page title --> */}
+
+          {/* <!-- Save options Begins--> */}
+          <div className="row">
+            <div className="col-12">
+              <div className="form-group text-right">
+                <button
+                  onClick={handleSubmit}
+                  type="button"
+                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                  disabled={
+                    !(
+                      state.title &&
+                      state.tax &&
+                      state.category &&
+                      state.status &&
+                      state.image &&
+                      state.price &&
+                      state.sale_price &&
+                      state.sku &&
+                      state.track_quantity === !!state.quantity
+                    )
+                  }
+                >
+                  <ClipLoader loading={loading} size={18} />
+                  {!loading && "Save"}
+                </button>
+                <Link to="/comproducts">
+                  <button
+                    type="button"
+                    className="btn btn-success btn-cancel waves-effect waves-light mr-3"
+                  >
+                    Cancel
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* <!-- Save options Ends-->             */}
+
+          {/* <!-- Row 1 Begins -->                */}
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Title*
+                              </label>
+                              <input
+                                type="text"
+                                name="title"
+                                className="form-control input-field"
+                                onChange={(e) => editHandler(e, "title")}
+                                placeholder="Title"
+                                value={state.title}
+                              />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {titleLen}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group mb-30 width-100 row">
+                              <label className="col-md-4 control-label">
+                                Description(optional)
+                              </label>
+                              <div className="col-md-13">
+                                <textarea
+                                  onChange={(e) =>
+                                    editHandler(e, "description")
+                                  }
+                                  name="description"
+                                  className="form-control input-field"
+                                  rows="5"
+                                  placeholder="Add description"
+                                  value={state.description}
+                                ></textarea>
+                                <label
+                                  for="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Remaining words : {descriptionLen}
+                                </label>
+                              </div>
+                            </div>
+                            {/* <div className="form-group">
 															<label for="basicpill-phoneno-input" className="label-100">
 																Description
 															</label>
@@ -190,228 +320,343 @@ function AddProducts(props) {
 																<div id="summernote-editor" onChange={handleChangeEditor} defaultValue={state.description} ref={EditorRef} className="summernote"></div>
 															</span>
 														</div> */}
-													</div>
-												</div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
 
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- Left Column Ends --> */}
+            {/* <!--Right Column Begins --> */}
+            <div className="col-lg-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Select Tax*
+                              </label>
+                              <select
+                                name="tax"
+                                value={state.tax}
+                                onChange={handleChange}
+                                className="form-control  input-field"
+                              >
+                                <option value="">--select--</option>
+                                {tax?.map((item) => (
+                                  <>
+                                    <option key={item._id} value={item._id}>
+                                      {item.tax_name} - {item.tax_percentage}%
+                                    </option>
+                                  </>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Select Category*
+                              </label>
+                              <select
+                                name="category"
+                                value={state.category}
+                                onChange={handleChange}
+                                className="form-control  input-field"
+                              >
+                                <option value="">--select--</option>
+                                {Categories?.map((item) => (
+                                  <>
+                                    <option key={item._id} value={item._id}>
+                                      {item.category}
+                                    </option>
+                                  </>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Status*
+                              </label>
+                              <select
+                                name="status"
+                                value={state.status}
+                                onChange={handleChange}
+                                className="form-control  input-field"
+                              >
+                                <option value="">--select--</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!--Right Column Ends --> */}
+          </div>
+          {/* <!-- Row 1 Ends -->           */}
 
-						{/* <!--Right Column Begins --> */}
-						<div className="col-lg-4">
-							<div className="card">
-								<div className="card-body">
-									<div className="row">
-										<div className="col-md-12">
-											<form>
-												
-											<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Select Tax*
-															</label>
-															<select name="tax" value={state.tax} onChange={handleChange} className="form-control  input-field">
-															<option value="">--select--</option>
-																{tax?.map(item => (
-																	<>
-																		<option key={item._id} value={item._id}>{item.tax_name} - {item.tax_percentage}%</option>
-																	</>
-																))
-																}
-															</select>
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Select Category*
-															</label>
-															<select name="category" value={state.category} onChange={handleChange} className="form-control  input-field">
-																<option value="">--select--</option>
-																{Categories?.map(item => (
-																	<>
-																		<option key={item._id} value={item._id}>{item.category}</option>
-																	</>
-																))
-																}
-															</select>
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Status*
-															</label>
-															<select name="status" value={state.status} onChange={handleChange} className="form-control  input-field">
-																<option value="">--select--</option>
-																<option value="Active">Active</option>
-																<option value="Inactive">Inactive</option>
-															</select>
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!--Right Column Ends --> */}
-					</div>
-					{/* <!-- Row 1 Ends -->           */}
+          {/* <!-- Row 2 Begins -->                */}
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Upload Image*
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group mb-30 width-100 row">
+                              <label className="col-md-4 control-label">
+                                Upload
+                                <br />
+                                <span className="size">(320 x 180 px)</span>
+                              </label>
+                              <div className="col-md-8">
+                                <input
+                                  type="file"
+                                  onChange={onFileChange}
+                                  className="form-control input-field"
+                                  value={state?.image?.filename}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
+          </div>
+          {/* <!-- Row 2 Ends -->  */}
 
-					{/* <!-- Row 2 Begins -->                */}
-					<div className="row">
-						{/* <!--Left Column Begins--> */}
-						<div className="col-lg-8">
-							<div className="card">
-								<div className="card-body">
-									<div className="row">
-										<div className="col-md-12">
-											<form>
-												<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Upload Image*
-															</label>
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-12">
-														<div className="form-group mb-30 width-100 row">
-															<label className="col-md-4 control-label">Upload<br />
-																<span className="size">(320 x 180 px)</span></label>
-															<div className="col-md-8">
-																<input type="file" onChange={onFileChange} className="form-control input-field" value={state?.image?.filename} />
-															</div>
-														</div>
-													</div>
-												</div>
+          {/* <!-- Row 3 Begins -->                */}
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Price*
+                              </label>
+                              <input
+                                type="text"
+                                name="price"
+                                onChange={(e) => editHandler(e, "price")}
+                                className="form-control input-field"
+                                value={state.price}
+                              />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {priceLen}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Sale Price*
+                              </label>
+                              <input
+                                name="sale_price"
+                                onChange={(e) => editHandler(e, "salePrice")}
+                                type="text"
+                                className="form-control input-field"
+                                value={state.sale_price}
+                              />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {salePriceLen}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
+          </div>
+          {/* <!-- Row 3 Ends -->  */}
 
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- Left Column Ends --> */}
-					</div>
-					{/* <!-- Row 2 Ends -->  */}
+          {/* <!-- Row 4 Begins -->                */}
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                SKU*
+                              </label>
+                              <input
+                                name="sku"
+                                onChange={(e) => editHandler(e, "SKU")}
+                                type="text"
+                                className="form-control input-field"
+                                value={state.sku}
+                              />
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Remaining words : {SKULen}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="custom-control custom-checkbox mb-2">
+                              <input
+                                name="track_quantity"
+                                onChange={handleChangeCheckBox}
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="genre1"
+                              />
+                              <label
+                                className="custom-control-label"
+                                for="genre1"
+                              >
+                                Track Quantity
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="custom-control custom-checkbox mb-2">
+                              <input
+                                name="continue_selling"
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="genre2"
+                                onChange={handleChangeCheckBox}
+                              />
+                              <label
+                                className="custom-control-label"
+                                for="genre2"
+                              >
+                                Continue sellng when out of stock
+                              </label>
+                            </div>
+                          </div>
+                        </div>
 
-					{/* <!-- Row 3 Begins -->                */}
-					<div className="row">
-						{/* <!--Left Column Begins--> */}
-						<div className="col-lg-8">
-							<div className="card">
-								<div className="card-body">
-									<div className="row">
-										<div className="col-md-12">
-											<form>
-												<div className="row">
-													<div className="col-lg-4">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Price*
-															</label>
-															<input type="text" name="price" onChange={handleChange} className="form-control input-field" />
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-4">
-														<div className="form-group">
-															<label htmlFor="basicpill-phoneno-input" className="label-100">
-																Sale Price*
-															</label>
-															<input name="sale_price" onChange={handleChange} type="text" className="form-control input-field" />
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- Left Column Ends --> */}
-					</div>
-					{/* <!-- Row 3 Ends -->  */}
+                        {state.track_quantity && (
+                          <div className="row">
+                            <div className="col-lg-4">
+                              <div className="form-group">
+                                <label
+                                  for="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Quantity Available*
+                                </label>
+                                <input
+                                  name="quantity"
+                                  onChange={(e) => editHandler(e, "quantity")}
+                                  value={state.quantity}
+                                  type="text"
+                                  className="form-control input-field"
+                                />
+                                <label
+                                  for="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Remaining words : {quantityLen}
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
+          </div>
+          {/* <!-- Row 4 Ends -->  */}
+        </div>
+        {/* <!-- container-fluid --> */}
+      </div>
+      {/* <!-- End Page-content --> */}
 
-					{/* <!-- Row 4 Begins -->                */}
-					<div className="row">
-						{/* <!--Left Column Begins--> */}
-						<div className="col-lg-8">
-							<div className="card">
-								<div className="card-body">
-									<div className="row">
-										<div className="col-md-12">
-											<form>
-												<div className="row">
-													<div className="col-lg-4">
-														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
-																SKU*
-															</label>
-															<input name="sku" onChange={handleChange} type="text" className="form-control input-field" />
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-4">
-														<div className="custom-control custom-checkbox mb-2">
-															<input name="track_quantity" onChange={handleChangeCheckBox} type="checkbox" className="custom-control-input" id="genre1" />
-															<label className="custom-control-label" for="genre1">Track Quantity</label>
-														</div>
-													</div>
-												</div>
-												<div className="row">
-													<div className="col-lg-4">
-														<div className="custom-control custom-checkbox mb-2">
-															<input name="continue_selling" type="checkbox" className="custom-control-input" id="genre2"  onChange={handleChangeCheckBox}/>
-															<label className="custom-control-label" for="genre2">Continue sellng when out of stock</label>
-														</div>
-													</div>
-												</div>
-												
-												{state.track_quantity&&<div className="row">
-													<div className="col-lg-4">
-														<div className="form-group">
-															<label for="basicpill-phoneno-input" className="label-100">
-																Quantity Available*
-															</label>
-															<input name="quantity" onChange={handleChange} type="text" className="form-control input-field" />
-														</div>
-													</div>
-												</div>}
-
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* <!-- Left Column Ends --> */}
-					</div>
-					{/* <!-- Row 4 Ends -->  */}
-
-				</div>
-				{/* <!-- container-fluid --> */}
-			</div>
-			{/* <!-- End Page-content --> */}
-
-
-			{/* <footer className="footer">
+      {/* <footer className="footer">
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-sm-12">
@@ -421,9 +666,9 @@ function AddProducts(props) {
 					</div>
 				</div>
 			</footer> */}
-			<Footer/>
-		</div>
-	);
+      <Footer />
+    </div>
+  );
 }
 
 export default AddProducts;
