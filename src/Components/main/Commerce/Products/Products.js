@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 function Products(props) {
   const [data, setData] = useState([]);
@@ -12,6 +13,27 @@ function Products(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
+  const [currency, setCurrency] = useState();
+
+  useEffect(() => {
+    async function fetchData() {
+      await axios
+        .get(`${API}/api/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setCurrency(res.data.data.settings.currency);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    fetchData();
+  }, [token]);
 
   useEffect(() => {
     const getData = async () => {
@@ -140,9 +162,15 @@ function Products(props) {
                                     </td>
                                     <td>{item.title}</td>
                                     <td>{item.quantity}</td>
-                                    <td>Rs. {item.sale_price}</td>
+                                    <td>
+                                      {getSymbolFromCurrency(currency)}{" "}
+                                      {item.sale_price}
+                                    </td>
                                     <td>{item.tax?.tax_percentage}%</td>
-                                    <td>Rs. {item.total_price}</td>
+                                    <td>
+                                      {getSymbolFromCurrency(currency)}{" "}
+                                      {item.total_price}
+                                    </td>
                                     <td>
                                       <span className="badge badge-pill badge-success font-size-12">
                                         Live

@@ -5,6 +5,8 @@ import { isAutheticated } from "../../../auth/authhelper";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../Footer";
+import getSymbolFromCurrency from "currency-symbol-map";
+
 function Editproducts(props) {
   const { productId } = useParams();
 
@@ -13,6 +15,21 @@ function Editproducts(props) {
   const [taxs, setTax] = useState([]);
   const [Categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [currency, setCurrency] = useState();
+  const [images, setImages] = useState({
+    image1: "",
+    image2: "",
+    image3: "",
+    image4: "",
+    image5: "",
+  });
+  const [imageUrl, setImageUrl] = useState();
+  const [imagesUrl, setImagesUrl] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
+  const [imageTitle, setImageTitle] = useState("");
+  const [imageId, setImageId] = useState(0);
 
   const [state, setstate] = useState({
     title: "",
@@ -25,19 +42,19 @@ function Editproducts(props) {
     sku: "",
     quantity: "",
     continue_selling: false,
-    track_quantity: null,
+    track_quantity: false,
     statusState: true,
     initialCategory: "",
     tax: "",
   });
 
   const wordLimit = {
-    title: 50,
-    description: 250,
+    title: 40,
+    description: 1000,
     price: 12,
     salePrice: 12,
-    SKU: 15,
-    quantity: 15,
+    SKU: 10,
+    quantity: 10,
   };
 
   const [titleLen, setTitleLen] = useState(wordLimit.title);
@@ -61,6 +78,26 @@ function Editproducts(props) {
   // 	fetchData();
   // }, [token])
 
+  useEffect(() => {
+    async function fetchData() {
+      await axios
+        .get(`${API}/api/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setCurrency(res.data.data.settings.currency);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    fetchData();
+  }, [token]);
+
   const onCancel = (e) => {
     window.location = "/comproducts";
   };
@@ -80,6 +117,12 @@ function Editproducts(props) {
     formdata.append("track_quantity", state.track_quantity);
     formdata.append("tax_id", state.tax);
     // formdata.append("track_quantity", state.track_quantity);
+
+    for (let i = 1; i < 6; i++) {
+      if (images[`image${i}`] !== state[`image${i}`]) {
+        formdata.append(`image${i}`, images[`image${i}`]);
+      }
+    }
 
     let res = await axios.put(`${API}/api/product/${productId}`, formdata, {
       headers: {
@@ -129,7 +172,6 @@ function Editproducts(props) {
       const tax = taxes.data.data.find(
         (tax) => tax._id === res.data?.data?.tax
       );
-      console.log(tax, "Thuis us tax");
       setstate({
         title: res.data?.data?.title,
         description: res.data?.data?.description,
@@ -137,8 +179,8 @@ function Editproducts(props) {
         price: res.data?.data?.price,
         sale_price: res.data?.data?.sale_price,
         sku: res.data?.data?.sku,
-        quantity: res.data?.data?.quantity,
         track_quantity: res.data?.data?.track_quantity,
+        quantity: res.data?.data?.quantity,
         statusState: res.data?.data?.status,
         status: res.data?.data?.status ? "Active" : "Inactive",
         continue_selling: res.data?.data?.continue_selling,
@@ -148,6 +190,23 @@ function Editproducts(props) {
         tax: tax._id,
         initialTax: tax,
       });
+      let newImagesUrl = [];
+      let newImages = {
+        image1: "",
+        image2: "",
+        image3: "",
+        image4: "",
+        image5: "",
+      };
+      for (let i = 1; i < 6; i++) {
+        if (res.data?.data[`image${i}`].length > 0) {
+          newImagesUrl = [...newImagesUrl, res.data?.data[`image${i}`]];
+          newImages[`image${i}`] = res.data?.data[`image${i}`];
+        }
+      }
+      setImagesUrl(newImagesUrl);
+      setImages(newImagesUrl);
+      setImageUrl(res.data?.data?.image);
 
       setTitleLen(wordLimit.title - res.data?.data?.title.length);
       setDescriptionLen(
@@ -158,9 +217,11 @@ function Editproducts(props) {
         wordLimit.salePrice - res.data?.data?.sale_price.toString().length
       );
       setSKULen(wordLimit.SKU - res.data?.data?.sku.toString().length);
-      setQuantityLen(
-        wordLimit.quantity - res.data?.data?.quantity.toString().length
-      );
+      if (res.data?.data?.track_quantity) {
+        setQuantityLen(
+          wordLimit.quantity - res.data?.data?.quantity.toString().length
+        );
+      }
     };
     getData();
   }, [token, props.match.params.productId]);
@@ -244,6 +305,98 @@ function Editproducts(props) {
         console.log("Incorrect Type");
     }
   };
+
+  const handleSingleImage = (event) => {
+    const file = event.target.files[0];
+    if (file && file["type"].split("/")[0] === "image") {
+      setstate({ ...state, image: event.target.files[0] });
+      setImageUrl(URL.createObjectURL(file));
+    } else {
+      alert("Please upload a valid image");
+    }
+  };
+
+  const imageHandler = (e) => {
+    const imagesLength = Array.from(e.target.files).length;
+    const currentLength = imagesUrl.length;
+    if (imagesLength + currentLength > 5) {
+      alert("Cannot upload more than 5 images");
+      return;
+    }
+    let newImages = [...imagesUrl];
+    let prev = { ...images };
+    for (let i = 0; i < imagesLength; i++) {
+      if (
+        e.target.files[i] &&
+        e.target.files[i]["type"].split("/")[0] === "image"
+      ) {
+        newImages = [...newImages, URL.createObjectURL(e.target.files[i])];
+        prev[`image${i + currentLength + 1}`] = e.target.files[i];
+      } else {
+        alert("Please upload a valid image");
+      }
+    }
+
+    // let prev = {
+    //   image1: "",
+    //   image2: "",
+    //   image3: "",
+    //   image4: "",
+    //   image5: "",
+    // };
+    // for (let i = 0; i < newImages.length; i++) {
+    //   prev[`image${i + 1}`] = newImages[i];
+    // }
+
+    setImages(prev);
+    setImagesUrl(newImages);
+  };
+
+  const openImage = (image) => {
+    let newImageId = 0;
+    for (let i = 0; i < imagesUrl.length; i++) {
+      if (imagesUrl[i] === image) {
+        newImageId = i;
+        break;
+      }
+    }
+    setImageId(newImageId);
+    setImageTitle(`image${newImageId + 1}`);
+    setCurrentImage(imagesUrl[newImageId]);
+    setOpenModal(true);
+  };
+
+  const deleteImage = () => {
+    let newImagesUrl = [];
+    for (let i = 0; i < imagesUrl.length; i++) {
+      if (i !== imageId) {
+        newImagesUrl = [...newImagesUrl, imagesUrl[i]];
+      }
+    }
+
+    setImagesUrl(newImagesUrl);
+
+    let newImages = {
+      image1: "",
+      image2: "",
+      image3: "",
+      image4: "",
+      image5: "",
+    };
+    for (let i = 0; i < newImagesUrl.length; i++) {
+      newImages[`image${i + 1}`] = newImagesUrl[i];
+    }
+
+    setImages(newImages);
+    setOpenModal(false);
+  };
+
+  const deleteSingleImage = () => {
+    setstate((prev) => ({ ...prev, image: null }));
+    setImageUrl("");
+  };
+
+  // console.log(images);
   return (
     <div className="main-content">
       <div className="page-content">
@@ -489,7 +642,7 @@ function Editproducts(props) {
                                 htmlFor="basicpill-phoneno-input"
                                 className="label-100"
                               >
-                                Upload Image
+                                Upload Featured Product Image*
                               </label>
                             </div>
                           </div>
@@ -498,20 +651,28 @@ function Editproducts(props) {
                           <div className="col-lg-12">
                             <div className="form-group mb-30 width-100 row">
                               <label className="col-md-3 control-label">
-                                Upload
+                                Upload One Image Only
                                 <br />
                                 <span className="size">(320 x 180 px)</span>
                               </label>
                               <div className="col-md-3">
-                                <img src={state.imageUrl} width="110" alt="" />
+                                <img src={imageUrl} width="110" alt="200x200" />
                               </div>
                               <div className="col-md-6">
                                 <input
                                   type="file"
-                                  onChange={onFileChange}
+                                  onChange={handleSingleImage}
                                   className="form-control input-field"
                                   value={state?.image?.filename}
+                                  accept="image/*"
                                 />
+                                <button
+                                  type="button"
+                                  className="btn btn-danger"
+                                  onClick={() => deleteSingleImage()}
+                                >
+                                  Delete
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -524,6 +685,131 @@ function Editproducts(props) {
             </div>
             {/* <!-- Left Column Ends --> */}
           </div>
+
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Upload Product Images*
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group mb-30 width-100 row">
+                              <label className="col-md-4 control-label">
+                                Upload Upto 5 Images
+                                <br />
+                                <span className="size">(320 x 180 px)</span>
+                              </label>
+                              <div className="col-md-8">
+                                <input
+                                  type="file"
+                                  onChange={imageHandler}
+                                  className="form-control input-field"
+                                  accept="image/*"
+                                  multiple
+                                />
+                                {imagesUrl.length > 0 &&
+                                  imagesUrl.map((image) => (
+                                    <img
+                                      className="img-fluid mt-2 pr-2"
+                                      style={{
+                                        width: "90px",
+                                        height: "45px",
+                                        cursor: "pointer",
+                                      }}
+                                      alt="200x200"
+                                      src={image}
+                                      onClick={() => openImage(image)}
+                                    />
+                                  ))}
+
+                                {openModal && (
+                                  <div
+                                    className="modal fade show"
+                                    id="exampleModalCenter"
+                                    tabindex="-1"
+                                    aria-labelledby="exampleModalCenterTitle"
+                                    aria-modal="true"
+                                    role="dialog"
+                                    style={{ display: "block" }}
+                                  >
+                                    <div className="modal-dialog modal-dialog-centered">
+                                      <div className="modal-content">
+                                        <div className="modal-header">
+                                          <h5
+                                            className="modal-title"
+                                            id="exampleModalCenterTitle"
+                                          >
+                                            {imageTitle}
+                                          </h5>
+                                          <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                            onClick={() => setOpenModal(false)}
+                                          ></button>
+                                        </div>
+                                        <div className="modal-body">
+                                          <img
+                                            className="img-fluid mt-2 pr-2"
+                                            // style={{
+                                            //   width: "90px",
+                                            //   height: "45px",
+                                            // }}
+                                            alt="200x200"
+                                            src={currentImage}
+                                            // onClick={() => openImage(image)}
+                                          />
+                                        </div>
+                                        <div className="modal-footer">
+                                          <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                            onClick={() => setOpenModal(false)}
+                                          >
+                                            Close
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={() => deleteImage()}
+                                          >
+                                            Delete
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
+          </div>
+
           {/* <!-- Row 2 Ends -->  */}
 
           {/* <!-- Row 3 Begins -->                */}
@@ -544,13 +830,23 @@ function Editproducts(props) {
                               >
                                 Price
                               </label>
-                              <input
-                                type="text"
-                                value={state.price}
-                                name="price"
-                                onChange={(e) => editHandler(e, "price")}
-                                className="form-control input-field"
-                              />
+                              <div className="input-group">
+                                <div className="input-group-prepend">
+                                  <span className="input-group-text">
+                                    {currency
+                                      ? getSymbolFromCurrency(currency)
+                                      : "$"}
+                                  </span>
+                                </div>
+                                <input
+                                  type="number"
+                                  name="price"
+                                  onChange={(e) => editHandler(e, "price")}
+                                  className="form-control input-field"
+                                  value={state.price}
+                                  min="0.00"
+                                />
+                              </div>
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
@@ -569,13 +865,23 @@ function Editproducts(props) {
                               >
                                 Sale Price
                               </label>
-                              <input
-                                name="sale_price"
-                                value={state.sale_price}
-                                onChange={(e) => editHandler(e, "salePrice")}
-                                type="text"
-                                className="form-control input-field"
-                              />
+                              <div className="input-group">
+                                <div className="input-group-prepend">
+                                  <span className="input-group-text">
+                                    {currency
+                                      ? getSymbolFromCurrency(currency)
+                                      : "$"}
+                                  </span>
+                                </div>
+                                <input
+                                  type="number"
+                                  name="sale_price"
+                                  onChange={(e) => editHandler(e, "salePrice")}
+                                  className="form-control input-field"
+                                  value={state.sale_price}
+                                  min="0.00"
+                                />
+                              </div>
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
@@ -593,6 +899,7 @@ function Editproducts(props) {
             </div>
             {/* <!-- Left Column Ends --> */}
           </div>
+
           {/* <!-- Row 3 Ends -->  */}
 
           {/* <!-- Row 4 Begins -->                */}
@@ -634,7 +941,7 @@ function Editproducts(props) {
                             <div className="custom-control custom-checkbox mb-2">
                               <input
                                 name="track_quantity"
-                                value={state.track_quantity}
+                                checked={state.track_quantity}
                                 onChange={handleChangeCheckBox}
                                 type="checkbox"
                                 className="custom-control-input"
@@ -653,44 +960,48 @@ function Editproducts(props) {
                           <div className="col-lg-4">
                             <div className="custom-control custom-checkbox mb-2">
                               <input
+                                name="continue_selling"
                                 type="checkbox"
                                 className="custom-control-input"
-                                id="genre1"
+                                id="genre2"
+                                onChange={handleChangeCheckBox}
                               />
                               <label
                                 className="custom-control-label"
-                                htmlFor="genre1"
+                                htmlFor="genre2"
                               >
                                 Continue sellng when out of stock
                               </label>
                             </div>
                           </div>
                         </div>
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Quantity Available
-                              </label>
-                              <input
-                                name="quantity"
-                                value={state.quantity}
-                                onChange={(e) => editHandler(e, "quantity")}
-                                type="text"
-                                className="form-control input-field"
-                              />
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Remaining words : {quantityLen}
-                              </label>
+                        {state.track_quantity && (
+                          <div className="row">
+                            <div className="col-lg-4">
+                              <div className="form-group">
+                                <label
+                                  for="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Quantity Available*
+                                </label>
+                                <input
+                                  name="quantity"
+                                  onChange={(e) => editHandler(e, "quantity")}
+                                  value={state.quantity}
+                                  type="text"
+                                  className="form-control input-field"
+                                />
+                                <label
+                                  for="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Remaining words : {quantityLen}
+                                </label>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </form>
                     </div>
                   </div>
