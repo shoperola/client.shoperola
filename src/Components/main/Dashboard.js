@@ -18,12 +18,14 @@ export default function Dashboard() {
     username: "",
   });
 
-  const [paypal,setPaypal]=useState({});
-  const [stripe,setStripe]=useState({});
-  const [video,setVideo]=useState("");
-  const [subscribers,setSubscribers]=useState("");
-  const [product,setProduct]=useState("");
-  const [tvShow,setTvShow]=useState("");
+  const [paypal, setPaypal] = useState({});
+  const [stripe, setStripe] = useState({});
+  const [video, setVideo] = useState("");
+  const [subscribers, setSubscribers] = useState("");
+  const [product, setProduct] = useState("");
+  const [tvShow, setTvShow] = useState("");
+  const [paypalDataLoaded, setPaypalDataLoaded] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const { token } = isAutheticated();
   //console.log(token);
@@ -35,15 +37,16 @@ export default function Dashboard() {
         },
       })
       .then((response) => {
-        const getData=response.data.data;
+        const getData = response.data.data;
         //console.log("payment",getData);
         setPaypal(getData.paypal);
         setStripe(getData.stripe);
+        setPaypalDataLoaded(true);
       })
       .catch((err) => {
         console.log(err);
       });
-  },[]);
+  }, []);
   useEffect(() => {
     axios
       .get(`${API}/api/user/details`, {
@@ -52,18 +55,17 @@ export default function Dashboard() {
         },
       })
       .then((response) => {
-        const getData=response.data.data;
+        const getData = response.data.data;
         //console.log("deatails",getData);
-        setProduct(getData.productsCount)
-        setSubscribers(getData.subscriberCount)
+        setProduct(getData.productsCount);
+        setSubscribers(getData.subscriberCount);
         setTvShow(getData.tvshowsCount);
-        setVideo(getData.videosCount)
-        
+        setVideo(getData.videosCount);
       })
       .catch((err) => {
         console.log(err);
       });
-  },[]);
+  }, []);
   useEffect(() => {
     // $("#summernote").summernote();
 
@@ -83,6 +85,7 @@ export default function Dashboard() {
           facebookLink: userdata.facebookLink,
           fees: userdata.fees,
         });
+        setDataLoaded(true);
       })
       .catch((err) => {
         console.log(err);
@@ -198,44 +201,51 @@ export default function Dashboard() {
           </div>
 
           <div className="row">
-            {(!paypal.permissionsGranted || !paypal.ENABLED) && (!stripe.details_submitted || !stripe.ENABLED) && <div className="col-lg-4 mb-30">
-              <div className="card dashboard-box">
-                <div className="card-body">
-                  <div className="media">
-                    <div className="media-body align-self-center overflow-hidden">
-                      <div className="text-center">
-                        <img
-                          src="assets/images/icons/payout-icon.png"
-                          alt=""
-                          className="avatar-md"
-                        />
-                        <h5 className="text-truncate">Connect a payout method</h5>
-                        <p>
-                          Your page is currently private. Connect your PayPal or
-                          Stripe account to start receiving payments.
-                        </p>
-                        <div className="form-group m-0">
-                          <Link to="/payment" >
-                            <button
-                              type="button"
-                              className="
+            {paypalDataLoaded &&
+              (!paypal.permissionsGranted || !paypal.ENABLED) &&
+              (!stripe.details_submitted || !stripe.ENABLED) && (
+                <div className="col-lg-4 mb-30">
+                  <div className="card dashboard-box">
+                    <div className="card-body">
+                      <div className="media">
+                        <div className="media-body align-self-center overflow-hidden">
+                          <div className="text-center">
+                            <img
+                              src="assets/images/icons/payout-icon.png"
+                              alt=""
+                              className="avatar-md"
+                            />
+                            <h5 className="text-truncate">
+                              Connect a payout method
+                            </h5>
+                            <p>
+                              Your page is currently private. Connect your
+                              PayPal or Stripe account to start receiving
+                              payments.
+                            </p>
+                            <div className="form-group m-0">
+                              <Link to="/payment">
+                                <button
+                                  type="button"
+                                  className="
                                   btn btn-dashboard
                                   waves-effect waves-light
                                 "
-                              style={{backgroundColor:"blueviolet"}}
-                            >
-                              Connect
-                            </button>
-                          </Link>
+                                  style={{ backgroundColor: "blueviolet" }}
+                                >
+                                  Connect
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div> }
+              )}
 
-            {data.picture == "" && (
+            {dataLoaded && data.picture == "" && (
               <div className="col-lg-4 mb-30">
                 <div className="card dashboard-box">
                   <div className="card-body">
@@ -273,7 +283,7 @@ export default function Dashboard() {
               </div>
             )}
 
-            {data.fees == 0 && (
+            {dataLoaded && data.fees == 0 && (
               <div className="col-lg-4 mb-30">
                 {console.log(data.fees)}
                 <div className="card dashboard-box">
@@ -439,8 +449,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-     
-      <Footer/>
+      <Footer />
     </div>
   );
 }

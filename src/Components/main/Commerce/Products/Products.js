@@ -147,8 +147,8 @@ function Products(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.length > 0
-                          ? data.map(
+                        {showData.length > 0
+                          ? showData.map(
                               (item) =>
                                 item.title && (
                                   <tr key={item._id}>
@@ -172,9 +172,15 @@ function Products(props) {
                                       {item.total_price}
                                     </td>
                                     <td>
-                                      <span className="badge badge-pill badge-success font-size-12">
-                                        Live
-                                      </span>
+                                      {item.status ? (
+                                        <span className="badge badge-pill badge-success font-size-12">
+                                          Live
+                                        </span>
+                                      ) : (
+                                        <span className="badge badge-pill badge-danger font-size-12">
+                                          Suspended
+                                        </span>
+                                      )}
                                     </td>
                                     <td>
                                       <button

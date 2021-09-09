@@ -116,11 +116,13 @@ function Editproducts(props) {
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
     formdata.append("tax_id", state.tax);
-    // formdata.append("track_quantity", state.track_quantity);
+    formdata.append("status", state.status);
 
     for (let i = 1; i < 6; i++) {
       if (images[`image${i}`] !== state[`image${i}`]) {
         formdata.append(`image${i}`, images[`image${i}`]);
+      } else {
+        formdata.append(`image${i}`, null);
       }
     }
 
@@ -181,8 +183,7 @@ function Editproducts(props) {
         sku: res.data?.data?.sku,
         track_quantity: res.data?.data?.track_quantity,
         quantity: res.data?.data?.quantity,
-        statusState: res.data?.data?.status,
-        status: res.data?.data?.status ? "Active" : "Inactive",
+        status: res.data?.data?.status,
         continue_selling: res.data?.data?.continue_selling,
         initialCategory: category,
         category: category?._id,
@@ -199,7 +200,7 @@ function Editproducts(props) {
         image5: "",
       };
       for (let i = 1; i < 6; i++) {
-        if (res.data?.data[`image${i}`].length > 0) {
+        if (res.data?.data[`image${i}`] !== "") {
           newImagesUrl = [...newImagesUrl, res.data?.data[`image${i}`]];
           newImages[`image${i}`] = res.data?.data[`image${i}`];
         }
@@ -221,10 +222,17 @@ function Editproducts(props) {
         setQuantityLen(
           wordLimit.quantity - res.data?.data?.quantity.toString().length
         );
+      } else {
       }
     };
     getData();
   }, [token, props.match.params.productId]);
+
+  useEffect(() => {
+    if (state.quantity === "") {
+      setstate((prev) => ({ ...prev, quantity: "0" }));
+    }
+  });
 
   const onFileChange = (e) => {
     setstate({
@@ -324,29 +332,34 @@ function Editproducts(props) {
       return;
     }
     let newImages = [...imagesUrl];
-    let prev = { ...images };
+    let newImagesList = [];
+
+    for (const key in images) {
+      newImagesList = [...newImagesList, images[key]];
+    }
+
     for (let i = 0; i < imagesLength; i++) {
       if (
         e.target.files[i] &&
         e.target.files[i]["type"].split("/")[0] === "image"
       ) {
         newImages = [...newImages, URL.createObjectURL(e.target.files[i])];
-        prev[`image${i + currentLength + 1}`] = e.target.files[i];
+        newImagesList = [...newImagesList, e.target.files[i]];
       } else {
         alert("Please upload a valid image");
       }
     }
 
-    // let prev = {
-    //   image1: "",
-    //   image2: "",
-    //   image3: "",
-    //   image4: "",
-    //   image5: "",
-    // };
-    // for (let i = 0; i < newImages.length; i++) {
-    //   prev[`image${i + 1}`] = newImages[i];
-    // }
+    let prev = {
+      image1: "",
+      image2: "",
+      image3: "",
+      image4: "",
+      image5: "",
+    };
+    for (let i = 0; i < newImagesList.length; i++) {
+      prev[`image${i + 1}`] = newImagesList[i];
+    }
 
     setImages(prev);
     setImagesUrl(newImages);
@@ -394,6 +407,14 @@ function Editproducts(props) {
   const deleteSingleImage = () => {
     setstate((prev) => ({ ...prev, image: null }));
     setImageUrl("");
+  };
+
+  const handleStatus = (e) => {
+    if (e.target.value === "Active") {
+      setstate({ ...state, status: true });
+    } else {
+      setstate({ ...state, status: false });
+    }
   };
 
   // console.log(images);
@@ -597,21 +618,14 @@ function Editproducts(props) {
                               </label>
                               <select
                                 name="status"
-                                value={state.status}
-                                onChange={handleChange}
+                                value={state.status ? "Active" : "Inactive"}
+                                onChange={handleStatus}
                                 className="form-control  input-field"
                               >
-                                {state.statusState ? (
-                                  <>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                  </>
-                                ) : (
-                                  <>
-                                    <option value="Inactive">Inactive</option>
-                                    <option value="Active">Active</option>
-                                  </>
-                                )}
+                                <>
+                                  <option value="Active">Active</option>
+                                  <option value="Inactive">Inactive</option>
+                                </>
                               </select>
                             </div>
                           </div>

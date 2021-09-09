@@ -6,6 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Footer from "../../Footer";
 import { Link } from "react-router-dom";
 import getSymbolFromCurrency from "currency-symbol-map";
+import Variants from "./Variants";
 
 function AddProducts(props) {
   let EditorRef = useRef();
@@ -16,12 +17,12 @@ function AddProducts(props) {
     description: "",
     tax: "",
     category: "",
-    status: "",
+    status: true,
     image: "",
     price: "",
     sale_price: "",
     sku: "",
-    quantity: "",
+    quantity: "0",
     continue_selling: false,
     track_quantity: false,
   });
@@ -41,6 +42,8 @@ function AddProducts(props) {
   const [currentImage, setCurrentImage] = useState("");
   const [imageTitle, setImageTitle] = useState("");
   const [imageId, setImageId] = useState(0);
+
+  const [variantChecked, setVariantChecked] = useState(false);
 
   const wordLimit = {
     title: 40,
@@ -111,8 +114,7 @@ function AddProducts(props) {
       state.sale_price === "" ||
       (state.track_quantity && state.quantity === "") ||
       state.sku === "" ||
-      state.category === "" ||
-      state.status === ""
+      state.category === ""
     ) {
       alert("Please fill required field ");
       return;
@@ -130,6 +132,7 @@ function AddProducts(props) {
     formdata.append("quantity", state.quantity);
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
+    formdata.append("status", state.status);
 
     for (let i = 1; i < 6; i++) {
       formdata.append(`image${i}`, images[`image${i}`]);
@@ -240,33 +243,69 @@ function AddProducts(props) {
     }
   };
 
+  // const imageHandler = (e) => {
+  //   const imagesLength = Array.from(e.target.files).length;
+  //   if (imagesLength > 5) {
+  //     alert("Cannot upload more than 5 images");
+  //     return;
+  //   }
+  //   let newImages = [];
+  //   let prev = {
+  //     image1: "",
+  //     image2: "",
+  //     image3: "",
+  //     image4: "",
+  //     image5: "",
+  //   };
+  //   for (let i = 0; i < imagesLength; i++) {
+  //     if (
+  //       e.target.files[i] &&
+  //       e.target.files[i]["type"].split("/")[0] === "image"
+  //     ) {
+  //       prev[`image${i + 1}`] = e.target.files[i];
+  //       newImages = [...newImages, URL.createObjectURL(e.target.files[i])];
+  //     } else {
+  //       alert("Please upload a valid image");
+  //     }
+  //   }
+  //   setImagesUrl(newImages);
+  //   setImages(prev);
+  // };
+
   const imageHandler = (e) => {
     const imagesLength = Array.from(e.target.files).length;
-    if (imagesLength > 5) {
+    const currentLength = imagesUrl.length;
+    if (imagesLength + currentLength > 5) {
       alert("Cannot upload more than 5 images");
       return;
     }
-    let newImages = [];
-    let prev = {
-      image1: "",
-      image2: "",
-      image3: "",
-      image4: "",
-      image5: "",
-    };
+    let newImages = [...imagesUrl];
+    let prev = { ...images };
     for (let i = 0; i < imagesLength; i++) {
       if (
         e.target.files[i] &&
         e.target.files[i]["type"].split("/")[0] === "image"
       ) {
-        prev[`image${i + 1}`] = e.target.files[i];
         newImages = [...newImages, URL.createObjectURL(e.target.files[i])];
+        prev[`image${i + currentLength + 1}`] = e.target.files[i];
       } else {
         alert("Please upload a valid image");
       }
     }
-    setImagesUrl(newImages);
+
+    // let prev = {
+    //   image1: "",
+    //   image2: "",
+    //   image3: "",
+    //   image4: "",
+    //   image5: "",
+    // };
+    // for (let i = 0; i < newImages.length; i++) {
+    //   prev[`image${i + 1}`] = newImages[i];
+    // }
+
     setImages(prev);
+    setImagesUrl(newImages);
   };
 
   const openImage = (image) => {
@@ -285,9 +324,11 @@ function AddProducts(props) {
 
   const deleteImage = () => {
     let newImagesUrl = [];
+    let newImagesList = [];
     for (let i = 0; i < imagesUrl.length; i++) {
       if (i !== imageId) {
         newImagesUrl = [...newImagesUrl, imagesUrl[i]];
+        newImagesList = [...newImagesList, images[`image${i + 1}`]];
       }
     }
 
@@ -300,12 +341,20 @@ function AddProducts(props) {
       image4: "",
       image5: "",
     };
-    for (let i = 0; i < newImagesUrl.length; i++) {
-      newImages[`image${i + 1}`] = newImagesUrl[i];
+    for (let i = 0; i < newImagesList.length; i++) {
+      newImages[`image${i + 1}`] = newImagesList[i];
     }
 
     setImages(newImages);
     setOpenModal(false);
+  };
+
+  const handleStatus = (e) => {
+    if (e.target.value === "active") {
+      setstate({ ...state, status: true });
+    } else {
+      setstate({ ...state, status: false });
+    }
   };
 
   return (
@@ -344,7 +393,7 @@ function AddProducts(props) {
                       state.title &&
                       state.tax &&
                       state.category &&
-                      state.status &&
+                      // state.status &&
                       state.image &&
                       state.price &&
                       state.sale_price &&
@@ -520,13 +569,12 @@ function AddProducts(props) {
                               </label>
                               <select
                                 name="status"
-                                value={state.status}
-                                onChange={handleChange}
+                                value={state.status ? "active" : "inactive"}
+                                onChange={handleStatus}
                                 className="form-control  input-field"
                               >
-                                <option value="">--select--</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
                               </select>
                             </div>
                           </div>
@@ -924,6 +972,60 @@ function AddProducts(props) {
             {/* <!-- Left Column Ends --> */}
           </div>
           {/* <!-- Row 4 Ends -->  */}
+
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-700"
+                              >
+                                Variants
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-8">
+                            <div className="custom-control custom-checkbox mb-2">
+                              <input
+                                name="track_quantity"
+                                onChange={() =>
+                                  setVariantChecked((prev) => !prev)
+                                }
+                                type="checkbox"
+                                className="custom-control-input"
+                                checked={variantChecked}
+                              />
+                              <label
+                                className="custom-control-label"
+                                onClick={() =>
+                                  setVariantChecked((prev) => !prev)
+                                }
+                              >
+                                This product has multiple options, like
+                                different sizes or colors
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        {variantChecked && <Variants currency={currency} />}
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
+          </div>
         </div>
         {/* <!-- container-fluid --> */}
       </div>
