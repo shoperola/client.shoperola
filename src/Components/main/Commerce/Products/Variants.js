@@ -44,6 +44,7 @@ const Variants = (props) => {
     if (optionList.length === 1) {
       setOptionList([{ name: "", value: [] }]);
       setVariants([]);
+      setOptionLimit(2);
       return;
     }
     let newOptions = [...optionList];
