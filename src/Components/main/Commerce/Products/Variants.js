@@ -55,6 +55,23 @@ const Variants = (props) => {
   };
 
   const totalVariants = (options) => {
+    let countVariants = 1;
+    options.map((item) => {
+      console.log(countVariants, item.value.length);
+      countVariants *= item.value.length;
+    });
+    if (countVariants > 100) {
+      alert(
+        "Cannot add more than 100 variants! Pleas remove one or more values from options."
+      );
+      return;
+    }
+
+    if (countVariants === 0) {
+      setVariants([]);
+      return;
+    }
+
     let newVariants = [];
 
     options.map((item) => {
@@ -82,11 +99,13 @@ const Variants = (props) => {
   };
 
   const editValues = (e, index) => {
-    let temp = [...optionList];
-    const values = e.detail.tagify.getCleanValue();
-    temp[index].value = values.map((item) => item.value);
-    setOptionList(temp);
-    totalVariants(temp);
+    setOptionList((prev) => {
+      prev[index].value = e.detail.tagify
+        .getCleanValue()
+        .map((item) => item.value);
+      totalVariants(prev);
+      return prev;
+    });
   };
 
   const editVariant = (e, index, type) => {
@@ -106,8 +125,6 @@ const Variants = (props) => {
       case "image":
         temp[index].image = value;
     }
-
-    setVariants(temp);
   };
 
   return (
@@ -120,7 +137,7 @@ const Variants = (props) => {
           </div>
         </div>
         {optionList.map((item, index) => (
-          <div key={`option${index}`} className="row">
+          <div key={`${item.name}${index}`} className="row">
             <div className="d-flex justify-content-between">
               <p className="text-sm mb-1 mt-2">{`Option ${index + 1}`}</p>
               <a
@@ -176,7 +193,7 @@ const Variants = (props) => {
       </div>
       <hr />
 
-      {variants.length > 0 && (
+      {variants.length !== 0 && (
         <div>
           <div className="row">
             <div className="col-lg-8">
@@ -184,7 +201,7 @@ const Variants = (props) => {
             </div>
           </div>
           <div className="row">
-            <table class="table">
+            <table className="table">
               <thead>
                 <tr className="row">
                   <th className="col-lg-3 text-center" scope="col">
