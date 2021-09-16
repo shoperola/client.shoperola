@@ -158,6 +158,10 @@ function AddProducts(props) {
     formdata.append("status", state.status);
     formdata.append("variants", variantId);
 
+    for (let i = 1; i < 6; i++) {
+      formdata.append(`image${i}`, images[`image${i}`]);
+    }
+
     axios
       .post(`${API}/api/product`, formdata, {
         headers: {
