@@ -6,12 +6,12 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../Footer";
 import getSymbolFromCurrency from "currency-symbol-map";
+import Variants from "./VariantsEdit";
 
 function Editproducts(props) {
   const { productId } = useParams();
 
   const { token } = isAutheticated();
-  // console.log(token)
   const [taxs, setTax] = useState([]);
   const [Categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -47,6 +47,10 @@ function Editproducts(props) {
     initialCategory: "",
     tax: "",
   });
+
+  const [variantChecked, setVariantChecked] = useState(false);
+  const [optionList, setOptionList] = useState([{ name: "", value: [] }]);
+  const [variants, setVariants] = useState([]);
 
   const wordLimit = {
     title: 40,
@@ -102,6 +106,55 @@ function Editproducts(props) {
     window.location = "/comproducts";
   };
 
+  const addVariant = (index) => {
+    const item = variants[index];
+    const formdata = new FormData();
+    formdata.append("variant", item.variant);
+    formdata.append("variant_price", parseInt(item.price));
+    formdata.append("variant_quantity", parseInt(item.quantity));
+    formdata.append("variant_sku", parseInt(item.SKU));
+    formdata.append("image", item.image);
+    formdata.append("id", productId);
+
+    axios
+      .post(`${API}/api/product/add_variant`, formdata, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const editVariant = (index) => {
+    const item = variants[index];
+    const formdata = new FormData();
+    const itemId = item._id;
+    formdata.append("variant", item.variant);
+    formdata.append("variant_price", parseInt(item.price));
+    formdata.append("variant_quantity", parseInt(item.quantity));
+    formdata.append("variant_sku", parseInt(item.SKU));
+    formdata.append("image", item.image);
+    formdata.append("id", productId);
+
+    axios
+      .post(`${API}/api/product/update_variant/${itemId}`, formdata, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleSubmit = async () => {
     const formdata = new FormData();
     setLoading(true);
@@ -136,6 +189,26 @@ function Editproducts(props) {
     }
     setLoading(false);
   };
+
+  const createVariants = (variants) => {
+    const totalVariants = variants.variant_title.length;
+    let tempVariants = [];
+    for (let i = 0; i < totalVariants; i++) {
+      tempVariants = [
+        ...tempVariants,
+        {
+          variant: variants.variant_title[i],
+          price: variants.variant_price[i],
+          quantity: variants.variant_quantity[i],
+          SKU: variants.variant_sku[i],
+          image: variants.variant_image[i],
+        },
+      ];
+    }
+
+    return tempVariants;
+  };
+
   useEffect(() => {
     const getData = async () => {
       let response = await axios.get(`${API}/api/category`, {
@@ -143,7 +216,6 @@ function Editproducts(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data, "This is category res");
 
       let res = await axios.get(
         `${API}/api/product/${props.match.params.productId}`,
@@ -153,7 +225,6 @@ function Editproducts(props) {
           },
         }
       );
-      console.log(res.data.data, "this is product data");
       const temp = response.data.filter(
         (category) => category._id !== res.data?.data?.category
       );
@@ -161,7 +232,6 @@ function Editproducts(props) {
         (category) => category._id === res.data?.data?.category
       );
       setCategories(temp);
-      // console.log(res,"this is response");
       let taxes = await axios.get(`${API}/api/tax_rates/view_taxs`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -199,12 +269,28 @@ function Editproducts(props) {
         image4: "",
         image5: "",
       };
+
+      if (res.data?.data?.variants) {
+        setVariantChecked(true);
+        const tempVariants = createVariants(res.data?.data?.variants);
+        setVariants(tempVariants);
+        const values = res.data?.data?.variants.value;
+        const tempOptionList = res.data?.data?.variants.options.map(
+          (item, index) => ({
+            name: item,
+            value: values[index].split(","),
+          })
+        );
+        setOptionList(tempOptionList);
+      }
+
       for (let i = 1; i < 6; i++) {
         if (res.data?.data[`image${i}`] !== "") {
           newImagesUrl = [...newImagesUrl, res.data?.data[`image${i}`]];
           newImages[`image${i}`] = res.data?.data[`image${i}`];
         }
       }
+
       setImagesUrl(newImagesUrl);
       setImages(newImagesUrl);
       setImageUrl(res.data?.data?.image);
@@ -241,7 +327,6 @@ function Editproducts(props) {
       imageUrl: URL.createObjectURL(e.target.files[0]),
     });
   };
-  console.log(state);
   const handleChange = (e) => {
     setstate({
       ...state,
@@ -254,7 +339,6 @@ function Editproducts(props) {
       [e.target.name]: e.target.checked,
     });
   };
-  console.log(state, "this is state");
 
   const editHandler = (e, type) => {
     const value = e.target.value;
@@ -1025,6 +1109,68 @@ function Editproducts(props) {
             {/* <!-- Left Column Ends --> */}
           </div>
           {/* <!-- Row 4 Ends -->  */}
+
+          <div className="row">
+            {/* <!--Left Column Begins--> */}
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-700"
+                              >
+                                Variants
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-8">
+                            <div className="custom-control custom-checkbox mb-2">
+                              <input
+                                name="track_quantity"
+                                onChange={() =>
+                                  setVariantChecked((prev) => !prev)
+                                }
+                                type="checkbox"
+                                className="custom-control-input"
+                                checked={variantChecked}
+                              />
+                              <label
+                                className="custom-control-label"
+                                onClick={() =>
+                                  setVariantChecked((prev) => !prev)
+                                }
+                              >
+                                This product has multiple options, like
+                                different sizes or colors
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        {variantChecked && (
+                          <Variants
+                            currency={currency}
+                            optionList={optionList}
+                            setOptionList={setOptionList}
+                            variants={variants}
+                            setVariants={setVariants}
+                          />
+                        )}
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- Left Column Ends --> */}
+          </div>
         </div>
         {/* <!-- container-fluid --> */}
       </div>

@@ -4,8 +4,7 @@ import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
 
 const Variants = (props) => {
-  const { currency } = props;
-  const [optionList, setOptionList] = useState([{ name: "", value: [] }]);
+  const { currency, setTotalVariants, optionList, setOptionList } = props;
   const [variants, setVariants] = useState([]);
   const [optionLimit, setOptionLimit] = useState(2);
 
@@ -57,7 +56,6 @@ const Variants = (props) => {
   const totalVariants = (options) => {
     let countVariants = 1;
     options.map((item) => {
-      console.log(countVariants, item.value.length);
       countVariants *= item.value.length;
     });
     if (countVariants > 100) {
@@ -87,15 +85,17 @@ const Variants = (props) => {
         });
       }
     });
-    const newVariantsObject = newVariants.map((item) => ({
+    const newVariantsObject = newVariants.map((item, index) => ({
       variant: item,
       price: "",
       quantity: "",
       SKU: "",
       image: "",
+      id: index,
     }));
 
     setVariants(newVariantsObject);
+    setTotalVariants(newVariantsObject);
   };
 
   const editValues = (e, index) => {
@@ -110,21 +110,29 @@ const Variants = (props) => {
 
   const editVariant = (e, index, type) => {
     const value = e.target.value;
-    let temp = [...variants];
-
-    switch (type) {
-      case "price":
-        temp[index].price = value;
-        break;
-      case "quantity":
-        temp[index].quantity = value;
-        break;
-      case "SKU":
-        temp[index].SKU = value;
-        break;
-      case "image":
-        temp[index].image = value;
-    }
+    setVariants((prev) => {
+      switch (type) {
+        case "price":
+          prev[index].price = value;
+          break;
+        case "quantity":
+          prev[index].quantity = value;
+          break;
+        case "SKU":
+          prev[index].SKU = value;
+          break;
+        case "image":
+          const file = e.target.files[0];
+          if (file && file["type"].split("/")[0] === "image") {
+            prev[index].image = file;
+          } else {
+            alert("Please upload a valid image");
+          }
+          break;
+      }
+      setTotalVariants(prev);
+      return prev;
+    });
   };
 
   return (
@@ -223,7 +231,7 @@ const Variants = (props) => {
               </thead>
               <tbody>
                 {variants.map((item, variantIndex) => (
-                  <tr className="row">
+                  <tr key={item.id} className="row">
                     <td className="col-lg-3 text-center">{item.variant}</td>
                     <td className="col-lg-2">
                       <div className="input-group ">
@@ -253,7 +261,7 @@ const Variants = (props) => {
                             editVariant(e, variantIndex, "quantity")
                           }
                           className="form-control"
-                          value={item.quantity}
+                          // value={item.quantity}
                         />
                       </div>
                     </td>
@@ -264,7 +272,7 @@ const Variants = (props) => {
                           name="SKU"
                           onChange={(e) => editVariant(e, variantIndex, "SKU")}
                           className="form-control"
-                          value={item.SKU}
+                          // value={item.SKU}
                         />
                       </div>
                     </td>
@@ -272,7 +280,9 @@ const Variants = (props) => {
                       <div className="input-group">
                         <input
                           type="file"
-                          // onChange={handleSingleImage}
+                          onChange={(e) =>
+                            editVariant(e, variantIndex, "image")
+                          }
                           className="form-control input-field"
                           // value={state?.image?.filename}
                           accept="image/*"
