@@ -32,10 +32,12 @@ const Variants = (props) => {
     setOptionLimit((prev) => prev - 1);
   };
 
-  const editName = (e, idx) => {
-    let temp = [...optionList];
-    temp[idx].name = e.target.value;
-
+  const editName = (event, idx) => {
+    let temp = optionList.map((item) => ({
+      name: item.name,
+      value: [...item.value],
+    }));
+    temp[idx].name = event.target.value;
     setOptionList(temp);
   };
 
@@ -85,14 +87,27 @@ const Variants = (props) => {
         });
       }
     });
-    const newVariantsObject = newVariants.map((item, index) => ({
-      variant: item,
-      price: "",
-      quantity: "",
-      SKU: "",
-      image: "",
-      id: index,
-    }));
+
+    const newVariantsObject = newVariants.map((item, index) => {
+      if (index < variants.length) {
+        return {
+          variant: item,
+          price: variants[index].price,
+          quantity: variants[index].quantity,
+          SKU: variants[index].SKU,
+          image: variants[index].image,
+          id: index,
+        };
+      }
+      return {
+        variant: item,
+        price: "",
+        quantity: "",
+        SKU: "",
+        image: "",
+        id: index,
+      };
+    });
 
     setVariants(newVariantsObject);
     setTotalVariants(newVariantsObject);
@@ -109,29 +124,33 @@ const Variants = (props) => {
   };
 
   const editVariant = (e, index, type) => {
+    e.persist();
     const value = e.target.value;
     setVariants((prev) => {
+      let temp = prev.map((item) => ({
+        ...item,
+      }));
       switch (type) {
         case "price":
-          prev[index].price = value;
+          temp[index].price = value;
           break;
         case "quantity":
-          prev[index].quantity = value;
+          temp[index].quantity = value;
           break;
         case "SKU":
-          prev[index].SKU = value;
+          temp[index].SKU = value;
           break;
         case "image":
           const file = e.target.files[0];
           if (file && file["type"].split("/")[0] === "image") {
-            prev[index].image = file;
+            temp[index].image = file;
           } else {
             alert("Please upload a valid image");
           }
           break;
       }
-      setTotalVariants(prev);
-      return prev;
+      setTotalVariants(temp);
+      return temp;
     });
   };
 
@@ -145,7 +164,7 @@ const Variants = (props) => {
           </div>
         </div>
         {optionList.map((item, index) => (
-          <div key={`${item.name}${index}`} className="row">
+          <div key={index} className="row">
             <div className="d-flex justify-content-between">
               <p className="text-sm mb-1 mt-2">{`Option ${index + 1}`}</p>
               <a
@@ -247,7 +266,7 @@ const Variants = (props) => {
                             editVariant(e, variantIndex, "price")
                           }
                           className="form-control"
-                          value={item.value}
+                          value={item.price}
                           min="0.00"
                         />
                       </div>
@@ -261,7 +280,7 @@ const Variants = (props) => {
                             editVariant(e, variantIndex, "quantity")
                           }
                           className="form-control"
-                          // value={item.quantity}
+                          value={item.quantity}
                         />
                       </div>
                     </td>
@@ -272,7 +291,7 @@ const Variants = (props) => {
                           name="SKU"
                           onChange={(e) => editVariant(e, variantIndex, "SKU")}
                           className="form-control"
-                          // value={item.SKU}
+                          value={item.SKU}
                         />
                       </div>
                     </td>
@@ -284,7 +303,6 @@ const Variants = (props) => {
                             editVariant(e, variantIndex, "image")
                           }
                           className="form-control input-field"
-                          // value={state?.image?.filename}
                           accept="image/*"
                         />
                       </div>

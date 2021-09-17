@@ -4,9 +4,21 @@ import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
 
 const Variants = (props) => {
-  const { currency, setVariants, variants, optionList, setOptionList } = props;
-  // const [variants, setVariants] = useState([]);
+  const {
+    currency,
+    setTotalVariants,
+    originalVariants,
+    optionList,
+    setOptionList,
+    variantEdited,
+    setVariantEdited,
+  } = props;
+  const [variants, setVariants] = useState([]);
   const [optionLimit, setOptionLimit] = useState(2);
+
+  useEffect(() => {
+    console.log(optionList);
+  }, [optionList]);
 
   const addOptions = () => {
     if (optionLimit === 0) {
@@ -32,11 +44,23 @@ const Variants = (props) => {
     setOptionLimit((prev) => prev - 1);
   };
 
-  const editName = (e, idx) => {
-    let temp = [...optionList];
-    temp[idx].name = e.target.value;
-
+  const editName = (event, idx) => {
+    let temp = optionList.map((item) => ({
+      name: item.name,
+      value: [...item.value],
+    }));
+    temp[idx].name = event.target.value;
     setOptionList(temp);
+  };
+
+  const editValues = (e, index) => {
+    setOptionList((prev) => {
+      prev[index].value = e.detail.tagify
+        .getCleanValue()
+        .map((item) => item.value);
+      calculateVariants(prev);
+      return prev;
+    });
   };
 
   const deleteOption = (idx) => {
@@ -49,14 +73,13 @@ const Variants = (props) => {
     let newOptions = [...optionList];
     newOptions = newOptions.filter((item, index) => index !== idx);
     setOptionList(newOptions);
-    totalVariants(newOptions);
+    calculateVariants(newOptions);
     setOptionLimit((prev) => prev + 1);
   };
 
-  const totalVariants = (options) => {
+  const calculateVariants = (options) => {
     let countVariants = 1;
     options.map((item) => {
-      console.log(countVariants, item.value.length);
       countVariants *= item.value.length;
     });
     if (countVariants > 100) {
@@ -86,55 +109,60 @@ const Variants = (props) => {
         });
       }
     });
-    const newVariantsObject = newVariants.map((item, index) => ({
-      variant: item,
-      price: "",
-      quantity: "",
-      SKU: "",
-      image: "",
-      id: index,
-    }));
+
+    const newVariantsObject = newVariants.map((item, index) => {
+      if (index < variants.length) {
+        return {
+          variant: item,
+          price: variants[index].price,
+          quantity: variants[index].quantity,
+          SKU: variants[index].SKU,
+          image: variants[index].image,
+          id: index,
+        };
+      }
+      return {
+        variant: item,
+        price: "",
+        quantity: "",
+        SKU: "",
+        image: "",
+        id: index,
+      };
+    });
 
     setVariants(newVariantsObject);
-    // setTotalVariants(newVariantsObject);
-  };
-
-  const editValues = (e, index) => {
-    setOptionList((prev) => {
-      prev[index].value = e.detail.tagify
-        .getCleanValue()
-        .map((item) => item.value);
-      totalVariants(prev);
-      return prev;
-    });
+    setTotalVariants(newVariantsObject);
   };
 
   const editVariant = (e, index, type) => {
+    e.persist();
     const value = e.target.value;
-    console.log(value);
     setVariants((prev) => {
-      console.log("old, ", prev);
+      let temp = prev.map((item) => ({
+        ...item,
+      }));
       switch (type) {
         case "price":
-          prev[index].price = value;
+          temp[index].price = value;
           break;
         case "quantity":
-          prev[index].quantity = value;
+          temp[index].quantity = value;
           break;
         case "SKU":
-          prev[index].SKU = value;
+          temp[index].SKU = value;
           break;
         case "image":
           const file = e.target.files[0];
           if (file && file["type"].split("/")[0] === "image") {
-            prev[index].image = file;
+            temp[index].image = file;
           } else {
             alert("Please upload a valid image");
           }
           break;
       }
-      console.log("new, ", prev);
-      return prev;
+      setTotalVariants(temp);
+      return temp;
     });
   };
 
@@ -148,7 +176,7 @@ const Variants = (props) => {
           </div>
         </div>
         {optionList.map((item, index) => (
-          <div key={`${item.name}${index}`} className="row">
+          <div key={index} className="row">
             <div className="d-flex justify-content-between">
               <p className="text-sm mb-1 mt-2">{`Option ${index + 1}`}</p>
               <a
@@ -202,9 +230,74 @@ const Variants = (props) => {
           </div>
         )}
       </div>
+
+      {!variantEdited && originalVariants.length !== 0 && (
+        <div>
+          <div className="row">
+            <div className="col-lg-8">
+              <label className="label-100">Preview</label>
+            </div>
+          </div>
+          <div className="row">
+            <table className="table">
+              <thead>
+                <tr className="row">
+                  <th className="col-lg-3 text-center" scope="col">
+                    Variant
+                  </th>
+                  <th className="col-lg-2 text-center" scope="col">
+                    Price
+                  </th>
+                  <th className="col-lg-2 text-center" scope="col">
+                    Quantity
+                  </th>
+                  <th className="col-lg-2 text-center" scope="col">
+                    SKU
+                  </th>
+                  <th className="col-lg-3 text-center" scope="col">
+                    Image
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {originalVariants.map((item) => (
+                  <tr key={item.id} className="row">
+                    <td className="col-lg-3 text-center">{item.variant}</td>
+                    <td className="col-lg-2 text-center">{item.price}</td>
+                    <td className="col-lg-2 text-center">{item.quantity}</td>
+                    <td className="col-lg-2 text-center">{item.SKU}</td>
+                    <td className="col-lg-3 text-center">
+                      <img
+                        src={item.image}
+                        alt={item.variant}
+                        className="img-fluid mt-2 pr-2"
+                        style={{
+                          width: "90px",
+                          height: "45px",
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="row mt-4">
+            <div className="col-lg-4">
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={() => setVariantEdited(true)}
+              >
+                Edit Variants
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <hr />
 
-      {variants.length !== 0 && (
+      {variantEdited && variants.length !== 0 && (
         <div>
           <div className="row">
             <div className="col-lg-8">
@@ -249,17 +342,6 @@ const Variants = (props) => {
                           onChange={(e) =>
                             editVariant(e, variantIndex, "price")
                           }
-                          // onChange={
-                          //   (e) => {
-                          //     console.log(e.value);
-                          //     return 1;
-                          //   }
-                          //   // setVariants((prev) => {
-                          //   //   console.log("event", e);
-                          //   //   prev[variantIndex].price = e.target.value;
-                          //   //   return prev;
-                          //   //   })
-                          // }
                           className="form-control"
                           value={item.price}
                           min="0.00"
@@ -298,7 +380,6 @@ const Variants = (props) => {
                             editVariant(e, variantIndex, "image")
                           }
                           className="form-control input-field"
-                          // value={state?.image?.filename}
                           accept="image/*"
                         />
                       </div>
@@ -307,6 +388,17 @@ const Variants = (props) => {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="row mt-4">
+            <div className="col-lg-4">
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={() => setVariantEdited(false)}
+              >
+                Cancel Editing
+              </button>
+            </div>
           </div>
         </div>
       )}

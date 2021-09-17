@@ -51,6 +51,9 @@ function Editproducts(props) {
   const [variantChecked, setVariantChecked] = useState(false);
   const [optionList, setOptionList] = useState([{ name: "", value: [] }]);
   const [variants, setVariants] = useState([]);
+  const [variantId, setVariantId] = useState("");
+  const [variantEdited, setVariantEdited] = useState(false);
+  const [originalVariants, setOriginalVariants] = useState([]);
 
   const wordLimit = {
     title: 40,
@@ -106,56 +109,45 @@ function Editproducts(props) {
     window.location = "/comproducts";
   };
 
-  const addVariant = (index) => {
-    const item = variants[index];
+  const handleVariants = () => {
     const formdata = new FormData();
-    formdata.append("variant", item.variant);
-    formdata.append("variant_price", parseInt(item.price));
-    formdata.append("variant_quantity", parseInt(item.quantity));
-    formdata.append("variant_sku", parseInt(item.SKU));
-    formdata.append("image", item.image);
-    formdata.append("id", productId);
+
+    optionList.map((item) => {
+      formdata.append("options", item.name);
+    });
+    optionList.map((item) => {
+      formdata.append("value", item.value);
+    });
+
+    variants.map((item) => {
+      formdata.append("variant_title", item.variant);
+      formdata.append("variant_price", parseInt(item.price));
+      formdata.append("variant_quantity", parseInt(item.quantity));
+      formdata.append("variant_sku", parseInt(item.SKU));
+      formdata.append("file", item.image);
+    });
 
     axios
-      .post(`${API}/api/product/add_variant`, formdata, {
+      .put(`${API}/api/product/update_variant/${variantId}`, formdata, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        console.log(res);
+        window.location = "/comproducts";
       })
       .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const editVariant = (index) => {
-    const item = variants[index];
-    const formdata = new FormData();
-    const itemId = item._id;
-    formdata.append("variant", item.variant);
-    formdata.append("variant_price", parseInt(item.price));
-    formdata.append("variant_quantity", parseInt(item.quantity));
-    formdata.append("variant_sku", parseInt(item.SKU));
-    formdata.append("image", item.image);
-    formdata.append("id", productId);
-
-    axios
-      .post(`${API}/api/product/update_variant/${itemId}`, formdata, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
+        alert("Editing product failed");
         console.log(error);
       });
   };
 
   const handleSubmit = async () => {
+    if (checkAllVariants()) {
+      alert("Please enter correct values in variant");
+      return;
+    }
+
     const formdata = new FormData();
     setLoading(true);
     formdata.append("title", state.title);
@@ -185,7 +177,9 @@ function Editproducts(props) {
       },
     });
     if (res) {
-      window.location = "/comproducts";
+      if (variantChecked && variantEdited) {
+        handleVariants();
+      }
     }
     setLoading(false);
   };
@@ -272,8 +266,10 @@ function Editproducts(props) {
 
       if (res.data?.data?.variants) {
         setVariantChecked(true);
+        setVariantId(res.data?.data?.variants._id);
         const tempVariants = createVariants(res.data?.data?.variants);
-        setVariants(tempVariants);
+        setVariants(JSON.parse(JSON.stringify(tempVariants)));
+        setOriginalVariants(JSON.parse(JSON.stringify(tempVariants)));
         const values = res.data?.data?.variants.value;
         const tempOptionList = res.data?.data?.variants.options.map(
           (item, index) => ({
@@ -290,9 +286,9 @@ function Editproducts(props) {
           newImages[`image${i}`] = res.data?.data[`image${i}`];
         }
       }
-
       setImagesUrl(newImagesUrl);
-      setImages(newImagesUrl);
+      setImages(newImages);
+
       setImageUrl(res.data?.data?.image);
 
       setTitleLen(wordLimit.title - res.data?.data?.title.length);
@@ -419,9 +415,8 @@ function Editproducts(props) {
     let newImagesList = [];
 
     for (const key in images) {
-      newImagesList = [...newImagesList, images[key]];
+      if (images[key] !== "") newImagesList = [...newImagesList, images[key]];
     }
-
     for (let i = 0; i < imagesLength; i++) {
       if (
         e.target.files[i] &&
@@ -444,7 +439,6 @@ function Editproducts(props) {
     for (let i = 0; i < newImagesList.length; i++) {
       prev[`image${i + 1}`] = newImagesList[i];
     }
-
     setImages(prev);
     setImagesUrl(newImages);
   };
@@ -501,7 +495,23 @@ function Editproducts(props) {
     }
   };
 
-  // console.log(images);
+  const checkAllVariants = () => {
+    if (!variantChecked) {
+      return true;
+    }
+    variants.map((item) => {
+      if (
+        item.price.length === 0 ||
+        item.quantity.length === 0 ||
+        item.SKU.length === 0
+      ) {
+        return true;
+      }
+    });
+
+    return false;
+  };
+
   return (
     <div className="main-content">
       <div className="page-content">
@@ -1154,13 +1164,15 @@ function Editproducts(props) {
                             </div>
                           </div>
                         </div>
-                        {variantChecked && (
+                        {variantChecked && variants.length > 0 && (
                           <Variants
                             currency={currency}
                             optionList={optionList}
                             setOptionList={setOptionList}
-                            variants={variants}
-                            setVariants={setVariants}
+                            originalVariants={originalVariants}
+                            setTotalVariants={setVariants}
+                            variantEdited={variantEdited}
+                            setVariantEdited={setVariantEdited}
                           />
                         )}
                       </form>
