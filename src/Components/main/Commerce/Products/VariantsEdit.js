@@ -17,7 +17,7 @@ const Variants = (props) => {
   const [optionLimit, setOptionLimit] = useState(2);
 
   useEffect(() => {
-    console.log(optionList);
+    if (optionList.length > 0) setOptionLimit(3 - optionList.length);
   }, [optionList]);
 
   const addOptions = () => {
@@ -230,6 +230,7 @@ const Variants = (props) => {
           </div>
         )}
       </div>
+      <hr />
 
       {!variantEdited && originalVariants.length !== 0 && (
         <div>
@@ -295,7 +296,6 @@ const Variants = (props) => {
           </div>
         </div>
       )}
-      <hr />
 
       {variantEdited && variants.length !== 0 && (
         <div>
