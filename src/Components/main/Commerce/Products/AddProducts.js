@@ -111,7 +111,12 @@ function AddProducts(props) {
   }, [token]);
 
   const handleVariants = () => {
+    if (!variantChecked) {
+      return handleProduct("");
+    }
     const formdata = new FormData();
+
+    formdata.append("tax", state.tax);
 
     optionList.map((item) => {
       formdata.append("options", item.name);
@@ -147,16 +152,19 @@ function AddProducts(props) {
     formdata.append("title", state.title);
     formdata.append("description", state.description);
     formdata.append("category", state.category);
-    formdata.append("tax", state.tax);
     formdata.append("image", state.image);
-    formdata.append("price", state.price);
-    formdata.append("sale_price", state.sale_price);
-    formdata.append("sku", state.sku);
     formdata.append("quantity", state.quantity);
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
     formdata.append("status", state.status);
     formdata.append("variants", variantId);
+
+    if (!variantChecked) {
+      formdata.append("price", state.price);
+      formdata.append("sale_price", state.sale_price);
+      formdata.append("sku", state.sku);
+      formdata.append("tax", state.tax);
+    }
 
     for (let i = 1; i < 6; i++) {
       formdata.append(`image${i}`, images[`image${i}`]);
@@ -179,12 +187,16 @@ function AddProducts(props) {
 
   const handleSubmit = () => {
     if (
+      !variantChecked &&
+      (state.sku === "" || state.price === "" || state.sale_price === "")
+    ) {
+      alert("Please fill required field kjhfdjshsdhfo");
+      return;
+    }
+    if (
       state.title === "" ||
       state.image === "" ||
-      state.price === "" ||
-      state.sale_price === "" ||
       (state.track_quantity && state.quantity === "") ||
-      state.sku === "" ||
       state.category === ""
     ) {
       alert("Please fill required field ");
@@ -213,6 +225,10 @@ function AddProducts(props) {
     });
   };
   const handleChangeCheckBox = (e) => {
+    if (variantChecked) {
+      return;
+    }
+
     setstate({
       ...state,
       [e.target.name]: e.target.checked,
@@ -401,6 +417,18 @@ function AddProducts(props) {
     }
   };
 
+  const checkSubmitButton = () => {
+    if (!variantChecked && state.price && state.sku && state.sale_price) {
+      return true;
+    }
+
+    if (variantChecked) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <div className="main-content">
       <div className="page-content">
@@ -439,9 +467,7 @@ function AddProducts(props) {
                       state.category &&
                       // state.status &&
                       state.image &&
-                      state.price &&
-                      state.sale_price &&
-                      state.sku &&
+                      checkSubmitButton() &&
                       (state.track_quantity === false ||
                         state.quantity.length > 0)
                     )
@@ -823,7 +849,10 @@ function AddProducts(props) {
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
               <div className="card">
-                <div className="card-body">
+                <div
+                  className="card-body"
+                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
+                >
                   <div className="row">
                     <div className="col-md-12">
                       <form>
@@ -851,6 +880,7 @@ function AddProducts(props) {
                                   className="form-control input-field"
                                   value={state.price}
                                   min="0.00"
+                                  disabled={variantChecked}
                                 />
                               </div>
                               <label
@@ -886,6 +916,7 @@ function AddProducts(props) {
                                   className="form-control input-field"
                                   value={state.sale_price}
                                   min="0.00"
+                                  disabled={variantChecked}
                                 />
                               </div>
                               <label
@@ -912,7 +943,10 @@ function AddProducts(props) {
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
               <div className="card">
-                <div className="card-body">
+                <div
+                  className="card-body"
+                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
+                >
                   <div className="row">
                     <div className="col-md-12">
                       <form>
@@ -931,6 +965,7 @@ function AddProducts(props) {
                                 type="text"
                                 className="form-control input-field"
                                 value={state.sku}
+                                disabled={variantChecked}
                               />
                               <label
                                 for="basicpill-phoneno-input"
@@ -950,10 +985,11 @@ function AddProducts(props) {
                                 type="checkbox"
                                 className="custom-control-input"
                                 id="genre1"
+                                disabled={variantChecked}
                               />
                               <label
                                 className="custom-control-label"
-                                for="genre1"
+                                htmlFor="genre1"
                               >
                                 Track Quantity
                               </label>
@@ -969,10 +1005,11 @@ function AddProducts(props) {
                                 className="custom-control-input"
                                 id="genre2"
                                 onChange={handleChangeCheckBox}
+                                disabled={variantChecked}
                               />
                               <label
                                 className="custom-control-label"
-                                for="genre2"
+                                htmlFor="genre2"
                               >
                                 Continue sellng when out of stock
                               </label>
@@ -996,6 +1033,7 @@ function AddProducts(props) {
                                   value={state.quantity}
                                   type="text"
                                   className="form-control input-field"
+                                  disabled={variantChecked}
                                 />
                                 <label
                                   for="basicpill-phoneno-input"

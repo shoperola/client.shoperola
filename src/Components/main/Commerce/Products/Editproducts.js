@@ -231,39 +231,8 @@ function Editproducts(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      const filtertax = taxes.data.data.filter(
-        (tax) => tax._id !== res.data?.data?.tax
-      );
-      setTax(filtertax);
-      const tax = taxes.data.data.find(
-        (tax) => tax._id === res.data?.data?.tax
-      );
-      setstate({
-        title: res.data?.data?.title,
-        description: res.data?.data?.description,
-        image: res.data?.data?.image,
-        price: res.data?.data?.price,
-        sale_price: res.data?.data?.sale_price,
-        sku: res.data?.data?.sku,
-        track_quantity: res.data?.data?.track_quantity,
-        quantity: res.data?.data?.quantity,
-        status: res.data?.data?.status,
-        continue_selling: res.data?.data?.continue_selling,
-        initialCategory: category,
-        category: category?._id,
-        imageUrl: res.data?.data?.image,
-        tax: tax._id,
-        initialTax: tax,
-      });
-      let newImagesUrl = [];
-      let newImages = {
-        image1: "",
-        image2: "",
-        image3: "",
-        image4: "",
-        image5: "",
-      };
-
+      let tax = null;
+      console.log(res.data.data.variants);
       if (res.data?.data?.variants) {
         setVariantChecked(true);
         setVariantId(res.data?.data?.variants._id);
@@ -278,7 +247,49 @@ function Editproducts(props) {
           })
         );
         setOptionList(tempOptionList);
+
+        const filtertax = taxes.data.data.filter(
+          (tax) => tax._id !== res.data?.data?.variants.tax
+        );
+        setTax(filtertax);
+
+        tax = taxes.data.data.find(
+          (tax) => tax._id === res.data?.data?.variants.tax
+        );
+      } else {
+        const filtertax = taxes.data.data.filter(
+          (tax) => tax._id !== res.data?.data?.tax
+        );
+        setTax(filtertax);
+
+        tax = taxes.data.data.find((tax) => tax._id === res.data?.data?.tax);
       }
+
+      setstate({
+        title: res.data?.data?.title,
+        description: res.data?.data?.description,
+        image: res.data?.data?.image,
+        price: res.data?.data?.price,
+        sale_price: res.data?.data?.sale_price,
+        sku: res.data?.data?.sku,
+        track_quantity: res.data?.data?.track_quantity,
+        quantity: res.data?.data?.quantity,
+        status: res.data?.data?.status,
+        continue_selling: res.data?.data?.continue_selling,
+        initialCategory: category,
+        category: category?._id,
+        imageUrl: res.data?.data?.image,
+        tax: tax,
+        initialTax: tax,
+      });
+      let newImagesUrl = [];
+      let newImages = {
+        image1: "",
+        image2: "",
+        image3: "",
+        image4: "",
+        image5: "",
+      };
 
       for (let i = 1; i < 6; i++) {
         if (res.data?.data[`image${i}`] !== "") {
@@ -291,20 +302,22 @@ function Editproducts(props) {
 
       setImageUrl(res.data?.data?.image);
 
-      setTitleLen(wordLimit.title - res.data?.data?.title.length);
-      setDescriptionLen(
-        wordLimit.description - res.data?.data?.description.length
-      );
-      setPriceLen(wordLimit.price - res.data?.data?.price.toString().length);
-      setSalePriceLen(
-        wordLimit.salePrice - res.data?.data?.sale_price.toString().length
-      );
-      setSKULen(wordLimit.SKU - res.data?.data?.sku.toString().length);
-      if (res.data?.data?.track_quantity) {
-        setQuantityLen(
-          wordLimit.quantity - res.data?.data?.quantity.toString().length
+      if (!res.data?.data?.variants) {
+        setTitleLen(wordLimit.title - res.data?.data?.title.length);
+        setDescriptionLen(
+          wordLimit.description - res.data?.data?.description.length
         );
-      } else {
+        setPriceLen(wordLimit.price - res.data?.data?.price.toString().length);
+        setSalePriceLen(
+          wordLimit.salePrice - res.data?.data?.sale_price.toString().length
+        );
+        setSKULen(wordLimit.SKU - res.data?.data?.sku.toString().length);
+        if (res.data?.data?.track_quantity) {
+          setQuantityLen(
+            wordLimit.quantity - res.data?.data?.quantity.toString().length
+          );
+        } else {
+        }
       }
     };
     getData();
@@ -925,7 +938,10 @@ function Editproducts(props) {
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
               <div className="card">
-                <div className="card-body">
+                <div
+                  className="card-body"
+                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
+                >
                   <div className="row">
                     <div className="col-md-12">
                       <form>
@@ -953,6 +969,7 @@ function Editproducts(props) {
                                   className="form-control input-field"
                                   value={state.price}
                                   min="0.00"
+                                  disabled={variantChecked}
                                 />
                               </div>
                               <label
@@ -988,6 +1005,7 @@ function Editproducts(props) {
                                   className="form-control input-field"
                                   value={state.sale_price}
                                   min="0.00"
+                                  disabled={variantChecked}
                                 />
                               </div>
                               <label
@@ -1015,7 +1033,10 @@ function Editproducts(props) {
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
               <div className="card">
-                <div className="card-body">
+                <div
+                  className="card-body"
+                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
+                >
                   <div className="row">
                     <div className="col-md-12">
                       <form>
@@ -1034,6 +1055,7 @@ function Editproducts(props) {
                                 onChange={(e) => editHandler(e, "SKU")}
                                 type="text"
                                 className="form-control input-field"
+                                disabled={variantChecked}
                               />
                               <label
                                 for="basicpill-phoneno-input"
@@ -1054,6 +1076,7 @@ function Editproducts(props) {
                                 type="checkbox"
                                 className="custom-control-input"
                                 id="genre1"
+                                disabled={variantChecked}
                               />
                               <label
                                 className="custom-control-label"
@@ -1073,6 +1096,7 @@ function Editproducts(props) {
                                 className="custom-control-input"
                                 id="genre2"
                                 onChange={handleChangeCheckBox}
+                                disabled={variantChecked}
                               />
                               <label
                                 className="custom-control-label"
@@ -1099,6 +1123,7 @@ function Editproducts(props) {
                                   value={state.quantity}
                                   type="text"
                                   className="form-control input-field"
+                                  disabled={variantChecked}
                                 />
                                 <label
                                   for="basicpill-phoneno-input"
@@ -1164,7 +1189,7 @@ function Editproducts(props) {
                             </div>
                           </div>
                         </div>
-                        {variantChecked && variants.length > 0 && (
+                        {variantChecked && (
                           <Variants
                             currency={currency}
                             optionList={optionList}

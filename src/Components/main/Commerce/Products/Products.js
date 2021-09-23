@@ -161,16 +161,24 @@ function Products(props) {
                                       />
                                     </td>
                                     <td>{item.title}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>
-                                      {getSymbolFromCurrency(currency)}{" "}
-                                      {item.sale_price}
-                                    </td>
-                                    <td>{item.tax?.tax_percentage}%</td>
-                                    <td>
-                                      {getSymbolFromCurrency(currency)}{" "}
-                                      {item.total_price}
-                                    </td>
+                                    {item.variants ? (
+                                      <td colSpan="4" align="center">
+                                        Variants exist for this product.
+                                      </td>
+                                    ) : (
+                                      <>
+                                        <td>{item.quantity}</td>
+                                        <td>
+                                          {getSymbolFromCurrency(currency)}{" "}
+                                          {item.sale_price}
+                                        </td>
+                                        <td>{item.tax?.tax_percentage}%</td>
+                                        <td>
+                                          {getSymbolFromCurrency(currency)}{" "}
+                                          {item.total_price}
+                                        </td>
+                                      </>
+                                    )}
                                     <td>
                                       {item.status ? (
                                         <span className="badge badge-pill badge-success font-size-12">
@@ -199,6 +207,18 @@ function Products(props) {
                                           Edit
                                         </button>
                                       </Link>
+                                      {item.variants && (
+                                        <Link
+                                          to={`/comproducts/variants/${item._id}`}
+                                        >
+                                          <button
+                                            type="button"
+                                            className="btn btn-dark btn-sm  waves-effect waves-light btn-table ml-2"
+                                          >
+                                            Variants
+                                          </button>
+                                        </Link>
+                                      )}
                                       <button
                                         type="button"
                                         onClick={() => handleDelete(item._id)}

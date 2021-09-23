@@ -98,6 +98,9 @@ import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 import EmailTemplate from "../Components/main/emailTemplates/EmailTemplates";
 import EmailTemplateEdit from "../Components/main/emailTemplates/EmailTempalteEdit";
 
+// Variants
+import VariantView from "../Components/main/Commerce/Products/VariantsView";
+
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -380,6 +383,11 @@ export default function Routes() {
             component={Products}
             exact
             path="/comproducts"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={VariantView}
+            exact
+            path="/comproducts/variants/:id"
           ></PrivateRoute>
           <PrivateRoute
             component={FeacheredProducts}
