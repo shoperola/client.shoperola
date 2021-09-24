@@ -154,14 +154,28 @@ function Editproducts(props) {
     formdata.append("description", state.description);
     formdata.append("category_id", state.category);
     formdata.append("image", state.image);
-    formdata.append("price", state.price);
-    formdata.append("sale_price", state.sale_price);
-    formdata.append("sku", state.sku);
+    // formdata.append("price", state.price);IDIB000C536
+    // formdata.append("sale_price", state.sale_price);
+    // formdata.append("sku", state.sku);
     formdata.append("quantity", state.quantity);
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
-    formdata.append("tax_id", state.tax);
+    // formdata.append("tax_id", state.tax);
     formdata.append("status", state.status);
+
+    if (variantChecked) {
+      formdata.append("variants", variantId);
+      formdata.append("variant_flag", true);
+    } else {
+      formdata.append("variant_flag", false);
+    }
+
+    if (!variantChecked) {
+      formdata.append("price", state.price);
+      formdata.append("sale_price", state.sale_price);
+      formdata.append("sku", state.sku);
+      formdata.append("tax_id", state.tax);
+    }
 
     for (let i = 1; i < 6; i++) {
       if (images[`image${i}`] !== state[`image${i}`]) {
@@ -258,13 +272,14 @@ function Editproducts(props) {
         );
       } else {
         const filtertax = taxes.data.data.filter(
-          (tax) => tax._id !== res.data?.data?.tax
+          (tax) => tax._id !== res.data?.data?.tax._id
         );
         setTax(filtertax);
 
-        tax = taxes.data.data.find((tax) => tax._id === res.data?.data?.tax);
+        tax = taxes.data.data.find(
+          (tax) => tax._id === res.data?.data?.tax._id
+        );
       }
-
       setstate({
         title: res.data?.data?.title,
         description: res.data?.data?.description,
@@ -510,7 +525,7 @@ function Editproducts(props) {
 
   const checkAllVariants = () => {
     if (!variantChecked) {
-      return true;
+      return false;
     }
     variants.map((item) => {
       if (
