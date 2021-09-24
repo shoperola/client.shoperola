@@ -157,7 +157,13 @@ function AddProducts(props) {
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
     formdata.append("status", state.status);
-    formdata.append("variants", variantId);
+
+    if (variantChecked) {
+      formdata.append("variants", variantId);
+      formdata.append("variant_flag", true);
+    } else {
+      formdata.append("variant_flag", false);
+    }
 
     if (!variantChecked) {
       formdata.append("price", state.price);
@@ -271,10 +277,7 @@ function AddProducts(props) {
         }
         break;
       case "SKU":
-        if (
-          e.target.value === "" ||
-          (!isNaN(value) && wordLimit.SKU - length !== -1)
-        ) {
+        if (wordLimit.SKU - length !== -1) {
           handleChange(e);
           setSKULen(wordLimit.SKU - length);
         }

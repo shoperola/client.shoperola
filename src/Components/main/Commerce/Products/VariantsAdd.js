@@ -287,7 +287,6 @@ const Variants = (props) => {
                     <td className="col-lg-2">
                       <div className="input-group">
                         <input
-                          type="number"
                           name="SKU"
                           onChange={(e) => editVariant(e, variantIndex, "SKU")}
                           className="form-control"
