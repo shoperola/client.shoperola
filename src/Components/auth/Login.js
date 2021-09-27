@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import swal from "sweetalert";
+import { API } from "../../API";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
 import { isAutheticated } from "./authhelper";
+
 export default function Login() {
   const history = useHistory();
   const [user, setUser] = useState({
@@ -44,7 +46,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("https://mantur-server.herokuapp.com/signin", { ...user })
+      .post(`${API}/signin`, { ...user })
       .then((response) => {
         setLoading(false);
         //console.log("here the response",response);
@@ -78,7 +80,10 @@ export default function Login() {
           <div className="row">
             <div className="col-lg-12">
               <div className="text-center">
-                <a href="https://tellytell.com" className="mb-5 d-block auth-logo">
+                <a
+                  href="https://tellytell.com"
+                  className="mb-5 d-block auth-logo"
+                >
                   <img
                     src="assets/images/logo-dark.png"
                     alt=""
@@ -100,7 +105,9 @@ export default function Login() {
               <div className="card">
                 <div className="card-body p-4">
                   <div className="text-center mt-2">
-                    <h5 className="text-primary welcome-text">Welcome Back !</h5>
+                    <h5 className="text-primary welcome-text">
+                      Welcome Back !
+                    </h5>
                     <p className="text-muted">Sign In to TellyTell</p>
                   </div>
                   <div className="p-2 mt-4">

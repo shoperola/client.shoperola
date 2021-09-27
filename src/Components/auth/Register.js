@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import swal from "sweetalert";
-
+import { API } from "../../API";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
 export default function Register() {
@@ -65,10 +65,9 @@ export default function Register() {
     //SUBMIT FORM
     setLoading(true);
     axios
-      .post("https://mantur-server.herokuapp.com/signup", { ...user })
+      .post(`${API}/signup`, { ...user })
       .then((response) => {
         setLoading(false);
-        //console.log(response);
         localStorage.setItem(
           "auth",
           JSON.stringify({
@@ -77,7 +76,8 @@ export default function Register() {
           })
         );
 
-        history.push("/dashboard");
+        history.push("/setup-page-1");
+        // history.push("/dashboard");
       })
       .catch((err) => {
         setLoading(false);
@@ -148,7 +148,10 @@ export default function Register() {
           <div className="row">
             <div className="col-lg-12">
               <div className="text-center">
-                <a href="https://tellytell.com" className="mb-5 d-block auth-logo">
+                <a
+                  href="https://tellytell.com"
+                  className="mb-5 d-block auth-logo"
+                >
                   <img
                     src="assets/images/logo-dark.png"
                     alt=""

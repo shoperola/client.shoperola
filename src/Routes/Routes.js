@@ -81,6 +81,9 @@ import TaxRates from "../Components/main/courses/payments/taxRates";
 import AddTaxRate from "../Components/main/courses/payments/addTaxRate";
 import EditTaxRate from "../Components/main/courses/payments/editTaxRate";
 import ProductView from "../Components/main/Commerce/Products/ViewProduct";
+import SetUpPage1 from "../Components/auth/setup pages/SetupPage1";
+import SetUpPage2 from "../Components/auth/setup pages/SetupPage2";
+import SetUpPage3 from "../Components/auth/setup pages/SetupPage3";
 
 // Configuration
 import ConfigProfile from "../Components/main/configurations/Profile";
@@ -130,6 +133,9 @@ export default function Routes() {
         <Route path="/" exact component={Login}></Route>
         <Route path="/customer" exact component={Home}></Route>
         <Route path="/register" exact component={Register}></Route>
+        <Route path="/setup-page-1" exact component={SetUpPage1}></Route>
+        <Route path="/setup-page-2" exact component={SetUpPage2}></Route>
+        <Route path="/setup-page-3" exact component={SetUpPage3}></Route>
         {/* <Route path="/profile/:username" exact component={PublicProfile}></Route> */}
         <Route
           path="/subscription"
