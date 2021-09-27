@@ -155,8 +155,8 @@ function Products(props) {
                                     <td>
                                       <img
                                         src={item.image}
-                                        width="110"
-                                        height="60"
+                                        width="75"
+                                        height="100"
                                         alt=""
                                       />
                                     </td>
@@ -207,18 +207,16 @@ function Products(props) {
                                           Edit
                                         </button>
                                       </Link>
-                                      {item.variants && (
-                                        <Link
-                                          to={`/comproducts/variants/${item._id}`}
+                                      <Link
+                                        to={`/comproducts/view/${item._id}`}
+                                      >
+                                        <button
+                                          type="button"
+                                          className="btn btn-dark btn-sm  waves-effect waves-light btn-table ml-2"
                                         >
-                                          <button
-                                            type="button"
-                                            className="btn btn-dark btn-sm  waves-effect waves-light btn-table ml-2"
-                                          >
-                                            Variants
-                                          </button>
-                                        </Link>
-                                      )}
+                                          View
+                                        </button>
+                                      </Link>
                                       <button
                                         type="button"
                                         onClick={() => handleDelete(item._id)}

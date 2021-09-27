@@ -297,9 +297,9 @@ function AddProducts(props) {
   };
 
   const handleSingleImage = (event) => {
-    const file = event.target.files[0];
+    let file = event.target.files[0];
     if (file && file["type"].split("/")[0] === "image") {
-      setstate({ ...state, image: event.target.files[0] });
+      setstate({ ...state, image: file });
       setImageUrl(URL.createObjectURL(file));
     } else {
       alert("Please upload a valid image");
@@ -349,8 +349,9 @@ function AddProducts(props) {
         e.target.files[i] &&
         e.target.files[i]["type"].split("/")[0] === "image"
       ) {
-        newImages = [...newImages, URL.createObjectURL(e.target.files[i])];
-        prev[`image${i + currentLength + 1}`] = e.target.files[i];
+        let file = e.target.files[i];
+        newImages = [...newImages, URL.createObjectURL(file)];
+        prev[`image${i + currentLength + 1}`] = file;
       } else {
         alert("Please upload a valid image");
       }
@@ -689,7 +690,7 @@ function AddProducts(props) {
                               <label className="col-md-4 control-label">
                                 Upload One Image Only
                                 <br />
-                                <span className="size">(320 x 180 px)</span>
+                                <span className="size">(360 x 459 px)</span>
                               </label>
                               <div className="col-md-8">
                                 <input
@@ -703,10 +704,10 @@ function AddProducts(props) {
                                   <img
                                     className="img-fluid mt-2"
                                     style={{
-                                      width: "235px",
-                                      height: "125px",
+                                      width: "95px",
+                                      height: "126px",
                                     }}
-                                    alt="200x200"
+                                    alt="360x459"
                                     src={imageUrl}
                                   />
                                 )}
@@ -749,7 +750,7 @@ function AddProducts(props) {
                               <label className="col-md-4 control-label">
                                 Upload Upto 5 Images
                                 <br />
-                                <span className="size">(320 x 180 px)</span>
+                                <span className="size">(360 x 459 px)</span>
                               </label>
                               <div className="col-md-8">
                                 <input
@@ -764,11 +765,11 @@ function AddProducts(props) {
                                     <img
                                       className="img-fluid mt-2 pr-2"
                                       style={{
-                                        width: "90px",
-                                        height: "45px",
+                                        width: "75px",
+                                        height: "100px",
                                         cursor: "pointer",
                                       }}
-                                      alt="200x200"
+                                      alt="360x459"
                                       src={image}
                                       onClick={() => openImage(image)}
                                     />
@@ -803,11 +804,11 @@ function AddProducts(props) {
                                         <div className="modal-body">
                                           <img
                                             className="img-fluid mt-2 pr-2"
-                                            // style={{
-                                            //   width: "90px",
-                                            //   height: "45px",
-                                            // }}
-                                            alt="200x200"
+                                            style={{
+                                              width: "360px",
+                                              height: "45px",
+                                            }}
+                                            alt="360x459"
                                             src={currentImage}
                                             // onClick={() => openImage(image)}
                                           />

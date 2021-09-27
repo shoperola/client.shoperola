@@ -789,10 +789,15 @@ function Editproducts(props) {
                               <label className="col-md-3 control-label">
                                 Upload One Image Only
                                 <br />
-                                <span className="size">(320 x 180 px)</span>
+                                <span className="size">(360 x 459 px)</span>
                               </label>
                               <div className="col-md-3">
-                                <img src={imageUrl} width="110" alt="200x200" />
+                                <img
+                                  src={imageUrl}
+                                  width="100"
+                                  height="113"
+                                  alt="360x459"
+                                />
                               </div>
                               <div className="col-md-6">
                                 <input
@@ -848,7 +853,7 @@ function Editproducts(props) {
                               <label className="col-md-4 control-label">
                                 Upload Upto 5 Images
                                 <br />
-                                <span className="size">(320 x 180 px)</span>
+                                <span className="size">(360 x 459 px)</span>
                               </label>
                               <div className="col-md-8">
                                 <input
@@ -863,11 +868,11 @@ function Editproducts(props) {
                                     <img
                                       className="img-fluid mt-2 pr-2"
                                       style={{
-                                        width: "90px",
-                                        height: "45px",
+                                        width: "75px",
+                                        height: "100px",
                                         cursor: "pointer",
                                       }}
-                                      alt="200x200"
+                                      alt="360x459"
                                       src={image}
                                       onClick={() => openImage(image)}
                                     />
@@ -903,11 +908,11 @@ function Editproducts(props) {
                                         <div className="modal-body">
                                           <img
                                             className="img-fluid mt-2 pr-2"
-                                            // style={{
-                                            //   width: "90px",
-                                            //   height: "45px",
-                                            // }}
-                                            alt="200x200"
+                                            style={{
+                                              width: "360px",
+                                              height: "459px",
+                                            }}
+                                            alt="360x459"
                                             src={currentImage}
                                             // onClick={() => openImage(image)}
                                           />

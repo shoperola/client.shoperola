@@ -80,6 +80,7 @@ import EditShipping from "../Components/main/courses/shipping/editShipping";
 import TaxRates from "../Components/main/courses/payments/taxRates";
 import AddTaxRate from "../Components/main/courses/payments/addTaxRate";
 import EditTaxRate from "../Components/main/courses/payments/editTaxRate";
+import ProductView from "../Components/main/Commerce/Products/ViewProduct";
 
 // Configuration
 import ConfigProfile from "../Components/main/configurations/Profile";
@@ -97,9 +98,6 @@ import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 // Email Templates
 import EmailTemplate from "../Components/main/emailTemplates/EmailTemplates";
 import EmailTemplateEdit from "../Components/main/emailTemplates/EmailTempalteEdit";
-
-// Variants
-import VariantView from "../Components/main/Commerce/Products/VariantsView";
 
 const { token } = isAutheticated();
 
@@ -385,11 +383,6 @@ export default function Routes() {
             path="/comproducts"
           ></PrivateRoute>
           <PrivateRoute
-            component={VariantView}
-            exact
-            path="/comproducts/variants/:id"
-          ></PrivateRoute>
-          <PrivateRoute
             component={FeacheredProducts}
             exact
             path="/featured/products"
@@ -413,6 +406,11 @@ export default function Routes() {
             component={Editproducts}
             exact
             path="/comproducts/edit/:productId"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={ProductView}
+            exact
+            path="/comproducts/view/:productId"
           ></PrivateRoute>
           <PrivateRoute
             component={Catagory}
