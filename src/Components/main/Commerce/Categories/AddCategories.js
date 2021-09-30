@@ -1,13 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import swal from "sweetalert";
 import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
+import ClipLoader from "react-spinners/ClipLoader";
 import Footer from "../../Footer";
 
-function EditRacks(props) {
+function AddCategories() {
+  const [inputText, setinputText] = useState("");
+  //let history=useHistory();
+  const [loading, setLoading] = useState(false);
+
   const { token } = isAutheticated();
-  const [data, setdata] = useState("");
 
   const wordLimit = {
     name: 50,
@@ -15,11 +20,18 @@ function EditRacks(props) {
 
   const [nameLen, setNameLen] = useState(wordLimit.name);
 
-  const handleSubmit = async () => {
-    let res = await axios.patch(
-      `${API}/api/category/${props.match.params.catagoryId}`,
+  const handleInputText = (e) => {
+    console.log(e.target.value);
+    setinputText(e.target.value);
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    let res = await axios.post(
+      `${API}/api/category/`,
       {
-        category: data,
+        category: inputText,
       },
       {
         headers: {
@@ -27,25 +39,41 @@ function EditRacks(props) {
         },
       }
     );
-    console.log(res);
-    if (res) {
+    if (res.data) {
       window.location = "/comcatagory";
+      //history.push("/comcatagory");
     }
-  };
-  useEffect(async () => {
-    let res = await axios.get(
-      `${API}/api/category/${props.match.params.catagoryId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    setdata(res.data.category);
-    setNameLen(wordLimit.name - res.data.category.length);
-  }, []);
-  const handleChange = (e) => {
-    setdata(e.target.value);
+    //     axios
+    //   .post(`${API}/api/category/`, {category: inputText}, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     setLoading(false);
+    //     swal( {
+    //       title: "Category added Successfully!",
+
+    //       icon: "success",
+    //       buttons: true,
+    //       successMode: true,
+    //       dangerMode: false,
+    //     }).then((value) => {
+    //         history.push("/comcatagory");
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     setLoading(false);
+    //     let message = "errror";
+    //     swal({
+    //       title: "Error",
+    //       text: { message },
+    //       icon: "error",
+    //       buttons: true,
+    //       dangerMode: true,
+    //     });
+    //     console.log(err);
+    //   });
   };
 
   const editHandler = (e, type) => {
@@ -55,7 +83,7 @@ function EditRacks(props) {
     switch (type) {
       case "name":
         if (wordLimit.name - length !== -1) {
-          handleChange(e);
+          handleInputText(e);
           setNameLen(wordLimit.name - length);
         }
         break;
@@ -74,13 +102,14 @@ function EditRacks(props) {
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
                 <h4 className="mb-0">Commerce - Categories</h4>
+
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">TellyTell</Link>
                     </li>
                     <li className="breadcrumb-item">Commerce - Categories</li>
-                    <li className="breadcrumb-item">Edit</li>
+                    <li className="breadcrumb-item">Add New</li>
                   </ol>
                 </div>
               </div>
@@ -95,7 +124,9 @@ function EditRacks(props) {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 col-lg-6 col-xl-6">
-                      <h1 className="text-left head-small">Edit Category</h1>
+                      <h1 className="text-left head-small">
+                        Add New Category{" "}
+                      </h1>
 
                       <form>
                         <div className="row">
@@ -104,13 +135,15 @@ function EditRacks(props) {
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
-                              ></label>
+                              >
+                                Enter Category Name
+                              </label>
                               <input
-                                onChange={(e) => editHandler(e, "name")}
-                                value={data}
                                 type="text"
+                                onChange={(e) => editHandler(e, "name")}
+                                value={inputText}
                                 className="form-control input-field"
-                                defaultValue={data}
+                                id="basicpill-phoneno-input"
                               />
                               <label
                                 for="basicpill-phoneno-input"
@@ -126,11 +159,12 @@ function EditRacks(props) {
                           <div className="col-lg-12">
                             <div className="form-group text-left">
                               <button
-                                onClick={handleSubmit}
+                                onClick={submitHandler}
                                 type="button"
                                 className="btn btn-success btn-login waves-effect waves-light mr-3"
                               >
-                                Save
+                                <ClipLoader loading={loading} size={18} />
+                                {!loading && "Save"}
                               </button>
                             </div>
                           </div>
@@ -153,7 +187,7 @@ function EditRacks(props) {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-12">
-                            <script>document.write(new Date().getFullYear())</script> © TellyTell.
+                            <script>document.write(new Date().getFullYear())</script> © SHOTT.
                         </div>
 
                     </div>
@@ -164,4 +198,4 @@ function EditRacks(props) {
   );
 }
 
-export default EditRacks;
+export default AddCategories;

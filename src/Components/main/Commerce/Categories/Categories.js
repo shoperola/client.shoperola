@@ -5,7 +5,7 @@ import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
 
-function Racks(props) {
+function Categories(props) {
   const { token } = isAutheticated();
   const [data, setdata] = useState([]);
   useEffect(() => {
@@ -143,4 +143,4 @@ function Racks(props) {
   );
 }
 
-export default Racks;
+export default Categories;

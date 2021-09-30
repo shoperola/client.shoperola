@@ -98,6 +98,9 @@ export default function Sidebar() {
                   <Link to="/comproducts">Products</Link>
                 </li>
                 <li>
+                  <Link to="/categories">Categories</Link>
+                </li>
+                <li>
                   <Link to="/racks">Racks</Link>
                 </li>
                 <li>

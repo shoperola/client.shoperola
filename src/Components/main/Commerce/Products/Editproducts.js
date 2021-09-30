@@ -6,7 +6,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../Footer";
 import getSymbolFromCurrency from "currency-symbol-map";
-import Variants from "./VariantsEdit";
 
 function Editproducts(props) {
   const { productId } = useParams();
@@ -22,7 +21,6 @@ function Editproducts(props) {
     image2: "",
     image3: "",
     image4: "",
-    image5: "",
   });
   const [imageUrl, setImageUrl] = useState();
   const [imagesUrl, setImagesUrl] = useState([]);
@@ -57,7 +55,7 @@ function Editproducts(props) {
 
   const wordLimit = {
     title: 40,
-    description: 1000,
+    description: 200,
     price: 12,
     salePrice: 12,
     SKU: 10,
@@ -303,10 +301,9 @@ function Editproducts(props) {
         image2: "",
         image3: "",
         image4: "",
-        image5: "",
       };
 
-      for (let i = 1; i < 6; i++) {
+      for (let i = 1; i < 5; i++) {
         if (res.data?.data[`image${i}`] !== "") {
           newImagesUrl = [...newImagesUrl, res.data?.data[`image${i}`]];
           newImages[`image${i}`] = res.data?.data[`image${i}`];
@@ -435,8 +432,8 @@ function Editproducts(props) {
   const imageHandler = (e) => {
     const imagesLength = Array.from(e.target.files).length;
     const currentLength = imagesUrl.length;
-    if (imagesLength + currentLength > 5) {
-      alert("Cannot upload more than 5 images");
+    if (imagesLength + currentLength > 4) {
+      alert("Cannot upload more than 4 images");
       return;
     }
     let newImages = [...imagesUrl];
@@ -500,7 +497,6 @@ function Editproducts(props) {
       image2: "",
       image3: "",
       image4: "",
-      image5: "",
     };
     for (let i = 0; i < newImagesUrl.length; i++) {
       newImages[`image${i + 1}`] = newImagesUrl[i];
@@ -851,7 +847,7 @@ function Editproducts(props) {
                           <div className="col-lg-12">
                             <div className="form-group mb-30 width-100 row">
                               <label className="col-md-4 control-label">
-                                Upload Upto 5 Images
+                                Upload Upto 4 Images
                                 <br />
                                 <span className="size">(360 x 459 px)</span>
                               </label>
@@ -1107,26 +1103,7 @@ function Editproducts(props) {
                             </div>
                           </div>
                         </div>
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="custom-control custom-checkbox mb-2">
-                              <input
-                                name="continue_selling"
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="genre2"
-                                onChange={handleChangeCheckBox}
-                                disabled={variantChecked}
-                              />
-                              <label
-                                className="custom-control-label"
-                                htmlFor="genre2"
-                              >
-                                Continue sellng when out of stock
-                              </label>
-                            </div>
-                          </div>
-                        </div>
+
                         {state.track_quantity && (
                           <div className="row">
                             <div className="col-lg-4">
@@ -1164,70 +1141,6 @@ function Editproducts(props) {
             {/* <!-- Left Column Ends --> */}
           </div>
           {/* <!-- Row 4 Ends -->  */}
-
-          <div className="row">
-            {/* <!--Left Column Begins--> */}
-            <div className="col-lg-8">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-700"
-                              >
-                                Variants
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-8">
-                            <div className="custom-control custom-checkbox mb-2">
-                              <input
-                                name="track_quantity"
-                                onChange={() =>
-                                  setVariantChecked((prev) => !prev)
-                                }
-                                type="checkbox"
-                                className="custom-control-input"
-                                checked={variantChecked}
-                              />
-                              <label
-                                className="custom-control-label"
-                                onClick={() =>
-                                  setVariantChecked((prev) => !prev)
-                                }
-                              >
-                                This product has multiple options, like
-                                different sizes or colors
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        {variantChecked && (
-                          <Variants
-                            currency={currency}
-                            optionList={optionList}
-                            setOptionList={setOptionList}
-                            originalVariants={originalVariants}
-                            setTotalVariants={setVariants}
-                            variantEdited={variantEdited}
-                            setVariantEdited={setVariantEdited}
-                          />
-                        )}
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Left Column Ends --> */}
-          </div>
         </div>
         {/* <!-- container-fluid --> */}
       </div>

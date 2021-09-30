@@ -6,7 +6,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../Footer";
 import getSymbolFromCurrency from "currency-symbol-map";
-import Variants from "./VariantsEdit";
 
 function ViewProducts(props) {
   const { productId } = useParams();

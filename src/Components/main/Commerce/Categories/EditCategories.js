@@ -1,18 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import swal from "sweetalert";
+import { Link } from "react-router-dom";
 import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
-import ClipLoader from "react-spinners/ClipLoader";
 import Footer from "../../Footer";
 
-function AddRacks() {
-  const [inputText, setinputText] = useState("");
-  //let history=useHistory();
-  const [loading, setLoading] = useState(false);
-
+function EditCategories(props) {
   const { token } = isAutheticated();
+  const [data, setdata] = useState("");
 
   const wordLimit = {
     name: 50,
@@ -20,18 +15,11 @@ function AddRacks() {
 
   const [nameLen, setNameLen] = useState(wordLimit.name);
 
-  const handleInputText = (e) => {
-    console.log(e.target.value);
-    setinputText(e.target.value);
-  };
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    let res = await axios.post(
-      `${API}/api/category/`,
+  const handleSubmit = async () => {
+    let res = await axios.patch(
+      `${API}/api/category/${props.match.params.catagoryId}`,
       {
-        category: inputText,
+        category: data,
       },
       {
         headers: {
@@ -39,41 +27,25 @@ function AddRacks() {
         },
       }
     );
-    if (res.data) {
+    console.log(res);
+    if (res) {
       window.location = "/comcatagory";
-      //history.push("/comcatagory");
     }
-    //     axios
-    //   .post(`${API}/api/category/`, {category: inputText}, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     setLoading(false);
-    //     swal( {
-    //       title: "Category added Successfully!",
-
-    //       icon: "success",
-    //       buttons: true,
-    //       successMode: true,
-    //       dangerMode: false,
-    //     }).then((value) => {
-    //         history.push("/comcatagory");
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     let message = "errror";
-    //     swal({
-    //       title: "Error",
-    //       text: { message },
-    //       icon: "error",
-    //       buttons: true,
-    //       dangerMode: true,
-    //     });
-    //     console.log(err);
-    //   });
+  };
+  useEffect(async () => {
+    let res = await axios.get(
+      `${API}/api/category/${props.match.params.catagoryId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setdata(res.data.category);
+    setNameLen(wordLimit.name - res.data.category.length);
+  }, []);
+  const handleChange = (e) => {
+    setdata(e.target.value);
   };
 
   const editHandler = (e, type) => {
@@ -83,7 +55,7 @@ function AddRacks() {
     switch (type) {
       case "name":
         if (wordLimit.name - length !== -1) {
-          handleInputText(e);
+          handleChange(e);
           setNameLen(wordLimit.name - length);
         }
         break;
@@ -102,14 +74,13 @@ function AddRacks() {
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
                 <h4 className="mb-0">Commerce - Categories</h4>
-
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">TellyTell</Link>
                     </li>
                     <li className="breadcrumb-item">Commerce - Categories</li>
-                    <li className="breadcrumb-item">Add New</li>
+                    <li className="breadcrumb-item">Edit</li>
                   </ol>
                 </div>
               </div>
@@ -124,9 +95,7 @@ function AddRacks() {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 col-lg-6 col-xl-6">
-                      <h1 className="text-left head-small">
-                        Add New Category{" "}
-                      </h1>
+                      <h1 className="text-left head-small">Edit Category</h1>
 
                       <form>
                         <div className="row">
@@ -135,15 +104,13 @@ function AddRacks() {
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
-                              >
-                                Enter Category Name
-                              </label>
+                              ></label>
                               <input
-                                type="text"
                                 onChange={(e) => editHandler(e, "name")}
-                                value={inputText}
+                                value={data}
+                                type="text"
                                 className="form-control input-field"
-                                id="basicpill-phoneno-input"
+                                defaultValue={data}
                               />
                               <label
                                 for="basicpill-phoneno-input"
@@ -159,12 +126,11 @@ function AddRacks() {
                           <div className="col-lg-12">
                             <div className="form-group text-left">
                               <button
-                                onClick={submitHandler}
+                                onClick={handleSubmit}
                                 type="button"
                                 className="btn btn-success btn-login waves-effect waves-light mr-3"
                               >
-                                <ClipLoader loading={loading} size={18} />
-                                {!loading && "Save"}
+                                Save
                               </button>
                             </div>
                           </div>
@@ -187,7 +153,7 @@ function AddRacks() {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-12">
-                            <script>document.write(new Date().getFullYear())</script> © SHOTT.
+                            <script>document.write(new Date().getFullYear())</script> © TellyTell.
                         </div>
 
                     </div>
@@ -198,4 +164,4 @@ function AddRacks() {
   );
 }
 
-export default AddRacks;
+export default EditCategories;

@@ -42,9 +42,9 @@ import FakePath from "../Components/FakePath";
 import Products from "../Components/main/Commerce/Products/Products";
 import AddProducts from "../Components/main/Commerce/Products/AddProducts";
 import Editproducts from "../Components/main/Commerce/Products/Editproducts";
-import Racks from "../Components/main/Commerce/Racks/Racks";
-import AddRacks from "../Components/main/Commerce/Racks/AddRacks";
-import EditRacks from "../Components/main/Commerce/Racks/EditRacks";
+import Categories from "../Components/main/Commerce/Categories/Categories";
+import AddCategories from "../Components/main/Commerce/Categories/AddCategories";
+import EditCategories from "../Components/main/Commerce/Categories/EditCategories";
 import TVShowSeason from "../Components/main/courses/Language/TVShowSeason";
 import TVShowSeasonEpisode from "../Components/main/courses/Language/TVShowSeasonEpisode";
 import ViewSeason from "../Components/main/courses/Language/ViewSeason";
@@ -326,11 +326,15 @@ export default function Routes() {
             exact
             path="/comproducts/view/:productId"
           ></PrivateRoute>
-          <PrivateRoute component={Racks} exact path="/racks"></PrivateRoute>
           <PrivateRoute
-            component={AddRacks}
+            component={Categories}
             exact
-            path="/racks/add"
+            path="/categories"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={AddCategories}
+            exact
+            path="/categories/add"
           ></PrivateRoute>
           {/* coupons */}
           <PrivateRoute
