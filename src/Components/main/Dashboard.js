@@ -149,46 +149,13 @@ export default function Dashboard() {
                       <div className="media statistics">
                         <span>
                           <img
-                            src="assets/images/icons/views-icon.png"
-                            alt=""
-                          />
-                        </span>
-                        <div className="media-body align-self-center overflow-hidden">
-                          <div className="text-left">
-                            <h4 className="text-truncate">Total Videos</h4>
-                            <h1>{video}</h1>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-4 mb-10">
-                      <div className="media statistics">
-                        <span>
-                          <img
-                            src="assets/images/icons/views-icon.png"
-                            alt=""
-                          />
-                        </span>
-                        <div className="media-body align-self-center overflow-hidden">
-                          <div className="text-left">
-                            <h4 className="text-truncate">Total TV Shows</h4>
-                            <h1>{tvShow}</h1>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-4 mb-10">
-                      <div className="media statistics">
-                        <span>
-                          <img
                             src="assets/images/icons/reviews-icon.png"
                             alt=""
                           />
                         </span>
                         <div className="media-body align-self-center overflow-hidden">
                           <div className="text-left">
-                            <h4 className="text-truncate">Total Subscribers</h4>
+                            <h4 className="text-truncate">Total Customers</h4>
                             <h1>{subscribers}</h1>
                           </div>
                         </div>
@@ -200,7 +167,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="row">
+          {/* <div className="row">
             {paypalDataLoaded &&
               (!paypal.permissionsGranted || !paypal.ENABLED) &&
               (!stripe.details_submitted || !stripe.ENABLED) && (
@@ -357,95 +324,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
-
-            {/* <div className="col-lg-4 mb-30">
-              <div className="card dashboard-box">
-                <div className="card-body">
-                  <div className="media">
-                    <div className="media-body align-self-center overflow-hidden">
-                      <div className="text-center">
-                        <img
-                          src="assets/images/icons/announce-page-icon.png"
-                          alt=""
-                          className="avatar-md"
-                        />
-
-                        <h5 className="text-truncate">Announce your page</h5>
-                        <p>
-                          This is usually how creators earn their first set of
-                          supporters. Make it unique, and maybe even offer
-                          something in return. See some examples here.
-                        </p>
-                        <div className="form-group text-left m-0">
-                          <a href="#">
-                            <button
-                              type="button"
-                              className="
-                                  btn btn-dashboard
-                                  waves-effect waves-light
-                                "
-                            >
-                              Tweet
-                            </button>
-                          </a>
-                          <a href="#">
-                            <button
-                              type="button"
-                              className="
-                                  btn btn-dashboard
-                                  waves-effect waves-light
-                                "
-                            >
-                              Share
-                            </button>
-                          </a>
-
-                          <a href="#">
-                            <button
-                              type="button"
-                              className="
-                                  btn btn-dashboard
-                                  waves-effect waves-light
-                                "
-                            >
-                              Gifs
-                            </button>
-                          </a>
-
-                          <a href="#">
-                            <button
-                              type="button"
-                              className="
-                                  btn btn-dashboard
-                                  waves-effect waves-light
-                                "
-                            >
-                              Download Creator Kit
-                            </button>
-                          </a>
-                        </div>
-
-                        <div className="form-group text-left mt-3">
-                          <div className="input-group mb-3">
-                            <input
-                              type="text"
-                              className="form-control input-field"
-                              placeholder="Url Of user"
-                            />
-                            <div className="input-group-append">
-                              <button className="btn btn-primary" type="button">
-                                Copy
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-          </div>
+          </div> */}
         </div>
       </div>
 
