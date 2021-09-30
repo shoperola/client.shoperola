@@ -461,21 +461,6 @@ function AddCoupon() {
                             </label>
                           )}
                         </div>
-
-                        <div className="custom-control custom-radio mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            checked={promotionType === "free_shipping"}
-                            onClick={() => setPromotionType("free_shipping")}
-                          />
-                          <label
-                            onClick={() => setPromotionType("free_shipping")}
-                            className="custom-control-label"
-                          >
-                            Free Shipping
-                          </label>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -511,9 +496,6 @@ function AddCoupon() {
                                 <option value="orders-over">Orders Over</option>
                                 <option value="single_product">
                                   Single Product
-                                </option>
-                                <option value="product_by_category">
-                                  Products by Category
                                 </option>
                               </select>
                             </div>
@@ -656,30 +638,6 @@ function AddCoupon() {
                           </div>
                         </div>
                       </form>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <label className="col-md-4 control-label">
-                        Customer limit
-                      </label>
-                      <div className="col-md-8">
-                        <div className="custom-control custom-radio mb-2">
-                          <input
-                            type="radio"
-                            className="custom-control-input"
-                            checked={customerLimit}
-                            onClick={() => setCustomerLimit((prev) => !prev)}
-                          />
-                          <label
-                            className="custom-control-label"
-                            onClick={() => setCustomerLimit((prev) => !prev)}
-                          >
-                            Limit one per customer
-                          </label>
-                        </div>
-                      </div>
                     </div>
                   </div>
 
