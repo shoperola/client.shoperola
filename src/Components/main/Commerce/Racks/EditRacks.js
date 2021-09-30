@@ -5,7 +5,7 @@ import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
 
-function EditCatagory(props) {
+function EditRacks(props) {
   const { token } = isAutheticated();
   const [data, setdata] = useState("");
 
@@ -164,4 +164,4 @@ function EditCatagory(props) {
   );
 }
 
-export default EditCatagory;
+export default EditRacks;

@@ -9,9 +9,8 @@ import {
 } from "react-router-dom";
 import Login from "../Components/auth/Login";
 import Register from "../Components/auth/Register";
-import Subscribers from "../Components/main/Subscribers";
+import Customers from "../Components/main/Customers";
 import ChangePassword from "../Components/main/ChangePassword";
-import Earning from "../Components/main/Earning";
 import EditProfile from "../Components/main/EditProfile";
 import Notification from "../Components/main/Notification";
 import OrderView from "../Components/main/OrderView";
@@ -23,14 +22,6 @@ import RequestView from "../Components/main/RequestView";
 import Stripe from "../Components/main/Stripe";
 import SubscriptionSettings from "../Components/main/SubscriptionSettings";
 import PrivateRoute from "./Privateroute";
-import Lessions from "../Components/main/courses/Lessions/Lessions";
-import EditLession from "../Components/main/courses/Lessions/EditLession";
-import AddLession from "../Components/main/courses/Lessions/AddLession";
-import ViewLession from "../Components/main/courses/Lessions/ViewLession";
-import Subjects from "../Components/main/courses/Subjects/Subjects";
-import Addsubject from "../Components/main/courses/Subjects/Addsubject";
-import Editsubject from "../Components/main/courses/Subjects/Editsubject";
-import Subjectbanner from "../Components/main/courses/Subjects/Subjectbanner";
 import Languages from "../Components/main/courses/Language/Languages";
 import AddLanguage from "../Components/main/courses/Language/Addlanguage";
 import EditLanguage from "../Components/main/courses/Language/EditLanguage";
@@ -49,14 +40,11 @@ import StripePayment from "../Components/customer/StripePayment";
 import PaymentGate from "../Components/customer/PaymentGate";
 import FakePath from "../Components/FakePath";
 import Products from "../Components/main/Commerce/Products/Products";
-import FeacheredProducts from "../Components/main/Commerce/Products/FeatureProduct/FeaturedProducts";
-import AddFeacheredProducts from "../Components/main/Commerce/Products/FeatureProduct/AddFeatureProduct";
-import EditFeacheredProducts from "../Components/main/Commerce/Products/FeatureProduct/EditFeatureProduct";
 import AddProducts from "../Components/main/Commerce/Products/AddProducts";
 import Editproducts from "../Components/main/Commerce/Products/Editproducts";
-import Catagory from "../Components/main/Commerce/Catagory/Catagory";
-import AddCatagory from "../Components/main/Commerce/Catagory/AddCatagory";
-import EditCatagory from "../Components/main/Commerce/Catagory/EditCatagory";
+import Racks from "../Components/main/Commerce/Racks/Racks";
+import AddRacks from "../Components/main/Commerce/Racks/AddRacks";
+import EditRacks from "../Components/main/Commerce/Racks/EditRacks";
 import TVShowSeason from "../Components/main/courses/Language/TVShowSeason";
 import TVShowSeasonEpisode from "../Components/main/courses/Language/TVShowSeasonEpisode";
 import ViewSeason from "../Components/main/courses/Language/ViewSeason";
@@ -65,18 +53,9 @@ import AddEpisode from "../Components/main/courses/Language/AddEpisode";
 import EditSeason from "../Components/main/courses/Language/EditSeason";
 import AddStudio from "../Components/main/courses/Studio/addStudio";
 import SubscriberHistory from "../Components/main/SubscriberHistory";
-import AddVideoCatagory from "../Components/main/courses/categories/addCategory";
-import EditVideoCatagory from "../Components/main/courses/categories/EditCategory";
-import VideoCatagory from "../Components/main/courses/categories/viewCategory";
-import scheduleVideos from "../Components/main/courses/schedule/scheduleVideos";
-import AddScheduleVideo from "../Components/main/courses/schedule/addScheduleVideo";
-import EditScheduleVideo from "../Components/main/courses/schedule/editSchedualVideo";
 import AllCoupons from "../Components/main/courses/coupons/coupons";
 import AddCoupon from "../Components/main/courses/coupons/addCoupon";
 import EditCoupon from "../Components/main/courses/coupons/editCoupon";
-import AllShippings from "../Components/main/courses/shipping/shippings";
-import AddShipping from "../Components/main/courses/shipping/addShipping";
-import EditShipping from "../Components/main/courses/shipping/editShipping";
 import TaxRates from "../Components/main/courses/payments/taxRates";
 import AddTaxRate from "../Components/main/courses/payments/addTaxRate";
 import EditTaxRate from "../Components/main/courses/payments/editTaxRate";
@@ -97,10 +76,6 @@ import ConfigMobileTV from "../Components/main/configurations/MobileTV";
 // Orders
 import OrdMngOrder from "../Components/main/ordersManagement/Orders";
 import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
-
-// Email Templates
-import EmailTemplate from "../Components/main/emailTemplates/EmailTemplates";
-import EmailTemplateEdit from "../Components/main/emailTemplates/EmailTempalteEdit";
 
 const { token } = isAutheticated();
 
@@ -270,12 +245,6 @@ export default function Routes() {
           ></PrivateRoute>
 
           <PrivateRoute
-            path="/earning"
-            exact
-            component={Earning}
-          ></PrivateRoute>
-
-          <PrivateRoute
             path="/order/view/:id"
             exact
             component={OrderView}
@@ -291,55 +260,9 @@ export default function Routes() {
             component={SubscriptionSettings}
           ></PrivateRoute>
           <PrivateRoute
-            component={Subscribers}
+            component={Customers}
             exact
-            path="/subscribers"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={Lessions}
-            exact
-            path="/lessions"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={EditLession}
-            exact
-            path="/lessions/edit/:lessionId"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={AddLession}
-            exact
-            path="/lessions/add"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={AddStudio}
-            exact
-            path="/lessions/add-studio/:id"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={ViewLession}
-            exact
-            path="/lessions/view/:lessionId"
-          ></PrivateRoute>
-
-          <PrivateRoute
-            component={Subjects}
-            exact
-            path="/subjects"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={Addsubject}
-            exact
-            path="/subjects/add"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={Editsubject}
-            exact
-            path="/subjects/edit/:subjectId"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={Subjectbanner}
-            exact
-            path="/subjects/banner"
+            path="/customers"
           ></PrivateRoute>
 
           <PrivateRoute
@@ -389,21 +312,6 @@ export default function Routes() {
             path="/comproducts"
           ></PrivateRoute>
           <PrivateRoute
-            component={FeacheredProducts}
-            exact
-            path="/featured/products"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={AddFeacheredProducts}
-            exact
-            path="/add/feature/product"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={EditFeacheredProducts}
-            exact
-            path="/edit/feature/product/:id"
-          ></PrivateRoute>
-          <PrivateRoute
             component={AddProducts}
             exact
             path="/comproducts/add"
@@ -418,15 +326,11 @@ export default function Routes() {
             exact
             path="/comproducts/view/:productId"
           ></PrivateRoute>
+          <PrivateRoute component={Racks} exact path="/racks"></PrivateRoute>
           <PrivateRoute
-            component={Catagory}
+            component={AddRacks}
             exact
-            path="/comcatagory"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={AddCatagory}
-            exact
-            path="/comcatagory/add"
+            path="/racks/add"
           ></PrivateRoute>
           {/* coupons */}
           <PrivateRoute
@@ -444,23 +348,6 @@ export default function Routes() {
             component={EditCoupon}
             exact
             path="/coupon_edit/:id"
-          ></PrivateRoute>
-          {/* shipping  */}
-          <PrivateRoute
-            component={AllShippings}
-            exact
-            path="/allShippings"
-          ></PrivateRoute>
-
-          <PrivateRoute
-            component={AddShipping}
-            exact
-            path="/shipping_add"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={EditShipping}
-            exact
-            path="/shipping_edit/:id"
           ></PrivateRoute>
 
           {/* Configurations */}
@@ -513,18 +400,6 @@ export default function Routes() {
             path="/orders/:status/:id"
           ></PrivateRoute>
 
-          {/* Email Templates */}
-          <PrivateRoute
-            component={EmailTemplate}
-            exact
-            path="/email-templates"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={EmailTemplateEdit}
-            exact
-            path="/email-templates/:id"
-          ></PrivateRoute>
-
           {/* payments  */}
           <PrivateRoute
             component={TaxRates}
@@ -540,47 +415,6 @@ export default function Routes() {
             component={EditTaxRate}
             exact
             path="/edit_taxRate/:id"
-          ></PrivateRoute>
-
-          {/* video categories */}
-
-          <PrivateRoute
-            component={AddVideoCatagory}
-            exact
-            path="/add-category"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={VideoCatagory}
-            exact
-            path="/categories"
-          ></PrivateRoute>
-
-          <PrivateRoute
-            component={EditVideoCatagory}
-            exact
-            path="/edit-category/:id"
-          ></PrivateRoute>
-
-          <PrivateRoute
-            component={EditCatagory}
-            exact
-            path="/comcatagory/edit/:catagoryId"
-          ></PrivateRoute>
-          {/* scheduleVideos */}
-          <PrivateRoute
-            component={scheduleVideos}
-            exact
-            path="/scheduleVideos"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={EditScheduleVideo}
-            exact
-            path="/edit-schedule-video/:typevideo/:id"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={AddScheduleVideo}
-            exact
-            path="/add-schedule-video"
           ></PrivateRoute>
 
           {/* BASE ENDING HERE */}

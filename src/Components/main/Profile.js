@@ -33,7 +33,7 @@ export default function Profile() {
   const [file, setFiles] = useState(null);
   const [newUserProfile, setNewUserProfile] = useState({});
   const [success, setSuccess] = useState(false);
-  const [link,setLink]=useState({});
+  const [link, setLink] = useState({});
   //API CALL
   useEffect(() => {
     axios
@@ -43,7 +43,6 @@ export default function Profile() {
         },
       })
       .then((response) => {
-        
         const data = response.data.data;
         setUserData({
           ...userData,
@@ -637,7 +636,10 @@ export default function Profile() {
                               data-toggle="modal"
                               data-target="#facebook"
                             >
-                             <i className="fa fa-address-book" aria-hidden="true"></i>
+                              <i
+                                className="fa fa-address-book"
+                                aria-hidden="true"
+                              ></i>
                               <br />
                               Add Facebook
                             </div>
@@ -649,7 +651,10 @@ export default function Profile() {
                               data-toggle="modal"
                               data-target="#linkedin"
                             >
-                              <i className="fa fa-address-book" aria-hidden="true"></i>
+                              <i
+                                className="fa fa-address-book"
+                                aria-hidden="true"
+                              ></i>
                               <br />
                               Add Linkedin
                             </div>
@@ -661,7 +666,10 @@ export default function Profile() {
                               data-toggle="modal"
                               data-target="#twitter"
                             >
-                              <i className="fa fa-address-book" aria-hidden="true"></i>
+                              <i
+                                className="fa fa-address-book"
+                                aria-hidden="true"
+                              ></i>
                               <br />
                               Add Twitter
                             </div>
@@ -686,7 +694,7 @@ export default function Profile() {
             </div>
           </div>
         </footer> */}
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

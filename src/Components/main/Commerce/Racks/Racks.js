@@ -5,21 +5,18 @@ import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
 
-function VideoCatagory(props) {
+function Racks(props) {
   const { token } = isAutheticated();
   const [data, setdata] = useState([]);
-  const [Loading, setLoading] = useState();
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      let res = await axios.get(`${API}/api/categories/view_all_categories`, {
+    async function fetchData() {
+      let res = await axios.get(`${API}/api/category`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setdata(res.data);
-      setLoading(false);
-    };
+    }
     fetchData();
   }, []);
   const handleDelete = async (id) => {
@@ -27,14 +24,11 @@ function VideoCatagory(props) {
     if (!status) {
       return;
     }
-    let res = await axios.delete(
-      `${API}/api/categories/delete_categories/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    let res = await axios.delete(`${API}/api/category/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (res) {
       window.location.reload();
     }
@@ -49,16 +43,14 @@ function VideoCatagory(props) {
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">Content Management - Categories</h4>
+                <h4 className="mb-0">Commerce - Categories</h4>
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">TellyTell</Link>
                     </li>
-                    <li className="breadcrumb-item">
-                      Content Management - Categories
-                    </li>
+                    <li className="breadcrumb-item">Commerce - Categories</li>
                   </ol>
                 </div>
               </div>
@@ -75,7 +67,7 @@ function VideoCatagory(props) {
                     <div className="col-sm-12 col-md-6">&nbsp;</div>
                     <div className="col-sm-12 col-md-6">
                       <div className="dropdown d-block">
-                        <a href="/add-category">
+                        <a href="/comcatagory/add">
                           <button
                             type="button"
                             className="btn btn-primary add-btn waves-effect waves-light float-right"
@@ -92,18 +84,16 @@ function VideoCatagory(props) {
                       <thead className="thead-light">
                         <tr>
                           <th>Category Name</th>
-                          <th>Category Type</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {data?.length > 0
+                        {data.length > 0
                           ? data.map((item) => (
                               <tr key={item._id}>
-                                <td>{item.name}</td>
-                                <td>{item.type}</td>
+                                <td>{item.category}</td>
                                 <td>
-                                  <Link to={`/edit-category/${item._id}`}>
+                                  <Link to={`/comcatagory/edit/${item._id}`}>
                                     <button
                                       type="button"
                                       className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
@@ -111,6 +101,7 @@ function VideoCatagory(props) {
                                       Edit
                                     </button>
                                   </Link>
+
                                   <button
                                     onClick={() => handleDelete(item._id)}
                                     type="button"
@@ -126,6 +117,7 @@ function VideoCatagory(props) {
                       </tbody>
                     </table>
                   </div>
+
                   {/* <!-- end table-responsive --> */}
                 </div>
               </div>
@@ -151,4 +143,4 @@ function VideoCatagory(props) {
   );
 }
 
-export default VideoCatagory;
+export default Racks;

@@ -82,37 +82,12 @@ export default function Sidebar() {
               </Link>
             </li> */}
             <li>
-              <Link to="/subscribers">
+              <Link to="/customers">
                 <img alt="" src="/assets/images/icons/viewer-icon.png" />
-                <span>Subscribers</span>
+                <span>Customers</span>
               </Link>
             </li>
 
-            <li>
-              <Link to="#/" className="has-arrow">
-                <img alt="" src="/assets/images/icons/cms-icon.png" />
-                <span>Content Management</span>
-              </Link>
-
-              <ul className="sub-menu" aria-expanded={false}>
-                <li>
-                  <Link to="/lessions">Videos</Link>
-                </li>
-                <li>
-                  <Link to="/scheduleVideos">Schedule</Link>
-                </li>
-                <li>
-                  <Link to="/subjects">Banners</Link>
-                </li>
-                {/* <li>
-                  <Link to="/alllanguages">TV Shows
-                  </Link>
-                </li> */}
-                <li>
-                  <Link to="/categories">Categories</Link>
-                </li>
-              </ul>
-            </li>
             <li>
               <Link to="#/" className="has-arrow">
                 <img alt="" src="/assets/images/icons/cms-icon.png" />
@@ -123,16 +98,10 @@ export default function Sidebar() {
                   <Link to="/comproducts">Products</Link>
                 </li>
                 <li>
-                  <Link to="/featured/products">Featured Products</Link>
-                </li>
-                <li>
-                  <Link to="/comcatagory"> Category</Link>
+                  <Link to="/racks">Racks</Link>
                 </li>
                 <li>
                   <Link to="/allCoupons">Coupons</Link>
-                </li>
-                <li>
-                  <Link to="/allShippings">Shipping</Link>
                 </li>
               </ul>
             </li>
@@ -146,30 +115,9 @@ export default function Sidebar() {
                 <li>
                   <Link to="/orders/new">New</Link>
                 </li>
-                <li>
-                  <Link to="/orders/processing">Processing</Link>
-                </li>
-                <li>
-                  <Link to="/orders/dispatched">Dispatched</Link>
-                </li>
-                <li>
-                  <Link to="/orders/delivered">Delievered</Link>
-                </li>
-                <li>
-                  <Link to="/orders/cancelled">Cancelled</Link>
-                </li>
-                <li>
-                  <Link to="/orders/returned">Returned</Link>
-                </li>
               </ul>
             </li>
 
-            <li>
-              <Link to="/earning">
-                <img src="/assets/images/icons/earning-icon.png" alt="" />
-                <span>Earnings</span>
-              </Link>
-            </li>
             <li>
               <Link to="#">
                 <img
@@ -207,16 +155,6 @@ export default function Sidebar() {
                 <span>Profile</span>
               </Link>
             </li> */}
-
-            <li>
-              <Link to="/email-templates">
-                <img
-                  src="/assets/images/icons/email-template-icon.png"
-                  alt=""
-                />
-                <span>Email Templates</span>
-              </Link>
-            </li>
 
             <li>
               <Link to="#/" className="has-arrow">
