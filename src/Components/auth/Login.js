@@ -85,15 +85,15 @@ export default function Login() {
                   className="mb-5 d-block auth-logo"
                 >
                   <img
-                    src="assets/images/logo-dark.png"
+                    src="assets/images/logo.png"
                     alt=""
-                    height="25"
+                    height="40"
                     className="logo logo-dark"
                   />
                   <img
-                    src="assets/images/logo-light.png"
+                    src="assets/images/logo.png"
                     alt=""
-                    height="25"
+                    height="40"
                     className="logo logo-light"
                   />
                 </a>
@@ -170,12 +170,6 @@ export default function Login() {
                             {!loading && "Log In"}
                           </button>
                         </a>
-                      </div>
-                      <div>
-                        <h6>
-                          Don't have an account?
-                          <Link to="/register"> Register</Link>
-                        </h6>
                       </div>
                     </form>
                   </div>
