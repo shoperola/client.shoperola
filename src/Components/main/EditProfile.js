@@ -217,7 +217,7 @@ export default function EditProfile() {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <a href="javascript: void(0);">TellyTell</a>
+                        <a href="javascript: void(0);">Shoperola</a>
                       </li>
                       <li className="breadcrumb-item">Profile</li>
                       <li className="breadcrumb-item active">Edit Profile</li>
@@ -422,7 +422,7 @@ export default function EditProfile() {
                                       className="input-group-text"
                                       id="basic-addon3"
                                     >
-                                     https://kourse-53d4f.web.app/#/public
+                                      https://kourse-53d4f.web.app/#/public
                                     </span>
                                   </div>
                                   <input
@@ -550,12 +550,12 @@ export default function EditProfile() {
             <div className="row">
               <div className="col-sm-12">
                 <script>document.write(new Date().getFullYear());</script>©
-                TellyTell.
+                Shoperola.
               </div>
             </div>
           </div>
         </footer> */}
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

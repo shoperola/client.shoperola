@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../API";
@@ -10,27 +9,27 @@ import Footer from "./Footer";
 // import { data } from "jquery";
 
 export default function SubscriberHistory(props) {
-  const {id}=props.match.params
+  const { id } = props.match.params;
   //console.log(id);
   const { token } = isAutheticated();
-  const [order,setOrder]=useState({});
-  useEffect(()=>{
-     // console.log("_id",id)
+  const [order, setOrder] = useState({});
+  useEffect(() => {
+    // console.log("_id",id)
     axios
-    .get(`${API}/api/user/subscriber/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response)=>{
-      let data=response.data.data;
-      setOrder(data);
-      //console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },[]);
+      .get(`${API}/api/user/subscriber/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        let data = response.data.data;
+        setOrder(data);
+        //console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     // <div id="layout-wrapper">
     //   <Header />
@@ -48,9 +47,11 @@ export default function SubscriberHistory(props) {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <a href="javascript: void(0);">TellyTell</a>
+                      <a href="javascript: void(0);">Shoperola</a>
                     </li>
-                    <li className="breadcrumb-item">Subscriber ID {order._id}</li>
+                    <li className="breadcrumb-item">
+                      Subscriber ID {order._id}
+                    </li>
                   </ol>
                 </div>
               </div>
@@ -63,7 +64,9 @@ export default function SubscriberHistory(props) {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 col-lg-6 col-xl-6">
-                      <h1 className="text-left head-small">Subscriber ID: {order._id}</h1>
+                      <h1 className="text-left head-small">
+                        Subscriber ID: {order._id}
+                      </h1>
 
                       <form>
                         <div className="row mt-20">
@@ -71,40 +74,58 @@ export default function SubscriberHistory(props) {
                           {/* {!(Object.keys(order).length === 0 && order.constructor === Object) && order.subscriber && 
                           <div className="col-md-8">{order.subscriber.firstName } {order.subscriber.lastName}</div>
                           } */}
-                          
                         </div>
 
                         <div className="row mt-20">
-                          <div className="col-md-4 font-b">Subscription Type</div>
+                          <div className="col-md-4 font-b">
+                            Subscription Type
+                          </div>
                           <div className="col-md-8">{order.subType}</div>
                         </div>
 
                         <div className="row mt-20">
                           <div className="col-md-4 font-b">Status</div>
-                          {!(Object.keys(order).length === 0 && order.constructor === Object) && order.subscriber && 
-                           order.subscriber.status && <div className="col-md-8">present</div>
-                          }
-                          {!(Object.keys(order).length === 0 && order.constructor === Object) && order.subscriber && 
-                           !order.subscriber.status && <div className="col-md-8">suspend</div>
-                        }
+                          {!(
+                            Object.keys(order).length === 0 &&
+                            order.constructor === Object
+                          ) &&
+                            order.subscriber &&
+                            order.subscriber.status && (
+                              <div className="col-md-8">present</div>
+                            )}
+                          {!(
+                            Object.keys(order).length === 0 &&
+                            order.constructor === Object
+                          ) &&
+                            order.subscriber &&
+                            !order.subscriber.status && (
+                              <div className="col-md-8">suspend</div>
+                            )}
                         </div>
 
                         <div className="row mt-20">
                           <div className="col-md-4 font-b">Ordered On</div>
-                          {!(Object.keys(order).length === 0 && order.constructor === Object) && 
-                           <div className="col-md-8">{(new Date(order.createdAt)).toDateString()}</div>
-                          }
-                         
+                          {!(
+                            Object.keys(order).length === 0 &&
+                            order.constructor === Object
+                          ) && (
+                            <div className="col-md-8">
+                              {new Date(order.createdAt).toDateString()}
+                            </div>
+                          )}
                         </div>
 
                         <div className="row mt-20">
                           <div className="col-md-4 font-b">Amount</div>
-                          {!(Object.keys(order).length === 0 && order.constructor === Object) && 
-                          <div className="col-md-8">
-                            <i className="fa fa-inr" aria-hidden="true"></i>
-                            {order.amount}</div>
-                          }
-                          
+                          {!(
+                            Object.keys(order).length === 0 &&
+                            order.constructor === Object
+                          ) && (
+                            <div className="col-md-8">
+                              <i className="fa fa-inr" aria-hidden="true"></i>
+                              {order.amount}
+                            </div>
+                          )}
                         </div>
 
                         {/* <div className="row mt-20">
@@ -153,8 +174,7 @@ export default function SubscriberHistory(props) {
         </div>
       </div>
 
-      
-      <Footer/>
+      <Footer />
     </div>
   );
 }

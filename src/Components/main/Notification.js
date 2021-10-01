@@ -94,7 +94,9 @@ export default function Notification() {
                       </label>
                     </div>
 
-                    <h5 className="mt-5 mb-3 color-b">Limit Email Notifications</h5>
+                    <h5 className="mt-5 mb-3 color-b">
+                      Limit Email Notifications
+                    </h5>
 
                     <div className="full-w">
                       <span
@@ -111,7 +113,10 @@ export default function Notification() {
                           name="customRadio"
                           className="custom-control-input"
                         />
-                        <label className="custom-control-label" for="customRadio1">
+                        <label
+                          className="custom-control-label"
+                          for="customRadio1"
+                        >
                           Limited
                         </label>
                       </span>
@@ -130,7 +135,10 @@ export default function Notification() {
                           name="customRadio"
                           className="custom-control-input"
                         />
-                        <label className="custom-control-label" for="customRadio2">
+                        <label
+                          className="custom-control-label"
+                          for="customRadio2"
+                        >
                           5 per day
                         </label>
                       </span>
@@ -149,7 +157,10 @@ export default function Notification() {
                           name="customRadio"
                           className="custom-control-input"
                         />
-                        <label className="custom-control-label" for="customRadio3">
+                        <label
+                          className="custom-control-label"
+                          for="customRadio3"
+                        >
                           10 per day
                         </label>
                       </span>
@@ -181,7 +192,7 @@ export default function Notification() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-12">
-              <script>document.write(new Date().getFullYear());</script>© TellyTell.
+              <script>document.write(new Date().getFullYear());</script>© Shoperola.
             </div>
           </div>
         </div>

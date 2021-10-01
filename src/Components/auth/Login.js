@@ -81,7 +81,7 @@ export default function Login() {
             <div className="col-lg-12">
               <div className="text-center">
                 <a
-                  href="https://tellytell.com"
+                  href="https://Shoperola.com"
                   className="mb-5 d-block auth-logo"
                 >
                   <img
@@ -108,7 +108,7 @@ export default function Login() {
                     <h5 className="text-primary welcome-text">
                       Welcome Back !
                     </h5>
-                    <p className="text-muted">Sign In to TellyTell</p>
+                    <p className="text-muted">Sign In to Shoperola</p>
                   </div>
                   <div className="p-2 mt-4">
                     <form>

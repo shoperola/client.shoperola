@@ -113,7 +113,7 @@ const SocialMedia = () => {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <Link to="/dashboard">TellyTell</Link>
+                      <Link to="/dashboard">Shoperola</Link>
                     </li>
                     <li className="breadcrumb-item active">
                       Configuration - Social Media

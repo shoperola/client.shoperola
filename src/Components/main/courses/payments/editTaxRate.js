@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect} from "react";
-import { Link, useParams ,useHistory} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
@@ -8,8 +8,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import swal from "sweetalert";
 
 function EditTaxRate() {
-  const [data,setData]=useState([])
-    const history = useHistory();
+  const [data, setData] = useState([]);
+  const history = useHistory();
   const { id } = useParams();
   const { token } = isAutheticated();
   const [inputInitialText, setInitialinputText] = useState({
@@ -23,11 +23,11 @@ function EditTaxRate() {
           Authorization: `Bearer ${token}`,
         },
       });
-      res.data.data=res.data.data.filter(data=>data._id!==id)
+      res.data.data = res.data.data.filter((data) => data._id !== id);
       setData(res.data.data);
     }
     fetchData();
-  }, [token,id]);
+  }, [token, id]);
 
   useEffect(() => {
     const getData = async () => {
@@ -120,7 +120,7 @@ function EditTaxRate() {
         },
       }
     );
-    const done=await swal({
+    const done = await swal({
       title: "Updated Successfully!",
       icon: "success",
       buttons: {
@@ -128,14 +128,14 @@ function EditTaxRate() {
           text: "Done",
           value: "Done",
         },
-      }
-    })
-    if(done==="Done"){
+      },
+    });
+    if (done === "Done") {
       history.push("/tax-rates");
     }
     if (res.data) {
       // console.log(res);
-    //   window.location = "/categories";
+      //   window.location = "/categories";
     }
     //     axios
     //   .post(`${API}/api/category/`, {category: inputText}, {
@@ -181,7 +181,7 @@ function EditTaxRate() {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <Link to="/dashboard">TellyTell</Link>
+                      <Link to="/dashboard">Shoperola</Link>
                     </li>
                     <li className="breadcrumb-item">
                       Payment Settings - Edit Tax Rate
@@ -196,15 +196,18 @@ function EditTaxRate() {
           <div className="row">
             <div className="col-12">
               <div className="form-group text-right">
-                  <button
-                    type="button"
-                    className="btn btn-success btn-login waves-effect waves-light mr-3"
-                    disabled={inputInitialText.tax_name.toString()==="" ||inputInitialText.tax_percentage.toString()===""}
-                    onClick={submitHandler}
-                  >
-                    <ClipLoader loading={loading} size={18} />
-                                        {!loading && "Save"}
-                  </button>
+                <button
+                  type="button"
+                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                  disabled={
+                    inputInitialText.tax_name.toString() === "" ||
+                    inputInitialText.tax_percentage.toString() === ""
+                  }
+                  onClick={submitHandler}
+                >
+                  <ClipLoader loading={loading} size={18} />
+                  {!loading && "Save"}
+                </button>
                 <Link to="/add_taxRate">
                   <button
                     type="button"

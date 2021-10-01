@@ -7,79 +7,69 @@ import { isAutheticated } from "../auth/authhelper";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-
-export default function Profile(props){
-    // const { user, token } = isAutheticated();
-    const {match}=props;
-    const [once,setOnce]=useState(false);
-    const [userData, setUserData] = useState({
-        firstName: "",
-        lastName: "",
-        about: "",
-        services: "",
-        featured:[],
-        bannerImage: "",
-        profession: "",
-        location: "",
-        fees: 0,
-        feesPerMonth:0,
-        feesPerYear:0,
-        picture: "",
-        publicUrl: "",
-        websiteLink: "",
-        twitterLink: "",
-        linkedinLink: "",
-        facebookLink: "",
+export default function Profile(props) {
+  // const { user, token } = isAutheticated();
+  const { match } = props;
+  const [once, setOnce] = useState(false);
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    about: "",
+    services: "",
+    featured: [],
+    bannerImage: "",
+    profession: "",
+    location: "",
+    fees: 0,
+    feesPerMonth: 0,
+    feesPerYear: 0,
+    picture: "",
+    publicUrl: "",
+    websiteLink: "",
+    twitterLink: "",
+    linkedinLink: "",
+    facebookLink: "",
+  });
+  useEffect(() => {
+    axios
+      .get(`${API}/profile/${match.params.username}`)
+      .then((response) => {
+        console.log("public url", response.data.data);
+        const data = response.data.data;
+        localStorage.setItem("client_info_id", data._id);
+        localStorage.setItem("client_info_usename", data.username);
+        localStorage.setItem("client_info", JSON.stringify(data));
+        setUserData({
+          ...userData,
+          firstName: response.data.data.firstName,
+          lastName: data.lastName,
+          profession: data.profession,
+          bannerImage: data.bannerImage,
+          currency: data.currency,
+          picture: data.picture,
+          location: data.location,
+          featured: data.featured,
+          about: data.about,
+          feesPerMonth: data.feesPerMonth,
+          feesPerYear: data.feesPerYear,
+          services: data.services,
+          fees: data.fees,
+          publicUrl: data.publicUrl,
+          linkedinLink: data.linkedinLink,
+          facebookLink: data.facebookLink,
+          websiteLink: data.websiteLink,
+          twitterLink: data.twitterLink,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-        useEffect(() => {
-            axios
-              .get(`${API}/profile/${match.params.username}`)
-              .then((response) => {
-                console.log("public url",response.data.data);
-                const data = response.data.data;
-                localStorage.setItem(
-                  "client_info_id",
-                  data._id
-                );
-                localStorage.setItem(
-                  "client_info_usename",
-                  data.username
-                );
-                localStorage.setItem(
-                  "client_info",
-                   JSON.stringify(data)
-                );
-                setUserData({
-                  ...userData,
-                  firstName: response.data.data.firstName,
-                  lastName: data.lastName,
-                  profession: data.profession,
-                  bannerImage: data.bannerImage,
-                  currency: data.currency,
-                  picture: data.picture,
-                  location: data.location,
-                  featured:data.featured,
-                  about: data.about,
-                  feesPerMonth:data.feesPerMonth,
-                  feesPerYear:data.feesPerYear,
-                  services: data.services,
-                  fees: data.fees,
-                  publicUrl: data.publicUrl,
-                  linkedinLink: data.linkedinLink,
-                  facebookLink: data.facebookLink,
-                  websiteLink: data.websiteLink,
-                  twitterLink: data.twitterLink,
-                });
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          },[once]);
-         // setOnce(true);
-      console.log('userdara',userData);
-      
-    return (
-        <>
+  }, [once]);
+  // setOnce(true);
+  console.log("userdara", userData);
+
+  return (
+    <>
       <div
         className="modal fade"
         id="website"
@@ -422,12 +412,24 @@ export default function Profile(props){
           <div style={{margin:"3px 5vw 3px 3vw",fontSize: "xx-large"}}><Link>Sign Un</Link></div>
           <div style={{margin:"3px",fontSize: "xx-large"}}><Link>Sign In</Link></div>
           </div> */}
-          <div className="container-fluid" style={{backgroundColor:"#e4e8ed"}}>
-          <div className="col-12" style={{display:"flex",flexDirection:"row-reverse"}}> 
-          <div style={{margin:"3px 3vw 3px 3vw",fontSize: "xx-large"}}><Link to="/register/cognito">Sign Up</Link></div>
-          <div style={{margin:"3px 3vw 3px 3vw",fontSize: "xx-large"}}><Link to="/sign/cognito">Sign In</Link></div>
-          <div style={{margin:"3px",fontSize: "xx-large"}}><Link to="/subscription">Subscribe</Link></div>
-          </div>
+          <div
+            className="container-fluid"
+            style={{ backgroundColor: "#e4e8ed" }}
+          >
+            <div
+              className="col-12"
+              style={{ display: "flex", flexDirection: "row-reverse" }}
+            >
+              <div style={{ margin: "3px 3vw 3px 3vw", fontSize: "xx-large" }}>
+                <Link to="/register/cognito">Sign Up</Link>
+              </div>
+              <div style={{ margin: "3px 3vw 3px 3vw", fontSize: "xx-large" }}>
+                <Link to="/sign/cognito">Sign In</Link>
+              </div>
+              <div style={{ margin: "3px", fontSize: "xx-large" }}>
+                <Link to="/subscription">Subscribe</Link>
+              </div>
+            </div>
             <div className="row">
               <div className="col-12">
                 <div
@@ -452,10 +454,15 @@ export default function Profile(props){
               </div>
             </div>
 
-            <div className="row" style={{backgroundColor:"#e4e8ed"}}>
+            <div className="row" style={{ backgroundColor: "#e4e8ed" }}>
               <div className="col-lg-12">
                 <div className="card">
-                  <div className="card-body" style={{backgroundColor:"#b1b3b5"}}>  {/*main bosy here*/}
+                  <div
+                    className="card-body"
+                    style={{ backgroundColor: "#b1b3b5" }}
+                  >
+                    {" "}
+                    {/*main bosy here*/}
                     <div className="profile-area">
                       <div className="form-group text-right">
                         {/* <Link to="/edit/profile">
@@ -568,8 +575,10 @@ export default function Profile(props){
                         )}
                       </div>
 
-                      <Featured publicUp={true} featuredData={userData.featured}/>
-                      
+                      <Featured
+                        publicUp={true}
+                        featuredData={userData.featured}
+                      />
 
                       <div className="profile-data">
                         <div className="row">
@@ -578,10 +587,14 @@ export default function Profile(props){
                               className="social-link"
                               data-toggle="modal"
                               data-target="#website"
-                            ><Link>
-                              <i className="fa fa-globe" aria-hidden="true"></i>
-                              <br />
-                              Website
+                            >
+                              <Link>
+                                <i
+                                  className="fa fa-globe"
+                                  aria-hidden="true"
+                                ></i>
+                                <br />
+                                Website
                               </Link>
                             </div>
                           </div>
@@ -591,13 +604,14 @@ export default function Profile(props){
                               className="social-link"
                               data-toggle="modal"
                               data-target="#facebook"
-                            ><Link>
-                              <i
-                                className="fa fa-facebook-square"
-                                aria-hidden="true"
-                              ></i>
-                              <br />
-                              Facebook
+                            >
+                              <Link>
+                                <i
+                                  className="fa fa-facebook-square"
+                                  aria-hidden="true"
+                                ></i>
+                                <br />
+                                Facebook
                               </Link>
                             </div>
                           </div>
@@ -607,13 +621,14 @@ export default function Profile(props){
                               className="social-link"
                               data-toggle="modal"
                               data-target="#linkedin"
-                            ><Link>
-                              <i
-                                className="fa fa-linkedin-square"
-                                aria-hidden="true"
-                              ></i>
-                              <br />
-                              Linkedin
+                            >
+                              <Link>
+                                <i
+                                  className="fa fa-linkedin-square"
+                                  aria-hidden="true"
+                                ></i>
+                                <br />
+                                Linkedin
                               </Link>
                             </div>
                           </div>
@@ -623,13 +638,14 @@ export default function Profile(props){
                               className="social-link"
                               data-toggle="modal"
                               data-target="#twitter"
-                            ><Link>
-                              <i
-                                className="fa fa-twitter-square"
-                                aria-hidden="true"
-                              ></i>
-                              <br />
-                              Twitter
+                            >
+                              <Link>
+                                <i
+                                  className="fa fa-twitter-square"
+                                  aria-hidden="true"
+                                ></i>
+                                <br />
+                                Twitter
                               </Link>
                             </div>
                           </div>
@@ -643,18 +659,17 @@ export default function Profile(props){
           </div>
         </div>
 
-        <footer className="footer" >
+        <footer className="footer">
           <div className="container-fluid">
             <div className="row">
               <div className="col-sm-12">
                 <script>document.write(new Date().getFullYear());</script>©
-                TellyTell.
+                Shoperola.
               </div>
             </div>
           </div>
         </footer>
       </div>
     </>
-    );
-
+  );
 }

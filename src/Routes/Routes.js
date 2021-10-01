@@ -77,6 +77,9 @@ import ConfigMobileTV from "../Components/main/configurations/MobileTV";
 import OrdMngOrder from "../Components/main/ordersManagement/Orders";
 import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 
+// Racks
+import Racks from "../Components/main/Commerce/Racks/Racks";
+
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -336,6 +339,7 @@ export default function Routes() {
             exact
             path="/categories/add"
           ></PrivateRoute>
+          <PrivateRoute component={Racks} exact path="/racks"></PrivateRoute>
           {/* coupons */}
           <PrivateRoute
             component={AllCoupons}

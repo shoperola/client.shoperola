@@ -1,23 +1,23 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
-import swal from 'sweetalert';
-import Player from 'video-react/lib/components/Player';
-import { API } from '../../../../API';
-import { isAutheticated } from '../../../auth/authhelper';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
+import swal from "sweetalert";
+import Player from "video-react/lib/components/Player";
+import { API } from "../../../../API";
+import { isAutheticated } from "../../../auth/authhelper";
 import ClipLoader from "react-spinners/ClipLoader";
-import Footer from '../../Footer';
+import Footer from "../../Footer";
 
 function AddEpisode(props) {
   const { seasonIdparams } = useParams();
   const { token } = isAutheticated();
-  const [episodeData, setEpisodeData] = useState(new FormData())
+  const [episodeData, setEpisodeData] = useState(new FormData());
   let history = useHistory();
   const [lession, setLession] = useState({
-    video: ""
+    video: "",
   });
   const [loading, setLoading] = useState(false);
-  const [seasonId, setEpisode] = useState([])
+  const [seasonId, setEpisode] = useState([]);
 
   const handleChangeEpisode = (e) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ function AddEpisode(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, [])
+  }, []);
 
   useEffect(() => {
     axios
@@ -63,14 +63,12 @@ function AddEpisode(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, [])
+  }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-
-    }
-    fetchData()
-  }, [])
+    const fetchData = async () => {};
+    fetchData();
+  }, []);
 
   /////// for video episode //////////////////////
   const onUpdateVideo = (e) => {
@@ -108,7 +106,7 @@ function AddEpisode(props) {
           successMode: true,
           dangerMode: false,
         }).then((value) => {
-          history.goBack()
+          history.goBack();
           //   history.push("/alllanguages");
         });
       })
@@ -128,54 +126,49 @@ function AddEpisode(props) {
   };
   return (
     <div className="main-content">
-
       <div className="page-content">
         <div className="container-fluid">
-
           {/* <!-- start page title --> */}
 
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">TV Shows - Seasons - Add
-                </h4>
+                <h4 className="mb-0">TV Shows - Seasons - Add</h4>
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
-                    <li className="breadcrumb-item"><a href="javascript: void(0);">TellyTell</a></li>
-                    <li className="breadcrumb-item">TV Shows - Seasons
+                    <li className="breadcrumb-item">
+                      <a href="javascript: void(0);">Shoperola</a>
                     </li>
+                    <li className="breadcrumb-item">TV Shows - Seasons</li>
 
                     <li className="breadcrumb-item">Add New Season</li>
-
-
                   </ol>
                 </div>
-
               </div>
             </div>
           </div>
 
           {/* <!-- end page title --> */}
 
-
-
           <div className="row">
             <div className="col-lg-12">
               <div className="card">
                 <div className="card-body">
-
-
                   <div className="row">
-
                     <div className="col-md-12 col-lg-6 col-xl-6">
-
                       <form>
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group">
-                              <label for="basicpill-phoneno-input" className="label-100">Episode Number</label>
-                              <input type="number"
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Episode Number
+                              </label>
+                              <input
+                                type="number"
                                 className="form-control input-field"
                                 name="episodeNumber"
                                 onChange={handleChangeEpisode}
@@ -186,8 +179,13 @@ function AddEpisode(props) {
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">Upload Video<br />
-                                <span className="size">(mp4 file format only)</span></label>
+                              <label className="col-md-4 control-label">
+                                Upload Video
+                                <br />
+                                <span className="size">
+                                  (mp4 file format only)
+                                </span>
+                              </label>
                               <div className="col-md-8">
                                 <input
                                   type="file"
@@ -206,28 +204,21 @@ function AddEpisode(props) {
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group text-left">
-
-                              <Link >
-                                <button type="button"
+                              <Link>
+                                <button
+                                  type="button"
                                   onClick={onUpdateVideo}
-                                  className="btn btn-success btn-login waves-effect waves-light mr-3">
+                                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                                >
                                   <ClipLoader loading={loading} size={18} />
                                   {!loading && "Save"}
                                 </button>
                               </Link>
-
                             </div>
                           </div>
                         </div>
-
-
                       </form>
-
-
                     </div>
-
-
-
                   </div>
 
                   {/* <!-- end table-responsive --> */}
@@ -235,7 +226,6 @@ function AddEpisode(props) {
               </div>
             </div>
           </div>
-
         </div>
         {/* <!-- container-fluid --> */}
       </div>

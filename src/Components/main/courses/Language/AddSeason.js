@@ -1,11 +1,11 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import ReactDatePicker from 'react-datepicker';
-import { Link, useHistory, useParams } from 'react-router-dom';
-import swal from 'sweetalert';
-import { API } from '../../../../API';
-import { isAutheticated } from '../../../auth/authhelper';
-import Footer from '../../Footer';
+import axios from "axios";
+import React, { useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import { Link, useHistory, useParams } from "react-router-dom";
+import swal from "sweetalert";
+import { API } from "../../../../API";
+import { isAutheticated } from "../../../auth/authhelper";
+import Footer from "../../Footer";
 
 function AddSeason(props) {
   const { tvshowId } = useParams();
@@ -13,8 +13,7 @@ function AddSeason(props) {
   let history = useHistory();
   const [lession, setLession] = useState({
     number: null,
-    launchDate: new Date()
-
+    launchDate: new Date(),
   });
   const [seasonData, setSeasonData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -50,7 +49,7 @@ function AddSeason(props) {
           //   },
           // },
         }).then((value) => {
-          history.goBack()
+          history.goBack();
           //  history.push("/alllanguages")
         });
       })
@@ -67,27 +66,24 @@ function AddSeason(props) {
         });
         console.log(err);
       });
-
-  }
+  };
   return (
     <div className="main-content">
-
       <div className="page-content">
         <div className="container-fluid">
-
           {/* <!-- start page title --> */}
 
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">TV Shows - Seasons - Add
-                </h4>
+                <h4 className="mb-0">TV Shows - Seasons - Add</h4>
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
-                    <li className="breadcrumb-item"><a href="javascript: void(0);">TellyTell</a></li>
-                    <li className="breadcrumb-item">TV Shows - Seasons
+                    <li className="breadcrumb-item">
+                      <a href="javascript: void(0);">Shoperola</a>
                     </li>
+                    <li className="breadcrumb-item">TV Shows - Seasons</li>
                     <li className="breadcrumb-item">Add New Season</li>
                   </ol>
                 </div>
@@ -101,20 +97,27 @@ function AddSeason(props) {
               <div className="card">
                 <div className="card-body">
                   <div className="row">
-
                     <div className="col-md-12 col-lg-6 col-xl-6">
-
                       <form>
-
-
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group">
-                              <label for="basicpill-phoneno-input" className="label-100">Season Number</label>
-                              <input type="number"
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Season Number
+                              </label>
+                              <input
+                                type="number"
                                 className="form-control input-field"
                                 name="number"
-                                onChange={(e) => setSeasonData({ ...seasonData, "number": e.target.value })}
+                                onChange={(e) =>
+                                  setSeasonData({
+                                    ...seasonData,
+                                    number: e.target.value,
+                                  })
+                                }
                               />
                             </div>
                           </div>
@@ -123,7 +126,12 @@ function AddSeason(props) {
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group">
-                              <label for="basicpill-phoneno-input" className="label-100">Launch Date</label>
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Launch Date
+                              </label>
                               <div className="input-group">
                                 {/* <input type="text" className="form-control input-field" data-provide="datepicker" data-date-format="dd M, yyyy" data-date-autoclose="true"/> */}
                                 <ReactDatePicker
@@ -134,13 +142,20 @@ function AddSeason(props) {
                                       ...lession,
                                       launchDate: date,
                                     });
-                                    setSeasonData({ ...seasonData, "launchDate": date.toISOString() }
-
-                                    );
+                                    setSeasonData({
+                                      ...seasonData,
+                                      launchDate: date.toISOString(),
+                                    });
                                   }}
                                 />
                                 <div className="input-group-append">
-                                  <span className="input-group-text">   <i className="fa fa-calendar" aria-hidden="true"></i></span>
+                                  <span className="input-group-text">
+                                    {" "}
+                                    <i
+                                      className="fa fa-calendar"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -150,25 +165,20 @@ function AddSeason(props) {
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group text-left">
-
                               <Link>
-                                <button type="button"
+                                <button
+                                  type="button"
                                   onClick={submitSeason}
-                                  className="btn btn-success btn-login waves-effect waves-light mr-3">Save</button>
+                                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                                >
+                                  Save
+                                </button>
                               </Link>
-
                             </div>
                           </div>
                         </div>
-
-
                       </form>
-
-
                     </div>
-
-
-
                   </div>
 
                   {/* <!-- end table-responsive --> */}
@@ -176,18 +186,16 @@ function AddSeason(props) {
               </div>
             </div>
           </div>
-
         </div>
         {/* <!-- container-fluid --> */}
       </div>
       {/* <!-- End Page-content --> */}
 
-
       {/* <footer className="footer">
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-12">
-            {new Date().getFullYear()} © TellyTell.
+            {new Date().getFullYear()} © Shoperola.
             </div>
 
           </div>

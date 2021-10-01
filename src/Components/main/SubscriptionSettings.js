@@ -28,7 +28,7 @@ export default function SubscriptionSettings() {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <a href="javascript: void(0);">TellyTell</a>
+                      <a href="javascript: void(0);">Shoperola</a>
                     </li>
                     <li className="breadcrumb-item active">
                       Subscription Settings
@@ -45,7 +45,9 @@ export default function SubscriptionSettings() {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12">
-                      <h1 className="text-left head-small">Subscription Plans</h1>
+                      <h1 className="text-left head-small">
+                        Subscription Plans
+                      </h1>
 
                       <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-6 mb-20">
@@ -613,12 +615,12 @@ export default function SubscriptionSettings() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-12">
-              <script>document.write(new Date().getFullYear());</script>© TellyTell.
+              <script>document.write(new Date().getFullYear());</script>© Shoperola.
             </div>
           </div>
         </div>
       </footer> */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

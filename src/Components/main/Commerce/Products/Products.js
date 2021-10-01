@@ -84,7 +84,7 @@ function Products(props) {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <Link to="/dashboard">TellyTell</Link>
+                      <Link to="/dashboard">Shoperola</Link>
                     </li>
                     <li className="breadcrumb-item">Commerce - Products</li>
                   </ol>
@@ -356,7 +356,7 @@ function Products(props) {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-12">
-                            <script>document.write(new Date().getFullYear())</script> © TellyTell.
+                            <script>document.write(new Date().getFullYear())</script> © Shoperola.
                         </div>
 
                     </div>

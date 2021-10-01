@@ -28,7 +28,7 @@ export default function Requests() {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <a href="javascript: void(0);">TellyTell</a>
+                      <a href="javascript: void(0);">Shoperola</a>
                     </li>
                     <li className="breadcrumb-item active">Requests</li>
                   </ol>
@@ -268,12 +268,12 @@ export default function Requests() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-12">
-              <script>document.write(new Date().getFullYear());</script>© TellyTell.
+              <script>document.write(new Date().getFullYear());</script>© Shoperola.
             </div>
           </div>
         </div>
       </footer> */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

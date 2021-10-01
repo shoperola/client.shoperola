@@ -21,8 +21,10 @@ export default function Sidebar() {
           },
         })
         .then((res) => {
-          if (res.data.data.picture !== "") {
+          console.log(res);
+          if (res.data.data.picture) {
             setLogo(res.data.data.picture);
+            console.log(res.data.data.picture);
           }
         });
     };
@@ -35,10 +37,15 @@ export default function Sidebar() {
       <div className="navbar-brand-box text-center">
         <Link to="/dashboard" className="logo logo-dark">
           <span className="logo-sm">
-            <img src={logo} alt="" height="15" />
+            <img src="/assets/images/logo.png" alt="" height="25" width="50" />
           </span>
           <span className="logo-lg">
-            <img src={logo} alt="" height="25" />
+            <img
+              src="/assets/images/logo.png"
+              alt=""
+              height="40"
+              style={{ paddingRight: 25 }}
+            />
           </span>
         </Link>
 

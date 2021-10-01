@@ -30,7 +30,10 @@ function AddTaxRate() {
   const validateNameHandler = (e) => {
     let flag = true;
     data.forEach((element) => {
-      if (element.tax_name.toString() === e.target.value ||  e.target.value.toString() === "Zero Tax") {
+      if (
+        element.tax_name.toString() === e.target.value ||
+        e.target.value.toString() === "Zero Tax"
+      ) {
         setinputText({
           ...inputText,
           [e.target.name]: "",
@@ -54,7 +57,10 @@ function AddTaxRate() {
   const validateTaxHandler = (e) => {
     let flag = true;
     data.forEach((element) => {
-      if (element.tax_percentage.toString() === e.target.value ||  e.target.value.toString() === "0") {
+      if (
+        element.tax_percentage.toString() === e.target.value ||
+        e.target.value.toString() === "0"
+      ) {
         setinputText({
           ...inputText,
           [e.target.name]: "",
@@ -153,7 +159,7 @@ function AddTaxRate() {
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
-                      <Link to="/dashboard">TellyTell</Link>
+                      <Link to="/dashboard">Shoperola</Link>
                     </li>
                     <li className="breadcrumb-item">
                       Payment Settings - Add New Tax Rate
@@ -168,15 +174,15 @@ function AddTaxRate() {
           <div className="row">
             <div className="col-12">
               <div className="form-group text-right">
-                  <button
-                    type="button"
-                    className="btn btn-success btn-login waves-effect waves-light mr-3"
-                    onClick={submitHandler}
-                    disabled={inputText.name==="" || inputText.rate===""}
-                  >
-                    <ClipLoader loading={loading} size={18} />
-                    {!loading && "Save"}
-                  </button>
+                <button
+                  type="button"
+                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                  onClick={submitHandler}
+                  disabled={inputText.name === "" || inputText.rate === ""}
+                >
+                  <ClipLoader loading={loading} size={18} />
+                  {!loading && "Save"}
+                </button>
                 <Link to="/tax-rates">
                   <button
                     type="button"

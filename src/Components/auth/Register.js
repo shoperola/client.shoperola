@@ -149,7 +149,7 @@ export default function Register() {
             <div className="col-lg-12">
               <div className="text-center">
                 <a
-                  href="https://tellytell.com"
+                  href="https://Shoperola.com"
                   className="mb-5 d-block auth-logo"
                 >
                   <img

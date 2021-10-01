@@ -10,22 +10,22 @@ import { Link } from "react-router-dom";
 import { getAllISOCodes, getParamByParam } from "iso-country-currency";
 
 export default function PaymentSettting() {
-  const [showSubscription,setShowSubscription]=useState(true);
-  const [country,setCountry]=useState("");
-  const [currency,setCurrency]=useState("");
-  const [paypal,setPaypal]=useState({});
-  const [stripe,setStripe]=useState({});
-  const [paymentLink,setPaymentLink]=useState([]);
-  const [enablePayment,setEnablePayment]=useState("");
+  const [showSubscription, setShowSubscription] = useState(true);
+  const [country, setCountry] = useState("");
+  const [currency, setCurrency] = useState("");
+  const [paypal, setPaypal] = useState({});
+  const [stripe, setStripe] = useState({});
+  const [paymentLink, setPaymentLink] = useState([]);
+  const [enablePayment, setEnablePayment] = useState("");
   const { token } = isAutheticated();
-  const [success,setSuccess]=useState(true);
-  const history=useHistory();
-  const [feesMonth,setfeesMonth]=useState(0);
-  const [feesyear,setfeesyear]=useState(0);
-  const [currCountry, setcCurrCountry] = useState('');
+  const [success, setSuccess] = useState(true);
+  const history = useHistory();
+  const [feesMonth, setfeesMonth] = useState(0);
+  const [feesyear, setfeesyear] = useState(0);
+  const [currCountry, setcCurrCountry] = useState("");
 
-  const contCurr = getAllISOCodes()
-  contCurr.sort((a, b)=> a.countryName > b.countryName ? 1 : -1)
+  const contCurr = getAllISOCodes();
+  contCurr.sort((a, b) => (a.countryName > b.countryName ? 1 : -1));
   // const [permissionsGranted,setPermissionsGranted]=useState(false);
   // const [consentStatus,setConsentStatus]=useState(false);
   // const [productIntentId,setProductIntentId]=useState("");
@@ -33,176 +33,184 @@ export default function PaymentSettting() {
   // const [accountStatus,setAccountStatus]=useState("");
   // var merchantId="";
   // var merchantIdInPayPal="";
-  const updateinfo=()=>{
+  const updateinfo = () => {
     console.log(country);
     console.log(currency);
-    const formdata={
-      settings:{
+    const formdata = {
+      settings: {
         currency,
-        country
-      }
-    }
-    axios
-    .put(`${API}/api/user`,formdata, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        country,
       },
-    })
-    .then((response)=>{
-      console.log("user data response",response);
-      setCurrency(response.data.data.settings.currency)
-      setCountry(response.data.data.settings.country)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-  const handleSubcription=()=>{
-    console.log(feesyear);
-    console.log(feesMonth);
-    if(!country || !currency){
-       alert("Please fill currency and country");
-       return;
-    }
-    let formdata;
-    if(showSubscription){
-      formdata={
-        feesPerMonth:feesMonth,
-        feesPerYear:feesyear,
-        settings:{
-          currency,
-          country
-        }
-      }
-    }else{
-        formdata={
-        feesPerMonth:0,
-        feesPerYear:0
-      }
-    }
-    
+    };
     axios
-    .put(`${API}/api/user`,formdata, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response)=>{
-      console.log("user data response",response);
-      setfeesMonth(response.data.data.feesPerMonth)
-      setfeesyear(response.data.data.feesPerYear)
-      setCurrency(response.data.data.settings.currency)
-      setCountry(response.data.data.settings.country)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    
-  }
-  const stripeDisable=()=>{
-    axios
-    .put(`${API}/api/user/payments`,{stripe: {...stripe,ENABLED:false}}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      const getData=response.data.data;
-      //console.log("payment disabled",getData);
-      setStripe(getData.stripe);
-      history.push(`/payment`);
-      
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-  const stripeEnable=()=>{
-    axios
-    .put(`${API}/api/user/payments`,{stripe: {...stripe,ENABLED:true}}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      const getData=response.data.data;
-      //console.log("payment disabled",getData);
-      setStripe(getData.stripe);
-      history.push(`/payment`);
-      
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-  const paypalDisable=()=>{
-    axios
-    .put(`${API}/api/user/payments`,{paypal: {...paypal,ENABLED:false}}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      const getData=response.data.data;
-      //console.log("payment disabled",getData);
-      setPaypal(getData.paypal);
-      history.push(`/payment`);
-      
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-
-  const paypalEnable=()=>{
-    axios
-    .put(`${API}/api/user/payments`,{paypal: {...paypal,ENABLED:true}}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      const getData=response.data.data;
-      //console.log("payment enabled",getData);
-      setPaypal(getData.paypal);
-      history.push(`/payment`);
-      
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  }
- 
-  const updatePayment=(formData)=>{
-    console.log("newformdata",formData);
-    axios
-      .put(`${API}/api/user/payments`,formData, {
+      .put(`${API}/api/user`, formdata, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        const getData=response.data.data;
-        console.log("everything done",getData);
-        setPaypal(getData.paypal)
-        history.push(`/payment`);
-        
+        console.log("user data response", response);
+        setCurrency(response.data.data.settings.currency);
+        setCountry(response.data.data.settings.country);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+  const handleSubcription = () => {
+    console.log(feesyear);
+    console.log(feesMonth);
+    if (!country || !currency) {
+      alert("Please fill currency and country");
+      return;
+    }
+    let formdata;
+    if (showSubscription) {
+      formdata = {
+        feesPerMonth: feesMonth,
+        feesPerYear: feesyear,
+        settings: {
+          currency,
+          country,
+        },
+      };
+    } else {
+      formdata = {
+        feesPerMonth: 0,
+        feesPerYear: 0,
+      };
+    }
 
-  }
-  const linkPaypal=()=>{
-    if(!currency || !country || (feesMonth==0 && feesyear==0)){
+    axios
+      .put(`${API}/api/user`, formdata, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("user data response", response);
+        setfeesMonth(response.data.data.feesPerMonth);
+        setfeesyear(response.data.data.feesPerYear);
+        setCurrency(response.data.data.settings.currency);
+        setCountry(response.data.data.settings.country);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const stripeDisable = () => {
+    axios
+      .put(
+        `${API}/api/user/payments`,
+        { stripe: { ...stripe, ENABLED: false } },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        const getData = response.data.data;
+        //console.log("payment disabled",getData);
+        setStripe(getData.stripe);
+        history.push(`/payment`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const stripeEnable = () => {
+    axios
+      .put(
+        `${API}/api/user/payments`,
+        { stripe: { ...stripe, ENABLED: true } },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        const getData = response.data.data;
+        //console.log("payment disabled",getData);
+        setStripe(getData.stripe);
+        history.push(`/payment`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const paypalDisable = () => {
+    axios
+      .put(
+        `${API}/api/user/payments`,
+        { paypal: { ...paypal, ENABLED: false } },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        const getData = response.data.data;
+        //console.log("payment disabled",getData);
+        setPaypal(getData.paypal);
+        history.push(`/payment`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const paypalEnable = () => {
+    axios
+      .put(
+        `${API}/api/user/payments`,
+        { paypal: { ...paypal, ENABLED: true } },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        const getData = response.data.data;
+        //console.log("payment enabled",getData);
+        setPaypal(getData.paypal);
+        history.push(`/payment`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updatePayment = (formData) => {
+    console.log("newformdata", formData);
+    axios
+      .put(`${API}/api/user/payments`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const getData = response.data.data;
+        console.log("everything done", getData);
+        setPaypal(getData.paypal);
+        history.push(`/payment`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const linkPaypal = () => {
+    if (!currency || !country || (feesMonth == 0 && feesyear == 0)) {
       alert("First update all info like currency ,country and amount");
       return;
     }
@@ -213,21 +221,20 @@ export default function PaymentSettting() {
         },
       })
       .then((response) => {
-        const getData=response.data.links;
-        console.log("paypal link to submit data",getData);
+        const getData = response.data.links;
+        console.log("paypal link to submit data", getData);
         //setPaypal(getData.paypal);
-        window.location.href=getData[1].href;
+        window.location.href = getData[1].href;
         // window.open(getData[1].href,"","width=200,height=100");
         //var myWindow = window.open(getData[1].href, "_blank", "width=800,height=600");
         //let params = new URLSearchParams(window.location.search);
-        
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-  const handleStripeClick=()=>{
-    if(!currency || !country || (feesMonth==0 && feesyear==0)){
+  };
+  const handleStripeClick = () => {
+    if (!currency || !country || (feesMonth == 0 && feesyear == 0)) {
       alert("First update all info like currency ,country and amount");
       return;
     }
@@ -242,45 +249,51 @@ export default function PaymentSettting() {
         },
       })
       .then((response) => {
-        const getData=response.data.url;
-        console.log("payment",getData);
-        window.location.href=getData;
+        const getData = response.data.url;
+        console.log("payment", getData);
+        window.location.href = getData;
         // console.log(response);
-        
-        
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     axios
-    .get(`${API}/api/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response)=>{
-      console.log("user data response",response);
-      setCurrency(response.data.data.settings.currency)
-      setCountry(response.data.data.settings.country)
-      setcCurrCountry(getParamByParam('currency', response.data.data.settings.currency, 'countryName'))
-      if(response.data.data.feesPerMonth==0 && response.data.data.feesPerYear==0){
-        setShowSubscription(false);
-        setfeesyear(response.data.data.feesPerYear);
-        setfeesMonth(response.data.data.feesPerMonth)
-        
-      }
-      if(response.data.data.feesPerMonth || response.data.data.feesPerYear){
-        setShowSubscription(true);
-        setfeesyear(response.data.data.feesPerYear);
-        setfeesMonth(response.data.data.feesPerMonth)
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },[success]);
+      .get(`${API}/api/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("user data response", response);
+        setCurrency(response.data.data.settings.currency);
+        setCountry(response.data.data.settings.country);
+        setcCurrCountry(
+          getParamByParam(
+            "currency",
+            response.data.data.settings.currency,
+            "countryName"
+          )
+        );
+        if (
+          response.data.data.feesPerMonth == 0 &&
+          response.data.data.feesPerYear == 0
+        ) {
+          setShowSubscription(false);
+          setfeesyear(response.data.data.feesPerYear);
+          setfeesMonth(response.data.data.feesPerMonth);
+        }
+        if (response.data.data.feesPerMonth || response.data.data.feesPerYear) {
+          setShowSubscription(true);
+          setfeesyear(response.data.data.feesPerYear);
+          setfeesMonth(response.data.data.feesPerMonth);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [success]);
   useEffect(() => {
     axios
       .get(`${API}/api/user/payments`, {
@@ -290,44 +303,44 @@ export default function PaymentSettting() {
       })
       .then((response) => {
         //setFeatured(response);
-        const getData=response.data.data;
+        const getData = response.data.data;
         //console.log("token",token);
-        console.log("payment",getData);
+        console.log("payment", getData);
         setPaypal(getData.paypal);
         setStripe(getData.stripe);
-        
+
         //console.log(params);
         console.log(window.location);
-        let link=window.location.href.split("?")[1];
+        let link = window.location.href.split("?")[1];
         let params = new URLSearchParams(link);
-        let jsobject={};
-        for(let pair of params.entries()){
-          jsobject[pair[0]]=pair[1];
+        let jsobject = {};
+        for (let pair of params.entries()) {
+          jsobject[pair[0]] = pair[1];
         }
-        console.log("jsobjecthere",jsobject);
-        const newObject = {paypal: {...jsobject,ENABLED:true}}
+        console.log("jsobjecthere", jsobject);
+        const newObject = { paypal: { ...jsobject, ENABLED: true } };
         //let formData = new FormData();
-        console.log("here new object",newObject);
-        let count=0;
+        console.log("here new object", newObject);
+        let count = 0;
         for (let pair of params.entries()) {
           //formData.append(pair[0],pair[1]);
           count++;
         }
         //console.log(formData);
-        console.log(count,newObject);
-        if(count>0){
+        console.log(count, newObject);
+        if (count > 0) {
           updatePayment(newObject);
-        } 
+        }
       })
       .catch((err) => {
         console.log(err);
       });
-  },[success]);
+  }, [success]);
 
-  const handleCurrency = e => {
-    setCurrency(getParamByParam('countryName', e.target.value, 'currency'))
-    setcCurrCountry(e.target.value)
-  }
+  const handleCurrency = (e) => {
+    setCurrency(getParamByParam("countryName", e.target.value, "currency"));
+    setcCurrCountry(e.target.value);
+  };
 
   return (
     <>
@@ -384,9 +397,7 @@ export default function PaymentSettting() {
                       className="form-control input-field"
                     >
                       <option value="">--select--</option>
-                      <option value="" >
-                        Individual
-                      </option>
+                      <option value="">Individual</option>
                     </select>
                   </div>
                 </div>
@@ -471,9 +482,11 @@ export default function PaymentSettting() {
                   <div className="page-title-right">
                     <ol className="breadcrumb m-0">
                       <li className="breadcrumb-item">
-                        <Link to="/dashboard">TellyTell</Link>
+                        <Link to="/dashboard">Shoperola</Link>
                       </li>
-                      <li className="breadcrumb-item active">Payment Settings</li>
+                      <li className="breadcrumb-item active">
+                        Payment Settings
+                      </li>
                     </ol>
                   </div>
                 </div>
@@ -486,7 +499,9 @@ export default function PaymentSettting() {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-md-12 col-lg-6 col-xl-6">
-                        <h1 className="text-left head-small">Payment Settings</h1>
+                        <h1 className="text-left head-small">
+                          Payment Settings
+                        </h1>
 
                         <form>
                           <div className="row">
@@ -502,11 +517,16 @@ export default function PaymentSettting() {
                                   name="currency"
                                   value={country}
                                   className="form-control input-field"
-                                  onChange={(e)=>setCountry(e.target.value)}
+                                  onChange={(e) => setCountry(e.target.value)}
                                 >
-                                  {country==="" && <option value="">--select--</option>}
-                                  {contCurr.map(item => (
-                                    <option key={item.iso} value={item.currency}>
+                                  {country === "" && (
+                                    <option value="">--select--</option>
+                                  )}
+                                  {contCurr.map((item) => (
+                                    <option
+                                      key={item.iso}
+                                      value={item.currency}
+                                    >
                                       {item.countryName}
                                     </option>
                                   ))}
@@ -534,16 +554,21 @@ export default function PaymentSettting() {
                                   Select the currency in which you would like to
                                   accept your payments
                                 </label>
-                                
+
                                 <select
                                   name="currency"
                                   value={currCountry}
                                   className="form-control input-field"
                                   onChange={handleCurrency}
                                 >
-                                  {currency==="" && <option value="">--select--</option>}
-                                  {contCurr.map(item => (
-                                    <option key={item.iso} value={item.countryName}>
+                                  {currency === "" && (
+                                    <option value="">--select--</option>
+                                  )}
+                                  {contCurr.map((item) => (
+                                    <option
+                                      key={item.iso}
+                                      value={item.countryName}
+                                    >
                                       {item.countryName} ({item.currency})
                                     </option>
                                   ))}
@@ -571,17 +596,17 @@ export default function PaymentSettting() {
                             <div className="col-lg-12">
                               <div className="form-group text-left">
                                 {/* <a href="index.html"> */}
-                                  <button
-                                    type="button"
-                                    onClick={updateinfo}
-                                    className="
+                                <button
+                                  type="button"
+                                  onClick={updateinfo}
+                                  className="
                                       btn btn-success btn-login
                                       waves-effect waves-light
                                       mr-3
                                     "
-                                  >
-                                    Update
-                                  </button>
+                                >
+                                  Update
+                                </button>
                                 {/* </a> */}
                               </div>
                             </div>
@@ -594,86 +619,170 @@ export default function PaymentSettting() {
                   </div>
                 </div>
               </div>
-{/* <!-- Begining of Table subscription settings--> */}
-	<div className="col-lg-12">
-		<div className="card">
-			<div className="card-body">
-				<div className="row">
-					<div className="col-md-12 col-lg-6 col-xl-6">
-					<h1 className="text-left head-small">Subscription Settings</h1>
-					<form>
-					<div className="row">
-						<div className="col-lg-12">
-						<div className="form-group">
-						<label for="basicpill-phoneno-input" className="label-100">Enable Subscription for the Subscribers</label><br/>If yes, is selected. Display the amounts for 1 and 12 months
-						<div className="full-w">
-              <span className="custom-control custom-radio mb-3 d-inline-block mr-5">
-							{showSubscription && 
-              <input type="radio" checked="checked" id="customRadio1" name="customRadio" className="custom-control-input" onClick={()=>setShowSubscription(true)}/>
-              }
-              {!showSubscription && 
-              <input type="radio" id="customRadio1" name="customRadio" className="custom-control-input" onClick={()=>setShowSubscription(true)}/>
-              }
-							<label className="custom-control-label" for="customRadio1">Yes</label>
-							</span>
-              <span className="custom-control custom-radio mb-3 d-inline-block  mr-5">
-							{!showSubscription && 
-              <input type="radio" checked="checked" id="customRadio2" name="customRadio" className="custom-control-input" onClick={()=>setShowSubscription(false)}/>
-              }
-              {showSubscription && 
-              <input type="radio" id="customRadio2" name="customRadio" className="custom-control-input" onClick={()=>{setShowSubscription(false)}}/>
-              }
-							<label className="custom-control-label" for="customRadio2">No</label>
-							</span>
-						</div>
-						</div>
-						</div>
-					</div>					
-					{showSubscription && 
-          <div className="row">
-          <div className="col-lg-12">
-          <div className="form-group">
-          <label for="basicpill-phoneno-input" className="label-100">Subscription Amount for 1 month</label>
-          <input className="form-control input-field" value={feesMonth} onChange={(e)=>setfeesMonth(e.target.value)}/>
-          </div>
-          </div>
-        </div>
-          }
-					{showSubscription && 
-          <div className="row">
-          <div className="col-lg-12">
-          <div className="form-group">
-          <label for="basicpill-phoneno-input" className="label-100">Subscription Amount for 12 months</label>
-          <input className="form-control input-field" value={feesyear} onChange={(e)=>setfeesyear(e.target.value)}/>
-          </div>
-          </div>
-        </div>
-          }					
+              {/* <!-- Begining of Table subscription settings--> */}
+              <div className="col-lg-12">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12 col-lg-6 col-xl-6">
+                        <h1 className="text-left head-small">
+                          Subscription Settings
+                        </h1>
+                        <form>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  for="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Enable Subscription for the Subscribers
+                                </label>
+                                <br />
+                                If yes, is selected. Display the amounts for 1
+                                and 12 months
+                                <div className="full-w">
+                                  <span className="custom-control custom-radio mb-3 d-inline-block mr-5">
+                                    {showSubscription && (
+                                      <input
+                                        type="radio"
+                                        checked="checked"
+                                        id="customRadio1"
+                                        name="customRadio"
+                                        className="custom-control-input"
+                                        onClick={() =>
+                                          setShowSubscription(true)
+                                        }
+                                      />
+                                    )}
+                                    {!showSubscription && (
+                                      <input
+                                        type="radio"
+                                        id="customRadio1"
+                                        name="customRadio"
+                                        className="custom-control-input"
+                                        onClick={() =>
+                                          setShowSubscription(true)
+                                        }
+                                      />
+                                    )}
+                                    <label
+                                      className="custom-control-label"
+                                      for="customRadio1"
+                                    >
+                                      Yes
+                                    </label>
+                                  </span>
+                                  <span className="custom-control custom-radio mb-3 d-inline-block  mr-5">
+                                    {!showSubscription && (
+                                      <input
+                                        type="radio"
+                                        checked="checked"
+                                        id="customRadio2"
+                                        name="customRadio"
+                                        className="custom-control-input"
+                                        onClick={() =>
+                                          setShowSubscription(false)
+                                        }
+                                      />
+                                    )}
+                                    {showSubscription && (
+                                      <input
+                                        type="radio"
+                                        id="customRadio2"
+                                        name="customRadio"
+                                        className="custom-control-input"
+                                        onClick={() => {
+                                          setShowSubscription(false);
+                                        }}
+                                      />
+                                    )}
+                                    <label
+                                      className="custom-control-label"
+                                      for="customRadio2"
+                                    >
+                                      No
+                                    </label>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {showSubscription && (
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Subscription Amount for 1 month
+                                  </label>
+                                  <input
+                                    className="form-control input-field"
+                                    value={feesMonth}
+                                    onChange={(e) =>
+                                      setfeesMonth(e.target.value)
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          {showSubscription && (
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Subscription Amount for 12 months
+                                  </label>
+                                  <input
+                                    className="form-control input-field"
+                                    value={feesyear}
+                                    onChange={(e) =>
+                                      setfeesyear(e.target.value)
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
 
-					<div className="row">
-						<div className="col-lg-12">
-							<div className="form-group text-left">
-							{/* <a href="index.html"> */}
-							<button type="button" className="btn btn-success btn-login waves-effect waves-light mr-3" onClick={handleSubcription}>Update</button>
-							{/* </a> */}
-							</div>
-						</div>
-					</div>
-					</form>
-					</div>
-				</div>
-			{/* <!-- end table-responsive --> */}
-			</div>
-		</div>
-	</div>
-	{/* <!-- End of Table subcription settings--> */}
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group text-left">
+                                {/* <a href="index.html"> */}
+                                <button
+                                  type="button"
+                                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                                  onClick={handleSubcription}
+                                >
+                                  Update
+                                </button>
+                                {/* </a> */}
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    {/* <!-- end table-responsive --> */}
+                  </div>
+                </div>
+              </div>
+              {/* <!-- End of Table subcription settings--> */}
 
               <div className="col-lg-12">
                 <div className="card">
                   <div className="card-body">
                     <div className="row">
                       <div className="col-md-12 col-lg-8 col-xl-8">
-                        <h1 className="text-left head-small">Payment Methods</h1>
+                        <h1 className="text-left head-small">
+                          Payment Methods
+                        </h1>
 
                         <div className="row">
                           <div className="col-lg-12">
@@ -712,7 +821,10 @@ export default function PaymentSettting() {
 
                             <div className="method-row">
                               <span className="method-icon">
-                                <img src="assets/images/icons/stripe-icon.png" alt=""/>
+                                <img
+                                  src="assets/images/icons/stripe-icon.png"
+                                  alt=""
+                                />
                               </span>
                               <span className="method-text">
                                 <h1>Stripe</h1>
@@ -723,21 +835,25 @@ export default function PaymentSettting() {
                               </span>
 
                               <span className="method-btn">
-                              {(!stripe.details_submitted || !stripe.ENABLED) &&
-                                <button className="btn btn-info" 
-                                data-toggle="modal"
-                                onClick={handleStripeClick}
-                                >Link
-                                </button>
-
-                                }
-                                {stripe.ENABLED && stripe.details_submitted && 
-                                <button className="btn btn-info" 
-                                style={{backgroundColor:"red"}}
-                                onClick={stripeDisable}
-                                >Disable
-                                </button>
-                                }
+                                {(!stripe.details_submitted ||
+                                  !stripe.ENABLED) && (
+                                  <button
+                                    className="btn btn-info"
+                                    data-toggle="modal"
+                                    onClick={handleStripeClick}
+                                  >
+                                    Link
+                                  </button>
+                                )}
+                                {stripe.ENABLED && stripe.details_submitted && (
+                                  <button
+                                    className="btn btn-info"
+                                    style={{ backgroundColor: "red" }}
+                                    onClick={stripeDisable}
+                                  >
+                                    Disable
+                                  </button>
+                                )}
                                 {/* {!stripe.ENABLED && stripe.details_submitted &&
                                  <button className="btn btn-info" 
                                  data-toggle="modal"
@@ -745,7 +861,7 @@ export default function PaymentSettting() {
                                  >Enable
                                  </button>
                                 } */}
-                              {/* {!(Object.keys(stripe).length === 0 && stripe.constructor === Object) && 
+                                {/* {!(Object.keys(stripe).length === 0 && stripe.constructor === Object) && 
                                 <button className="btn btn-info" 
                                 disabled 
                                 style={{backgroundColor:"red"}}
@@ -760,7 +876,7 @@ export default function PaymentSettting() {
                                  </button>
                                 } */}
                                 {/* <div className="dropdown"> */}
-                                  {/* <button
+                                {/* <button
                                     className="btn btn-info"
                                     type="button"
                                     id="dropdownMenuButton"
@@ -772,7 +888,7 @@ export default function PaymentSettting() {
                                     Enable
                                   </button> */}
 
-                                  {/* <div
+                                {/* <div
                                     className="dropdown-menu"
                                     aria-labelledby="dropdownMenuButton"
                                   >
@@ -831,7 +947,6 @@ export default function PaymentSettting() {
                                    Enable
                                  </button>
                                 } */}
-                                
                               </span>
                             </div>
                           </div>
@@ -850,12 +965,12 @@ export default function PaymentSettting() {
             <div className="row">
               <div className="col-sm-12">
                 <script>document.write(new Date().getFullYear());</script>©
-                TellyTell.
+                Shoperola.
               </div>
             </div>
           </div>
         </footer> */}
-        <Footer/>
+        <Footer />
       </div>
     </>
   );
