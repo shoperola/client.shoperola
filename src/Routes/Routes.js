@@ -400,12 +400,12 @@ export default function Routes() {
           <PrivateRoute
             component={OrdMngOrder}
             exact
-            path="/orders/:status"
+            path="/orders"
           ></PrivateRoute>
           <PrivateRoute
             component={OrdMngOrderEdit}
             exact
-            path="/orders/:status/:id"
+            path="/orders/:id"
           ></PrivateRoute>
 
           {/* payments  */}
