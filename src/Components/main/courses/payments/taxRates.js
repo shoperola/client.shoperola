@@ -12,7 +12,7 @@ function TaxRates(props) {
   const [data, setdata] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      let res = await axios.get(`${API}/api/tax_rates/view_taxs`, {
+      let res = await axios.get(`${API}/api/tax_rates`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -22,8 +22,8 @@ function TaxRates(props) {
     fetchData();
   }, [token]);
   const handleDelete = async (id) => {
-    let res = await axios.post(
-      `${API}/api/product/count_delete_tax/${id}`,
+    let res = await axios.delete(
+      `${API}/api/tax_rates/${id}`,
       {},
       {
         headers: {
@@ -47,8 +47,8 @@ function TaxRates(props) {
       },
     });
     if (done === "Confirm") {
-      let res = await axios.post(
-        `${API}/api/product/count_delete_tax/${id}`,
+      let res = await axios.delete(
+        `${API}/api/product/api/tax_rates/${id}`,
         {
           flag: "true",
         },

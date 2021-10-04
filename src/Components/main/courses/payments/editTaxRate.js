@@ -18,7 +18,7 @@ function EditTaxRate() {
   });
   useEffect(() => {
     async function fetchData() {
-      let res = await axios.get(`${API}/api/tax_rates/view_taxs`, {
+      let res = await axios.get(`${API}/api/tax_rates`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -31,7 +31,7 @@ function EditTaxRate() {
 
   useEffect(() => {
     const getData = async () => {
-      let res = await axios.get(`${API}/api/tax_rates/view_tax/${id}`, {
+      let res = await axios.get(`${API}/api/tax_rates/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -109,7 +109,7 @@ function EditTaxRate() {
     e.preventDefault();
     setLoading(true);
     let res = await axios.patch(
-      `${API}/api/tax_rates/update_tax/${id}`,
+      `${API}/api/tax_rates/${id}`,
       {
         tax_name: inputInitialText.tax_name,
         tax_percentage: inputInitialText.tax_percentage,
