@@ -70,7 +70,7 @@ import SettingText from "../Components/main/settings/Text";
 import SettingTextEdit from "../Components/main/settings/TextEdit";
 import SettingAddress from "../Components/main/settings/Address";
 import SettingLogo from "../Components/main/settings/Logo";
-import SettingMobileTV from "../Components/main/settings/MobileTV";
+import settingsApps from "../Components/main/settings/Apps";
 
 // Orders
 import OrdMngOrder from "../Components/main/ordersManagement/Orders";
@@ -385,7 +385,7 @@ export default function Routes() {
             path="/settings/logo"
           ></PrivateRoute>
           <PrivateRoute
-            component={SettingMobileTV}
+            component={settingsApps}
             exact
             path="/settings/mobile-tv"
           ></PrivateRoute>

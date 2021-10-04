@@ -7,7 +7,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const MobileTV = () => {
+const Apps = () => {
   const { token } = isAutheticated();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -220,16 +220,14 @@ const MobileTV = () => {
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">Mobile and TV Apps</h4>
+                <h4 className="mb-0">Apps</h4>
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">Shoperola</Link>
                     </li>
-                    <li className="breadcrumb-item active">
-                      Mobile and TV Apps
-                    </li>
+                    <li className="breadcrumb-item active">Apps</li>
                   </ol>
                 </div>
               </div>
@@ -243,27 +241,6 @@ const MobileTV = () => {
                   <div className="row">
                     <div className="col-md-12 col-lg-9 col-xl-7">
                       <form>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Android Mobile App Name
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={androidMobName}
-                                onChange={(e) => handleEdit(e, "androidapp")}
-                              />
-                              <p className="pt-1 pl-2 text-secondary">
-                                Remaining words : {wordAndroidMobName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
                         <div className="row">
                           <div className="col-lg-12">
                             <div className="form-group mb-30 width-100 row">
@@ -297,32 +274,9 @@ const MobileTV = () => {
 
                         <div className="row">
                           <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                iOS Mobile App Name
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={iosMobName}
-                                onChange={(e) => handleEdit(e, "iosapp")}
-                              />
-                              <p className="pt-1 pl-2 text-secondary">
-                                Remaining words : {wordIosMobName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
                             <div className="form-group mb-30 width-100 row">
                               <label className="col-md-4 control-label">
-                                Upload App Icon for iOS Mobile App
-                                <br />
-                                <span className="size">(512 x 512 px)</span>
+                                Upload Splash Screen
                               </label>
                               <div className="col-md-8">
                                 <input
@@ -340,162 +294,6 @@ const MobileTV = () => {
                                     }}
                                     alt="200x200"
                                     src={iosMobIconUrl}
-                                  />
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Android TV App Name
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={androidTVName}
-                                onChange={(e) => handleEdit(e, "androidtv")}
-                              />
-                              <p className="pt-1 pl-2 text-secondary">
-                                Remaining words : {wordAndroidTVName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
-                                Upload App Icon for Android TV App
-                                <br />
-                                <span className="size">(512 x 512 px)</span>
-                              </label>
-                              <div className="col-md-8">
-                                <input
-                                  type="file"
-                                  className="form-control input-field"
-                                  onChange={(e) => handleFile(e, "androidtv")}
-                                  accept="image/*"
-                                />
-                                {androidTVIconUrl && (
-                                  <img
-                                    className="img-fluid mt-2"
-                                    style={{
-                                      width: "235px",
-                                      height: "125px",
-                                    }}
-                                    alt="200x200"
-                                    src={androidTVIconUrl}
-                                  />
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Apple TV App Name
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={appleTVName}
-                                onChange={(e) => handleEdit(e, "appletv")}
-                              />
-                              <p className="pt-1 pl-2 text-secondary">
-                                Remaining words : {wordAppleTVName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
-                                Upload App Icon for Apple TV App
-                                <br />
-                                <span className="size">(512 x 512 px)</span>
-                              </label>
-                              <div className="col-md-8">
-                                <input
-                                  type="file"
-                                  className="form-control input-field"
-                                  onChange={(e) => handleFile(e, "appletv")}
-                                  accept="image/*"
-                                />
-                                {appleTVIconUrl && (
-                                  <img
-                                    className="img-fluid mt-2"
-                                    style={{
-                                      width: "235px",
-                                      height: "125px",
-                                    }}
-                                    alt="200x200"
-                                    src={appleTVIconUrl}
-                                  />
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                FireOS TV App Name
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={fireTVName}
-                                onChange={(e) => handleEdit(e, "fireostv")}
-                              />
-                              <p className="pt-1 pl-2 text-secondary">
-                                Remaining words : {wordFireTVName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
-                                Upload App Icon for FireOS TV App
-                                <br />
-                                <span className="size">(512 x 512 px)</span>
-                              </label>
-                              <div className="col-md-8">
-                                <input
-                                  type="file"
-                                  className="form-control input-field"
-                                  onChange={(e) => handleFile(e, "fireostv")}
-                                  accept="image/*"
-                                />
-                                {fireTVIconUrl && (
-                                  <img
-                                    className="img-fluid mt-2"
-                                    style={{
-                                      width: "235px",
-                                      height: "125px",
-                                    }}
-                                    alt="200x200"
-                                    src={fireTVIconUrl}
                                   />
                                 )}
                               </div>
@@ -539,4 +337,4 @@ const MobileTV = () => {
   );
 };
 
-export default MobileTV;
+export default Apps;

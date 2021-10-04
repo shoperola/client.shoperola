@@ -180,7 +180,7 @@ export default function Sidebar() {
                   <Link to="/settings/logo">Logo</Link>
                 </li>
                 <li>
-                  <Link to="/settings/mobile-tv">Mobile and TV Apps</Link>
+                  <Link to="/settings/mobile-tv">Apps</Link>
                 </li>
               </ul>
             </li>
