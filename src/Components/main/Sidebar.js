@@ -116,6 +116,9 @@ export default function Sidebar() {
                 <li>
                   <Link to="/racks">Racks</Link>
                 </li>
+                <li>
+                  <Link to="/access-details">Access Details</Link>
+                </li>
               </ul>
             </li>
 
@@ -183,7 +186,7 @@ export default function Sidebar() {
                   <Link to="/settings/logo">Logo</Link>
                 </li>
                 <li>
-                  <Link to="/settings/mobile-tv">Apps</Link>
+                  <Link to="/settings/apps">Apps</Link>
                 </li>
               </ul>
             </li>

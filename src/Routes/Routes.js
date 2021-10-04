@@ -76,8 +76,9 @@ import settingsApps from "../Components/main/settings/Apps";
 import OrdMngOrder from "../Components/main/ordersManagement/Orders";
 import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 
-// Racks
-import Racks from "../Components/main/Vending Machine/Racks/Racks";
+// Vending Machine
+import Racks from "../Components/main/VendingMachine/Racks/Racks";
+import AccessDetails from "../Components/main/VendingMachine/AccessDetails/AccessDetails";
 
 const { token } = isAutheticated();
 
@@ -339,6 +340,11 @@ export default function Routes() {
             path="/categories/add"
           ></PrivateRoute>
           <PrivateRoute component={Racks} exact path="/racks"></PrivateRoute>
+          <PrivateRoute
+            component={AccessDetails}
+            exact
+            path="/access-details"
+          ></PrivateRoute>
           {/* coupons */}
           <PrivateRoute
             component={AllCoupons}
@@ -387,7 +393,7 @@ export default function Routes() {
           <PrivateRoute
             component={settingsApps}
             exact
-            path="/settings/mobile-tv"
+            path="/settings/apps"
           ></PrivateRoute>
 
           {/* Orders Management */}

@@ -218,28 +218,6 @@ const Profile = () => {
                                 for="basicpill-phoneno-input"
                                 className="label-100"
                               >
-                                Application Name
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={appName}
-                                onChange={(e) => handleEdit(e, "appName")}
-                              />
-                              <p className="pt-1 pl-2 text-secondary">
-                                Remaining words : {wordAppName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
                                 First Name
                               </label>
                               <input
@@ -292,50 +270,6 @@ const Profile = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                               />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Email to Send
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control input-field"
-                                value={updatedEmailToSend}
-                                onChange={(e) =>
-                                  setUpdatedEmailToSend(e.target.value)
-                                }
-                              />
-                              {isVerified ? (
-                                <div className="pt-1 text-right">
-                                  <span className="badge badge-pill badge-success font-size-14">
-                                    Verified
-                                  </span>
-                                </div>
-                              ) : (
-                                <div className="pt-1 text-right">
-                                  <span className="badge badge-pill badge-danger font-size-14">
-                                    Not Verified
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      sendVerification(updatedEmailToSend);
-                                      alert("Verification send!");
-                                    }}
-                                    className="btn-secondary btn-sm ml-2 font-size-14"
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    Send Verification Again!
-                                  </span>
-                                </div>
-                              )}
                             </div>
                           </div>
                         </div>

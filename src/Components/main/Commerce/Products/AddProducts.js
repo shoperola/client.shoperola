@@ -977,55 +977,33 @@ function AddProducts(props) {
                             </div>
                           </div>
                         </div>
+
                         <div className="row">
                           <div className="col-lg-4">
-                            <div className="custom-control custom-checkbox mb-2">
+                            <div className="form-group">
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Quantity Available*
+                              </label>
                               <input
-                                name="track_quantity"
-                                onChange={handleChangeCheckBox}
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="genre1"
+                                name="quantity"
+                                onChange={(e) => editHandler(e, "quantity")}
+                                value={state.quantity}
+                                type="text"
+                                className="form-control input-field"
                                 disabled={variantChecked}
                               />
                               <label
-                                className="custom-control-label"
-                                htmlFor="genre1"
+                                for="basicpill-phoneno-input"
+                                className="label-100"
                               >
-                                Track Quantity
+                                Remaining words : {quantityLen}
                               </label>
                             </div>
                           </div>
                         </div>
-
-                        {state.track_quantity && (
-                          <div className="row">
-                            <div className="col-lg-4">
-                              <div className="form-group">
-                                <label
-                                  for="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Quantity Available*
-                                </label>
-                                <input
-                                  name="quantity"
-                                  onChange={(e) => editHandler(e, "quantity")}
-                                  value={state.quantity}
-                                  type="text"
-                                  className="form-control input-field"
-                                  disabled={variantChecked}
-                                />
-                                <label
-                                  for="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Remaining words : {quantityLen}
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </form>
                     </div>
                   </div>

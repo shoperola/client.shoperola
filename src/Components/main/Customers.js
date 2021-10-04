@@ -56,14 +56,14 @@ export default function Subscribers() {
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">Subscribers</h4>
+                <h4 className="mb-0">Customers</h4>
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">Shoperola</Link>
                     </li>
-                    <li className="breadcrumb-item active">Subscribers</li>
+                    <li className="breadcrumb-item active">Customers</li>
                   </ol>
                 </div>
               </div>
@@ -102,10 +102,9 @@ export default function Subscribers() {
                       <thead className="thead-light">
                         <tr>
                           <th>Name</th>
-                          <th>Email</th>
-                          <th>Subscription Amount </th>
+                          <th>Mobile Number</th>
+                          <th>Orders</th>
                           <th>Joined On</th>
-                          <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
