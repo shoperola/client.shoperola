@@ -41,7 +41,7 @@ const TextEdit = () => {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/user/configtext/${id}`, {
+        .get(`${API}/api/text/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,7 +66,7 @@ const TextEdit = () => {
     const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     axios
       .put(
-        `${API}/api/user/updatetext/${id}`,
+        `${API}/api/text/${id}`,
         {
           Text: text,
         },
@@ -90,7 +90,7 @@ const TextEdit = () => {
         setIsLoading(false);
 
         if (done === "Done") {
-          history.push("/configuration/text");
+          history.push("/settings/text");
         }
       })
       .catch((error) => {
@@ -135,7 +135,7 @@ const TextEdit = () => {
                 <button
                   type="button"
                   className="btn btn-success btn-cancel waves-effect waves-light mr-3"
-                  onClick={() => history.push("/configuration/text")}
+                  onClick={() => history.push("/settings/text")}
                 >
                   Cancel
                 </button>

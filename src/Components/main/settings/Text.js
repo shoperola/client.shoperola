@@ -13,7 +13,7 @@ const Text = () => {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/user/viewalltext`, {
+        .get(`${API}/api/text`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,7 +34,7 @@ const Text = () => {
     }
 
     axios
-      .delete(`${API}/api/user/deletetext/${id}`, {
+      .delete(`${API}/api/text/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

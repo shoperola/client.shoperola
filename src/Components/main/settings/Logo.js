@@ -13,18 +13,22 @@ const ConfigLogo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [logoEmpty, setLogoEmpty] = useState(false);
 
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/user`, {
+        .get(`${API}/api/logo`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          if (res.data.data.picture !== "") {
-            setImageUrl(res.data.data.picture);
+          console.log(res);
+          if (res.data.data.logo !== "") {
+            setImageUrl(res.data.data[0].logo);
+          } else {
+            setLogoEmpty(true);
           }
         });
     };
@@ -47,31 +51,59 @@ const ConfigLogo = () => {
     }
     setIsLoading(true);
     const formdata = new FormData();
-    formdata.append("picture", image);
-    axios
-      .put(`${API}/api/user/profile`, formdata, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (res) => {
-        const done = await swal({
-          title: "Saved Successfully!",
-          icon: "success",
-          buttons: {
-            Done: {
-              text: "Done",
-              value: "Done",
-            },
+    formdata.append("file", image);
+
+    if (logoEmpty) {
+      axios
+        .put(`${API}/api/logo`, formdata, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
+        })
+        .then(async (res) => {
+          const done = await swal({
+            title: "Saved Successfully!",
+            icon: "success",
+            buttons: {
+              Done: {
+                text: "Done",
+                value: "Done",
+              },
+            },
+          });
+          setIsLoading(false);
+          window.location.reload();
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error);
         });
-        setIsLoading(false);
-        window.location.reload();
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log(error);
-      });
+    } else {
+      axios
+        .patch(`${API}/api/logo`, formdata, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (res) => {
+          const done = await swal({
+            title: "Saved Successfully!",
+            icon: "success",
+            buttons: {
+              Done: {
+                text: "Done",
+                value: "Done",
+              },
+            },
+          });
+          setIsLoading(false);
+          window.location.reload();
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
   };
 
   return (

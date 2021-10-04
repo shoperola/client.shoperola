@@ -15,16 +15,15 @@ export default function Sidebar() {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/user`, {
+        .get(`${API}/api/logo`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
           console.log(res);
-          if (res.data.data.picture) {
-            setLogo(res.data.data.picture);
-            console.log(res.data.data.picture);
+          if (res.data.data[0].logo) {
+            setLogo(res.data.data[0].logo);
           }
         });
     };
@@ -37,15 +36,10 @@ export default function Sidebar() {
       <div className="navbar-brand-box text-center">
         <Link to="/dashboard" className="logo logo-dark">
           <span className="logo-sm">
-            <img src="/assets/images/logo.png" alt="" height="25" width="50" />
+            <img src={logo} alt="" height="25" width="50" />
           </span>
           <span className="logo-lg">
-            <img
-              src="/assets/images/logo.png"
-              alt=""
-              height="40"
-              style={{ paddingRight: 25 }}
-            />
+            <img src={logo} alt="" height="40" style={{ paddingRight: 25 }} />
           </span>
         </Link>
 
