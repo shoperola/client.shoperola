@@ -84,7 +84,7 @@ function AddProducts(props) {
 
   useEffect(() => {
     async function fetchData() {
-      let res = await axios.get(`${API}/api/tax_rates/view_taxs`, {
+      let res = await axios.get(`${API}/api/tax_rates`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

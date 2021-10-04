@@ -46,13 +46,6 @@ function Editproducts(props) {
     tax: "",
   });
 
-  const [variantChecked, setVariantChecked] = useState(false);
-  const [optionList, setOptionList] = useState([{ name: "", value: [] }]);
-  const [variants, setVariants] = useState([]);
-  const [variantId, setVariantId] = useState("");
-  const [variantEdited, setVariantEdited] = useState(false);
-  const [originalVariants, setOriginalVariants] = useState([]);
-
   const wordLimit = {
     title: 40,
     description: 200,
@@ -107,75 +100,24 @@ function Editproducts(props) {
     window.location = "/comproducts";
   };
 
-  const handleVariants = () => {
-    const formdata = new FormData();
-
-    optionList.map((item) => {
-      formdata.append("options", item.name);
-    });
-    optionList.map((item) => {
-      formdata.append("value", item.value);
-    });
-
-    variants.map((item) => {
-      formdata.append("variant_title", item.variant);
-      formdata.append("variant_price", parseInt(item.price));
-      formdata.append("variant_quantity", parseInt(item.quantity));
-      formdata.append("variant_sku", parseInt(item.SKU));
-      formdata.append("file", item.image);
-    });
-
-    axios
-      .put(`${API}/api/product/update_variant/${variantId}`, formdata, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        window.location = "/comproducts";
-      })
-      .catch((error) => {
-        alert("Editing product failed");
-        console.log(error);
-      });
-  };
-
   const handleSubmit = async () => {
-    if (checkAllVariants()) {
-      alert("Please enter correct values in variant");
-      return;
-    }
-
     const formdata = new FormData();
     setLoading(true);
     formdata.append("title", state.title);
     formdata.append("description", state.description);
     formdata.append("category_id", state.category);
     formdata.append("image", state.image);
-    // formdata.append("price", state.price);IDIB000C536
-    // formdata.append("sale_price", state.sale_price);
-    // formdata.append("sku", state.sku);
     formdata.append("quantity", state.quantity);
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
-    // formdata.append("tax_id", state.tax);
     formdata.append("status", state.status);
 
-    if (variantChecked) {
-      formdata.append("variants", variantId);
-      formdata.append("variant_flag", true);
-    } else {
-      formdata.append("variant_flag", false);
-    }
+    formdata.append("price", state.price);
+    formdata.append("sale_price", state.sale_price);
+    formdata.append("sku", state.sku);
+    formdata.append("tax_id", state.tax);
 
-    if (!variantChecked) {
-      formdata.append("price", state.price);
-      formdata.append("sale_price", state.sale_price);
-      formdata.append("sku", state.sku);
-      formdata.append("tax_id", state.tax);
-    }
-
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 5; i++) {
       if (images[`image${i}`] !== state[`image${i}`]) {
         formdata.append(`image${i}`, images[`image${i}`]);
       } else {
@@ -188,31 +130,8 @@ function Editproducts(props) {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (res) {
-      if (variantChecked && variantEdited) {
-        handleVariants();
-      }
-    }
+
     setLoading(false);
-  };
-
-  const createVariants = (variants) => {
-    const totalVariants = variants.variant_title.length;
-    let tempVariants = [];
-    for (let i = 0; i < totalVariants; i++) {
-      tempVariants = [
-        ...tempVariants,
-        {
-          variant: variants.variant_title[i],
-          price: variants.variant_price[i],
-          quantity: variants.variant_quantity[i],
-          SKU: variants.variant_sku[i],
-          image: variants.variant_image[i],
-        },
-      ];
-    }
-
-    return tempVariants;
   };
 
   useEffect(() => {
@@ -231,53 +150,28 @@ function Editproducts(props) {
           },
         }
       );
-      const temp = response.data.filter(
+
+      const temp = response.data?.filter(
         (category) => category._id !== res.data?.data?.category
       );
       const category = response.data.find(
         (category) => category._id === res.data?.data?.category
       );
       setCategories(temp);
-      let taxes = await axios.get(`${API}/api/tax_rates/view_taxs`, {
+      let taxes = await axios.get(`${API}/api/tax_rates`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       let tax = null;
-      console.log(res.data.data.variants);
-      if (res.data?.data?.variants) {
-        setVariantChecked(true);
-        setVariantId(res.data?.data?.variants._id);
-        const tempVariants = createVariants(res.data?.data?.variants);
-        setVariants(JSON.parse(JSON.stringify(tempVariants)));
-        setOriginalVariants(JSON.parse(JSON.stringify(tempVariants)));
-        const values = res.data?.data?.variants.value;
-        const tempOptionList = res.data?.data?.variants.options.map(
-          (item, index) => ({
-            name: item,
-            value: values[index].split(","),
-          })
-        );
-        setOptionList(tempOptionList);
 
-        const filtertax = taxes.data.data.filter(
-          (tax) => tax._id !== res.data?.data?.variants.tax
-        );
-        setTax(filtertax);
+      const filtertax = taxes.data.data.filter(
+        (tax) => tax._id !== res.data?.data?.tax._id
+      );
+      setTax(filtertax);
 
-        tax = taxes.data.data.find(
-          (tax) => tax._id === res.data?.data?.variants.tax
-        );
-      } else {
-        const filtertax = taxes.data.data.filter(
-          (tax) => tax._id !== res.data?.data?.tax._id
-        );
-        setTax(filtertax);
+      tax = taxes.data.data.find((tax) => tax._id === res.data?.data?.tax._id);
 
-        tax = taxes.data.data.find(
-          (tax) => tax._id === res.data?.data?.tax._id
-        );
-      }
       setstate({
         title: res.data?.data?.title,
         description: res.data?.data?.description,
@@ -314,22 +208,20 @@ function Editproducts(props) {
 
       setImageUrl(res.data?.data?.image);
 
-      if (!res.data?.data?.variants) {
-        setTitleLen(wordLimit.title - res.data?.data?.title.length);
-        setDescriptionLen(
-          wordLimit.description - res.data?.data?.description.length
+      setTitleLen(wordLimit.title - res.data?.data?.title.length);
+      setDescriptionLen(
+        wordLimit.description - res.data?.data?.description.length
+      );
+      setPriceLen(wordLimit.price - res.data?.data?.price?.toString().length);
+      setSalePriceLen(
+        wordLimit.salePrice - res.data?.data?.sale_price.toString().length
+      );
+      setSKULen(wordLimit.SKU - res.data?.data?.sku?.toString().length);
+      if (res.data?.data?.track_quantity) {
+        setQuantityLen(
+          wordLimit.quantity - res.data?.data?.quantity.toString().length
         );
-        setPriceLen(wordLimit.price - res.data?.data?.price.toString().length);
-        setSalePriceLen(
-          wordLimit.salePrice - res.data?.data?.sale_price.toString().length
-        );
-        setSKULen(wordLimit.SKU - res.data?.data?.sku.toString().length);
-        if (res.data?.data?.track_quantity) {
-          setQuantityLen(
-            wordLimit.quantity - res.data?.data?.quantity.toString().length
-          );
-        } else {
-        }
+      } else {
       }
     };
     getData();
@@ -459,7 +351,6 @@ function Editproducts(props) {
       image2: "",
       image3: "",
       image4: "",
-      image5: "",
     };
     for (let i = 0; i < newImagesList.length; i++) {
       prev[`image${i + 1}`] = newImagesList[i];
@@ -517,23 +408,6 @@ function Editproducts(props) {
     } else {
       setstate({ ...state, status: false });
     }
-  };
-
-  const checkAllVariants = () => {
-    if (!variantChecked) {
-      return false;
-    }
-    variants.map((item) => {
-      if (
-        item.price.length === 0 ||
-        item.quantity.length === 0 ||
-        item.SKU.length === 0
-      ) {
-        return true;
-      }
-    });
-
-    return false;
   };
 
   return (
@@ -708,7 +582,7 @@ function Editproducts(props) {
                               </label>
                               <select
                                 name="category"
-                                defaultValue={state.initialCategory._id}
+                                defaultValue={state.initialCategory?._id}
                                 value={state.category}
                                 onChange={handleChange}
                                 className="form-control  input-field"
@@ -954,10 +828,7 @@ function Editproducts(props) {
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
               <div className="card">
-                <div
-                  className="card-body"
-                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
-                >
+                <div className="card-body">
                   <div className="row">
                     <div className="col-md-12">
                       <form>
@@ -985,7 +856,6 @@ function Editproducts(props) {
                                   className="form-control input-field"
                                   value={state.price}
                                   min="0.00"
-                                  disabled={variantChecked}
                                 />
                               </div>
                               <label
@@ -1021,7 +891,6 @@ function Editproducts(props) {
                                   className="form-control input-field"
                                   value={state.sale_price}
                                   min="0.00"
-                                  disabled={variantChecked}
                                 />
                               </div>
                               <label
@@ -1049,10 +918,7 @@ function Editproducts(props) {
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
               <div className="card">
-                <div
-                  className="card-body"
-                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
-                >
+                <div className="card-body">
                   <div className="row">
                     <div className="col-md-12">
                       <form>
@@ -1071,7 +937,6 @@ function Editproducts(props) {
                                 onChange={(e) => editHandler(e, "SKU")}
                                 type="text"
                                 className="form-control input-field"
-                                disabled={variantChecked}
                               />
                               <label
                                 for="basicpill-phoneno-input"
@@ -1082,56 +947,32 @@ function Editproducts(props) {
                             </div>
                           </div>
                         </div>
+
                         <div className="row">
                           <div className="col-lg-4">
-                            <div className="custom-control custom-checkbox mb-2">
+                            <div className="form-group">
+                              <label
+                                for="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Quantity Available*
+                              </label>
                               <input
-                                name="track_quantity"
-                                checked={state.track_quantity}
-                                onChange={handleChangeCheckBox}
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="genre1"
-                                disabled={variantChecked}
+                                name="quantity"
+                                onChange={(e) => editHandler(e, "quantity")}
+                                value={state.quantity}
+                                type="text"
+                                className="form-control input-field"
                               />
                               <label
-                                className="custom-control-label"
-                                htmlFor="genre1"
+                                for="basicpill-phoneno-input"
+                                className="label-100"
                               >
-                                Track Quantity
+                                Remaining words : {quantityLen}
                               </label>
                             </div>
                           </div>
                         </div>
-
-                        {state.track_quantity && (
-                          <div className="row">
-                            <div className="col-lg-4">
-                              <div className="form-group">
-                                <label
-                                  for="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Quantity Available*
-                                </label>
-                                <input
-                                  name="quantity"
-                                  onChange={(e) => editHandler(e, "quantity")}
-                                  value={state.quantity}
-                                  type="text"
-                                  className="form-control input-field"
-                                  disabled={variantChecked}
-                                />
-                                <label
-                                  for="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Remaining words : {quantityLen}
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </form>
                     </div>
                   </div>
