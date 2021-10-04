@@ -8,6 +8,7 @@ import Footer from "../../Footer";
 
 function AccessDetails(props) {
   const { token } = isAutheticated();
+  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +30,48 @@ function AccessDetails(props) {
     fetchData();
   }, []);
 
+  const editHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    if (name === "email") {
+      setEmail(value);
+    } else {
+      setPassword(value);
+    }
+  };
+
+  const saveHandle = () => {
+    if (!email || !password) {
+      alert("Please enter valid values");
+      return;
+    }
+    setLoading(true);
+
+    axios
+      .put(
+        `${API}/api/user`,
+        {
+          stored_email: email,
+          stored_password: password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        alert("Data Saved Successfully!");
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert("Saving data failed");
+        console.log(error);
+      });
+  };
+
   return (
     <div className="main-content">
       <div className="page-content">
@@ -44,9 +87,7 @@ function AccessDetails(props) {
                       <Link to="/dashboard">Shoperola</Link>
                     </li>
                     <li className="breadcrumb-item active">Vending Machine</li>
-                    <li className="breadcrumb-item active">
-                      Access Details
-                    </li>
+                    <li className="breadcrumb-item active">Access Details</li>
                   </ol>
                 </div>
               </div>
@@ -59,6 +100,14 @@ function AccessDetails(props) {
             <div className="col-12">
               <div className="form-group text-right">
                 {/* <Link to="/comproducts"> */}
+                <button
+                  onClick={saveHandle}
+                  type="button"
+                  className="btn btn-success btn-login waves-effect waves-light mr-3"
+                >
+                  <ClipLoader loading={loading} size={18} />
+                  {!loading && "Save"}
+                </button>
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
@@ -79,7 +128,7 @@ function AccessDetails(props) {
               <div className="card">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-4">
                       <div className="row">
                         <div className="col-lg-12">
                           <div className="form-group">
@@ -95,19 +144,31 @@ function AccessDetails(props) {
                       <div className="row">
                         <div className="form-group mb-30 width-100 row">
                           <label className="col-md-6 control-label">
-                            Email:{" "}
-                            <span className="font-weight-normal">{email}</span>
+                            Email
                           </label>
+                          <input
+                            type="text"
+                            name="email"
+                            className="form-control input-field"
+                            onChange={editHandler}
+                            placeholder="email"
+                            value={email}
+                          />
                         </div>
                       </div>
                       <div className="row">
                         <div className="form-group mb-30 width-100 row">
                           <label className="col-md-6 control-label">
-                            Password:{" "}
-                            <span className="font-weight-normal">
-                              {password}
-                            </span>
+                            Password
                           </label>
+                          <input
+                            type="text"
+                            name="password"
+                            className="form-control input-field col-md-6"
+                            onChange={editHandler}
+                            placeholder="password"
+                            value={password}
+                          />
                         </div>
                       </div>
                     </div>
