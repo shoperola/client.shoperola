@@ -64,14 +64,13 @@ import SetUpPage1 from "../Components/auth/setup pages/SetupPage1";
 import SetUpPage2 from "../Components/auth/setup pages/SetupPage2";
 import SetUpPage3 from "../Components/auth/setup pages/SetupPage3";
 
-// Configuration
-import ConfigProfile from "../Components/main/configurations/Profile";
-import ConfigText from "../Components/main/configurations/Text";
-import ConfigTextEdit from "../Components/main/configurations/TextEdit";
-import ConfigAddress from "../Components/main/configurations/Address";
-import ConfigSocialMedia from "../Components/main/configurations/SocialMedia";
-import ConfigLogo from "../Components/main/configurations/Logo";
-import ConfigMobileTV from "../Components/main/configurations/MobileTV";
+// Settings
+import SettingProfile from "../Components/main/settings/Profile";
+import SettingText from "../Components/main/settings/Text";
+import SettingTextEdit from "../Components/main/settings/TextEdit";
+import SettingAddress from "../Components/main/settings/Address";
+import SettingLogo from "../Components/main/settings/Logo";
+import SettingMobileTV from "../Components/main/settings/MobileTV";
 
 // Orders
 import OrdMngOrder from "../Components/main/ordersManagement/Orders";
@@ -358,42 +357,37 @@ export default function Routes() {
             path="/coupon_edit/:id"
           ></PrivateRoute>
 
-          {/* Configurations */}
+          {/* settingss */}
 
           <PrivateRoute
-            component={ConfigProfile}
+            component={SettingProfile}
             exact
-            path="/configuration/profile"
+            path="/settings/profile"
           ></PrivateRoute>
           <PrivateRoute
-            component={ConfigText}
+            component={SettingText}
             exact
-            path="/configuration/text"
+            path="/settings/text"
           ></PrivateRoute>
           <PrivateRoute
-            component={ConfigTextEdit}
+            component={SettingTextEdit}
             exact
-            path="/configuration/text/textedit/:id"
+            path="/settings/text/textedit/:id"
           ></PrivateRoute>
           <PrivateRoute
-            component={ConfigAddress}
+            component={SettingAddress}
             exact
-            path="/configuration/address"
+            path="/settings/address"
           ></PrivateRoute>
           <PrivateRoute
-            component={ConfigSocialMedia}
+            component={SettingLogo}
             exact
-            path="/configuration/social-media"
+            path="/settings/logo"
           ></PrivateRoute>
           <PrivateRoute
-            component={ConfigLogo}
+            component={SettingMobileTV}
             exact
-            path="/configuration/logo"
-          ></PrivateRoute>
-          <PrivateRoute
-            component={ConfigMobileTV}
-            exact
-            path="/configuration/mobile-tv"
+            path="/settings/mobile-tv"
           ></PrivateRoute>
 
           {/* Orders Management */}

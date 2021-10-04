@@ -164,26 +164,23 @@ export default function Sidebar() {
             <li>
               <Link to="#/" className="has-arrow">
                 <img alt="" src="/assets/images/icons/cms-icon.png" />
-                <span>Configuration</span>
+                <span>Settings</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
                 <li>
-                  <Link to="/configuration/profile">Profile</Link>
+                  <Link to="/settings/profile">Profile</Link>
                 </li>
                 <li>
-                  <Link to="/configuration/text">Text</Link>
+                  <Link to="/settings/text">Text</Link>
                 </li>
                 <li>
-                  <Link to="/configuration/address"> Address</Link>
+                  <Link to="/settings/address"> Address</Link>
                 </li>
                 <li>
-                  <Link to="/configuration/social-media">Social Media</Link>
+                  <Link to="/settings/logo">Logo</Link>
                 </li>
                 <li>
-                  <Link to="/configuration/logo">Logo</Link>
-                </li>
-                <li>
-                  <Link to="/configuration/mobile-tv">Mobile and TV Apps</Link>
+                  <Link to="/settings/mobile-tv">Mobile and TV Apps</Link>
                 </li>
               </ul>
             </li>
