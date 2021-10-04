@@ -77,7 +77,7 @@ import OrdMngOrder from "../Components/main/ordersManagement/Orders";
 import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 
 // Racks
-import Racks from "../Components/main/Commerce/Racks/Racks";
+import Racks from "../Components/main/Vending Machine/Racks/Racks";
 
 const { token } = isAutheticated();
 

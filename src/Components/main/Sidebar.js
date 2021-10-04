@@ -108,10 +108,19 @@ export default function Sidebar() {
                   <Link to="/categories">Categories</Link>
                 </li>
                 <li>
-                  <Link to="/racks">Racks</Link>
-                </li>
-                <li>
                   <Link to="/allCoupons">Coupons</Link>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/cms-icon.png" />
+                <span>Vending Machine</span>
+              </Link>
+              <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/racks">Racks</Link>
                 </li>
               </ul>
             </li>

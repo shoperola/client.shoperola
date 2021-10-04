@@ -104,11 +104,11 @@ const Racks = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {[1, 2, 3, 4, 5, 6].map((rack) => (
+                        {[1, 2, 3, 4, 5, 6, 7].map((rack) => (
                           <tr>
                             <td>Rack {rack}</td>
                             <td className="d-flex  align-items-center">
-                              {[1, 2, 3, 4, 5, 6].map((col) => (
+                              {[1, 2, 3, 4, 5].map((col) => (
                                 <div className="pr-4">
                                   {totalRacks[`rack${rack}${col}`] ? (
                                     <div>
