@@ -21,7 +21,6 @@ function AddCategories() {
   const [nameLen, setNameLen] = useState(wordLimit.name);
 
   const handleInputText = (e) => {
-    console.log(e.target.value);
     setinputText(e.target.value);
   };
 
@@ -40,7 +39,7 @@ function AddCategories() {
       }
     );
     if (res.data) {
-      window.location = "/comcatagory";
+      window.location = "/categories";
       //history.push("/comcatagory");
     }
     //     axios

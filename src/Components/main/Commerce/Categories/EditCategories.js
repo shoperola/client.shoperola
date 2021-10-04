@@ -17,7 +17,7 @@ function EditCategories(props) {
 
   const handleSubmit = async () => {
     let res = await axios.patch(
-      `${API}/api/category/${props.match.params.catagoryId}`,
+      `${API}/api/category/${props.match.params.id}`,
       {
         category: data,
       },
@@ -27,22 +27,18 @@ function EditCategories(props) {
         },
       }
     );
-    console.log(res);
     if (res) {
-      window.location = "/comcatagory";
+      window.location = "/categories";
     }
   };
   useEffect(async () => {
-    let res = await axios.get(
-      `${API}/api/category/${props.match.params.catagoryId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    let res = await axios.get(`${API}/api/category/${props.match.params.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setdata(res.data.category);
-    setNameLen(wordLimit.name - res.data.category.length);
+    // setNameLen(wordLimit.name - res.data.category.length);
   }, []);
   const handleChange = (e) => {
     setdata(e.target.value);

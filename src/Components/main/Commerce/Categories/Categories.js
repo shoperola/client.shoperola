@@ -67,7 +67,7 @@ function Categories(props) {
                     <div className="col-sm-12 col-md-6">&nbsp;</div>
                     <div className="col-sm-12 col-md-6">
                       <div className="dropdown d-block">
-                        <a href="/comcatagory/add">
+                        <a href="/categories/add">
                           <button
                             type="button"
                             className="btn btn-primary add-btn waves-effect waves-light float-right"
@@ -93,7 +93,7 @@ function Categories(props) {
                               <tr key={item._id}>
                                 <td>{item.category}</td>
                                 <td>
-                                  <Link to={`/comcatagory/edit/${item._id}`}>
+                                  <Link to={`/categories/edit/${item._id}`}>
                                     <button
                                       type="button"
                                       className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"

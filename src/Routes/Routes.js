@@ -339,6 +339,11 @@ export default function Routes() {
             exact
             path="/categories/add"
           ></PrivateRoute>
+          <PrivateRoute
+            component={EditCategories}
+            exact
+            path="/categories/edit/:id"
+          ></PrivateRoute>
           <PrivateRoute component={Racks} exact path="/racks"></PrivateRoute>
           <PrivateRoute
             component={AccessDetails}
