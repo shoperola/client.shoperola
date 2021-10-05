@@ -38,7 +38,8 @@ const Racks = () => {
           },
         })
         .then((res) => {
-          setTotalRacks(res.data.data[0]);
+          console.log(res);
+          setTotalRacks(res.data.data);
         });
     };
 
