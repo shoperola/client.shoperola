@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../../API";
 import { isAutheticated } from "../auth/authhelper";
+import SalesChart from "./SalesChart";
 import Footer from "./Footer";
+import OrdersChart from "./OrdersChart";
 // import Header from "./Header";
 // import Sidebar from "./Sidebar";
 
@@ -160,6 +162,24 @@ export default function Dashboard() {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-lg-12 mb-30">
+              <div className="card dashboard-box">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-lg-6 mb-0">
+                      <SalesChart />
+                    </div>
+
+                    <div className="col-lg-6 mb-10">
+                      <OrdersChart />
                     </div>
                   </div>
                 </div>
