@@ -712,7 +712,7 @@ function Editproducts(props) {
                                 htmlFor="basicpill-phoneno-input"
                                 className="label-100"
                               >
-                                Upload Product Images*
+                                Upload Product Images (Optional)
                               </label>
                             </div>
                           </div>

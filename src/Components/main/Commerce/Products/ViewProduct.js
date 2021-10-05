@@ -30,6 +30,7 @@ function ViewProducts(props) {
   const [currentImage, setCurrentImage] = useState("");
   const [imageTitle, setImageTitle] = useState("");
   const [imageId, setImageId] = useState(0);
+  const [haveImages, setHaveImages] = useState(false);
 
   const [state, setstate] = useState({
     title: "",
@@ -143,12 +144,19 @@ function ViewProducts(props) {
         image4: "",
       };
 
+      let count = 0;
       for (let i = 1; i < 5; i++) {
         if (res.data?.data[`image${i}`] !== "") {
           newImagesUrl = [...newImagesUrl, res.data?.data[`image${i}`]];
           newImages[`image${i}`] = res.data?.data[`image${i}`];
+          count += 1;
         }
       }
+
+      if (count !== 0) {
+        setHaveImages(true);
+      }
+
       setImagesUrl(newImagesUrl);
       setImages(newImages);
 
@@ -386,85 +394,87 @@ function ViewProducts(props) {
                           </div>
                         </div>
                       </div>
-                      <div className="row">
-                        <div className="col-lg-12">
-                          <div className="form-group mb-30 width-100 row">
-                            <label className="col-md-3 control-label">
-                              Product Images
-                            </label>
-                            <div className="col-md-8">
-                              {imagesUrl.length > 0 &&
-                                imagesUrl.map((image) => (
-                                  <img
-                                    className="img-fluid mt-2 pr-2"
-                                    style={{
-                                      width: "75px",
-                                      height: "100px",
-                                      cursor: "pointer",
-                                    }}
-                                    alt="200x200"
-                                    src={image}
-                                    onClick={() => openImage(image)}
-                                  />
-                                ))}
-
-                              {openModal && (
-                                <div
-                                  className="modal fade show"
-                                  id="exampleModalCenter"
-                                  tabindex="-1"
-                                  aria-labelledby="exampleModalCenterTitle"
-                                  aria-modal="true"
-                                  role="dialog"
-                                  style={{ display: "block" }}
-                                >
-                                  <div className="modal-dialog modal-dialog-centered">
-                                    <div className="modal-content">
-                                      <div className="modal-header">
-                                        <h5
-                                          className="modal-title"
-                                          id="exampleModalCenterTitle"
-                                        >
-                                          {imageTitle}
-                                        </h5>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          data-bs-dismiss="modal"
-                                          aria-label="Close"
-                                          onClick={() => setOpenModal(false)}
-                                        ></button>
-                                      </div>
-                                      <div className="modal-body">
-                                        <img
-                                          className="img-fluid mt-2 pr-2"
-                                          style={{
-                                            width: "360px",
-                                            height: "459px",
-                                          }}
-                                          alt="200x200"
-                                          src={currentImage}
-                                          // onClick={() => openImage(image)}
-                                        />
-                                      </div>
-                                      <div className="modal-footer">
-                                        <button
-                                          type="button"
-                                          className="btn btn-secondary"
-                                          data-bs-dismiss="modal"
-                                          onClick={() => setOpenModal(false)}
-                                        >
-                                          Close
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
+                      {haveImages && (
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group mb-30 width-100 row">
+                              <label className="col-md-3 control-label">
+                                Product Images
+                              </label>
+                              <div className="col-md-8">
+                                {imagesUrl.length > 0 &&
+                                  imagesUrl.map((image) => (
+                                    <img
+                                      className="img-fluid mt-2 pr-2"
+                                      style={{
+                                        width: "75px",
+                                        height: "100px",
+                                        cursor: "pointer",
+                                      }}
+                                      alt="200x200"
+                                      src={image}
+                                      onClick={() => openImage(image)}
+                                    />
+                                  ))}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      )}
+
+                      {openModal && (
+                        <div
+                          className="modal fade show"
+                          id="exampleModalCenter"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalCenterTitle"
+                          aria-modal="true"
+                          role="dialog"
+                          style={{ display: "block" }}
+                        >
+                          <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5
+                                  className="modal-title"
+                                  id="exampleModalCenterTitle"
+                                >
+                                  {imageTitle}
+                                </h5>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                  onClick={() => setOpenModal(false)}
+                                ></button>
+                              </div>
+                              <div className="modal-body">
+                                <img
+                                  className="img-fluid mt-2 pr-2"
+                                  style={{
+                                    width: "360px",
+                                    height: "459px",
+                                  }}
+                                  alt="200x200"
+                                  src={currentImage}
+                                  // onClick={() => openImage(image)}
+                                />
+                              </div>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                  onClick={() => setOpenModal(false)}
+                                >
+                                  Close
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
