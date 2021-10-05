@@ -22,18 +22,9 @@ function TaxRates(props) {
     fetchData();
   }, [token]);
   const handleDelete = async (id) => {
-    let res = await axios.delete(
-      `${API}/api/tax_rates/${id}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
     const done = await swal({
       title: "Confirm Your Choice!",
-      text: `There are ${res.data.data} products with this tax rate. If you delete, Zero Tax Rate (0%) will be applicable to all the products in the future`,
+      text: `If you delete this tax, Zero Tax Rate (0%) will be applicable to all the products in the future`,
       icon: "warning",
       buttons: {
         Done: {
@@ -47,17 +38,11 @@ function TaxRates(props) {
       },
     });
     if (done === "Confirm") {
-      let res = await axios.delete(
-        `${API}/api/product/api/tax_rates/${id}`,
-        {
-          flag: "true",
+      let res = await axios.delete(`${API}/api/tax_rates/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      });
       if (res) {
         window.location.reload();
       }
