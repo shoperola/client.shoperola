@@ -119,7 +119,7 @@ function TaxRates(props) {
                                   <button
                                     type="button"
                                     className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
-                                    disabled={e.tax_name === "ZERO_TAX"}
+                                    // disabled={e.tax_name === "ZERO_TAX"}
                                     onClick={() => handleEdit(e._id)}
                                   >
                                     Edit
@@ -129,7 +129,7 @@ function TaxRates(props) {
                                     type="button"
                                     className="btn btn-danger btn-sm  waves-effect waves-light btn-table ml-2"
                                     id="sa-params"
-                                    disabled={e.tax_name === "ZERO_TAX"}
+                                    // disabled={e.tax_name === "ZERO_TAX"}
                                   >
                                     Delete
                                   </button>

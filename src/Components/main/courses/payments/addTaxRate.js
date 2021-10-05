@@ -57,10 +57,7 @@ function AddTaxRate() {
   const validateTaxHandler = (e) => {
     let flag = true;
     data.forEach((element) => {
-      if (
-        element.tax_percentage.toString() === e.target.value ||
-        e.target.value.toString() === "0"
-      ) {
+      if (element.tax_percentage.toString() === e.target.value) {
         setinputText({
           ...inputText,
           [e.target.name]: "",
