@@ -61,10 +61,12 @@ const Racks = () => {
 
   const getImage = (id) => {
     const product = products.filter((item) => item._id === id);
+    console.log("product", product);
     return product[0]?.image;
   };
 
   const getTitle = (id) => {
+    console.log(id);
     const product = products.filter((item) => item._id === id);
     return product[0]?.title;
   };
@@ -115,13 +117,13 @@ const Racks = () => {
                                     <div>
                                       <img
                                         src={getImage(
-                                          totalRacks[`rack${rack}${col}`]
+                                          totalRacks[`rack${rack}${col}`]._id
                                         )}
                                         style={{ height: 150, width: 125 }}
                                       />
                                       <h6 style={{ textAlign: "center" }}>
                                         {getTitle(
-                                          totalRacks[`rack${rack}${col}`]
+                                          totalRacks[`rack${rack}${col}`]._id
                                         )}
                                       </h6>
                                       <div className="d-flex">
