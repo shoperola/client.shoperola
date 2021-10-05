@@ -174,11 +174,12 @@ export default function Dashboard() {
               <div className="card dashboard-box">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-lg-6 mb-0">
+                    <div className="col-lg-12 mb-10">
                       <SalesChart />
                     </div>
-
-                    <div className="col-lg-6 mb-10">
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-12 mb-10">
                       <OrdersChart />
                     </div>
                   </div>
