@@ -22,7 +22,7 @@ function AddProducts(props) {
     price: "",
     sale_price: "",
     sku: "",
-    quantity: "0",
+    quantity: "",
     continue_selling: false,
     track_quantity: false,
   });
@@ -41,6 +41,7 @@ function AddProducts(props) {
   const [currentImage, setCurrentImage] = useState("");
   const [imageTitle, setImageTitle] = useState("");
   const [imageId, setImageId] = useState(0);
+  const [clickedSave, setClickedSave] = useState(false);
 
   const [variantChecked, setVariantChecked] = useState(false);
   const [optionList, setOptionList] = useState([{ name: "", value: [] }]);
@@ -191,19 +192,14 @@ function AddProducts(props) {
 
   const handleSubmit = () => {
     if (
-      !variantChecked &&
-      (state.sku === "" || state.price === "" || state.sale_price === "")
+      state.title.length === 0 ||
+      state.category === "" ||
+      !state.image ||
+      state.quantity.length === 0 ||
+      !state.status
     ) {
-      alert("Please fill required field kjhfdjshsdhfo");
-      return;
-    }
-    if (
-      state.title === "" ||
-      state.image === "" ||
-      (state.track_quantity && state.quantity === "") ||
-      state.category === ""
-    ) {
-      alert("Please fill required field ");
+      setClickedSave(true);
+      setLoading(false);
       return;
     }
     handleVariants();
@@ -461,18 +457,6 @@ function AddProducts(props) {
                   onClick={handleSubmit}
                   type="button"
                   className="btn btn-success btn-login waves-effect waves-light mr-3"
-                  disabled={
-                    !(
-                      state.title &&
-                      state.tax &&
-                      state.category &&
-                      // state.status &&
-                      state.image &&
-                      checkSubmitButton() &&
-                      (state.track_quantity === false ||
-                        state.quantity.length > 0)
-                    )
-                  }
                 >
                   <ClipLoader loading={loading} size={18} />
                   {!loading && "Save"}
@@ -508,14 +492,24 @@ function AddProducts(props) {
                               >
                                 Title*
                               </label>
-                              <input
-                                type="text"
-                                name="title"
-                                className="form-control input-field"
-                                onChange={(e) => editHandler(e, "title")}
-                                placeholder="Title"
-                                value={state.title}
-                              />
+                              <div class="input-group has-validation">
+                                <input
+                                  type="text"
+                                  name="title"
+                                  className={
+                                    clickedSave && state.title.length === 0
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                  onChange={(e) => editHandler(e, "title")}
+                                  placeholder="Title"
+                                  value={state.title}
+                                />
+                                <div class="invalid-feedback">
+                                  Please add a valid title.
+                                </div>
+                              </div>
+
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
@@ -584,21 +578,30 @@ function AddProducts(props) {
                               >
                                 Select Tax*
                               </label>
-                              <select
-                                name="tax"
-                                value={state.tax}
-                                onChange={handleChange}
-                                className="form-control  input-field"
-                              >
-                                <option value="">--select--</option>
-                                {tax?.map((item) => (
-                                  <>
-                                    <option key={item._id} value={item._id}>
-                                      {item.tax_name} - {item.tax_percentage}%
-                                    </option>
-                                  </>
-                                ))}
-                              </select>
+                              <div class="input-group has-validation">
+                                <select
+                                  name="tax"
+                                  value={state.tax}
+                                  onChange={handleChange}
+                                  className={
+                                    clickedSave && state.tax === ""
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                >
+                                  <option value="">--select--</option>
+                                  {tax?.map((item) => (
+                                    <>
+                                      <option key={item._id} value={item._id}>
+                                        {item.tax_name} - {item.tax_percentage}%
+                                      </option>
+                                    </>
+                                  ))}
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please choose a valid tax.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -611,21 +614,30 @@ function AddProducts(props) {
                               >
                                 Select Category*
                               </label>
-                              <select
-                                name="category"
-                                value={state.category}
-                                onChange={handleChange}
-                                className="form-control  input-field"
-                              >
-                                <option value="">--select--</option>
-                                {Categories?.map((item) => (
-                                  <>
-                                    <option key={item._id} value={item._id}>
-                                      {item.category}
-                                    </option>
-                                  </>
-                                ))}
-                              </select>
+                              <div class="input-group has-validation">
+                                <select
+                                  name="category"
+                                  value={state.category}
+                                  onChange={handleChange}
+                                  className={
+                                    clickedSave && state.category === ""
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                >
+                                  <option value="">--select--</option>
+                                  {Categories?.map((item) => (
+                                    <>
+                                      <option key={item._id} value={item._id}>
+                                        {item.category}
+                                      </option>
+                                    </>
+                                  ))}
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please choose a valid category.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -638,15 +650,24 @@ function AddProducts(props) {
                               >
                                 Status*
                               </label>
-                              <select
-                                name="status"
-                                value={state.status ? "active" : "inactive"}
-                                onChange={handleStatus}
-                                className="form-control  input-field"
-                              >
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                              </select>
+                              <div class="input-group has-validation">
+                                <select
+                                  name="status"
+                                  value={state.status ? "active" : "inactive"}
+                                  onChange={handleStatus}
+                                  className={
+                                    clickedSave && state.state === ""
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                >
+                                  <option value="active">Active</option>
+                                  <option value="inactive">Inactive</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please choose a valid category.
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -866,24 +887,34 @@ function AddProducts(props) {
                               >
                                 Price*
                               </label>
-                              <div className="input-group">
-                                <div className="input-group-prepend">
-                                  <span className="input-group-text">
-                                    {currency
-                                      ? getSymbolFromCurrency(currency)
-                                      : "$"}
-                                  </span>
+                              <div class="input-group has-validation">
+                                <div className="input-group">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                      {currency
+                                        ? getSymbolFromCurrency(currency)
+                                        : "$"}
+                                    </span>
+                                  </div>
+                                  <input
+                                    type="number"
+                                    name="price"
+                                    onChange={(e) => editHandler(e, "price")}
+                                    className={
+                                      clickedSave && state.price === ""
+                                        ? "form-control input-field is-invalid"
+                                        : "form-control input-field"
+                                    }
+                                    value={state.price}
+                                    min="0.00"
+                                    disabled={variantChecked}
+                                  />
+                                  <div class="invalid-feedback">
+                                    Price cannot be empty.
+                                  </div>
                                 </div>
-                                <input
-                                  type="number"
-                                  name="price"
-                                  onChange={(e) => editHandler(e, "price")}
-                                  className="form-control input-field"
-                                  value={state.price}
-                                  min="0.00"
-                                  disabled={variantChecked}
-                                />
                               </div>
+
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
@@ -902,23 +933,34 @@ function AddProducts(props) {
                               >
                                 Sale Price*
                               </label>
-                              <div className="input-group">
-                                <div className="input-group-prepend">
-                                  <span className="input-group-text">
-                                    {currency
-                                      ? getSymbolFromCurrency(currency)
-                                      : "$"}
-                                  </span>
+                              <div class="input-group has-validation">
+                                <div className="input-group">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                      {currency
+                                        ? getSymbolFromCurrency(currency)
+                                        : "$"}
+                                    </span>
+                                  </div>
+                                  <input
+                                    type="number"
+                                    name="sale_price"
+                                    onChange={(e) =>
+                                      editHandler(e, "salePrice")
+                                    }
+                                    className={
+                                      clickedSave && state.sale_price === ""
+                                        ? "form-control input-field is-invalid"
+                                        : "form-control input-field"
+                                    }
+                                    value={state.sale_price}
+                                    min="0.00"
+                                    disabled={variantChecked}
+                                  />
+                                  <div class="invalid-feedback">
+                                    Sale Price cannot be empty.
+                                  </div>
                                 </div>
-                                <input
-                                  type="number"
-                                  name="sale_price"
-                                  onChange={(e) => editHandler(e, "salePrice")}
-                                  className="form-control input-field"
-                                  value={state.sale_price}
-                                  min="0.00"
-                                  disabled={variantChecked}
-                                />
                               </div>
                               <label
                                 for="basicpill-phoneno-input"
@@ -960,14 +1002,24 @@ function AddProducts(props) {
                               >
                                 SKU*
                               </label>
-                              <input
-                                name="sku"
-                                onChange={(e) => editHandler(e, "SKU")}
-                                type="text"
-                                className="form-control input-field"
-                                value={state.sku}
-                                disabled={variantChecked}
-                              />
+                              <div class="input-group has-validation">
+                                <input
+                                  name="sku"
+                                  onChange={(e) => editHandler(e, "SKU")}
+                                  type="text"
+                                  className={
+                                    clickedSave && state.sku === ""
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                  value={state.sku}
+                                  disabled={variantChecked}
+                                />
+                                <div class="invalid-feedback">
+                                  SKU cannot be empty.
+                                </div>
+                              </div>
+
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
@@ -987,14 +1039,23 @@ function AddProducts(props) {
                               >
                                 Quantity Available*
                               </label>
-                              <input
-                                name="quantity"
-                                onChange={(e) => editHandler(e, "quantity")}
-                                value={state.quantity}
-                                type="text"
-                                className="form-control input-field"
-                                disabled={variantChecked}
-                              />
+                              <div class="input-group has-validation">
+                                <input
+                                  name="quantity"
+                                  onChange={(e) => editHandler(e, "quantity")}
+                                  value={state.quantity}
+                                  type="text"
+                                  className={
+                                    clickedSave && state.quantity === ""
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                />
+                                <div class="invalid-feedback">
+                                  Quantity cannot be empty.
+                                </div>
+                              </div>
+
                               <label
                                 for="basicpill-phoneno-input"
                                 className="label-100"
