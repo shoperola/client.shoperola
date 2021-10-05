@@ -80,6 +80,8 @@ import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 import Racks from "../Components/main/VendingMachine/Racks/Racks";
 import AccessDetails from "../Components/main/VendingMachine/AccessDetails/AccessDetails";
 
+import ContactRequests from "../Components/main/ContactRequests";
+
 const { token } = isAutheticated();
 
 export default function Routes() {
@@ -411,6 +413,12 @@ export default function Routes() {
             component={OrdMngOrderEdit}
             exact
             path="/orders/:id"
+          ></PrivateRoute>
+
+          <PrivateRoute
+            component={ContactRequests}
+            exact
+            path="/contact-requests"
           ></PrivateRoute>
 
           {/* payments  */}

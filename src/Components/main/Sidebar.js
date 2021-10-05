@@ -130,6 +130,13 @@ export default function Sidebar() {
             </li>
 
             <li>
+              <Link to="/contact-requests">
+                <img alt="" src="/assets/images/icons/revenue-icon.png" />
+                <span>Contact Requsts</span>
+              </Link>
+            </li>
+
+            <li>
               <Link to="#" className="has-arrow">
                 <img
                   src="/assets/images/icons/payment-settings-icon.png"
