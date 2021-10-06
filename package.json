@@ -24,6 +24,7 @@
     "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-bootstrap": "^1.6.1",
+    "react-charts": "^3.0.0-beta.33",
     "react-country-region-selector": "^3.3.0",
     "react-date-picker": "^8.3.2",
     "react-datepicker": "^4.2.1",

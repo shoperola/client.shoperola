@@ -8,7 +8,7 @@ class SalesChart extends Component {
     const options = {
       theme: "light2",
       title: {
-        text: "Sales",
+        text: this.props.title,
       },
       axisY: {
         title: "Ammount",

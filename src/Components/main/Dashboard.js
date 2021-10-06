@@ -22,10 +22,10 @@ export default function Dashboard() {
 
   const [paypal, setPaypal] = useState({});
   const [stripe, setStripe] = useState({});
-  const [video, setVideo] = useState("");
+  const [totalOrders, setTotalOrders] = useState(0);
   const [subscribers, setSubscribers] = useState("");
   const [product, setProduct] = useState("");
-  const [tvShow, setTvShow] = useState("");
+  const [totalSales, setTotalSales] = useState(0);
   const [paypalDataLoaded, setPaypalDataLoaded] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -58,11 +58,11 @@ export default function Dashboard() {
       })
       .then((response) => {
         const getData = response.data.data;
-        //console.log("deatails",getData);
+        console.log("deatails", getData);
         setProduct(getData.productsCount);
         setSubscribers(getData.subscriberCount);
-        setTvShow(getData.tvshowsCount);
-        setVideo(getData.videosCount);
+        // setTvShow(getData.tvshowsCount);
+        // setVideo(getData.videosCount);
       })
       .catch((err) => {
         console.log(err);
@@ -88,6 +88,24 @@ export default function Dashboard() {
           fees: userdata.fees,
         });
         setDataLoaded(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    // $("#summernote").summernote();
+
+    axios
+      .get(`${API}/api/order/view_order`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setTotalOrders(response.data.total_orders);
+        setTotalSales(response.data.total_sales);
       })
       .catch((err) => {
         console.log(err);
@@ -163,6 +181,40 @@ export default function Dashboard() {
                         </div>
                       </div>
                     </div>
+
+                    <div className="col-lg-4 mb-10">
+                      <div className="media statistics">
+                        <span>
+                          <img
+                            src="assets/images/icons/reviews-icon.png"
+                            alt=""
+                          />
+                        </span>
+                        <div className="media-body align-self-center overflow-hidden">
+                          <div className="text-left">
+                            <h4 className="text-truncate">Total Sales</h4>
+                            <h1>{totalSales}</h1>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-4 mb-10">
+                      <div className="media statistics">
+                        <span>
+                          <img
+                            src="assets/images/icons/reviews-icon.png"
+                            alt=""
+                          />
+                        </span>
+                        <div className="media-body align-self-center overflow-hidden">
+                          <div className="text-left">
+                            <h4 className="text-truncate">Total Orders</h4>
+                            <h1>{totalOrders}</h1>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -174,13 +226,18 @@ export default function Dashboard() {
               <div className="card dashboard-box">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-lg-12 mb-10">
-                      <SalesChart />
+                    <div className="col-lg-12 mt-10">
+                      <SalesChart title="Sales" />
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-lg-12 mb-10">
+                    <div className="col-lg-12 mt-10">
                       <OrdersChart />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-12 mt-10">
+                      <SalesChart title="newTitle" />
                     </div>
                   </div>
                 </div>
