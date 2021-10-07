@@ -1,51 +1,56 @@
-import React, { Component } from "react";
-import { CanvasJSChart } from "canvasjs-react-charts";
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 
-var dataPoints = [];
+const SalesChart = ({ ordersData, month }) => {
+  const [orders, setOrders] = useState([]);
+  const [labels, setLabels] = useState([]);
 
-class SalesChart extends Component {
-  render() {
-    const options = {
-      theme: "light2",
-      title: {
-        text: this.props.title,
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "# of Sales",
+        data: orders,
+        fill: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
       },
-      axisY: {
-        title: "Ammount",
-        prefix: "$",
-      },
-      data: [
+    ],
+  };
+
+  const options = {
+    scales: {
+      yAxes: [
         {
-          type: "line",
-          xValueFormatString: "MMM YYYY",
-          yValueFormatString: "$#,##0.00",
-          dataPoints: dataPoints,
+          ticks: {
+            beginAtZero: true,
+          },
         },
       ],
-    };
-    return (
-      <div>
-        <CanvasJSChart options={options} onRef={(ref) => (this.chart = ref)} />
-      </div>
-    );
-  }
+    },
+  };
 
-  componentDidMount() {
-    var chart = this.chart;
-    fetch("https://canvasjs.com/data/gallery/react/nifty-stock-price.json")
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        for (var i = 0; i < data.length; i++) {
-          dataPoints.push({
-            x: new Date(data[i].x),
-            y: data[i].y,
-          });
-        }
-        chart.render();
+  useEffect(() => {
+    const loadData = () => {
+      const newOrders = ordersData.map((item) => item.y);
+      const newLabels = ordersData.map((item) => {
+        return item.x;
       });
-  }
-}
+      setOrders(newOrders);
+      setLabels(newLabels);
+    };
+
+    loadData();
+  }, [ordersData]);
+
+  return (
+    <>
+      <div className="header">
+        <h1 className="title">Sales Chart</h1>
+      </div>
+      <Line data={data} options={options} />
+    </>
+  );
+};
 
 export default SalesChart;

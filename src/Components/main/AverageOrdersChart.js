@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
-const OrdersChart = ({ ordersData }) => {
+const AverageOrdersChart = ({ ordersData }) => {
   const [labels, setLabels] = useState([]);
   const [orders, setOrders] = useState([]);
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "# of Orders",
+        label: "Average Orders Value",
         data: orders,
         // backgroundColor: [
         //   "rgba(255, 99, 132, 0.2)",
@@ -59,11 +59,11 @@ const OrdersChart = ({ ordersData }) => {
   return (
     <>
       <div className="header">
-        <h1 className="title">Orders Chart</h1>
+        <h1 className="title">Average Orders Value Chart</h1>
       </div>
       <Bar data={data} options={options} />
     </>
   );
 };
 
-export default OrdersChart;
+export default AverageOrdersChart;

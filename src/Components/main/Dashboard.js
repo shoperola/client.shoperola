@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../../API";
 import { isAutheticated } from "../auth/authhelper";
 import SalesChart from "./SalesChart";
 import Footer from "./Footer";
 import OrdersChart from "./OrdersChart";
+import AverageOrdersChart from "./AverageOrdersChart";
 // import Header from "./Header";
 // import Sidebar from "./Sidebar";
 
@@ -28,7 +29,11 @@ export default function Dashboard() {
   const [totalSales, setTotalSales] = useState(0);
   const [paypalDataLoaded, setPaypalDataLoaded] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
-
+  const [orders, setOrders] = useState([]);
+  const [month, setMonth] = useState(1);
+  const [salesData, setSalesData] = useState([]);
+  const [ordersData, setOrdersData] = useState([]);
+  const [averageOrdersData, setAverageOrdersData] = useState([]);
   const { token } = isAutheticated();
   //console.log(token);
   useEffect(() => {
@@ -106,11 +111,48 @@ export default function Dashboard() {
       .then((response) => {
         setTotalOrders(response.data.total_orders);
         setTotalSales(response.data.total_sales);
+        setOrders(response.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    const setData = () => {
+      const data = orders.filter(
+        (item) => new Date(item.createdAt).getMonth() == month
+      );
+      let dates = [];
+      for (let i = 0; i < 31; i++) dates = [...dates, { amount: 0, orders: 0 }];
+      data.map((item) => {
+        dates[new Date(item.createdAt).getDate() - 1].amount += item.amount;
+        dates[new Date(item.createdAt).getDate() - 1].orders += 1;
+      });
+      setSalesData(
+        dates.map((item, idx) => ({
+          x: idx + 1,
+          y: item.amount,
+        }))
+      );
+
+      setOrdersData(
+        dates.map((item, idx) => ({
+          x: idx + 1,
+          y: item.orders,
+        }))
+      );
+
+      setAverageOrdersData(
+        dates.map((item, idx) => ({
+          x: idx + 1,
+          y: item.amount / item.orders,
+        }))
+      );
+    };
+
+    setData();
+  }, [data, month]);
 
   return (
     <div className="main-content">
@@ -226,18 +268,54 @@ export default function Dashboard() {
               <div className="card dashboard-box">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-lg-12 mt-10">
-                      <SalesChart title="Sales" />
+                    <div className="col-lg-12 mb-30">
+                      <label
+                        htmlFor="basicpill-phoneno-input"
+                        className="label-100"
+                      >
+                        Select Month
+                      </label>
+                      <select
+                        name="month"
+                        value={month}
+                        onChange={(e) => setMonth(e.target.value)}
+                        className="form-control input-field"
+                      >
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                      </select>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-lg-12 mt-10">
-                      <OrdersChart />
+                      <SalesChart
+                        title="Sales"
+                        ordersData={salesData}
+                        month={month}
+                      />
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-lg-12 mt-10">
-                      <SalesChart title="newTitle" />
+                      <OrdersChart month={month} ordersData={ordersData} />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-12 mt-10">
+                      <AverageOrdersChart
+                        month={month}
+                        ordersData={averageOrdersData}
+                      />
                     </div>
                   </div>
                 </div>
