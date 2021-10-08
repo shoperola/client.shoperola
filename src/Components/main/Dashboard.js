@@ -297,7 +297,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-lg-12 mt-10">
+                    <div className="col-lg-12">
                       <SalesChart
                         title="Sales"
                         ordersData={salesData}
@@ -306,12 +306,12 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-lg-12 mt-10">
+                    <div className="col-sm-12 mt-5">
                       <OrdersChart month={month} ordersData={ordersData} />
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-lg-12 mt-10">
+                    <div className="col-lg-12 mt-5">
                       <AverageOrdersChart
                         month={month}
                         ordersData={averageOrdersData}

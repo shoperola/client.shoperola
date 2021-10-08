@@ -19,6 +19,11 @@ const SalesChart = ({ ordersData, month }) => {
   };
 
   const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     scales: {
       yAxes: [
         {
@@ -46,9 +51,11 @@ const SalesChart = ({ ordersData, month }) => {
   return (
     <>
       <div className="header">
-        <h1 className="title">Sales Chart</h1>
+        <h1 className="title" style={{ textAlign: "center" }}>
+          Sales
+        </h1>
       </div>
-      <Line data={data} options={options} />
+      <Line data={data} options={options} height="90%" />
     </>
   );
 };
