@@ -12,26 +12,27 @@ function FootFalls(props) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [currency, setCurrency] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
 
   useEffect(() => {
-    axios
-      .get(`${API}/api/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        const userdata = response.data.data;
-        setImage(userdata.image);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    const fetchData = () => {
+      axios
+        .get(`${API}/api/logo`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.data[0].logo) {
+            setImage(res.data.data[0].logo);
+          }
+        });
+    };
+
+    fetchData();
+  }, [token]);
 
   return (
     <div className="main-content">
@@ -64,7 +65,7 @@ function FootFalls(props) {
                     </div>
                   </div>
                   <div className="row ml-0 mr-0  mb-10">
-                    <div className="col-sm-12 col-md-6">
+                    <div className="col-sm-12 col-md-12">
                       <div className="dataTables_length">
                         <label className="w-100">
                           Show{" "}
