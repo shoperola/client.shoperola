@@ -9,6 +9,7 @@ import FootfallsChart from "./FootfallsChart";
 function FootFalls(props) {
   const { token } = isAutheticated();
   const [image, setImage] = useState("");
+  const [month, setMonth] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -59,9 +60,40 @@ function FootFalls(props) {
             <div className="col-lg-12 mb-30">
               <div className="card dashboard-box">
                 <div className="card-body">
-                  <div className="col-lg-12">
-                    <div className="col-lg-12 mb-10">
-                      <FootfallsChart />
+                  <div className="row">
+                    <div className="col-lg-12 mb-30">
+                      <label
+                        htmlFor="basicpill-phoneno-input"
+                        className="label-100"
+                      >
+                        Select Month
+                      </label>
+                      <select
+                        name="month"
+                        value={month}
+                        onChange={(e) => setMonth(e.target.value)}
+                        className="form-control input-field"
+                      >
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-12">
+                      <div className="col-lg-12 mb-10">
+                        <FootfallsChart />
+                      </div>
                     </div>
                   </div>
                 </div>
