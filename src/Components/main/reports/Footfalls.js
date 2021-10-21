@@ -41,15 +41,29 @@ function FootFalls(props) {
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">Reports - FootFalse</h4>
+                <h4 className="mb-0">Reports - FootFalls</h4>
 
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">Shoperola</Link>
                     </li>
-                    <li className="breadcrumb-item">Reports - FootFalse</li>
+                    <li className="breadcrumb-item">Reports - FootFalls</li>
                   </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-lg-12 mb-30">
+              <div className="card dashboard-box">
+                <div className="card-body">
+                  <div className="col-lg-12">
+                    <div className="col-lg-12 mb-10">
+                      <FootfallsChart />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -59,11 +73,6 @@ function FootFalls(props) {
             <div className="col-lg-12">
               <div className="card">
                 <div className="card-body">
-                  <div className="col-lg-12">
-                    <div className="col-lg-12 mt-5 mb-10">
-                      <FootfallsChart />
-                    </div>
-                  </div>
                   <div className="row ml-0 mr-0  mb-10">
                     <div className="col-sm-12 col-md-12">
                       <div className="dataTables_length">
