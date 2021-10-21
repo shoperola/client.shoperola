@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { API } from "../../../API";
-import { isAutheticated } from "../../auth/authhelper";
-import Footer from "../Footer";
+import { API } from "../../../../API";
+import { isAutheticated } from "../../../auth/authhelper";
+import Footer from "../../Footer";
 import FootfallsChart from "./FootfallsChart";
 
 function FootFalls(props) {

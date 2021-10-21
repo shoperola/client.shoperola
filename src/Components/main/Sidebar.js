@@ -131,6 +131,30 @@ export default function Sidebar() {
                 <li>
                   <Link to="/reports/footfalls">Footfalls</Link>
                 </li>
+                <li>
+                  <Link to="/reports/footfalls_by_age">Footfalls by Age</Link>
+                </li>
+                <li>
+                  <Link to="/reports/footfalls_by_gender">
+                    Footfalls by Gender
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/reports/least_product_sold">
+                    Least Product Sold
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/reports/sales">Sales</Link>
+                </li>
+                <li>
+                  <Link to="/reports/orders">Orders</Link>
+                </li>
+                <li>
+                  <Link to="/reports/average_order_value">
+                    Average Order Value
+                  </Link>
+                </li>
               </ul>
             </li>
 

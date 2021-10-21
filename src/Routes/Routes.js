@@ -80,8 +80,14 @@ import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 import Racks from "../Components/main/VendingMachine/Racks/Racks";
 import AccessDetails from "../Components/main/VendingMachine/AccessDetails/AccessDetails";
 
-// Routes
-import FootFalls from "../Components/main/reports/Footfalls";
+// Reports
+import FootFalls from "../Components/main/reports/Footfalls/Footfalls";
+import LeastSoldProduct from "../Components/main/reports/LeastSoldProduct/LeastSoldProduct";
+import FootFallsbyAge from "../Components/main/reports/Footfalls/FootfallsByAge/FootfallsByAge";
+import FootFallsByGender from "../Components/main/reports/Footfalls/FootfallsByGender/FootfallsByGender";
+import Orders from "../Components/main/reports/Orders/Orders";
+import Sales from "../Components/main/reports/Sales/Sales";
+import AverageOrderValue from "../Components/main/reports/AverageOrderValue/AverageOrderValue";
 
 import ContactRequests from "../Components/main/ContactRequests";
 
@@ -410,6 +416,36 @@ export default function Routes() {
             path="/reports/footfalls"
             exact
             component={FootFalls}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/footfalls_by_age"
+            exact
+            component={FootFallsbyAge}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/footfalls_by_gender"
+            exact
+            component={FootFallsByGender}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/least_product_sold"
+            exact
+            component={LeastSoldProduct}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/sales"
+            exact
+            component={Sales}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/orders"
+            exact
+            component={Orders}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/average_order_value"
+            exact
+            component={AverageOrderValue}
           ></PrivateRoute>
 
           {/* Orders Management */}
