@@ -58,7 +58,7 @@ const FootfallsChart = ({ ordersData }) => {
     <>
       <div className="header">
         <h1 className="title" style={{ textAlign: "center" }}>
-          Footfalse
+          Footfalls
         </h1>
       </div>
       <Bar data={data} options={options} height="90%" />
