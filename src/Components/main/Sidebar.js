@@ -123,6 +123,18 @@ export default function Sidebar() {
             </li>
 
             <li>
+              <Link to="#/" className="has-arrow">
+                <img alt="" src="/assets/images/icons/cms-icon.png" />
+                <span>Reports</span>
+              </Link>
+              <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/reports/footfalls">Footfalls</Link>
+                </li>
+              </ul>
+            </li>
+
+            <li>
               <Link to="/orders">
                 <img alt="" src="/assets/images/icons/revenue-icon.png" />
                 <span>Orders Management</span>

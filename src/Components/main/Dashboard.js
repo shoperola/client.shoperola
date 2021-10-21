@@ -7,8 +7,6 @@ import SalesChart from "./SalesChart";
 import Footer from "./Footer";
 import OrdersChart from "./OrdersChart";
 import AverageOrdersChart from "./AverageOrdersChart";
-// import Header from "./Header";
-// import Sidebar from "./Sidebar";
 
 export default function Dashboard() {
   const [data, setData] = useState({

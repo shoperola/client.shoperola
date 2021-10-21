@@ -80,6 +80,9 @@ import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 import Racks from "../Components/main/VendingMachine/Racks/Racks";
 import AccessDetails from "../Components/main/VendingMachine/AccessDetails/AccessDetails";
 
+// Routes
+import FootFalls from "../Components/main/reports/Footfalls";
+
 import ContactRequests from "../Components/main/ContactRequests";
 
 const { token } = isAutheticated();
@@ -403,6 +406,12 @@ export default function Routes() {
             path="/settings/apps"
           ></PrivateRoute>
 
+          <PrivateRoute
+            path="/reports/footfalls"
+            exact
+            component={FootFalls}
+          ></PrivateRoute>
+
           {/* Orders Management */}
           <PrivateRoute
             component={OrdMngOrder}
@@ -460,11 +469,6 @@ export default function Routes() {
           exact
           component={RequestView}
         ></PrivateRoute>
-        {/* <PrivateRoute
-          path="/:username"
-          exact
-          component={PublicProfile}
-        ></PrivateRoute> */}
       </Switch>
     </Router>
   );
