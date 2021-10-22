@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
-const AverageOrderValueChart = ({ ordersData }) => {
-  const [labels, setLabels] = useState([]);
-  const [orders, setOrders] = useState([]);
+const AverageOrderValueChart = ({ labels, orders }) => {
   const data = {
     labels: labels,
     datasets: [
@@ -41,18 +39,6 @@ const AverageOrderValueChart = ({ ordersData }) => {
     }
     return color;
   }
-  // useEffect(() => {
-  //   const loadData = () => {
-  //     const newOrders = ordersData.map((item) => item.y);
-  //     const newLabels = ordersData.map((item) => {
-  //       return item.x;
-  //     });
-  //     setOrders(newOrders);
-  //     setLabels(newLabels);
-  //   };
-
-  //   loadData();
-  // }, [ordersData]);
 
   return (
     <>

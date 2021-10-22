@@ -20,20 +20,37 @@ function AverageOrderValue(props) {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/logo`, {
+        .get(`${API}/api/order/view_order`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          if (res.data.data[0].logo) {
-            setImage(res.data.data[0].logo);
-          }
+          let finalObj = {};
+          res.data.data.forEach((item) => {
+            if (new Date(item.createdAt).getMonth() == month) {
+              const date = item.createdAt.split("T")[0];
+              console.log(item.createdAt);
+              if (finalObj[date]) {
+                finalObj[date].push(item);
+              } else {
+                finalObj[date] = [item];
+              }
+            }
+          });
+          let newObject = {};
+          Object.keys(finalObj).map((key) => {
+            let s = 0;
+            finalObj[key].map((item) => (s += parseInt(item.amount)));
+            newObject[key] = s / finalObj[key].length;
+          });
+          console.log(newObject);
+          setData(newObject);
         });
     };
 
     fetchData();
-  }, [token]);
+  }, [token, month]);
 
   return (
     <div className="main-content">
@@ -94,7 +111,10 @@ function AverageOrderValue(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <AverageOrderValueChart />
+                        <AverageOrderValueChart
+                          labels={Object.keys(data)}
+                          orders={Object.keys(data).map((item) => data[item])}
+                        />
                       </div>
                     </div>
                   </div>
