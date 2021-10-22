@@ -31,7 +31,10 @@ function LeastSoldProduct(props) {
           res.data.Least_sold_products.forEach((item) => {
             console.log(new Date(item.date).getMonth(), month);
             if (new Date(item.date).getMonth() == month) {
-              final = [...final, products[item.pro]];
+              final = [
+                ...final,
+                { ...products[item.pro], sales: item.total_sales },
+              ];
             }
           });
           console.log("final", final);
@@ -177,7 +180,7 @@ function LeastSoldProduct(props) {
                             </td>
                             <td>{item.title}</td>
                             <td>$ {item.price}</td>
-                            <td class="h3">20</td>
+                            <td class="h3">{item.sales}</td>
                           </tr>
                         ))}
                       </tbody>
