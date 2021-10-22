@@ -9,31 +9,70 @@ import OrdersChart from "./OrdersChart";
 function Orders(props) {
   const { token } = isAutheticated();
   const [image, setImage] = useState("");
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState("0");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
-  const [showData, setShowData] = useState(data);
+  const [showData, setShowData] = useState([]);
 
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/logo`, {
+        .get(`${API}/api/order/view_order`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          if (res.data.data[0].logo) {
-            setImage(res.data.data[0].logo);
-          }
+          let finalObj = {};
+          res.data.data.forEach((item) => {
+            if (new Date(item.createdAt).getMonth() == month) {
+              const date = item.createdAt.split("T")[0];
+              console.log(item.createdAt);
+              if (finalObj[date]) {
+                finalObj[date].push(item);
+              } else {
+                finalObj[date] = [item];
+              }
+            }
+          });
+          setData(finalObj);
         });
     };
 
     fetchData();
-  }, [token]);
+  }, [token, month]);
+
+  useEffect(() => {
+    const loadData = () => {
+      const indexOfLastPost = currentPage * itemPerPage;
+      const indexOfFirstPost = indexOfLastPost - itemPerPage;
+
+      let newData = Object.keys(data).map((key) => ({
+        date: key,
+        orders: data[key].length,
+      }));
+
+      setShowData(newData.slice(indexOfFirstPost, indexOfLastPost));
+    };
+
+    loadData();
+  }, [data, currentPage, itemPerPage]);
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    let d = date.toDateString(dateStr);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = hours + ":" + minutes + " " + ampm;
+    return d + ", " + strTime;
+  };
 
   return (
     <div className="main-content">
@@ -92,7 +131,12 @@ function Orders(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <OrdersChart />
+                        <OrdersChart
+                          labels={Object.keys(data)}
+                          orders={Object.keys(data).map(
+                            (item) => data[item].length
+                          )}
+                        />
                       </div>
                     </div>
                   </div>
@@ -148,10 +192,12 @@ function Orders(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>21 Oct 2021 03:17 p.m</td>
-                          <td>5</td>
-                        </tr>
+                        {showData.map((item) => (
+                          <tr>
+                            <td>{formatDate(item.date)}</td>
+                            <td>{item.orders}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -165,8 +211,11 @@ function Orders(props) {
                         aria-live="polite"
                       >
                         Showing {currentPage * itemPerPage - itemPerPage + 1} to{" "}
-                        {Math.min(currentPage * itemPerPage, data.length)} of{" "}
-                        {data.length} entries
+                        {Math.min(
+                          currentPage * itemPerPage,
+                          Object.keys(data).length
+                        )}{" "}
+                        of {Object.keys(data).length} entries
                       </div>
                     </div>
 
@@ -222,7 +271,7 @@ function Orders(props) {
 
                           {!(
                             (currentPage + 1) * itemPerPage - itemPerPage >
-                            data.length
+                            Object.keys(data).length
                           ) && (
                             <li className="paginate_button page-item ">
                               <a
@@ -244,7 +293,7 @@ function Orders(props) {
                             className={
                               !(
                                 (currentPage + 1) * itemPerPage - itemPerPage >
-                                data.length
+                                Object.keys(data).length
                               )
                                 ? "paginate_button page-item next"
                                 : "paginate_button page-item next disabled"
