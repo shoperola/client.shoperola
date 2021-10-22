@@ -145,6 +145,9 @@ export default function Sidebar() {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/reports/most_product_sold">Most Product Sold</Link>
+                </li>
+                <li>
                   <Link to="/reports/sales">Sales</Link>
                 </li>
                 <li>

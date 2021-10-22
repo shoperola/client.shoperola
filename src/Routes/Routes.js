@@ -90,6 +90,7 @@ import Sales from "../Components/main/reports/Sales/Sales";
 import AverageOrderValue from "../Components/main/reports/AverageOrderValue/AverageOrderValue";
 
 import ContactRequests from "../Components/main/ContactRequests";
+import MostSoldProduct from "../Components/main/reports/MostSoldProduct/MostSoldProduct";
 
 const { token } = isAutheticated();
 
@@ -426,6 +427,11 @@ export default function Routes() {
             path="/reports/footfalls_by_gender"
             exact
             component={FootFallsByGender}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/reports/most_product_sold"
+            exact
+            component={MostSoldProduct}
           ></PrivateRoute>
           <PrivateRoute
             path="/reports/least_product_sold"
