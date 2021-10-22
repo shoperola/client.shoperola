@@ -15,24 +15,54 @@ function MostSoldProduct(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/logo`, {
+        .get(`${API}/api/order/view_order`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          if (res.data.data[0].logo) {
-            setImage(res.data.data[0].logo);
-          }
+          let final = [];
+          res.data.Most_sold_products.forEach((item) => {
+            if (new Date(item.date).getMonth() == month) {
+              final = [...final, products[item.pro]];
+            }
+          });
+          console.log("final", final);
+          setData(final);
         });
     };
 
     fetchData();
+  }, [token, month, products]);
+
+  useEffect(() => {
+    axios
+      .get(`${API}/api/product`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        let newObj = {};
+        res.data.data.map((item) => (newObj[item._id] = item));
+        setProducts(newObj);
+      });
   }, [token]);
+
+  useEffect(() => {
+    const loadData = () => {
+      const indexOfLastPost = currentPage * itemPerPage;
+      const indexOfFirstPost = indexOfLastPost - itemPerPage;
+      setShowData(data.slice(indexOfFirstPost, indexOfLastPost));
+    };
+
+    loadData();
+  }, [data, currentPage, itemPerPage]);
 
   return (
     <div className="main-content">
@@ -135,17 +165,19 @@ function MostSoldProduct(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <img
-                              src={image}
-                              style={{ height: 150, width: 125 }}
-                            />
-                          </td>
-                          <td>Product 1</td>
-                          <td>$ 4000</td>
-                          <td class="h3">$ 4000</td>
-                        </tr>
+                        {showData.map((item) => (
+                          <tr key={item._id}>
+                            <td>
+                              <img
+                                src={item.image}
+                                style={{ height: 150, width: 125 }}
+                              />
+                            </td>
+                            <td>{item.title}</td>
+                            <td>$ {item.price}</td>
+                            <td class="h3">20</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
