@@ -91,6 +91,7 @@ import AverageOrderValue from "../Components/main/reports/AverageOrderValue/Aver
 
 import ContactRequests from "../Components/main/ContactRequests";
 import MostSoldProduct from "../Components/main/reports/MostSoldProduct/MostSoldProduct";
+import AbandonedCart from "../Components/main/abandonedCart/AbandonedCart";
 
 const { token } = isAutheticated();
 
@@ -487,6 +488,12 @@ export default function Routes() {
             component={EditTaxRate}
             exact
             path="/edit_taxRate/:id"
+          ></PrivateRoute>
+
+          <PrivateRoute
+            component={AbandonedCart}
+            exact
+            path="/abondend_cart"
           ></PrivateRoute>
 
           {/* BASE ENDING HERE */}

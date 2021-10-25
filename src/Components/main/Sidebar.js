@@ -169,6 +169,13 @@ export default function Sidebar() {
             </li>
 
             <li>
+              <Link to="/abondend_cart">
+                <img alt="" src="/assets/images/icons/revenue-icon.png" />
+                <span>Abandoned Cart</span>
+              </Link>
+            </li>
+
+            <li>
               <Link to="/contact-requests">
                 <img alt="" src="/assets/images/icons/revenue-icon.png" />
                 <span>Contact Requsts</span>
