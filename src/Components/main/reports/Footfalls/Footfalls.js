@@ -20,20 +20,63 @@ function FootFalls(props) {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/logo`, {
+        .get(`${API}/api/footfalls`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          if (res.data.data[0].logo) {
-            setImage(res.data.data[0].logo);
-          }
+          let finalObj = {};
+          res.data.data.forEach((item) => {
+            if (new Date(item.createdAt).getMonth() == month) {
+              const date = item.createdAt.split("T")[0];
+              if (finalObj[date]) {
+                finalObj[date].push(item);
+              } else {
+                finalObj[date] = [item];
+              }
+            }
+          });
+          setData(finalObj);
         });
     };
 
     fetchData();
-  }, [token]);
+  }, [token, month]);
+
+  useEffect(() => {
+    const loadData = () => {
+      const indexOfLastPost = currentPage * itemPerPage;
+      const indexOfFirstPost = indexOfLastPost - itemPerPage;
+
+      let newData = [];
+      Object.keys(data).map((key) => {
+        const temp = data[key].map((item) => ({
+          id: item._id,
+          date: item.createdAt,
+          photo: item.photo,
+        }));
+
+        newData = [...newData, ...temp];
+      });
+      setShowData(newData.slice(indexOfFirstPost, indexOfLastPost));
+    };
+
+    loadData();
+  }, [data, currentPage, itemPerPage]);
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    let d = date.toDateString(dateStr);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = hours + ":" + minutes + " " + ampm;
+    return d + ", " + strTime;
+  };
 
   return (
     <div className="main-content">
@@ -92,7 +135,12 @@ function FootFalls(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <FootfallsChart />
+                        <FootfallsChart
+                          labels={Object.keys(data)}
+                          orders={Object.keys(data).map(
+                            (item) => data[item].length
+                          )}
+                        />
                       </div>
                     </div>
                   </div>
@@ -149,16 +197,18 @@ function FootFalls(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Id</td>
-                          <td>21 Oct 2021 03:17 p.m</td>
-                          <td>
-                            <img
-                              src={image}
-                              style={{ height: 150, width: 125 }}
-                            />
-                          </td>
-                        </tr>
+                        {showData.map((item) => (
+                          <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{formatDate(item.date)}</td>
+                            <td>
+                              <img
+                                src={item.photo}
+                                style={{ height: 150, width: 125 }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
