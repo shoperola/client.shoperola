@@ -178,7 +178,7 @@ export default function Sidebar() {
             <li>
               <Link to="/contact-requests">
                 <img alt="" src="/assets/images/icons/revenue-icon.png" />
-                <span>Contact Requsts</span>
+                <span>Contact Requests</span>
               </Link>
             </li>
 

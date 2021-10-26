@@ -32,8 +32,7 @@ const ContactRequests = () => {
           // }
         )
         .then((res) => {
-          console.log(res.data);
-          setData(res.data);
+          setData(res.data.data);
         });
     };
 
