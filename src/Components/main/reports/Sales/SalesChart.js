@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
-const SalesChart = ({ ordersData }) => {
-  const [labels, setLabels] = useState([]);
-  const [orders, setOrders] = useState([]);
+const SalesChart = ({ labels, orders }) => {
   const data = {
     labels: labels,
     datasets: [

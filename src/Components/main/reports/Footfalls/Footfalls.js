@@ -9,6 +9,21 @@ import FootfallsChart from "./FootfallsChart";
 function FootFalls(props) {
   const { token } = isAutheticated();
   const [image, setImage] = useState("");
+  const totalMonths = {
+    0: "January",
+    1: "February",
+    2: "March",
+    3: "April",
+    4: "May",
+    5: "June",
+    6: "July",
+    7: "August",
+    8: "September",
+    9: "October",
+    10: "November",
+    11: "December",
+  };
+  const [months, setMonths] = useState(totalMonths);
   const [month, setMonth] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +31,7 @@ function FootFalls(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
+  const [totalData, setTotalData] = useState(data);
 
   useEffect(() => {
     const fetchData = () => {
@@ -26,23 +42,51 @@ function FootFalls(props) {
           },
         })
         .then((res) => {
-          let finalObj = {};
-          res.data.data.forEach((item) => {
-            if (new Date(item.createdAt).getMonth() == month) {
-              const date = item.createdAt.split("T")[0];
-              if (finalObj[date]) {
-                finalObj[date].push(item);
-              } else {
-                finalObj[date] = [item];
-              }
-            }
-          });
-          setData(finalObj);
+          setTotalData(res.data.data);
         });
     };
 
     fetchData();
-  }, [token, month]);
+  }, [token]);
+
+  useEffect(() => {
+    const loadData = () => {
+      let finalObj = {};
+      totalData.forEach((item) => {
+        if (new Date(item.createdAt).getMonth() == month) {
+          const date = item.createdAt.split("T")[0];
+          if (finalObj[date]) {
+            finalObj[date].push(item);
+          } else {
+            finalObj[date] = [item];
+          }
+        }
+      });
+      setData(finalObj);
+    };
+
+    loadData();
+  }, [totalData, month]);
+
+  useEffect(() => {
+    const loadData = () => {
+      let finalMonths = {};
+      totalData.forEach((item) => {
+        const currMonth = new Date(item.createdAt).getMonth();
+        finalMonths = {
+          ...finalMonths,
+          [currMonth]: totalMonths[currMonth],
+        };
+      });
+      setMonths(finalMonths);
+
+      if (!(new Date().getMonth() in months)) {
+        setMonth(new Date().getMonth());
+      }
+    };
+
+    loadData();
+  }, [totalData]);
 
   useEffect(() => {
     const loadData = () => {
@@ -117,18 +161,12 @@ function FootFalls(props) {
                         onChange={(e) => setMonth(e.target.value)}
                         className="form-control input-field"
                       >
-                        <option value="0">January</option>
-                        <option value="1">February</option>
-                        <option value="2">March</option>
-                        <option value="3">April</option>
-                        <option value="4">May</option>
-                        <option value="5">June</option>
-                        <option value="6">July</option>
-                        <option value="7">August</option>
-                        <option value="8">September</option>
-                        <option value="9">October</option>
-                        <option value="10">November</option>
-                        <option value="11">December</option>
+                        <option value="">Select month</option>
+                        {Object.keys(months).map((key) => (
+                          <option key={key} value={key}>
+                            {months[key]}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
