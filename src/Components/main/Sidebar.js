@@ -182,23 +182,6 @@ export default function Sidebar() {
               </Link>
             </li>
 
-            <li>
-              <Link to="#" className="has-arrow">
-                <img
-                  src="/assets/images/icons/payment-settings-icon.png"
-                  alt=""
-                />
-                <span>Payment Settings</span>
-              </Link>
-              <ul className="sub-menu" aria-expanded={false}>
-                <li>
-                  <Link to="/payment">Settings</Link>
-                </li>
-                <li>
-                  <Link to="/tax-rates">Tax Rates</Link>
-                </li>
-              </ul>
-            </li>
             {/* <li>
               <Link to="/notification">
                 <img src="/assets/images/icons/notification-icon.png" />
@@ -226,6 +209,12 @@ export default function Sidebar() {
                 <span>Settings</span>
               </Link>
               <ul className="sub-menu" aria-expanded={false}>
+                <li>
+                  <Link to="/payment">Payments</Link>
+                </li>
+                <li>
+                  <Link to="/tax-rates">Tax Rates</Link>
+                </li>
                 <li>
                   <Link to="/settings/profile">Profile</Link>
                 </li>
