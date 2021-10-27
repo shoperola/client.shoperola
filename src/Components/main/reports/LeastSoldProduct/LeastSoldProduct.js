@@ -54,7 +54,10 @@ function LeastSoldProduct(props) {
     const loadData = () => {
       let final = [];
       totalData.forEach((item) => {
-        if (new Date(item.date).getMonth() == month) {
+        const currMonth = new Date(item.date).getMonth();
+        const currYear = new Date(item.date).getFullYear();
+        const choosenDate = month.split(" ");
+        if (currMonth == choosenDate[0] && currYear == choosenDate[1]) {
           final = [
             ...final,
             { ...products[item.pro], sales: item.total_sales },
@@ -72,15 +75,16 @@ function LeastSoldProduct(props) {
       let finalMonths = {};
       totalData.forEach((item) => {
         const currMonth = new Date(item.date).getMonth();
+        const currYear = new Date(item.date).getFullYear();
         finalMonths = {
           ...finalMonths,
-          [currMonth]: totalMonths[currMonth],
+          [currMonth + " " + currYear]: totalMonths[currMonth] + " " + currYear,
         };
       });
       setMonths(finalMonths);
 
-      if (!(new Date().getMonth() in months)) {
-        setMonth(new Date().getMonth());
+      if (!(new Date().getMonth() + " " + new Date().getFullYear() in months)) {
+        setMonth(new Date().getMonth() + " " + new Date().getFullYear());
       }
     };
 

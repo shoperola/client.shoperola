@@ -53,7 +53,10 @@ function FootFalls(props) {
     const loadData = () => {
       let finalObj = {};
       totalData.forEach((item) => {
-        if (new Date(item.createdAt).getMonth() == month) {
+        const currMonth = new Date(item.createdAt).getMonth();
+        const currYear = new Date(item.createdAt).getFullYear();
+        const choosenDate = month.split(" ");
+        if (currMonth == choosenDate[0] && currYear == choosenDate[1]) {
           const date = item.createdAt.split("T")[0];
           if (finalObj[date]) {
             finalObj[date].push(item);
@@ -73,15 +76,16 @@ function FootFalls(props) {
       let finalMonths = {};
       totalData.forEach((item) => {
         const currMonth = new Date(item.createdAt).getMonth();
+        const currYear = new Date(item.createdAt).getFullYear();
         finalMonths = {
           ...finalMonths,
-          [currMonth]: totalMonths[currMonth],
+          [currMonth + " " + currYear]: totalMonths[currMonth] + " " + currYear,
         };
       });
       setMonths(finalMonths);
 
-      if (!(new Date().getMonth() in months)) {
-        setMonth(new Date().getMonth());
+      if (!(new Date().getMonth() + " " + new Date().getFullYear() in months)) {
+        setMonth(new Date().getMonth() + " " + new Date().getFullYear());
       }
     };
 
