@@ -92,6 +92,7 @@ import AverageOrderValue from "../Components/main/reports/AverageOrderValue/Aver
 import ContactRequests from "../Components/main/ContactRequests";
 import MostSoldProduct from "../Components/main/reports/MostSoldProduct/MostSoldProduct";
 import AbandonedCart from "../Components/main/abandonedCart/AbandonedCart";
+import Bag from "../Components/main/Commerce/Bag/Bag";
 
 const { token } = isAutheticated();
 
@@ -286,6 +287,7 @@ export default function Routes() {
             exact
             path="/alllanguages"
           ></PrivateRoute>
+          <PrivateRoute component={Bag} exact path="/bag"></PrivateRoute>
           <PrivateRoute
             component={AddLanguage}
             exact

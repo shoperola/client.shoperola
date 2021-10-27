@@ -104,6 +104,9 @@ export default function Sidebar() {
                 <li>
                   <Link to="/allCoupons">Coupons</Link>
                 </li>
+                <li>
+                  <Link to="/bag">Bag</Link>
+                </li>
               </ul>
             </li>
 
