@@ -36,7 +36,7 @@ function FootFalls(props) {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/footfalls`, {
+        .get(`${API}/api/getphoto`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -103,6 +103,9 @@ function FootFalls(props) {
           id: item._id,
           date: item.createdAt,
           photo: item.photo,
+          age: item.age,
+          emotion: item.emotion,
+          gender: item.gender,
         }));
 
         newData = [...newData, ...temp];
@@ -235,6 +238,9 @@ function FootFalls(props) {
                         <tr>
                           <th>ID</th>
                           <th>Time Stamp</th>
+                          <th>Age</th>
+                          <th>Gender</th>
+                          <th>Emotion</th>
                           <th>Photo</th>
                         </tr>
                       </thead>
@@ -243,6 +249,10 @@ function FootFalls(props) {
                           <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{formatDate(item.date)}</td>
+                            <td>{item.age}</td>
+                            <td>{item.gender}</td>
+                            <td>{item.emotion}</td>
+                            {/* <td></td> */}
                             <td>
                               <img
                                 src={item.photo}
