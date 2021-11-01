@@ -41,47 +41,27 @@ const AbandonedCart = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      setIsLoading(true);
       axios
-        .get(`${API}/api/user/view_order`, {
+        .get(`${API}/api/order/view_order`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          const newData = res.data;
+          const tempData = res.data.data.filter(
+            (item) => item.is_abandoned === false
+          );
 
-          switch (status) {
-            case "new":
-              setData(newData.filter((item) => item.is_new === true));
-              break;
-            case "processing":
-              setData(newData.filter((item) => item.is_processing === true));
-              break;
-            case "delivered":
-              setData(newData.filter((item) => item.is_delivered === true));
-              break;
-            case "dispatched":
-              setData(newData.filter((item) => item.is_dispatched === true));
-              break;
-            case "cancelled":
-              setData(newData.filter((item) => item.is_cancelled === true));
-              break;
-            case "returned":
-              setData(newData.filter((item) => item.is_returned === true));
-              break;
-            default:
-              console.log("Wrong Status");
-          }
-          setIsLoading(false);
+          setData(tempData);
         });
     };
 
     fetchData();
-  }, [token, status]);
+  }, [token]);
 
   useEffect(() => {
     const loadData = () => {
+      console.log(data);
       const indexOfLastPost = currentPage * itemPerPage;
       const indexOfFirstPost = indexOfLastPost - itemPerPage;
       setShowData(data.slice(indexOfFirstPost, indexOfLastPost));
@@ -155,28 +135,7 @@ const AbandonedCart = () => {
                         </td>
                       </tr> */}
                       <tbody>
-                        <tr>
-                          <td>id123</td>
-                          <td>test name</td>
-                          <td>23142</td>
-                          <td>Mon Oct 25 2021, 3:46 PM</td>
-                          <td>
-                            <span className="badge badge-pill badge-success font-size-12">
-                              Active
-                            </span>
-                          </td>
-                          <td>
-                            {/* <Link to={`/orders/${status}/${item._id}`}> */}
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
-                            >
-                              Edit
-                            </button>
-                            {/* </Link> */}
-                          </td>
-                        </tr>
-                        {/* {!isLoading &&
+                        {!isLoading &&
                           showData?.map((item) => (
                             <tr key={item._id}>
                               <td>{item._id}</td>
@@ -208,7 +167,7 @@ const AbandonedCart = () => {
                                 </Link>
                               </td>
                             </tr>
-                          ))} */}
+                          ))}
                       </tbody>
                     </table>
                   </div>

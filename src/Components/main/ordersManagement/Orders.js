@@ -43,7 +43,7 @@ const Order = () => {
     const fetchData = () => {
       setIsLoading(true);
       axios
-        .get(`${API}/api/user/view_order`, {
+        .get(`${API}/api/order/view_order`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

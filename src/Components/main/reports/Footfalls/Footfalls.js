@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../../../../API";
 import { isAutheticated } from "../../../auth/authhelper";
 import Footer from "../../Footer";
 import FootfallsChart from "./FootfallsChart";
+import { loadModels, getDescription } from "./faceApi";
 
 function FootFalls(props) {
   const { token } = isAutheticated();
@@ -32,6 +33,7 @@ function FootFalls(props) {
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
   const [totalData, setTotalData] = useState(data);
+  const imageRef = useRef();
 
   useEffect(() => {
     const fetchData = () => {
@@ -128,6 +130,18 @@ function FootFalls(props) {
     let strTime = hours + ":" + minutes + " " + ampm;
     return d + ", " + strTime;
   };
+
+  useEffect(() => {
+    const load = async () => {
+      await loadModels();
+      const description = await getDescription(
+        "https://www.washingtonpost.com/rf/image_1484w/2010-2019/WashingtonPost/2017/03/28/Local-Politics/Images/Supreme_Court_Gorsuch_Moments_22084-70c71-0668.jpg?t=20170517"
+      );
+      console.log("Description", description[0]);
+    };
+
+    load();
+  }, []);
 
   return (
     <div className="main-content">
@@ -245,7 +259,23 @@ function FootFalls(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {showData.map((item) => (
+                        <tr>
+                          <td>6178bd52d53c3c3f4527fe91</td>
+                          <td>Wed Oct 27 2021, 8:15 AM</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <img
+                              ref={imageRef}
+                              src="https://www.washingtonpost.com/rf/image_1484w/2010-2019/WashingtonPost/2017/03/28/Local-Politics/Images/Supreme_Court_Gorsuch_Moments_22084-70c71-0668.jpg?t=20170517"
+                              style={{ height: 150, width: 125 }}
+                              id="my-image"
+                            />
+                          </td>
+                        </tr>
+
+                        {showData.map((item, idx) => (
                           <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{formatDate(item.date)}</td>

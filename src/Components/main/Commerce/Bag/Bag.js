@@ -7,16 +7,62 @@ import Footer from "../../Footer";
 import getSymbolFromCurrency from "currency-symbol-map";
 
 function Bag(props) {
-  const [includeBags, setIncludeBags] = useState(false);
-  const [paid, setPaid] = useState(false);
+  const { token } = isAutheticated();
+  const [includeBags, setIncludeBags] = useState("No");
+  const [paid, setPaid] = useState("Free");
   const [price, setPrice] = useState(0);
+  const [currency, setCurrency] = useState("$");
 
   useEffect(() => {
-    if (!includeBags) {
-      setPaid(false);
+    async function fetchData() {
+      await axios
+        .get(`${API}/api/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setCurrency(res.data.data.settings.currency);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    fetchData();
+  }, [token]);
+
+  // useEffect(() => {
+  //   const fetchData = () => {
+  //     axios
+  //       .get(`${API}/api/user`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         setTotalData(res.data.data);
+  //       });
+  //   };
+
+  //   fetchData();
+  // }, [token]);
+
+  useEffect(() => {
+    if (includeBags === "No") {
+      setPaid("Free");
       setPrice(0);
     }
   }, [includeBags]);
+
+  const onSave = () => {
+    const data = {
+      dispensebag: includeBags,
+      dispensecharge: paid,
+      dispensepaid: price,
+    };
+  };
 
   return (
     <div className="main-content">
@@ -60,13 +106,13 @@ function Bag(props) {
                               <input
                                 type="radio"
                                 className="custom-control-input"
-                                checked={includeBags}
-                                onClick={() => setIncludeBags(true)}
+                                checked={includeBags === "Yes"}
+                                onClick={() => setIncludeBags("Yes")}
                               />
                               <label
                                 className="custom-control-label"
                                 for="age1"
-                                onClick={() => setIncludeBags(true)}
+                                onClick={() => setIncludeBags("Yes")}
                               >
                                 Yes
                               </label>
@@ -76,13 +122,13 @@ function Bag(props) {
                               <input
                                 type="radio"
                                 className="custom-control-input"
-                                checked={!includeBags}
-                                onClick={() => setIncludeBags(false)}
+                                checked={includeBags === "No"}
+                                onClick={() => setIncludeBags("No")}
                               />
                               <label
                                 className="custom-control-label"
                                 for="age2"
-                                onClick={() => setIncludeBags(false)}
+                                onClick={() => setIncludeBags("No")}
                               >
                                 No
                               </label>
@@ -92,7 +138,7 @@ function Bag(props) {
                       </div>
                     </div>
 
-                    {includeBags && (
+                    {includeBags === "Yes" && (
                       <div className="row">
                         <div className="col-lg-12">
                           <div className="form-group">
@@ -107,13 +153,13 @@ function Bag(props) {
                                 <input
                                   type="radio"
                                   className="custom-control-input"
-                                  checked={!paid}
-                                  onClick={() => setPaid(false)}
+                                  checked={paid === "Free"}
+                                  onClick={() => setPaid("Free")}
                                 />
                                 <label
                                   className="custom-control-label"
                                   for="age1"
-                                  onClick={() => setPaid(false)}
+                                  onClick={() => setPaid("Free")}
                                 >
                                   Free
                                 </label>
@@ -123,13 +169,13 @@ function Bag(props) {
                                 <input
                                   type="radio"
                                   className="custom-control-input"
-                                  checked={paid}
-                                  onClick={() => setPaid(true)}
+                                  checked={paid === "Paid"}
+                                  onClick={() => setPaid("Paid")}
                                 />
                                 <label
                                   className="custom-control-label"
                                   for="age2"
-                                  onClick={() => setPaid(true)}
+                                  onClick={() => setPaid("Paid")}
                                 >
                                   Paid
                                 </label>
@@ -140,7 +186,7 @@ function Bag(props) {
                       </div>
                     )}
 
-                    {paid && (
+                    {paid === "Paid" && (
                       <div className="row">
                         <div className="col-lg-12">
                           <div className="form-group">
@@ -154,10 +200,9 @@ function Bag(props) {
                               <div className="input-group">
                                 <div className="input-group-prepend">
                                   <span className="input-group-text">
-                                    {/* {currency
-                                        ? getSymbolFromCurrency(currency)
-                                        : "$"} */}
-                                    $
+                                    {currency
+                                      ? getSymbolFromCurrency(currency)
+                                      : "$"}
                                   </span>
                                 </div>
                                 <input
