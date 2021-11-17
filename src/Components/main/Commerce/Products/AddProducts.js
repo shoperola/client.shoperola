@@ -47,13 +47,26 @@ function AddProducts(props) {
   const [optionList, setOptionList] = useState([{ name: "", value: [] }]);
   const [variants, setVariants] = useState([]);
 
+  const [dispenseFree, setDispenseFree] = useState(false);
+  const [sampleAlong, setSampleAlong] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [sampleLimit, setSampleLimit] = useState(true);
+  const [collectData, setCollectData] = useState({
+    name: false,
+    mobile: false,
+    email: false,
+  });
+  const [featureSample, setFeatureSample] = useState(false);
+  const [message, setMessage] = useState("");
+
   const wordLimit = {
     title: 40,
-    description: 1000,
+    description: 200,
     price: 12,
     salePrice: 12,
     SKU: 10,
     quantity: 10,
+    message: 100,
   };
 
   const [titleLen, setTitleLen] = useState(wordLimit.title);
@@ -62,6 +75,7 @@ function AddProducts(props) {
   const [salePriceLen, setSalePriceLen] = useState(wordLimit.salePrice);
   const [SKULen, setSKULen] = useState(wordLimit.SKU);
   const [quantityLen, setQuantityLen] = useState(wordLimit.quantity);
+  const [messageLen, setMessageLen] = useState(wordLimit.message);
 
   useEffect(() => {
     async function fetchData() {
@@ -285,6 +299,12 @@ function AddProducts(props) {
           setQuantityLen(wordLimit.quantity - length);
         }
         break;
+      case "message":
+        if (wordLimit.message - length !== -1) {
+          setMessage(value);
+          setMessageLen(wordLimit.message - length);
+        }
+        break;
       default:
         console.log("Incorrect Type");
     }
@@ -474,7 +494,6 @@ function AddProducts(props) {
           </div>
           {/* <!-- Save options Ends-->             */}
 
-          {/* <!-- Row 1 Begins -->                */}
           <div className="row">
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
@@ -490,61 +509,210 @@ function AddProducts(props) {
                                 htmlFor="basicpill-phoneno-input"
                                 className="label-100"
                               >
-                                Title*
+                                Is this a sample product you want to dispense
+                                for free?
                               </label>
-                              <div class="input-group has-validation">
-                                <input
-                                  type="text"
-                                  name="title"
-                                  className={
-                                    clickedSave && state.title.length === 0
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                  onChange={(e) => editHandler(e, "title")}
-                                  placeholder="Title"
-                                  value={state.title}
-                                />
-                                <div class="invalid-feedback">
-                                  Please add a valid title.
+                              <div className="col-md-8">
+                                <div className="custom-control custom-radio mb-2">
+                                  <input
+                                    type="radio"
+                                    className="custom-control-input"
+                                    checked={dispenseFree}
+                                    onClick={() =>
+                                      setDispenseFree((prev) => !prev)
+                                    }
+                                  />
+                                  <label
+                                    className="custom-control-label"
+                                    for="age1"
+                                    onClick={() => setDispenseFree(true)}
+                                  >
+                                    Yes
+                                  </label>
+                                </div>
+
+                                <div className="custom-control custom-radio mb-2">
+                                  <input
+                                    type="radio"
+                                    className="custom-control-input"
+                                    checked={!dispenseFree}
+                                    onClick={() => setDispenseFree(false)}
+                                  />
+                                  <label
+                                    className="custom-control-label"
+                                    for="age2"
+                                    onClick={() => setDispenseFree(false)}
+                                  >
+                                    No
+                                  </label>
                                 </div>
                               </div>
-
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Remaining words : {titleLen}
-                              </label>
                             </div>
                           </div>
                         </div>
+
                         <div className="row">
                           <div className="col-lg-12">
-                            <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
-                                Description(optional)
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Do you want to give this sample along with a
+                                product Purchase?
                               </label>
-                              <div className="col-md-13">
-                                <textarea
-                                  onChange={(e) =>
-                                    editHandler(e, "description")
-                                  }
-                                  name="description"
-                                  className="form-control input-field"
-                                  rows="5"
-                                  placeholder="Add description"
-                                  value={state.description}
-                                ></textarea>
-                                <label
-                                  for="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Remaining words : {descriptionLen}
-                                </label>
+                              <div className="col-md-8">
+                                <div className="custom-control custom-radio mb-2">
+                                  <input
+                                    type="radio"
+                                    className="custom-control-input"
+                                    checked={sampleAlong}
+                                    onClick={() => setSampleAlong(true)}
+                                  />
+                                  <label
+                                    className="custom-control-label"
+                                    for="age1"
+                                    onClick={() => setSampleAlong(true)}
+                                  >
+                                    Yes
+                                  </label>
+                                </div>
+
+                                <div className="custom-control custom-radio mb-2">
+                                  <input
+                                    type="radio"
+                                    className="custom-control-input"
+                                    checked={!sampleAlong}
+                                    onClick={() => setSampleAlong(false)}
+                                  />
+                                  <label
+                                    className="custom-control-label"
+                                    for="age2"
+                                    onClick={() => setSampleAlong(false)}
+                                  >
+                                    No
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                            {/* <div className="form-group">
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Select Products
+                              </label>
+                              <div class="input-group has-validation">
+                                <select
+                                  name="category"
+                                  value={selectedProduct}
+                                  onChange={(e) =>
+                                    setSelectedProduct(e.target.value)
+                                  }
+                                  className={
+                                    clickedSave && state.category === ""
+                                      ? "form-control input-field is-invalid"
+                                      : "form-control input-field"
+                                  }
+                                  disabled={!sampleAlong}
+                                >
+                                  <option value="">--select--</option>
+                                  {Categories?.map((item) => (
+                                    <>
+                                      <option key={item._id} value={item._id}>
+                                        {item.category}
+                                      </option>
+                                    </>
+                                  ))}
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please choose a valid category.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                {/* <!--Left Column Begins--> */}
+                <div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Title*
+                                  </label>
+                                  <div class="input-group has-validation">
+                                    <input
+                                      type="text"
+                                      name="title"
+                                      className={
+                                        clickedSave && state.title.length === 0
+                                          ? "form-control input-field is-invalid"
+                                          : "form-control input-field"
+                                      }
+                                      onChange={(e) => editHandler(e, "title")}
+                                      placeholder="Title"
+                                      value={state.title}
+                                    />
+                                    <div class="invalid-feedback">
+                                      Please add a valid title.
+                                    </div>
+                                  </div>
+
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Remaining words : {titleLen}
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group mb-30 width-100 row">
+                                  <label className="col-md-4 control-label">
+                                    Description(optional)
+                                  </label>
+                                  <div className="col-md-13">
+                                    <textarea
+                                      onChange={(e) =>
+                                        editHandler(e, "description")
+                                      }
+                                      name="description"
+                                      className="form-control input-field"
+                                      rows="5"
+                                      placeholder="Add description"
+                                      value={state.description}
+                                    ></textarea>
+                                    <label
+                                      for="basicpill-phoneno-input"
+                                      className="label-100"
+                                    >
+                                      Remaining words : {descriptionLen}
+                                    </label>
+                                  </div>
+                                </div>
+                                {/* <div className="form-group">
 															<label for="basicpill-phoneno-input" className="label-100">
 																Description
 															</label>
@@ -552,12 +720,201 @@ function AddProducts(props) {
 																<div id="summernote-editor" onChange={handleChangeEditor} defaultValue={state.description} ref={EditorRef} className="summernote"></div>
 															</span>
 														</div> */}
-                          </div>
+                              </div>
+                            </div>
+                          </form>
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div className="row">
+                {/* <!--Left Column Begins--> */}
+                <div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Upload Featured Product Image*
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group mb-30 width-100 row">
+                                  <label className="col-md-4 control-label">
+                                    Upload One Image Only
+                                    <br />
+                                    <span className="size">(360 x 459 px)</span>
+                                  </label>
+                                  <div className="col-md-8">
+                                    <input
+                                      type="file"
+                                      onChange={handleSingleImage}
+                                      className="form-control input-field"
+                                      value={state?.image?.filename}
+                                      accept="image/*"
+                                    />
+                                    {imageUrl && (
+                                      <img
+                                        className="img-fluid mt-2"
+                                        style={{
+                                          width: "95px",
+                                          height: "126px",
+                                        }}
+                                        alt="360x459"
+                                        src={imageUrl}
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* <!-- Left Column Ends --> */}
+              </div>
+
+              <div className="row">
+                {/* <!--Left Column Begins--> */}
+                <div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Upload Product Images (Optional)
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group mb-30 width-100 row">
+                                  <label className="col-md-4 control-label">
+                                    Upload Upto 4 Images
+                                    <br />
+                                    <span className="size">(360 x 459 px)</span>
+                                  </label>
+                                  <div className="col-md-8">
+                                    <input
+                                      type="file"
+                                      onChange={imageHandler}
+                                      className="form-control input-field"
+                                      accept="image/*"
+                                      multiple
+                                    />
+                                    {imagesUrl.length > 0 &&
+                                      imagesUrl.map((image) => (
+                                        <img
+                                          className="img-fluid mt-2 pr-2"
+                                          style={{
+                                            width: "75px",
+                                            height: "100px",
+                                            cursor: "pointer",
+                                          }}
+                                          alt="360x459"
+                                          src={image}
+                                          onClick={() => openImage(image)}
+                                        />
+                                      ))}
+                                    {openModal && (
+                                      <div
+                                        className="modal fade show"
+                                        id="exampleModalCenter"
+                                        tabindex="-1"
+                                        aria-labelledby="exampleModalCenterTitle"
+                                        aria-modal="true"
+                                        role="dialog"
+                                        style={{ display: "block" }}
+                                      >
+                                        <div className="modal-dialog modal-dialog-centered">
+                                          <div className="modal-content">
+                                            <div className="modal-header">
+                                              <h5
+                                                className="modal-title"
+                                                id="exampleModalCenterTitle"
+                                              >
+                                                {imageTitle}
+                                              </h5>
+                                              <button
+                                                type="button"
+                                                className="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"
+                                                onClick={() =>
+                                                  setOpenModal(false)
+                                                }
+                                              ></button>
+                                            </div>
+                                            <div className="modal-body">
+                                              <img
+                                                className="img-fluid mt-2 pr-2"
+                                                style={{
+                                                  width: "360px",
+                                                  height: "45px",
+                                                }}
+                                                alt="360x459"
+                                                src={currentImage}
+                                                // onClick={() => openImage(image)}
+                                              />
+                                            </div>
+                                            <div className="modal-footer">
+                                              <button
+                                                type="button"
+                                                className="btn btn-secondary"
+                                                data-bs-dismiss="modal"
+                                                onClick={() =>
+                                                  setOpenModal(false)
+                                                }
+                                              >
+                                                Close
+                                              </button>
+                                              <button
+                                                type="button"
+                                                className="btn btn-danger"
+                                                onClick={() => deleteImage()}
+                                              >
+                                                Delete
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* <!-- Left Column Ends --> */}
               </div>
             </div>
             {/* <!-- Left Column Ends --> */}
@@ -676,197 +1033,263 @@ function AddProducts(props) {
                   </div>
                 </div>
               </div>
+
+              <div>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <form>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Rules for this Sample product dispense
+                                </label>
+                                <div className="col-md-8">
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={sampleLimit}
+                                      onClick={() => setSampleLimit(true)}
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() => setSampleLimit(true)}
+                                    >
+                                      Only one sample of this per order
+                                    </label>
+                                  </div>
+
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={!sampleLimit}
+                                      onClick={() => setSampleLimit(false)}
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age2"
+                                      onClick={() => setSampleLimit(false)}
+                                    >
+                                      Only one sample of this per person
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <form>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Collect the following information
+                                </label>
+                                <div className="col-md-8">
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={collectData["name"]}
+                                      onClick={() =>
+                                        setCollectData((prev) => ({
+                                          ...prev,
+                                          name: !prev["name"],
+                                        }))
+                                      }
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() =>
+                                        setCollectData((prev) => ({
+                                          ...prev,
+                                          name: !prev["name"],
+                                        }))
+                                      }
+                                    >
+                                      Name
+                                    </label>
+                                  </div>
+
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={collectData["mobile"]}
+                                      onClick={() =>
+                                        setCollectData((prev) => ({
+                                          ...prev,
+                                          mobile: !prev["mobile"],
+                                        }))
+                                      }
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() =>
+                                        setCollectData((prev) => ({
+                                          ...prev,
+                                          mobile: !prev["mobile"],
+                                        }))
+                                      }
+                                    >
+                                      Mobile Number
+                                    </label>
+                                  </div>
+
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={collectData["email"]}
+                                      onClick={() =>
+                                        setCollectData((prev) => ({
+                                          ...prev,
+                                          email: !prev["email"],
+                                        }))
+                                      }
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() =>
+                                        setCollectData((prev) => ({
+                                          ...prev,
+                                          email: !prev["email"],
+                                        }))
+                                      }
+                                    >
+                                      Email
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <form>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Messages
+                                </label>
+
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Display the following text as message when
+                                  anyone tries to get more than the qualified
+                                  samples.
+                                </label>
+                                <div className="col-md-13">
+                                  <textarea
+                                    onChange={(e) => editHandler(e, "message")}
+                                    name="description"
+                                    className="form-control input-field"
+                                    rows="5"
+                                    placeholder="Add message"
+                                    value={message}
+                                  ></textarea>
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Remaining words : {messageLen}
+                                  </label>
+                                </div>
+
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Feature this sample
+                                </label>
+                                <div className="col-md-8">
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={featureSample}
+                                      onClick={() => setFeatureSample(true)}
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() => setFeatureSample(true)}
+                                    >
+                                      Yes
+                                    </label>
+                                  </div>
+
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={!featureSample}
+                                      onClick={() => setFeatureSample(false)}
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() => setFeatureSample(false)}
+                                    >
+                                      No
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
             {/* <!--Right Column Ends --> */}
           </div>
-          {/* <!-- Row 1 Ends -->           */}
 
-          {/* <!-- Row 2 Begins -->                */}
-          <div className="row">
-            {/* <!--Left Column Begins--> */}
-            <div className="col-lg-8">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Upload Featured Product Image*
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
-                                Upload One Image Only
-                                <br />
-                                <span className="size">(360 x 459 px)</span>
-                              </label>
-                              <div className="col-md-8">
-                                <input
-                                  type="file"
-                                  onChange={handleSingleImage}
-                                  className="form-control input-field"
-                                  value={state?.image?.filename}
-                                  accept="image/*"
-                                />
-                                {imageUrl && (
-                                  <img
-                                    className="img-fluid mt-2"
-                                    style={{
-                                      width: "95px",
-                                      height: "126px",
-                                    }}
-                                    alt="360x459"
-                                    src={imageUrl}
-                                  />
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Left Column Ends --> */}
-          </div>
-
-          <div className="row">
-            {/* <!--Left Column Begins--> */}
-            <div className="col-lg-8">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Upload Product Images (Optional)
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group mb-30 width-100 row">
-                              <label className="col-md-4 control-label">
-                                Upload Upto 4 Images
-                                <br />
-                                <span className="size">(360 x 459 px)</span>
-                              </label>
-                              <div className="col-md-8">
-                                <input
-                                  type="file"
-                                  onChange={imageHandler}
-                                  className="form-control input-field"
-                                  accept="image/*"
-                                  multiple
-                                />
-                                {imagesUrl.length > 0 &&
-                                  imagesUrl.map((image) => (
-                                    <img
-                                      className="img-fluid mt-2 pr-2"
-                                      style={{
-                                        width: "75px",
-                                        height: "100px",
-                                        cursor: "pointer",
-                                      }}
-                                      alt="360x459"
-                                      src={image}
-                                      onClick={() => openImage(image)}
-                                    />
-                                  ))}
-                                {openModal && (
-                                  <div
-                                    className="modal fade show"
-                                    id="exampleModalCenter"
-                                    tabindex="-1"
-                                    aria-labelledby="exampleModalCenterTitle"
-                                    aria-modal="true"
-                                    role="dialog"
-                                    style={{ display: "block" }}
-                                  >
-                                    <div className="modal-dialog modal-dialog-centered">
-                                      <div className="modal-content">
-                                        <div className="modal-header">
-                                          <h5
-                                            className="modal-title"
-                                            id="exampleModalCenterTitle"
-                                          >
-                                            {imageTitle}
-                                          </h5>
-                                          <button
-                                            type="button"
-                                            className="btn-close"
-                                            data-bs-dismiss="modal"
-                                            aria-label="Close"
-                                            onClick={() => setOpenModal(false)}
-                                          ></button>
-                                        </div>
-                                        <div className="modal-body">
-                                          <img
-                                            className="img-fluid mt-2 pr-2"
-                                            style={{
-                                              width: "360px",
-                                              height: "45px",
-                                            }}
-                                            alt="360x459"
-                                            src={currentImage}
-                                            // onClick={() => openImage(image)}
-                                          />
-                                        </div>
-                                        <div className="modal-footer">
-                                          <button
-                                            type="button"
-                                            className="btn btn-secondary"
-                                            data-bs-dismiss="modal"
-                                            onClick={() => setOpenModal(false)}
-                                          >
-                                            Close
-                                          </button>
-                                          <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={() => deleteImage()}
-                                          >
-                                            Delete
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Left Column Ends --> */}
-          </div>
-          {/* <!-- Row 2 Ends -->  */}
-
-          {/* <!-- Row 3 Begins -->                */}
           <div className="row">
             {/* <!--Left Column Begins--> */}
             <div className="col-lg-8">
