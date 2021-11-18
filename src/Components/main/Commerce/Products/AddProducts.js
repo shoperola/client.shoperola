@@ -647,7 +647,7 @@ function AddProducts(props) {
                                     ))}
                                   </select>
                                   <div class="invalid-feedback">
-                                    Please choose a valid category.
+                                    Please choose a valid Product.
                                   </div>
                                 </div>
                               </div>
