@@ -58,6 +58,7 @@ function AddProducts(props) {
   });
   const [featureSample, setFeatureSample] = useState(false);
   const [message, setMessage] = useState("");
+  const [products, setProducts] = useState([]);
 
   const wordLimit = {
     title: 40,
@@ -121,6 +122,18 @@ function AddProducts(props) {
       }
     }
     fetchData();
+  }, [token]);
+
+  useEffect(() => {
+    const getData = async () => {
+      let res = await axios.get(`${API}/api/product`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProducts(res.data.data);
+    };
+    getData();
   }, [token]);
 
   const handleVariants = () => {
@@ -551,92 +564,96 @@ function AddProducts(props) {
                           </div>
                         </div>
 
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Do you want to give this sample along with a
-                                product Purchase?
-                              </label>
-                              <div className="col-md-8">
-                                <div className="custom-control custom-radio mb-2">
-                                  <input
-                                    type="radio"
-                                    className="custom-control-input"
-                                    checked={sampleAlong}
-                                    onClick={() => setSampleAlong(true)}
-                                  />
-                                  <label
-                                    className="custom-control-label"
-                                    for="age1"
-                                    onClick={() => setSampleAlong(true)}
-                                  >
-                                    Yes
-                                  </label>
-                                </div>
-
-                                <div className="custom-control custom-radio mb-2">
-                                  <input
-                                    type="radio"
-                                    className="custom-control-input"
-                                    checked={!sampleAlong}
-                                    onClick={() => setSampleAlong(false)}
-                                  />
-                                  <label
-                                    className="custom-control-label"
-                                    for="age2"
-                                    onClick={() => setSampleAlong(false)}
-                                  >
-                                    No
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Select Products
-                              </label>
-                              <div class="input-group has-validation">
-                                <select
-                                  name="category"
-                                  value={selectedProduct}
-                                  onChange={(e) =>
-                                    setSelectedProduct(e.target.value)
-                                  }
-                                  className={
-                                    clickedSave && state.category === ""
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                  disabled={!sampleAlong}
+                        {dispenseFree && (
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
                                 >
-                                  <option value="">--select--</option>
-                                  {Categories?.map((item) => (
-                                    <>
-                                      <option key={item._id} value={item._id}>
-                                        {item.category}
-                                      </option>
-                                    </>
-                                  ))}
-                                </select>
-                                <div class="invalid-feedback">
-                                  Please choose a valid category.
+                                  Do you want to give this sample along with a
+                                  product Purchase?
+                                </label>
+                                <div className="col-md-8">
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={sampleAlong}
+                                      onClick={() => setSampleAlong(true)}
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age1"
+                                      onClick={() => setSampleAlong(true)}
+                                    >
+                                      Yes
+                                    </label>
+                                  </div>
+
+                                  <div className="custom-control custom-radio mb-2">
+                                    <input
+                                      type="radio"
+                                      className="custom-control-input"
+                                      checked={!sampleAlong}
+                                      onClick={() => setSampleAlong(false)}
+                                    />
+                                    <label
+                                      className="custom-control-label"
+                                      for="age2"
+                                      onClick={() => setSampleAlong(false)}
+                                    >
+                                      No
+                                    </label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        )}
+
+                        {dispenseFree && sampleAlong && (
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Select Products
+                                </label>
+                                <div class="input-group has-validation">
+                                  <select
+                                    name="category"
+                                    value={selectedProduct}
+                                    onChange={(e) =>
+                                      setSelectedProduct(e.target.value)
+                                    }
+                                    className={
+                                      clickedSave && state.category === ""
+                                        ? "form-control input-field is-invalid"
+                                        : "form-control input-field"
+                                    }
+                                    disabled={!sampleAlong}
+                                  >
+                                    <option value="">--select--</option>
+                                    {products?.map((item) => (
+                                      <>
+                                        <option key={item._id} value={item._id}>
+                                          {item.title}
+                                        </option>
+                                      </>
+                                    ))}
+                                  </select>
+                                  <div class="invalid-feedback">
+                                    Please choose a valid category.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </form>
                     </div>
                   </div>
@@ -916,125 +933,229 @@ function AddProducts(props) {
                 </div>
                 {/* <!-- Left Column Ends --> */}
               </div>
+
+              {!dispenseFree && (
+                <div className="row">
+                  {/* <!--Left Column Begins--> */}
+                  <div>
+                    <div className="card">
+                      <div
+                        className="card-body"
+                        style={
+                          variantChecked ? { backgroundColor: "#d4d4d4" } : null
+                        }
+                      >
+                        <div className="row">
+                          <div className="col-md-12">
+                            <form>
+                              <div className="row">
+                                <div className="col-lg-4">
+                                  <div className="form-group">
+                                    <label
+                                      htmlFor="basicpill-phoneno-input"
+                                      className="label-100"
+                                    >
+                                      Price*
+                                    </label>
+                                    <div class="input-group has-validation">
+                                      <div className="input-group">
+                                        <div className="input-group-prepend">
+                                          <span className="input-group-text">
+                                            {currency
+                                              ? getSymbolFromCurrency(currency)
+                                              : "$"}
+                                          </span>
+                                        </div>
+                                        <input
+                                          type="number"
+                                          name="price"
+                                          onChange={(e) =>
+                                            editHandler(e, "price")
+                                          }
+                                          className={
+                                            clickedSave && state.price === ""
+                                              ? "form-control input-field is-invalid"
+                                              : "form-control input-field"
+                                          }
+                                          value={state.price}
+                                          min="0.00"
+                                          disabled={variantChecked}
+                                        />
+                                        <div class="invalid-feedback">
+                                          Price cannot be empty.
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <label
+                                      for="basicpill-phoneno-input"
+                                      className="label-100"
+                                    >
+                                      Remaining words : {priceLen}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-lg-4">
+                                  <div className="form-group">
+                                    <label
+                                      htmlFor="basicpill-phoneno-input"
+                                      className="label-100"
+                                    >
+                                      Sale Price*
+                                    </label>
+                                    <div class="input-group has-validation">
+                                      <div className="input-group">
+                                        <div className="input-group-prepend">
+                                          <span className="input-group-text">
+                                            {currency
+                                              ? getSymbolFromCurrency(currency)
+                                              : "$"}
+                                          </span>
+                                        </div>
+                                        <input
+                                          type="number"
+                                          name="sale_price"
+                                          onChange={(e) =>
+                                            editHandler(e, "salePrice")
+                                          }
+                                          className={
+                                            clickedSave &&
+                                            state.sale_price === ""
+                                              ? "form-control input-field is-invalid"
+                                              : "form-control input-field"
+                                          }
+                                          value={state.sale_price}
+                                          min="0.00"
+                                          disabled={variantChecked}
+                                        />
+                                        <div class="invalid-feedback">
+                                          Sale Price cannot be empty.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <label
+                                      for="basicpill-phoneno-input"
+                                      className="label-100"
+                                    >
+                                      Remaining words : {salePriceLen}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <!-- Left Column Ends --> */}
+                </div>
+              )}
+
+              {/* <!-- Row 4 Begins -->                */}
+              <div className="row">
+                {/* <!--Left Column Begins--> */}
+                <div>
+                  <div className="card">
+                    <div
+                      className="card-body"
+                      style={
+                        variantChecked ? { backgroundColor: "#d4d4d4" } : null
+                      }
+                    >
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-4">
+                                <div className="form-group">
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    SKU*
+                                  </label>
+                                  <div class="input-group has-validation">
+                                    <input
+                                      name="sku"
+                                      onChange={(e) => editHandler(e, "SKU")}
+                                      type="text"
+                                      className={
+                                        clickedSave && state.sku === ""
+                                          ? "form-control input-field is-invalid"
+                                          : "form-control input-field"
+                                      }
+                                      value={state.sku}
+                                      disabled={variantChecked}
+                                    />
+                                    <div class="invalid-feedback">
+                                      SKU cannot be empty.
+                                    </div>
+                                  </div>
+
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Remaining words : {SKULen}
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-lg-4">
+                                <div className="form-group">
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Quantity Available*
+                                  </label>
+                                  <div class="input-group has-validation">
+                                    <input
+                                      name="quantity"
+                                      onChange={(e) =>
+                                        editHandler(e, "quantity")
+                                      }
+                                      value={state.quantity}
+                                      type="text"
+                                      className={
+                                        clickedSave && state.quantity === ""
+                                          ? "form-control input-field is-invalid"
+                                          : "form-control input-field"
+                                      }
+                                    />
+                                    <div class="invalid-feedback">
+                                      Quantity cannot be empty.
+                                    </div>
+                                  </div>
+
+                                  <label
+                                    for="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Remaining words : {quantityLen}
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* <!-- Left Column Ends --> */}
+              </div>
             </div>
             {/* <!-- Left Column Ends --> */}
 
             {/* <!--Right Column Begins --> */}
             <div className="col-lg-4">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Select Tax*
-                              </label>
-                              <div class="input-group has-validation">
-                                <select
-                                  name="tax"
-                                  value={state.tax}
-                                  onChange={handleChange}
-                                  className={
-                                    clickedSave && state.tax === ""
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                >
-                                  <option value="">--select--</option>
-                                  {tax?.map((item) => (
-                                    <>
-                                      <option key={item._id} value={item._id}>
-                                        {item.tax_name} - {item.tax_percentage}%
-                                      </option>
-                                    </>
-                                  ))}
-                                </select>
-                                <div class="invalid-feedback">
-                                  Please choose a valid tax.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Select Category*
-                              </label>
-                              <div class="input-group has-validation">
-                                <select
-                                  name="category"
-                                  value={state.category}
-                                  onChange={handleChange}
-                                  className={
-                                    clickedSave && state.category === ""
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                >
-                                  <option value="">--select--</option>
-                                  {Categories?.map((item) => (
-                                    <>
-                                      <option key={item._id} value={item._id}>
-                                        {item.category}
-                                      </option>
-                                    </>
-                                  ))}
-                                </select>
-                                <div class="invalid-feedback">
-                                  Please choose a valid category.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Status*
-                              </label>
-                              <div class="input-group has-validation">
-                                <select
-                                  name="status"
-                                  value={state.status ? "active" : "inactive"}
-                                  onChange={handleStatus}
-                                  className={
-                                    clickedSave && state.state === ""
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                >
-                                  <option value="active">Active</option>
-                                  <option value="inactive">Inactive</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                  Please choose a valid category.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
+              {!dispenseFree && (
                 <div className="card">
                   <div className="card-body">
                     <div className="row">
@@ -1047,39 +1168,97 @@ function AddProducts(props) {
                                   htmlFor="basicpill-phoneno-input"
                                   className="label-100"
                                 >
-                                  Rules for this Sample product dispense
+                                  Select Tax*
                                 </label>
-                                <div className="col-md-8">
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={sampleLimit}
-                                      onClick={() => setSampleLimit(true)}
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age1"
-                                      onClick={() => setSampleLimit(true)}
-                                    >
-                                      Only one sample of this per order
-                                    </label>
+                                <div class="input-group has-validation">
+                                  <select
+                                    name="tax"
+                                    value={state.tax}
+                                    onChange={handleChange}
+                                    className={
+                                      clickedSave && state.tax === ""
+                                        ? "form-control input-field is-invalid"
+                                        : "form-control input-field"
+                                    }
+                                  >
+                                    <option value="">--select--</option>
+                                    {tax?.map((item) => (
+                                      <>
+                                        <option key={item._id} value={item._id}>
+                                          {item.tax_name} -{" "}
+                                          {item.tax_percentage}%
+                                        </option>
+                                      </>
+                                    ))}
+                                  </select>
+                                  <div class="invalid-feedback">
+                                    Please choose a valid tax.
                                   </div>
-
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={!sampleLimit}
-                                      onClick={() => setSampleLimit(false)}
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age2"
-                                      onClick={() => setSampleLimit(false)}
-                                    >
-                                      Only one sample of this per person
-                                    </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Select Category*
+                                </label>
+                                <div class="input-group has-validation">
+                                  <select
+                                    name="category"
+                                    value={state.category}
+                                    onChange={handleChange}
+                                    className={
+                                      clickedSave && state.category === ""
+                                        ? "form-control input-field is-invalid"
+                                        : "form-control input-field"
+                                    }
+                                  >
+                                    <option value="">--select--</option>
+                                    {Categories?.map((item) => (
+                                      <>
+                                        <option key={item._id} value={item._id}>
+                                          {item.category}
+                                        </option>
+                                      </>
+                                    ))}
+                                  </select>
+                                  <div class="invalid-feedback">
+                                    Please choose a valid category.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <label
+                                  htmlFor="basicpill-phoneno-input"
+                                  className="label-100"
+                                >
+                                  Status*
+                                </label>
+                                <div class="input-group has-validation">
+                                  <select
+                                    name="status"
+                                    value={state.status ? "active" : "inactive"}
+                                    onChange={handleStatus}
+                                    className={
+                                      clickedSave && state.state === ""
+                                        ? "form-control input-field is-invalid"
+                                        : "form-control input-field"
+                                    }
+                                  >
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                  </select>
+                                  <div class="invalid-feedback">
+                                    Please choose a valid category.
                                   </div>
                                 </div>
                               </div>
@@ -1090,412 +1269,262 @@ function AddProducts(props) {
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              <div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <form>
-                          <div className="row">
-                            <div className="col-lg-12">
-                              <div className="form-group">
-                                <label
-                                  htmlFor="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Collect the following information
-                                </label>
-                                <div className="col-md-8">
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={collectData["name"]}
-                                      onClick={() =>
-                                        setCollectData((prev) => ({
-                                          ...prev,
-                                          name: !prev["name"],
-                                        }))
-                                      }
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age1"
-                                      onClick={() =>
-                                        setCollectData((prev) => ({
-                                          ...prev,
-                                          name: !prev["name"],
-                                        }))
-                                      }
-                                    >
-                                      Name
-                                    </label>
-                                  </div>
-
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={collectData["mobile"]}
-                                      onClick={() =>
-                                        setCollectData((prev) => ({
-                                          ...prev,
-                                          mobile: !prev["mobile"],
-                                        }))
-                                      }
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age1"
-                                      onClick={() =>
-                                        setCollectData((prev) => ({
-                                          ...prev,
-                                          mobile: !prev["mobile"],
-                                        }))
-                                      }
-                                    >
-                                      Mobile Number
-                                    </label>
-                                  </div>
-
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={collectData["email"]}
-                                      onClick={() =>
-                                        setCollectData((prev) => ({
-                                          ...prev,
-                                          email: !prev["email"],
-                                        }))
-                                      }
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age1"
-                                      onClick={() =>
-                                        setCollectData((prev) => ({
-                                          ...prev,
-                                          email: !prev["email"],
-                                        }))
-                                      }
-                                    >
-                                      Email
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <form>
-                          <div className="row">
-                            <div className="col-lg-12">
-                              <div className="form-group">
-                                <label
-                                  htmlFor="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Messages
-                                </label>
-
-                                <label
-                                  htmlFor="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Display the following text as message when
-                                  anyone tries to get more than the qualified
-                                  samples.
-                                </label>
-                                <div className="col-md-13">
-                                  <textarea
-                                    onChange={(e) => editHandler(e, "message")}
-                                    name="description"
-                                    className="form-control input-field"
-                                    rows="5"
-                                    placeholder="Add message"
-                                    value={message}
-                                  ></textarea>
+              {dispenseFree && (
+                <div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
                                   <label
-                                    for="basicpill-phoneno-input"
+                                    htmlFor="basicpill-phoneno-input"
                                     className="label-100"
                                   >
-                                    Remaining words : {messageLen}
+                                    Rules for this Sample product dispense
                                   </label>
-                                </div>
+                                  <div className="col-md-8">
+                                    <div className="custom-control custom-radio mb-2">
+                                      <input
+                                        type="radio"
+                                        className="custom-control-input"
+                                        checked={sampleLimit}
+                                        onClick={() => setSampleLimit(true)}
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age1"
+                                        onClick={() => setSampleLimit(true)}
+                                      >
+                                        Only one sample of this per order
+                                      </label>
+                                    </div>
 
-                                <label
-                                  htmlFor="basicpill-phoneno-input"
-                                  className="label-100"
-                                >
-                                  Feature this sample
-                                </label>
-                                <div className="col-md-8">
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={featureSample}
-                                      onClick={() => setFeatureSample(true)}
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age1"
-                                      onClick={() => setFeatureSample(true)}
-                                    >
-                                      Yes
-                                    </label>
-                                  </div>
-
-                                  <div className="custom-control custom-radio mb-2">
-                                    <input
-                                      type="radio"
-                                      className="custom-control-input"
-                                      checked={!featureSample}
-                                      onClick={() => setFeatureSample(false)}
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="age1"
-                                      onClick={() => setFeatureSample(false)}
-                                    >
-                                      No
-                                    </label>
+                                    <div className="custom-control custom-radio mb-2">
+                                      <input
+                                        type="radio"
+                                        className="custom-control-input"
+                                        checked={!sampleLimit}
+                                        onClick={() => setSampleLimit(false)}
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age2"
+                                        onClick={() => setSampleLimit(false)}
+                                      >
+                                        Only one sample of this per person
+                                      </label>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </form>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Collect the following information
+                                  </label>
+                                  <div className="col-md-8">
+                                    <div className="custom-control custom-checkbox mb-2">
+                                      <input
+                                        type="checkbox"
+                                        className="custom-control-input"
+                                        checked={collectData["name"]}
+                                        onClick={() =>
+                                          setCollectData((prev) => ({
+                                            ...prev,
+                                            name: !prev["name"],
+                                          }))
+                                        }
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age1"
+                                        onClick={() =>
+                                          setCollectData((prev) => ({
+                                            ...prev,
+                                            name: !prev["name"],
+                                          }))
+                                        }
+                                      >
+                                        Name
+                                      </label>
+                                    </div>
+
+                                    <div className="custom-control custom-checkbox mb-2">
+                                      <input
+                                        type="checkbox"
+                                        className="custom-control-input"
+                                        checked={collectData["mobile"]}
+                                        onClick={() =>
+                                          setCollectData((prev) => ({
+                                            ...prev,
+                                            mobile: !prev["mobile"],
+                                          }))
+                                        }
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age1"
+                                        onClick={() =>
+                                          setCollectData((prev) => ({
+                                            ...prev,
+                                            mobile: !prev["mobile"],
+                                          }))
+                                        }
+                                      >
+                                        Mobile Number
+                                      </label>
+                                    </div>
+
+                                    <div className="custom-control custom-checkbox mb-2">
+                                      <input
+                                        type="checkbox"
+                                        className="custom-control-input"
+                                        checked={collectData["email"]}
+                                        onClick={() =>
+                                          setCollectData((prev) => ({
+                                            ...prev,
+                                            email: !prev["email"],
+                                          }))
+                                        }
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age1"
+                                        onClick={() =>
+                                          setCollectData((prev) => ({
+                                            ...prev,
+                                            email: !prev["email"],
+                                          }))
+                                        }
+                                      >
+                                        Email
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <form>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Messages
+                                  </label>
+
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Display the following text as message when
+                                    anyone tries to get more than the qualified
+                                    samples.
+                                  </label>
+                                  <div className="col-md-13">
+                                    <textarea
+                                      onChange={(e) =>
+                                        editHandler(e, "message")
+                                      }
+                                      name="description"
+                                      className="form-control input-field"
+                                      rows="5"
+                                      placeholder="Add message"
+                                      value={message}
+                                    ></textarea>
+                                    <label
+                                      for="basicpill-phoneno-input"
+                                      className="label-100"
+                                    >
+                                      Remaining words : {messageLen}
+                                    </label>
+                                  </div>
+
+                                  <label
+                                    htmlFor="basicpill-phoneno-input"
+                                    className="label-100"
+                                  >
+                                    Feature this sample
+                                  </label>
+                                  <div className="col-md-8">
+                                    <div className="custom-control custom-radio mb-2">
+                                      <input
+                                        type="radio"
+                                        className="custom-control-input"
+                                        checked={featureSample}
+                                        onClick={() => setFeatureSample(true)}
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age1"
+                                        onClick={() => setFeatureSample(true)}
+                                      >
+                                        Yes
+                                      </label>
+                                    </div>
+
+                                    <div className="custom-control custom-radio mb-2">
+                                      <input
+                                        type="radio"
+                                        className="custom-control-input"
+                                        checked={!featureSample}
+                                        onClick={() => setFeatureSample(false)}
+                                      />
+                                      <label
+                                        className="custom-control-label"
+                                        for="age1"
+                                        onClick={() => setFeatureSample(false)}
+                                      >
+                                        No
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* <!--Right Column Ends --> */}
           </div>
 
-          <div className="row">
-            {/* <!--Left Column Begins--> */}
-            <div className="col-lg-8">
-              <div className="card">
-                <div
-                  className="card-body"
-                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
-                >
-                  <div className="row">
-                    <div className="col-md-12">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Price*
-                              </label>
-                              <div class="input-group has-validation">
-                                <div className="input-group">
-                                  <div className="input-group-prepend">
-                                    <span className="input-group-text">
-                                      {currency
-                                        ? getSymbolFromCurrency(currency)
-                                        : "$"}
-                                    </span>
-                                  </div>
-                                  <input
-                                    type="number"
-                                    name="price"
-                                    onChange={(e) => editHandler(e, "price")}
-                                    className={
-                                      clickedSave && state.price === ""
-                                        ? "form-control input-field is-invalid"
-                                        : "form-control input-field"
-                                    }
-                                    value={state.price}
-                                    min="0.00"
-                                    disabled={variantChecked}
-                                  />
-                                  <div class="invalid-feedback">
-                                    Price cannot be empty.
-                                  </div>
-                                </div>
-                              </div>
-
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Remaining words : {priceLen}
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label
-                                htmlFor="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Sale Price*
-                              </label>
-                              <div class="input-group has-validation">
-                                <div className="input-group">
-                                  <div className="input-group-prepend">
-                                    <span className="input-group-text">
-                                      {currency
-                                        ? getSymbolFromCurrency(currency)
-                                        : "$"}
-                                    </span>
-                                  </div>
-                                  <input
-                                    type="number"
-                                    name="sale_price"
-                                    onChange={(e) =>
-                                      editHandler(e, "salePrice")
-                                    }
-                                    className={
-                                      clickedSave && state.sale_price === ""
-                                        ? "form-control input-field is-invalid"
-                                        : "form-control input-field"
-                                    }
-                                    value={state.sale_price}
-                                    min="0.00"
-                                    disabled={variantChecked}
-                                  />
-                                  <div class="invalid-feedback">
-                                    Sale Price cannot be empty.
-                                  </div>
-                                </div>
-                              </div>
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Remaining words : {salePriceLen}
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Left Column Ends --> */}
-          </div>
-          {/* <!-- Row 3 Ends -->  */}
-
-          {/* <!-- Row 4 Begins -->                */}
-          <div className="row">
-            {/* <!--Left Column Begins--> */}
-            <div className="col-lg-8">
-              <div className="card">
-                <div
-                  className="card-body"
-                  style={variantChecked ? { backgroundColor: "#d4d4d4" } : null}
-                >
-                  <div className="row">
-                    <div className="col-md-12">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                SKU*
-                              </label>
-                              <div class="input-group has-validation">
-                                <input
-                                  name="sku"
-                                  onChange={(e) => editHandler(e, "SKU")}
-                                  type="text"
-                                  className={
-                                    clickedSave && state.sku === ""
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                  value={state.sku}
-                                  disabled={variantChecked}
-                                />
-                                <div class="invalid-feedback">
-                                  SKU cannot be empty.
-                                </div>
-                              </div>
-
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Remaining words : {SKULen}
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Quantity Available*
-                              </label>
-                              <div class="input-group has-validation">
-                                <input
-                                  name="quantity"
-                                  onChange={(e) => editHandler(e, "quantity")}
-                                  value={state.quantity}
-                                  type="text"
-                                  className={
-                                    clickedSave && state.quantity === ""
-                                      ? "form-control input-field is-invalid"
-                                      : "form-control input-field"
-                                  }
-                                />
-                                <div class="invalid-feedback">
-                                  Quantity cannot be empty.
-                                </div>
-                              </div>
-
-                              <label
-                                for="basicpill-phoneno-input"
-                                className="label-100"
-                              >
-                                Remaining words : {quantityLen}
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Left Column Ends --> */}
-          </div>
           {/* <!-- Row 4 Ends -->  */}
         </div>
         {/* <!-- container-fluid --> */}
