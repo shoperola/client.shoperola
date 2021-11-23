@@ -150,6 +150,7 @@ function Editproducts(props) {
           },
         }
       );
+      console.log(res);
 
       const temp = response.data?.filter(
         (category) => category._id !== res.data?.data?.category
@@ -166,11 +167,13 @@ function Editproducts(props) {
       let tax = null;
 
       const filtertax = taxes.data.data.filter(
-        (tax) => tax._id !== res.data?.data?.tax._id
+        (tax) => tax._id !== res.data?.data?.tax?._id
       );
       setTax(filtertax);
 
-      tax = taxes.data.data.find((tax) => tax._id === res.data?.data?.tax._id);
+      tax = taxes.data.data.find(
+        (tax) => tax?._id === res.data?.data?.tax?._id
+      );
 
       setstate({
         title: res.data?.data?.title,
