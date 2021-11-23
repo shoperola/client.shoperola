@@ -58,6 +58,18 @@ function ViewProducts(props) {
     quantity: 10,
   };
 
+  const [isSample, setIsSample] = useState(false);
+  const [includedWithProduct, setIncludedWithProduct] = useState(true);
+  const [includedWith, setIncludedWith] = useState("Test Product");
+  const [sampleRule, setSampleRule] = useState(
+    "Only one sample of this per person"
+  );
+  const [sampleFeatured, setSampleFeatured] = useState(false);
+  const [sampleMessage, setSampleMessage] = useState("Random text message");
+  const [informationColelcted, setInformationCollected] = useState(
+    "Name, Mobile Number"
+  );
+
   useEffect(() => {
     async function fetchData() {
       await axios
@@ -113,11 +125,13 @@ function ViewProducts(props) {
       let tax = null;
       console.log("dsasadsad", taxes);
       const filtertax = taxes.data?.data?.filter(
-        (tax) => tax._id !== res.data?.data?.tax._id
+        (tax) => tax._id !== res.data?.data?.tax?._id
       );
       setTax(filtertax);
 
-      tax = taxes.data.data.find((tax) => tax._id === res.data?.data?.tax._id);
+      tax = taxes.data.data.find(
+        (tax) => tax?._id === res.data?.data?.tax?._id
+      );
 
       setstate({
         title: res.data?.data?.title,
@@ -260,17 +274,21 @@ function ViewProducts(props) {
                             >
                               Product Details
                             </label>
-                            <label className="col-md-4 control-label">
-                              Title :{" "}
-                              <span className="font-weight-normal">
-                                {state.title}
-                              </span>
-                            </label>
                           </div>
                         </div>
                       </div>
                       <div className="row">
-                        <div className="form-group mb-30 width-100 row">
+                        <div className="form-group  width-100 row">
+                          <label className="col-md-4 control-label">
+                            Title :{" "}
+                            <span className="font-weight-normal">
+                              {state.title}
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="form-group  width-100 row">
                           <label className="col-md-6 control-label">
                             Product Id :{" "}
                             <span className="font-weight-normal">
@@ -280,11 +298,45 @@ function ViewProducts(props) {
                         </div>
                       </div>
                       <div className="row">
-                        <div className="form-group mb-30 width-100 row">
+                        <div className="form-group  width-100 row">
+                          <label className="col-md-6 control-label">
+                            Is Sample Product:{" "}
+                            <span className="font-weight-normal">
+                              {isSample ? "Yes" : "No"}
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      {isSample && (
+                        <div className="row">
+                          <div className="form-group  width-100 row">
+                            <label className="col-md-6 control-label">
+                              Is included with product purchase:
+                              <span className="font-weight-normal">
+                                {includedWithProduct ? "Yes" : "No"}
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      {isSample && includedWithProduct && (
+                        <div className="row">
+                          <div className="form-group  width-100 row">
+                            <label className="col-md-6 control-label">
+                              Product Name:
+                              <span className="font-weight-normal">
+                                {includedWith}
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      <div className="row">
+                        <div className="form-group  width-100 row">
                           <label className="col-md-4 control-label">
                             Description
                           </label>
-                          <div className="col-md-13">
+                          <div>
                             <p>{state.description}</p>
                           </div>
                         </div>
@@ -297,50 +349,52 @@ function ViewProducts(props) {
             {/* <!-- Left Column Ends --> */}
 
             {/* <!--Right Column Begins --> */}
-            <div className="col-lg-4">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="row">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label
-                              htmlFor="basicpill-phoneno-input"
-                              className="label-100"
-                            >
-                              Tax & Categories
-                            </label>
-                            <label className="col-md-8 control-label">
-                              Tax :{" "}
-                              <span className="font-weight-normal">
-                                {state.tax?.tax_name}
-                              </span>
-                            </label>
+            {!isSample && (
+              <div className="col-lg-4">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Tax & Categories
+                              </label>
+                              <label className="col-md-8 control-label">
+                                Tax :{" "}
+                                <span className="font-weight-normal">
+                                  {state.tax?.tax_name}
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="col-md-8 control-label">
-                              Category :{" "}
-                              <span className="font-weight-normal">
-                                {state.category}
-                              </span>
-                            </label>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label className="col-md-8 control-label">
+                                Category :{" "}
+                                <span className="font-weight-normal">
+                                  {state.category}
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="col-md-8 control-label">
-                              Status :{" "}
-                              <span className="font-weight-normal">
-                                {state.status ? "Active" : "Inactive"}
-                              </span>
-                            </label>
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label className="col-md-8 control-label">
+                                Status :{" "}
+                                <span className="font-weight-normal">
+                                  {state.status ? "Active" : "Inactive"}
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -348,7 +402,85 @@ function ViewProducts(props) {
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {isSample && (
+              <div className="col-lg-4">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label
+                                htmlFor="basicpill-phoneno-input"
+                                className="label-100"
+                              >
+                                Other information
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group ">
+                              <label className="col-md-8 control-label">
+                                Rules for this Sample product dispense
+                              </label>
+                              <div className="col-md-8 control-label">
+                                <p>{sampleRule}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group ">
+                              <label className="col-md-8 control-label">
+                                Information Collected about
+                              </label>
+                              <div className="col-md-8 control-label">
+                                <p>{informationColelcted}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group ">
+                              <label className="col-md-8 control-label">
+                                Message
+                              </label>
+                              <div className="col-md-8 control-label">
+                                <p>{sampleMessage}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <div className="form-group">
+                              <label className="col-md-8 control-label">
+                                Is Featured:
+                                <span className="font-weight-normal">
+                                  {sampleFeatured ? "Yes" : "No"}
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* <!--Right Column Ends --> */}
           </div>
           {/* <!-- Row 1 Ends -->           */}
@@ -504,27 +636,31 @@ function ViewProducts(props) {
                             >
                               Prices, SKU & Quantity
                             </label>
-                            <label className="col-md-8 control-label">
-                              Price :{" "}
-                              <span className="font-weight-normal">
-                                {state.price}
-                              </span>
-                            </label>
+                            {!isSample && (
+                              <label className="col-md-8 control-label">
+                                Price :{" "}
+                                <span className="font-weight-normal">
+                                  {state.price}
+                                </span>
+                              </label>
+                            )}
                           </div>
                         </div>
                       </div>
-                      <div className="row">
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label className="col-md-8 control-label">
-                              Sale Price :{" "}
-                              <span className="font-weight-normal">
-                                {state.sale_price}
-                              </span>
-                            </label>
+                      {!isSample && (
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label className="col-md-8 control-label">
+                                Sale Price :{" "}
+                                <span className="font-weight-normal">
+                                  {state.sale_price}
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                   <div className="row">
