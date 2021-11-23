@@ -174,15 +174,14 @@ function AddProducts(props) {
   };
 
   const handleProduct = (variantId) => {
-    const formdata = new FormData();
+    let formdata = new FormData();
     formdata.append("title", state.title);
     formdata.append("description", state.description);
-    formdata.append("category", state.category);
+
     formdata.append("image", state.image);
     formdata.append("quantity", state.quantity);
     formdata.append("continue_selling", state.continue_selling);
     formdata.append("track_quantity", state.track_quantity);
-    formdata.append("status", state.status);
 
     if (variantChecked) {
       formdata.append("variants", variantId);
@@ -196,14 +195,29 @@ function AddProducts(props) {
       formdata.append("sale_price", state.sale_price);
       formdata.append("sku", state.sku);
       formdata.append("tax", state.tax);
+      formdata.append("category", state.category);
+      formdata.append("status", state.status);
     }
 
     if (dispenseFree) {
+      formdata.append("sku", state.sku);
+      formdata.append("sample_free", dispenseFree);
+      formdata.append("sample_paid", sampleAlong);
+      if (sampleAlong) {
+      }
+
+      formdata.append("one_per_person", sampleLimit);
+      formdata.append("name", collectData.name);
+      formdata.append("number", collectData.mobile);
+      formdata.append("email", collectData.email);
+      formdata.append("message", message);
+      formdata.append("featured", featureSample);
     }
 
     for (let i = 1; i < 5; i++) {
       formdata.append(`image${i}`, images[`image${i}`]);
     }
+
     axios
       .post(`${API}/api/product`, formdata, {
         headers: {
@@ -222,7 +236,7 @@ function AddProducts(props) {
   const handleSubmit = () => {
     if (
       state.title.length === 0 ||
-      state.category === "" ||
+      (!dispenseFree && state.category === "") ||
       !state.image ||
       state.quantity.length === 0 ||
       !state.status
