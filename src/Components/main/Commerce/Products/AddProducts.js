@@ -191,17 +191,19 @@ function AddProducts(props) {
       formdata.append("variant_flag", false);
     }
 
-    if (!variantChecked) {
+    if (!dispenseFree) {
       formdata.append("price", state.price);
       formdata.append("sale_price", state.sale_price);
       formdata.append("sku", state.sku);
       formdata.append("tax", state.tax);
     }
 
+    if (dispenseFree) {
+    }
+
     for (let i = 1; i < 5; i++) {
       formdata.append(`image${i}`, images[`image${i}`]);
     }
-
     axios
       .post(`${API}/api/product`, formdata, {
         headers: {
@@ -631,7 +633,7 @@ function AddProducts(props) {
                                       setSelectedProduct(e.target.value)
                                     }
                                     className={
-                                      clickedSave && state.category === ""
+                                      clickedSave && selectedProduct === ""
                                         ? "form-control input-field is-invalid"
                                         : "form-control input-field"
                                     }
