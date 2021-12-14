@@ -39,46 +39,28 @@ const Order = () => {
     fetchData();
   }, [token]);
 
+  console.log(data)
+
   useEffect(() => {
     const fetchData = () => {
       setIsLoading(true);
       axios
-        .get(`${API}/api/order/view_order`, {
+        .get(`https://shoperola.herokuapp.com/api/transaction/statuses`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
           const newData = res.data;
-
-          switch (status) {
-            case "new":
-              setData(newData.filter((item) => item.is_new === true));
-              break;
-            case "processing":
-              setData(newData.filter((item) => item.is_processing === true));
-              break;
-            case "delivered":
-              setData(newData.filter((item) => item.is_delivered === true));
-              break;
-            case "dispatched":
-              setData(newData.filter((item) => item.is_dispatched === true));
-              break;
-            case "cancelled":
-              setData(newData.filter((item) => item.is_cancelled === true));
-              break;
-            case "returned":
-              setData(newData.filter((item) => item.is_returned === true));
-              break;
-            default:
-              console.log("Wrong Status");
-          }
+          setData(newData.data)
           setIsLoading(false);
         });
     };
 
     fetchData();
   }, [token, status]);
+
+
 
   useEffect(() => {
     const loadData = () => {
@@ -143,12 +125,13 @@ const Order = () => {
                     <table className="table table-centered table-nowrap mb-0">
                       <thead className="thead-light">
                         <tr>
-                          <th>Order ID</th>
-                          <th>Name</th>
+
+                          <th>TxnId</th>
                           <th>Amount</th>
-                          <th>Placed On</th>
+                          <th>CreatedAt</th>
                           <th>Status</th>
-                          <th>Action</th>
+
+                          {/* Amount, status, createdAt, txnId */}
                         </tr>
                       </thead>
                       <tr style={{ textAlign: "center" }}>
@@ -157,27 +140,40 @@ const Order = () => {
                         </td>
                       </tr>
                       <tbody>
+
                         {!isLoading &&
                           showData?.map((item) => (
                             <tr key={item._id}>
-                              <td>{item._id}</td>
-                              <td>{item.address.Name}</td>
+                              <td>{item.txnId}</td>
+
                               <td>
                                 {getSymbolFromCurrency(currency)} {item.amount}
                               </td>
                               <td>
+                                {new Date(item.createdAt)
+                                  .toDateString(item.createdAt)
+                                  .split(" ")
+                                  .slice(1)
+                                  .join(" ")}
+                              </td>
+
+                              <td>{item.status}</td>
+
+
+
+                              {/* <td>
                                 {new Date(item.updatedAt)
                                   .toDateString(item.updatedAt)
                                   .split(" ")
                                   .slice(1)
                                   .join(" ")}
-                              </td>
-                              <td>
+                              </td> */}
+                              {/* <td>
                                 <span className="badge badge-pill badge-success font-size-12">
                                   {status.charAt(0).toUpperCase() +
                                     status.slice(1)}
                                 </span>
-                              </td>
+                              </td> */}
                               <td>
                                 <Link to={`/orders/${status}/${item._id}`}>
                                   <button
@@ -262,21 +258,21 @@ const Order = () => {
                             (currentPage + 1) * itemPerPage - itemPerPage >
                             data.length
                           ) && (
-                            <li className="paginate_button page-item ">
-                              <a
-                                href="#"
-                                aria-controls="datatable"
-                                data-dt-idx="3"
-                                tabindex="0"
-                                className="page-link"
-                                onClick={() => {
-                                  setCurrentPage((prev) => prev + 1);
-                                }}
-                              >
-                                {currentPage + 1}
-                              </a>
-                            </li>
-                          )}
+                              <li className="paginate_button page-item ">
+                                <a
+                                  href="#"
+                                  aria-controls="datatable"
+                                  data-dt-idx="3"
+                                  tabindex="0"
+                                  className="page-link"
+                                  onClick={() => {
+                                    setCurrentPage((prev) => prev + 1);
+                                  }}
+                                >
+                                  {currentPage + 1}
+                                </a>
+                              </li>
+                            )}
 
                           <li
                             className={
