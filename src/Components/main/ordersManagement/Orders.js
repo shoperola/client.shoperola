@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { API } from "../../../API";
+import { API, dataAPI } from "../../../API";
 import { isAutheticated } from "../../auth/authhelper";
 import Footer from "../Footer";
 import axios from "axios";
@@ -45,14 +45,19 @@ const Order = () => {
     const fetchData = () => {
       setIsLoading(true);
       axios
-        .get(`https://shoperola.herokuapp.com/api/transaction/statuses`, {
+        .get(`${dataAPI}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          const newData = res.data;
-          setData(newData.data)
+          const newData = res.data.data;
+          const sortedData = newData.sort(function (a, b) {
+            var c = new Date(a.createdAt).getTime();
+            var d = new Date(b.createdAt).getTime();
+            return c < d ? 1 : -1;
+          })
+          setData(sortedData)
           setIsLoading(false);
         });
     };
@@ -130,8 +135,6 @@ const Order = () => {
                           <th>Amount</th>
                           <th>CreatedAt</th>
                           <th>Status</th>
-
-                          {/* Amount, status, createdAt, txnId */}
                         </tr>
                       </thead>
                       <tr style={{ textAlign: "center" }}>
@@ -161,26 +164,14 @@ const Order = () => {
 
 
 
-                              {/* <td>
-                                {new Date(item.updatedAt)
-                                  .toDateString(item.updatedAt)
-                                  .split(" ")
-                                  .slice(1)
-                                  .join(" ")}
-                              </td> */}
-                              {/* <td>
-                                <span className="badge badge-pill badge-success font-size-12">
-                                  {status.charAt(0).toUpperCase() +
-                                    status.slice(1)}
-                                </span>
-                              </td> */}
+
                               <td>
-                                <Link to={`/orders/${status}/${item._id}`}>
+                                <Link to={`/orders/${item._id}`}>
                                   <button
                                     type="button"
                                     className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
                                   >
-                                    Edit
+                                    View
                                   </button>
                                 </Link>
                               </td>
