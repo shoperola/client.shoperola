@@ -243,10 +243,12 @@ function AddProducts(props) {
     ) {
       setClickedSave(true);
       setLoading(false);
+      setOpenModal(true);
       return;
     }
     handleVariants();
     setLoading(true);
+
   };
 
   const handleChange = (e) => {
@@ -911,7 +913,7 @@ function AddProducts(props) {
                                                 }}
                                                 alt="360x459"
                                                 src={currentImage}
-                                                // onClick={() => openImage(image)}
+                                              // onClick={() => openImage(image)}
                                               />
                                             </div>
                                             <div className="modal-footer">
@@ -1038,7 +1040,7 @@ function AddProducts(props) {
                                           }
                                           className={
                                             clickedSave &&
-                                            state.sale_price === ""
+                                              state.sale_price === ""
                                               ? "form-control input-field is-invalid"
                                               : "form-control input-field"
                                           }

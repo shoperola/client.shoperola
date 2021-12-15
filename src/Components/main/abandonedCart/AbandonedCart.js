@@ -29,7 +29,7 @@ const AbandonedCart = () => {
           },
         })
         .then((res) => {
-          // console.log(res.data.data);
+
           setCurrency(res.data.data.settings.currency);
         })
         .catch((error) => {
