@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { API } from "../../../API";
+import { API, orderAPI } from "../../../API";
 import { isAutheticated } from "../../auth/authhelper";
 import Footer from "../Footer";
 import axios from "axios";
@@ -29,6 +29,7 @@ const AbandonedCart = () => {
           },
         })
         .then((res) => {
+          // console.log(res.data.data);
           setCurrency(res.data.data.settings.currency);
         })
         .catch((error) => {
@@ -48,10 +49,11 @@ const AbandonedCart = () => {
           },
         })
         .then((res) => {
+
           const tempData = res.data.data.filter(
             (item) => item.is_abandoned === false
           );
-
+          console.log(tempData);
           setData(tempData);
         });
     };
@@ -240,21 +242,21 @@ const AbandonedCart = () => {
                             (currentPage + 1) * itemPerPage - itemPerPage >
                             data.length
                           ) && (
-                            <li className="paginate_button page-item ">
-                              <a
-                                href="#"
-                                aria-controls="datatable"
-                                data-dt-idx="3"
-                                tabindex="0"
-                                className="page-link"
-                                onClick={() => {
-                                  setCurrentPage((prev) => prev + 1);
-                                }}
-                              >
-                                {currentPage + 1}
-                              </a>
-                            </li>
-                          )}
+                              <li className="paginate_button page-item ">
+                                <a
+                                  href="#"
+                                  aria-controls="datatable"
+                                  data-dt-idx="3"
+                                  tabindex="0"
+                                  className="page-link"
+                                  onClick={() => {
+                                    setCurrentPage((prev) => prev + 1);
+                                  }}
+                                >
+                                  {currentPage + 1}
+                                </a>
+                              </li>
+                            )}
 
                           <li
                             className={

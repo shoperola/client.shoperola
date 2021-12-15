@@ -27,7 +27,7 @@ export default function Subscribers() {
       .then((response) => {
         let data = response.data.data;
         setSubcriber(data);
-        //console.log(data);
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -224,29 +224,29 @@ export default function Subscribers() {
                                 waves-effect waves-light
                                 btn-table
                                 ml-2"
-                                    // onClick={(e) => {
-                                    //   console.log(data._id)
-                                    //   e.preventDefault();
-                                    //   let statusdata = new FormData();
-                                    //   statusdata.set("status", false)
-                                    //   axios
-                                    //     .patch(
-                                    //       `${API}/api/user/subscribers/suspend/${data.subscriber?._id}`, statusdata,
-                                    //       {
-                                    //         headers: {
-                                    //           Authorization: `Bearer ${token}`,
-                                    //         },
-                                    //       }
-                                    //     )
-                                    //     .then((res) => {
-                                    //       setSuccess(!success);
+                                  // onClick={(e) => {
+                                  //   console.log(data._id)
+                                  //   e.preventDefault();
+                                  //   let statusdata = new FormData();
+                                  //   statusdata.set("status", false)
+                                  //   axios
+                                  //     .patch(
+                                  //       `${API}/api/user/subscribers/suspend/${data.subscriber?._id}`, statusdata,
+                                  //       {
+                                  //         headers: {
+                                  //           Authorization: `Bearer ${token}`,
+                                  //         },
+                                  //       }
+                                  //     )
+                                  //     .then((res) => {
+                                  //       setSuccess(!success);
 
-                                    //     })
-                                    //     .catch((err) => {
-                                    //       console.log(err);
-                                    //       setSuccess(!success);
-                                    //     });
-                                    // }}
+                                  //     })
+                                  //     .catch((err) => {
+                                  //       console.log(err);
+                                  //       setSuccess(!success);
+                                  //     });
+                                  // }}
                                   >
                                     View
                                   </button>
@@ -327,21 +327,21 @@ export default function Subscribers() {
                             (currentPage + 1) * itemPerPage - itemPerPage >
                             subcriber.length
                           ) && (
-                            <li className="paginate_button page-item ">
-                              <a
-                                href="#"
-                                aria-controls="datatable"
-                                data-dt-idx="3"
-                                tabindex="0"
-                                className="page-link"
-                                onClick={() => {
-                                  setCurrentPage((prev) => prev + 1);
-                                }}
-                              >
-                                {currentPage + 1}
-                              </a>
-                            </li>
-                          )}
+                              <li className="paginate_button page-item ">
+                                <a
+                                  href="#"
+                                  aria-controls="datatable"
+                                  data-dt-idx="3"
+                                  tabindex="0"
+                                  className="page-link"
+                                  onClick={() => {
+                                    setCurrentPage((prev) => prev + 1);
+                                  }}
+                                >
+                                  {currentPage + 1}
+                                </a>
+                              </li>
+                            )}
 
                           <li
                             className={

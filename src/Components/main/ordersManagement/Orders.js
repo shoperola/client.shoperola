@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { API, dataAPI } from "../../../API";
+import { API, orderAPI } from "../../../API";
 import { isAutheticated } from "../../auth/authhelper";
 import Footer from "../Footer";
 import axios from "axios";
@@ -45,7 +45,7 @@ const Order = () => {
     const fetchData = () => {
       setIsLoading(true);
       axios
-        .get(`${dataAPI}`, {
+        .get(`${orderAPI}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -58,6 +58,7 @@ const Order = () => {
             return c < d ? 1 : -1;
           })
           setData(sortedData)
+
           setIsLoading(false);
         });
     };
@@ -135,6 +136,7 @@ const Order = () => {
                           <th>Amount</th>
                           <th>CreatedAt</th>
                           <th>Status</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tr style={{ textAlign: "center" }}>

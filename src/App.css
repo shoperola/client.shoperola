@@ -269,6 +269,7 @@
   padding: 4px 10px;
   background-color: rgb(234, 245, 250);
   font-weight: 500;
+  
 }
 .td button{
   border: none;
@@ -287,6 +288,24 @@
   width: 130px;
   height: 80px;
   border-radius: 5px;
+}
+
+.orderDetails{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 30px;
+}
+.orderDetails li{
+  list-style: none;
+}
+.orderDetails-heading{
+  font-weight: 600;
+  flex: 0.3;
+}
+.orderDetails-value{
+  
+  flex: 0.7;
 }
  #inputBoxInShow{
    width: 78%;

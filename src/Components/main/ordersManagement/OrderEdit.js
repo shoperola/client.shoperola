@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { API } from "../../../API";
+import { API, orderAPI } from "../../../API";
 import { isAutheticated } from "../../auth/authhelper";
 import Footer from "../Footer";
 import axios from "axios";
@@ -14,45 +14,51 @@ const OrderEdit = () => {
   const { status, id } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
   const [newStatus, setNewStatus] = useState("");
   const [currency, setCurrency] = useState();
 
-  useEffect(() => {
-    async function fetchData() {
-      await axios
-        .get(`${API}/api/user`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setCurrency(res.data.data.settings.currency);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     await axios
+  //       .get(`${API}/api/user`, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         setCurrency(res.data.data.settings.currency);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
 
-    fetchData();
-  }, [token]);
+  //   fetchData();
+  // }, [token]);
 
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/user/view_order/${id}`, {
+        .get(`${orderAPI}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          setData(res.data);
+          const orderData = res.data.data.find((data) => {
+            return data._id === id
+          })
+
+          setData(orderData);
+
         });
     };
 
     fetchData();
   }, [token]);
+  console.log(data)
 
   const saveHandler = () => {
     setIsLoading(true);
@@ -124,7 +130,7 @@ const OrderEdit = () => {
           <div className="row">
             <div className="col-12">
               <div className="page-title-box d-flex align-items-center justify-content-between">
-                <h4 className="mb-0">Edit Order Details</h4>
+                <h4 className="mb-0"> Order Details</h4>
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0">
                     <li className="breadcrumb-item">
@@ -132,7 +138,7 @@ const OrderEdit = () => {
                     </li>
                     <li className="breadcrumb-item active">Orders</li>
                     <li className="breadcrumb-item active">
-                      Edit Order Details
+                      Order Details
                     </li>
                   </ol>
                 </div>
@@ -141,8 +147,8 @@ const OrderEdit = () => {
           </div>
           <div className="row">
             <div className="col-12">
-              <div className="form-group text-right">
-                <button
+              {/* <div className="form-group text-right"> */}
+              {/* <button
                   type="button"
                   className="btn btn-success btn-login waves-effect waves-light mr-3"
                   onClick={saveHandler}
@@ -157,8 +163,48 @@ const OrderEdit = () => {
                   >
                     Cancel
                   </button>
-                </Link>
+                </Link> */}
+
+              <div className="orderDetails">
+                <div className="orderDetails-heading">
+                  <li>User ID</li>
+                  <li>Merchant Txn ID </li>
+                  <li>Txn ID</li>
+                  <li>CreatedAt</li>
+                  <li>Updated At</li>
+                  <li>Status</li>
+                  <li>Checksum</li>
+                </div>
+                <div className="orderDetails-value">
+                  <li>{data.userID}</li>
+                  <li>{data.merchantTxnId}</li>
+                  <li>{data.txnId}</li>
+
+                  <li> {new Date(data.createdAt)
+                    .toDateString(data.createdAt)
+                    .split(" ")
+                    .slice(1)
+                    .join(" ")}</li>
+                  <li> {new Date(data.createdAt)
+                    .toDateString(data.createdAt)
+                    .split(" ")
+                    .slice(1)
+                    .join(" ")}</li>
+                  <li>{data.status}</li>
+                  <li>{data.checksum}</li>
+                </div>
               </div>
+
+              {/* <tr>
+                
+              </tr>
+
+              <tr>
+                
+              </tr> */}
+
+
+              {/* </div> */}
             </div>
           </div>
           {data && currency && (

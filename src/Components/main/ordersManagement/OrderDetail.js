@@ -52,7 +52,7 @@ const OrderDetail = (props) => {
                       <td>
                         <strong>Items</strong>
                       </td>
-                      <td>{data.products.length || 0}</td>
+                      {/* <td>{data.products.length || 0}</td> */}
                     </tr>
                     <tr>
                       <td>
