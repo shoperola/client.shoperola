@@ -29,6 +29,7 @@ const Order = () => {
           },
         })
         .then((res) => {
+          console.log(res.data.data)
           setCurrency(res.data.data.settings.currency);
         })
         .catch((error) => {
@@ -39,7 +40,7 @@ const Order = () => {
     fetchData();
   }, [token]);
 
-  console.log(data)
+  // console.log(data)
 
   useEffect(() => {
     const fetchData = () => {
@@ -162,7 +163,10 @@ const Order = () => {
                                   .join(" ")}
                               </td>
 
-                              <td>{item.status}</td>
+                              <td> <span className="badge badge-pill badge-success font-size-12">
+                                {item.status.charAt(0).toUpperCase() +
+                                  item.status.slice(1)}
+                              </span></td>
 
 
 

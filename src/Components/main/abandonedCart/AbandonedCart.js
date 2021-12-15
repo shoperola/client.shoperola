@@ -51,25 +51,36 @@ const AbandonedCart = () => {
         .then((res) => {
 
           const tempData = res.data.data.filter(
-            (item) => item.is_abandoned === false
+            (item) => item.txnId.status === 'SUCCESS'
           );
-          console.log(tempData);
-          setData(tempData);
+          const sortedData = tempData.sort(function (a, b) {
+            var c = new Date(a.createdAt).getTime();
+            var d = new Date(b.createdAt).getTime();
+            return c < d ? 1 : -1;
+          })
+          // console.log(tempData);
+          setData(sortedData);
+          setIsLoading(false)
         });
     };
 
     fetchData();
+
   }, [token]);
+  console.log(showData);
 
   useEffect(() => {
     const loadData = () => {
-      console.log(data);
+      // console.log(data);
       const indexOfLastPost = currentPage * itemPerPage;
       const indexOfFirstPost = indexOfLastPost - itemPerPage;
-      setShowData(data.slice(indexOfFirstPost, indexOfLastPost));
+      const slicedData = data.slice(indexOfFirstPost, indexOfLastPost);
+
+      setShowData(slicedData);
     };
 
     loadData();
+
   }, [data, currentPage, itemPerPage]);
 
   return (
@@ -124,26 +135,30 @@ const AbandonedCart = () => {
                       <thead className="thead-light">
                         <tr>
                           <th>Order ID</th>
-                          <th>Name</th>
+
                           <th>Amount</th>
                           <th>Placed On</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
-                      {/* <tr style={{ textAlign: "center" }}>
+                      <tr style={{ textAlign: "center" }}>
                         <td colspan="6">
                           <ClipLoader loading={isLoading} size={24} />
                         </td>
-                      </tr> */}
+                      </tr>
                       <tbody>
                         {!isLoading &&
-                          showData?.map((item) => (
+                          showData?.map(item =>
+
+
+                          (
+
                             <tr key={item._id}>
                               <td>{item._id}</td>
-                              <td>{item.address.Name}</td>
+
                               <td>
-                                {getSymbolFromCurrency(currency)} {item.amount}
+                                {getSymbolFromCurrency(currency)} {item.txnId.amount}
                               </td>
                               <td>
                                 {new Date(item.updatedAt)
@@ -154,8 +169,8 @@ const AbandonedCart = () => {
                               </td>
                               <td>
                                 <span className="badge badge-pill badge-success font-size-12">
-                                  {status.charAt(0).toUpperCase() +
-                                    status.slice(1)}
+                                  {item.txnId.status.charAt(0).toUpperCase() +
+                                    item.txnId.status.slice(1)}
                                 </span>
                               </td>
                               <td>

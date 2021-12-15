@@ -7,6 +7,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
 import OrderDetail from "./OrderDetail";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 const OrderEdit = () => {
   const history = useHistory();
@@ -18,25 +19,25 @@ const OrderEdit = () => {
   const [newStatus, setNewStatus] = useState("");
   const [currency, setCurrency] = useState();
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     await axios
-  //       .get(`${API}/api/user`, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         setCurrency(res.data.data.settings.currency);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
+  useEffect(() => {
+    async function fetchData() {
+      await axios
+        .get(`${API}/api/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setCurrency(res.data.data.setting.currency);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
 
-  //   fetchData();
-  // }, [token]);
+    fetchData();
+  }, [token]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -52,7 +53,7 @@ const OrderEdit = () => {
           })
 
           setData(orderData);
-
+          console.log(orderData);
         });
     };
 
@@ -173,6 +174,7 @@ const OrderEdit = () => {
                   <li>CreatedAt</li>
                   <li>Updated At</li>
                   <li>Status</li>
+                  <li>Amount</li>
                   <li>Checksum</li>
                 </div>
                 <div className="orderDetails-value">
@@ -191,6 +193,7 @@ const OrderEdit = () => {
                     .slice(1)
                     .join(" ")}</li>
                   <li>{data.status}</li>
+                  <li> {getSymbolFromCurrency(currency)} {data.amount}</li>
                   <li>{data.checksum}</li>
                 </div>
               </div>
