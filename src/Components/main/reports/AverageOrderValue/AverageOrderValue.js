@@ -42,6 +42,7 @@ function AverageOrderValue(props) {
           },
         })
         .then((res) => {
+          console.log(res.data);
           setTotalData(res.data.data);
         });
     };
@@ -65,18 +66,20 @@ function AverageOrderValue(props) {
           }
         }
       });
+
+
       let newObject = {};
       Object.keys(finalObj).map((key) => {
         let s = 0;
-        finalObj[key].map((item) => (s += parseInt(item.amount)));
+        finalObj[key].map((item) => (s = s + parseInt(item.amount)));
         newObject[key] = s / finalObj[key].length;
       });
-      setData(newObject);
+      setData(finalObj);
     };
 
     loadData();
   }, [totalData, month]);
-
+  console.log(data);
   useEffect(() => {
     const loadData = () => {
       let finalMonths = {};
@@ -153,7 +156,7 @@ function AverageOrderValue(props) {
                       <div className="col-lg-12 mb-10">
                         <AverageOrderValueChart
                           labels={Object.keys(data)}
-                          orders={Object.keys(data).map((item) => data[item])}
+                          orders={Object.keys(data).map((item) => data[item].length)}
                         />
                       </div>
                     </div>

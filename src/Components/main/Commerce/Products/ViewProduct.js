@@ -590,7 +590,7 @@ function ViewProducts(props) {
                                   }}
                                   alt="200x200"
                                   src={currentImage}
-                                  // onClick={() => openImage(image)}
+                                // onClick={() => openImage(image)}
                                 />
                               </div>
                               <div className="modal-footer">

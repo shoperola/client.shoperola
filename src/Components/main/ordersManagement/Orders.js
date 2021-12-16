@@ -133,9 +133,9 @@ const Order = () => {
                       <thead className="thead-light">
                         <tr>
 
-                          <th>TxnId</th>
+                          <th>Transaction ID</th>
                           <th>Amount</th>
-                          <th>CreatedAt</th>
+                          <th>Time</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -153,14 +153,16 @@ const Order = () => {
                               <td>{item.txnId}</td>
 
                               <td>
-                                {getSymbolFromCurrency(currency)} {item.amount}
+                                {getSymbolFromCurrency(currency)}{item.amount}
                               </td>
                               <td>
                                 {new Date(item.createdAt)
                                   .toDateString(item.createdAt)
                                   .split(" ")
                                   .slice(1)
-                                  .join(" ")}
+                                  .join(" ")} {new Date(item.createdAt)
+                                    .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                                }
                               </td>
 
                               <td> <span className="badge badge-pill badge-success font-size-12">

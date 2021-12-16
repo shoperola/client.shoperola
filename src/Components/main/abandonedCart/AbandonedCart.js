@@ -82,6 +82,7 @@ const AbandonedCart = () => {
     loadData();
 
   }, [data, currentPage, itemPerPage]);
+  console.log(showData)
 
   return (
     <div className="main-content">
@@ -138,7 +139,7 @@ const AbandonedCart = () => {
 
                           <th>Amount</th>
                           <th>Placed On</th>
-                          <th>Status</th>
+
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -158,28 +159,26 @@ const AbandonedCart = () => {
                               <td>{item._id}</td>
 
                               <td>
-                                {getSymbolFromCurrency(currency)} {item.txnId.amount}
+                                {getSymbolFromCurrency(currency)}{item.txnId.amount}
                               </td>
                               <td>
-                                {new Date(item.updatedAt)
-                                  .toDateString(item.updatedAt)
+
+                                {new Date(item.createdAt)
+                                  .toDateString(item.createdAt)
                                   .split(" ")
                                   .slice(1)
-                                  .join(" ")}
+                                  .join(" ")} {new Date(item.createdAt)
+                                    .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                                }
                               </td>
+
                               <td>
-                                <span className="badge badge-pill badge-success font-size-12">
-                                  {item.txnId.status.charAt(0).toUpperCase() +
-                                    item.txnId.status.slice(1)}
-                                </span>
-                              </td>
-                              <td>
-                                <Link to={`/orders/${status}/${item._id}`}>
+                                <Link to={`/comproducts/view/${item.products.pid}`}>
                                   <button
                                     type="button"
                                     className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"
                                   >
-                                    Edit
+                                    View
                                   </button>
                                 </Link>
                               </td>

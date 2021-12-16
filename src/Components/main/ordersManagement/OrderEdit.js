@@ -6,7 +6,7 @@ import Footer from "../Footer";
 import axios from "axios";
 import swal from "sweetalert";
 import ClipLoader from "react-spinners/ClipLoader";
-import OrderDetail from "./OrderDetail";
+// import OrderDetail from "./OrderDetail";
 import getSymbolFromCurrency from "currency-symbol-map";
 
 const OrderEdit = () => {
@@ -26,10 +26,11 @@ const OrderEdit = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-          },
+          }
         })
         .then((res) => {
-          setCurrency(res.data.data.setting.currency);
+          setCurrency(res.data.data.settings.currency);
+
         })
         .catch((error) => {
           console.log(error);
@@ -170,8 +171,8 @@ const OrderEdit = () => {
                 <div className="orderDetails-heading">
                   <li>User ID</li>
                   <li>Merchant Txn ID </li>
-                  <li>Txn ID</li>
-                  <li>CreatedAt</li>
+                  <li>Transaction ID</li>
+                  <li>Created At</li>
                   <li>Updated At</li>
                   <li>Status</li>
                   <li>Amount</li>
@@ -186,14 +187,18 @@ const OrderEdit = () => {
                     .toDateString(data.createdAt)
                     .split(" ")
                     .slice(1)
-                    .join(" ")}</li>
-                  <li> {new Date(data.createdAt)
-                    .toDateString(data.createdAt)
+                    .join(" ")} {new Date(data.createdAt)
+                      .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    }</li>
+                  <li> {new Date(data.updatedAt)
+                    .toDateString(data.updatedAt)
                     .split(" ")
                     .slice(1)
-                    .join(" ")}</li>
+                    .join(" ")} {new Date(data.updatedAt)
+                      .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    }</li>
                   <li>{data.status}</li>
-                  <li> {getSymbolFromCurrency(currency)} {data.amount}</li>
+                  <li> {getSymbolFromCurrency(currency)}{data.amount}</li>
                   <li>{data.checksum}</li>
                 </div>
               </div>
@@ -210,7 +215,7 @@ const OrderEdit = () => {
               {/* </div> */}
             </div>
           </div>
-          {data && currency && (
+          {/* {data && currency && (
             <OrderDetail
               status={status}
               data={data}
@@ -218,7 +223,7 @@ const OrderEdit = () => {
               setNewStatus={setNewStatus}
               currency={currency}
             />
-          )}
+          )} */}
         </div>
       </div>
 

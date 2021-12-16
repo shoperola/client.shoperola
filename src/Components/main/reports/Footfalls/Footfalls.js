@@ -44,7 +44,12 @@ function FootFalls(props) {
           },
         })
         .then((res) => {
-          setTotalData(res.data.data);
+          const sortedData = res.data.data.sort(function (a, b) {
+            var c = new Date(a.createdAt).getTime();
+            var d = new Date(b.createdAt).getTime();
+            return c < d ? 1 : -1;
+          })
+          setTotalData(sortedData);
         });
     };
 
@@ -67,6 +72,7 @@ function FootFalls(props) {
           }
         }
       });
+
       setData(finalObj);
     };
 
@@ -259,21 +265,7 @@ function FootFalls(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>6178bd52d53c3c3f4527fe91</td>
-                          <td>Wed Oct 27 2021, 8:15 AM</td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td>
-                            <img
-                              ref={imageRef}
-                              src="https://www.washingtonpost.com/rf/image_1484w/2010-2019/WashingtonPost/2017/03/28/Local-Politics/Images/Supreme_Court_Gorsuch_Moments_22084-70c71-0668.jpg?t=20170517"
-                              style={{ height: 150, width: 125 }}
-                              id="my-image"
-                            />
-                          </td>
-                        </tr>
+
 
                         {showData.map((item, idx) => (
                           <tr key={item.id}>
@@ -363,21 +355,21 @@ function FootFalls(props) {
                             (currentPage + 1) * itemPerPage - itemPerPage >
                             data.length
                           ) && (
-                            <li className="paginate_button page-item ">
-                              <a
-                                href="#"
-                                aria-controls="datatable"
-                                data-dt-idx="3"
-                                tabindex="0"
-                                className="page-link"
-                                onClick={() => {
-                                  setCurrentPage((prev) => prev + 1);
-                                }}
-                              >
-                                {currentPage + 1}
-                              </a>
-                            </li>
-                          )}
+                              <li className="paginate_button page-item ">
+                                <a
+                                  href="#"
+                                  aria-controls="datatable"
+                                  data-dt-idx="3"
+                                  tabindex="0"
+                                  className="page-link"
+                                  onClick={() => {
+                                    setCurrentPage((prev) => prev + 1);
+                                  }}
+                                >
+                                  {currentPage + 1}
+                                </a>
+                              </li>
+                            )}
 
                           <li
                             className={
