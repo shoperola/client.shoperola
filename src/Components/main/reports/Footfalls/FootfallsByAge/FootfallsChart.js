@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
-const FootfallsChart = ({ ordersData }) => {
-  const [labels, setLabels] = useState([]);
-  const [orders, setOrders] = useState([]);
+const FootfallsChart = ({ labels, orders }) => {
+
+  // console.log(tempData);
+  console.log(orders)
   const data = {
     labels: labels,
     datasets: [
@@ -58,7 +59,7 @@ const FootfallsChart = ({ ordersData }) => {
     <>
       <div className="header">
         <h1 className="title" style={{ textAlign: "center" }}>
-          Footfalls by Age
+          Footfalls By Age
         </h1>
       </div>
       <Bar data={data} options={options} height="90%" />

@@ -19,6 +19,7 @@ const AbandonedCart = () => {
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
 
+
   useEffect(() => {
     async function fetchData() {
       await axios
@@ -173,7 +174,7 @@ const AbandonedCart = () => {
                               </td>
 
                               <td>
-                                <Link to={`/comproducts/view/${item.products.pid}`}>
+                                <Link to={`/abandoned_cart/${item._id}`}>
                                   <button
                                     type="button"
                                     className="btn btn-primary btn-sm  waves-effect waves-light btn-table ml-2"

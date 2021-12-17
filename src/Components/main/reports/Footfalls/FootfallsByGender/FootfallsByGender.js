@@ -119,6 +119,7 @@ function FootFallsByGender(props) {
 
     loadData();
   }, [data, currentPage, itemPerPage]);
+  console.log(showData)
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -188,7 +189,10 @@ function FootFallsByGender(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <FootfallsChart />
+                        <FootfallsChart labels={Object.keys(showData)}
+                          orders={Object.keys(showData).map(
+                            (item) => showData[item].length
+                          )} />
                       </div>
                     </div>
                   </div>
@@ -245,11 +249,16 @@ function FootFallsByGender(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>21 Oct 2021 03:17 p.m</td>
-                          <td>1</td>
-                          <td>1</td>
-                        </tr>
+                        {showData.map((item, idx) => (
+                          <tr key={item.id}>
+                            <td>{formatDate(item.date)}</td>
+                            <td>{ }</td>
+
+
+                            {/* <td></td> */}
+
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

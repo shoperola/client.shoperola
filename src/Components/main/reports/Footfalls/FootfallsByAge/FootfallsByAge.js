@@ -1,4 +1,5 @@
 import axios from "axios";
+import { keys } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../../../../../API";
@@ -9,7 +10,18 @@ import FootfallsChart from "./FootfallsChart";
 function FootFallsbyAge(props) {
   const { token } = isAutheticated();
   const [image, setImage] = useState("");
+  let count = 0;
+  // const [count, setCount] = useState({
+  //   count1: 0,
+  //   count2: 0,
+  //   count3: 0,
+  //   count4: 0,
+  //   count5: 0,
+  //   count6: 0,
+  //   count7: 0,
+  // })
   const [month, setMonth] = useState("");
+
   const totalMonths = {
     0: "January",
     1: "February",
@@ -32,20 +44,18 @@ function FootFallsbyAge(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
   const [showData, setShowData] = useState(data);
-
+  console.log(data)
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/logo`, {
+        .get(`${API}/api/getphoto`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          if (res.data.data[0].logo) {
-            setImage(res.data.data[0].logo);
-            setTotalData(res.data.data)
-          }
+
+          setTotalData(res.data.data)
         });
     };
 
@@ -54,7 +64,7 @@ function FootFallsbyAge(props) {
 
   useEffect(() => {
     const loadData = () => {
-      let finalObj = {};
+      let finalObj = [];
       totalData.forEach((item) => {
         const currMonth = new Date(item.createdAt).getMonth();
         const currYear = new Date(item.createdAt).getFullYear();
@@ -74,6 +84,7 @@ function FootFallsbyAge(props) {
 
     loadData();
   }, [totalData, month]);
+
 
   useEffect(() => {
     const loadData = () => {
@@ -95,6 +106,7 @@ function FootFallsbyAge(props) {
 
     loadData();
   }, [totalData]);
+
   useEffect(() => {
     const loadData = () => {
       const indexOfLastPost = currentPage * itemPerPage;
@@ -118,6 +130,9 @@ function FootFallsbyAge(props) {
 
     loadData();
   }, [data, currentPage, itemPerPage]);
+  console.log(showData);
+
+
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -132,6 +147,26 @@ function FootFallsbyAge(props) {
     return d + ", " + strTime;
   };
 
+
+
+  // useEffect(() => {
+
+  //   Object.keys(data).map(item => {
+  //     data[item].map(arrayItem => {
+  //       if (arrayItem.age * 1 <= 10 || arrayItem.age * 1 >= 1) {
+  //         setCount(count.count1++)
+  //       }
+  //       if (arrayItem.age * 1 <= 20 || arrayItem.age * 1 >= 11) {
+  //         setCount(count.count2++)
+  //       }
+  //       if (arrayItem.age * 1 <= 30 || arrayItem.age * 1 >= 21) {
+  //         setCount(count.count3++)
+  //       }
+
+  //     })
+  //   })
+  // }, [month])
+  console.log(totalData);
 
 
   return (
@@ -187,7 +222,10 @@ function FootFallsbyAge(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <FootfallsChart />
+                        <FootfallsChart labels={Object.keys(data)}
+                          orders={Object.keys(data).map(
+                            (item) => data[item].length
+                          )} />
                       </div>
                     </div>
                   </div>
@@ -249,16 +287,40 @@ function FootFallsbyAge(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>21 Oct 2021 03:17 p.m</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                          <td>1</td>
-                        </tr>
+
+                        {
+                          Object.keys(data).map(item =>
+
+                            <tr>
+                              <td>{item}</td>
+                              {data[item]?.map((user) => {
+                                let count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0, count6 = 0, count7 = 0;
+                                if (user?.age >= 1 || user?.age <= 10) {
+                                  count1 = count1 + 1;
+                                }
+                                else if (user?.age >= 11 || user?.age <= 10) {
+                                  count2 = count2 + 1;
+                                }
+                                else if (user?.age >= 21 || user?.age <= 20) {
+                                  count3 = count3 + 1;
+                                }
+                                else if (user?.age >= 31 || user?.age <= 30) {
+                                  count4 = count4 + 1;
+                                }
+                                else if (user?.age >= 41 || user?.age <= 40) {
+                                  count5 = count5 + 1;
+                                }
+                                else if (user?.age >= 51 || user?.age <= 50) {
+                                  count6 = count6 + 1;
+                                } else if (user?.age > 60) {
+                                  count7 = count7 + 1;
+                                }
+                                return <td>{count1}{count2}{count3}{count4}{count5}{count6}{count7}</td>
+                              })}
+                            </tr>
+                          )
+                        }
+
                       </tbody>
                     </table>
                   </div>

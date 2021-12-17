@@ -10,6 +10,7 @@ import { loadModels, getDescription } from "./faceApi";
 function FootFalls(props) {
   const { token } = isAutheticated();
   const [image, setImage] = useState("");
+  const [days, setDays] = useState();
   const totalMonths = {
     0: "January",
     1: "February",
@@ -123,7 +124,9 @@ function FootFalls(props) {
 
     loadData();
   }, [data, currentPage, itemPerPage]);
-
+  console.log(data);
+  console.log(Object.keys(data)
+  );
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     let d = date.toDateString(dateStr);
@@ -148,6 +151,25 @@ function FootFalls(props) {
 
     load();
   }, []);
+  console.log(typeof (month))
+  useEffect(() => {
+    const evenMonths = ['1', '3', '5', '7', '8', '10', '12'];
+    const monthNum = month.charAt(0) + month.charAt(1);
+    evenMonths.map(item => {
+
+      if (item === monthNum) {
+        setDays(Array.from({ length: 31 }, (_, i) => i + 1))
+      }
+      else if (monthNum === '2') {
+        setDays(Array.from({ length: 28 }, (_, i) => i + 1))
+      }
+      else {
+
+        setDays(Array.from({ length: 31 }, (_, i) => i + 1))
+      }
+    })
+  }, [month])
+  console.log(days);
 
   return (
     <div className="main-content">
@@ -201,7 +223,8 @@ function FootFalls(props) {
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
                         <FootfallsChart
-                          labels={Object.keys(data)}
+                          dates={Object.keys(data)}
+                          labels={days}
                           orders={Object.keys(data).map(
                             (item) => data[item].length
                           )}
@@ -296,8 +319,8 @@ function FootFalls(props) {
                         aria-live="polite"
                       >
                         Showing {currentPage * itemPerPage - itemPerPage + 1} to{" "}
-                        {Math.min(currentPage * itemPerPage, data.length)} of{" "}
-                        {data.length} entries
+                        {Math.min(currentPage * itemPerPage, data?.length)} of{" "}
+                        {data?.length} entries
                       </div>
                     </div>
 

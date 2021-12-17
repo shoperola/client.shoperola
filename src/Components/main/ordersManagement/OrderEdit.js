@@ -13,7 +13,7 @@ const OrderEdit = () => {
   const history = useHistory();
   const { token } = isAutheticated();
   const { status, id } = useParams();
-
+  const [productData, setProductData] = useState({})
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
   const [newStatus, setNewStatus] = useState("");
@@ -40,6 +40,8 @@ const OrderEdit = () => {
     fetchData();
   }, [token]);
 
+
+
   useEffect(() => {
     const fetchData = () => {
       axios
@@ -60,7 +62,8 @@ const OrderEdit = () => {
 
     fetchData();
   }, [token]);
-  console.log(data)
+
+
 
   const saveHandler = () => {
     setIsLoading(true);
@@ -172,6 +175,7 @@ const OrderEdit = () => {
                   <li>User ID</li>
                   <li>Merchant Txn ID </li>
                   <li>Transaction ID</li>
+
                   <li>Created At</li>
                   <li>Updated At</li>
                   <li>Status</li>
