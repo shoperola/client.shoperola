@@ -25,7 +25,8 @@ function FootFallsByGender(props) {
     11: "December",
   };
   const [months, setMonths] = useState(totalMonths);
-
+  let men = 0;
+  let women = 0
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(data);
@@ -36,17 +37,18 @@ function FootFallsByGender(props) {
   useEffect(() => {
     const fetchData = () => {
       axios
-        .get(`${API}/api/logo`, {
+        .get(`${API}/api/getphoto`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          console.log(res.data.data);
+          console.log(res.data);
           if (res.data.data[0].logo) {
             setImage(res.data.data[0].logo);
-            setTotalData(res.data.data)
+
           }
+          setTotalData(res.data.data)
         });
     };
 
@@ -75,6 +77,7 @@ function FootFallsByGender(props) {
 
     loadData();
   }, [totalData, month]);
+  console.log(data);
 
   useEffect(() => {
     const loadData = () => {
@@ -189,10 +192,23 @@ function FootFallsByGender(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <FootfallsChart labels={Object.keys(showData)}
-                          orders={Object.keys(showData).map(
-                            (item) => showData[item].length
-                          )} />
+                        <FootfallsChart dates={Object.keys(data)}
+                          labels={['MEN', 'WOMEN']}
+                          orders={Object.keys(data).map(item => {
+
+                            data[item].map(user => {
+
+                              if (user.gender === "male") {
+                                men = men + 1;
+
+                              }
+                              else if (user.gender === "female") {
+                                women = women + 1;
+                              }
+
+                            })
+                            return men, women
+                          })} />
                       </div>
                     </div>
                   </div>
@@ -249,19 +265,43 @@ function FootFallsByGender(props) {
                         </tr>
                       </thead>
                       <tbody>
-                        {showData.map((item, idx) => (
-                          <tr key={item.id}>
-                            <td>{formatDate(item.date)}</td>
-                            <td>{ }</td>
+                        {Object.keys(data).map(item => {
+                          let men = 0;
+                          let women = 0;
+                          return <tr>
+                            <td>{item}</td>
+                            {data[item].map((user) => {
 
+                              if (user.gender === "male") {
+                                men = men + 1;
 
-                            {/* <td></td> */}
+                              }
+                              else if (user.gender === "female") {
+                                women = women + 1;
+                              }
+
+                            })}
+                            <><td>{men}</td>
+                              <td>{women}</td></>
 
                           </tr>
-                        ))}
+                        }
+
+                        )}
                       </tbody>
                     </table>
                   </div>
+
+                  {/* {showData.map((item, idx) => ( */}
+                  {/* <tr key={item.id}> */}
+                  {/* <td>{formatDate(item.date)}</td> */}
+                  {/* <td>{item.gender}</td> */}
+
+
+                  {/* <td></td> */}
+
+                  {/* </tr> */}
+                  {/* ))} */}
 
                   <div className="row mt-20">
                     <div className="col-sm-12 col-md-6 mb-20">

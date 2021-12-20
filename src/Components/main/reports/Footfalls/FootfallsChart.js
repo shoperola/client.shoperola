@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
 const FootfallsChart = ({ dates, labels, orders }) => {
+  console.log(dates, " ", orders, "    ", labels);
   const date = dates.map(item => {
     return item.charAt(8) + item.charAt(9)
   })
   const tempData = new Array(labels?.length).fill(0);
-  for (let i = 0; i < labels?.length; i++) {
-    tempData[date[i] - 1] = date[i] * 1;
+  for (let i = 0; i < orders?.length; i++) {
+    tempData[date[i] - 1] = orders[i];
   }
   console.log(tempData);
 

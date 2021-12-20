@@ -1,6 +1,7 @@
 import axios from "axios";
 import { keys } from "lodash";
 import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../../../../../API";
 import { isAutheticated } from "../../../../auth/authhelper";
@@ -10,16 +11,19 @@ import FootfallsChart from "./FootfallsChart";
 function FootFallsbyAge(props) {
   const { token } = isAutheticated();
   const [image, setImage] = useState("");
-  let count = 0;
-  // const [count, setCount] = useState({
-  //   count1: 0,
-  //   count2: 0,
-  //   count3: 0,
-  //   count4: 0,
-  //   count5: 0,
-  //   count6: 0,
-  //   count7: 0,
-  // })
+  // let count1 = 0;
+
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
+  const [count4, setCount4] = useState(0);
+  const [count5, setCount5] = useState(0);
+  const [count6, setCount6] = useState(0);
+  const [count7, setCount7] = useState(0);
+
+  const [count8, setCount8] = useState(0);
+  // const [countArray, setCountArray] = useState([]);
+
   const [month, setMonth] = useState("");
 
   const totalMonths = {
@@ -148,25 +152,63 @@ function FootFallsbyAge(props) {
   };
 
 
-
   // useEffect(() => {
 
-  //   Object.keys(data).map(item => {
-  //     data[item].map(arrayItem => {
-  //       if (arrayItem.age * 1 <= 10 || arrayItem.age * 1 >= 1) {
-  //         setCount(count.count1++)
-  //       }
-  //       if (arrayItem.age * 1 <= 20 || arrayItem.age * 1 >= 11) {
-  //         setCount(count.count2++)
-  //       }
-  //       if (arrayItem.age * 1 <= 30 || arrayItem.age * 1 >= 21) {
-  //         setCount(count.count3++)
-  //       }
+  //   const ageCount = () => {
+  //     let tempArray = []
+  //     Object.keys(data).map(item => {
+  //       console.log(data[item]);
+
+  //       data[item].map(user => {
+  //         console.log(user.age);
+  //         if (user.age >= 0 || user.age <= 10) {
+  //           setCount1(prevState => (prevState + 1))
+  //         }
+  //         else if (user.age >= 11 || user.age <= 20) {
+  //           setCount2(prevState => (prevState + 1))
+  //         }
+  //         else if (user.age >= 21 || user.age <= 30) {
+  //           setCount3(prevState => (prevState + 1))
+  //         }
+  //         else if (user.age >= 31 || user.age <= 40) {
+  //           setCount5(prevState => (prevState + 1))
+  //         }
+  //         else if (user.age >= 41 || user.age <= 50) {
+  //           setCount6(prevState => (prevState + 1))
+  //         }
+  //         else if (user.age >= 51 || user.age <= 60) {
+  //           setCount7(prevState => (prevState + 1))
+  //         } else if (user.age > 60) {
+  //           setCount8(prevState => (prevState + 1))
+  //         }
+  //       })
+  //       let counter = [count1, count2, count3, count4, count5, count6, count7, count8]
+
+
+  //       tempArray[item] = counter;
+  //       setCountArray(tempArray)
+
+
+
 
   //     })
-  //   })
-  // }, [month])
-  console.log(totalData);
+
+
+
+  //   }
+  //   ageCount();
+
+
+
+  // }, [data])
+
+
+
+  // console.log(countArray);
+  const col1 = (item) => {
+
+  }
+  console.log(data);
 
 
   return (
@@ -222,7 +264,8 @@ function FootFallsbyAge(props) {
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
-                        <FootfallsChart labels={Object.keys(data)}
+                        <FootfallsChart dates={Object.keys(data)}
+                          labels={(Array.from({ length: 31 }, (_, i) => i + 1))}
                           orders={Object.keys(data).map(
                             (item) => data[item].length
                           )} />
@@ -288,38 +331,64 @@ function FootFallsbyAge(props) {
                       </thead>
                       <tbody>
 
-                        {
-                          Object.keys(data).map(item =>
+                        {Object.keys(data).map(item => {
+                          let c1 = 0;
+                          let c2 = 0;
+                          let c3 = 0;
+                          let c4 = 0;
+                          let c5 = 0;
+                          let c6 = 0;
+                          let c7 = 0;
 
-                            <tr>
-                              <td>{item}</td>
-                              {data[item]?.map((user) => {
-                                let count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0, count6 = 0, count7 = 0;
-                                if (user?.age >= 1 || user?.age <= 10) {
-                                  count1 = count1 + 1;
-                                }
-                                else if (user?.age >= 11 || user?.age <= 10) {
-                                  count2 = count2 + 1;
-                                }
-                                else if (user?.age >= 21 || user?.age <= 20) {
-                                  count3 = count3 + 1;
-                                }
-                                else if (user?.age >= 31 || user?.age <= 30) {
-                                  count4 = count4 + 1;
-                                }
-                                else if (user?.age >= 41 || user?.age <= 40) {
-                                  count5 = count5 + 1;
-                                }
-                                else if (user?.age >= 51 || user?.age <= 50) {
-                                  count6 = count6 + 1;
-                                } else if (user?.age > 60) {
-                                  count7 = count7 + 1;
-                                }
-                                return <td>{count1}{count2}{count3}{count4}{count5}{count6}{count7}</td>
-                              })}
-                            </tr>
-                          )
+
+
+                          return <tr>
+                            <td>{item}</td>
+                            {data[item].map((user) => {
+                              console.log(user.age)
+
+                              if (user.age > 0 || user.age <= 10) {
+                                c1 = c1 + 1;
+
+                              }
+                              if (user.age > 10 || user.age <= 20) {
+                                c2 = c2 + 1;
+
+                              }
+                              if (user.age > 20 || user.age <= 30) {
+                                c3 = c3 + 1;
+
+                              }
+                              if (user.age > 30 || user.age <= 40) {
+                                c4 = c4 + 1;
+
+                              }
+                              if (user.age > 40 || user.age <= 50) {
+                                c5 = c5 + 1;
+
+                              }
+                              if (user.age > 50 || user.age <= 60) {
+                                c6 = c6 + 1;
+
+                              } else if (user.age * 1 > 60) {
+                                c7 = c7 + 1;
+
+                              }
+
+                            })}
+                            <><td>{c1}</td>
+                              <td>{c2}</td>
+                              <td>{c3}</td>
+                              <td>{c4}</td>
+                              <td>{c5}</td>
+                              <td>{c6}</td>
+                              <td>{c7}</td>
+                            </>
+
+                          </tr>
                         }
+
+                        )}
 
                       </tbody>
                     </table>

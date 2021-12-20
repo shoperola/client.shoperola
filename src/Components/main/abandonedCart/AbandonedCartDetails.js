@@ -140,6 +140,8 @@ const AbandonedCartDetails = () => {
                                     <li>User ID</li>
                                     <li>Merchant Txn ID </li>
                                     <li>Transaction ID</li>
+                                    <li>Product Purchased</li>
+                                    <li>Product ID</li>
                                     <li>Created At</li>
                                     <li>Updated At</li>
                                     <li>Status</li>
@@ -151,7 +153,8 @@ const AbandonedCartDetails = () => {
                                     <li>{data?.txnId?.userID}</li>
                                     <li>{data?.txnId?.merchantTxnId}</li>
                                     <li>{data?.txnId?.txnId}</li>
-
+                                    <li>{productData?.title}</li>
+                                    <li>{pid}</li>
                                     <li> {new Date(data?.txnId?.createdAt)
                                         .toDateString(data?.txnId?.createdAt)
                                         .split(" ")
