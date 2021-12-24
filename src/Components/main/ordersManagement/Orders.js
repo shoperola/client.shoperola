@@ -165,7 +165,7 @@ const Order = () => {
                                 }
                               </td>
 
-                              <td> <span className="badge badge-pill badge-success font-size-12">
+                              <td> <span className={item.status == 'SUCCESS' ? "badge badge-pill badge-success font-size-12" : "badge badge-pill btn-danger font-size-12"}>
                                 {item.status.charAt(0).toUpperCase() +
                                   item.status.slice(1)}
                               </span></td>

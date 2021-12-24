@@ -13,21 +13,10 @@ const Racks = () => {
   const [col, setCol] = useState(0);
   const [products, setProducts] = useState([]);
   const { token } = isAutheticated();
-
   const [totalRacks, setTotalRacks] = useState({});
   const [edit, setEdit] = useState(false);
-
-  useEffect(() => {
-    const getData = async () => {
-      let res = await axios.get(`${API}/api/product`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts(res.data.data);
-    };
-    getData();
-  }, [token]);
+  const [pid, setPid] = useState([])
+  console.log(products);
 
   useEffect(() => {
     const fetchData = () => {
@@ -40,11 +29,27 @@ const Racks = () => {
         .then((res) => {
           console.log(res);
           setTotalRacks(res.data.data);
+          setPid(Object.values(res.data.data).map(keys => keys));
         });
     };
 
     fetchData();
   }, []);
+  useEffect(() => {
+    const getData = async () => {
+      let res = await axios.get(`${API}/api/product/${pid?.map(id => id)}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(pid);
+      setProducts(res.data.data);
+    };
+    getData();
+  }, [token]);
+
+
+
 
   const addProduct = (rack, col) => {
     setRack(rack);
@@ -61,10 +66,11 @@ const Racks = () => {
 
   const getImage = (id) => {
     const product = products.filter((item) => item._id === id);
+    console.log(id);
     console.log("product", product);
     return product[0]?.image;
   };
-
+  console.log(rack);
   const getTitle = (id) => {
     console.log(id);
     const product = products.filter((item) => item._id === id);
@@ -108,6 +114,8 @@ const Racks = () => {
                       </thead>
                       <tbody>
                         {[1, 2, 3, 4, 5, 6, 7].map((rack) => (
+
+
                           <tr>
                             <td>Rack {rack}</td>
                             <td className="d-flex  align-items-center">
@@ -117,13 +125,13 @@ const Racks = () => {
                                     <div>
                                       <img
                                         src={getImage(
-                                          totalRacks[`rack${rack}${col}`]._id
+                                          totalRacks[`rack${rack}${col}`]
                                         )}
                                         style={{ height: 150, width: 125 }}
                                       />
                                       <h6 style={{ textAlign: "center" }}>
                                         {getTitle(
-                                          totalRacks[`rack${rack}${col}`]._id
+                                          totalRacks[`rack${rack}${col}`]
                                         )}
                                       </h6>
                                       <div className="d-flex">
