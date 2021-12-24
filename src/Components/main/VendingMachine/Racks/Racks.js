@@ -63,7 +63,28 @@ const Racks = () => {
     setCol(col);
     setOpenModal(true);
   };
+  const deleteProduct = (rack, col) => {
+    axios
+      .put(
+        `${API}/api/rack/update`,
+        {
+          [`rack${rack}${col}`]: "615bf71e5cad360016111111",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
 
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("Failed deleting Product");
+        console.log(error);
+      });
+  }
   const getImage = (id) => {
     const product = products.filter((item) => item._id === id);
     console.log(id);
@@ -120,8 +141,9 @@ const Racks = () => {
                             <td>Rack {rack}</td>
                             <td className="d-flex  align-items-center">
                               {[1, 2, 3, 4, 5].map((col) => (
+
                                 <div className="pr-4">
-                                  {totalRacks[`rack${rack}${col}`] ? (
+                                  {totalRacks[`rack${rack}${col}`] !== "615bf71e5cad360016111111" ? (
                                     <div>
                                       <img
                                         src={getImage(
@@ -144,7 +166,7 @@ const Racks = () => {
                                         </button>
                                         <button
                                           type="button"
-                                          // onClick={() => addProduct(1, 1)}
+                                          onClick={() => deleteProduct(rack, col)}
                                           class="btn btn-danger btn-sm ml-2"
                                         >
                                           Delete
