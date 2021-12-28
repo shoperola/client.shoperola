@@ -265,9 +265,57 @@ function FootFallsbyAge(props) {
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
                         <FootfallsChart dates={Object.keys(data)}
-                          labels={(Array.from({ length: 31 }, (_, i) => i + 1))}
-                          orders={Object.keys(data).map(
-                            (item) => data[item].length
+                          labels={['1-10', '11-20', '21-30', '31-40', '41-50', '51-60', '>60']}
+                          orders={Object.keys(data).map(item => {
+                            let c1 = 0;
+                            let c2 = 0;
+                            let c3 = 0;
+                            let c4 = 0;
+                            let c5 = 0;
+                            let c6 = 0;
+                            let c7 = 0;
+
+                            {
+                              data[item].map((user) => {
+
+
+                                if (user.age > 0 && user.age <= 10) {
+                                  c1 = c1 + 1;
+
+                                }
+                                if (user.age > 10 && user.age <= 20) {
+                                  c2 = c2 + 1;
+
+                                }
+                                if (user.age > 20 && user.age <= 30) {
+                                  c3 = c3 + 1;
+
+                                }
+                                if (user.age > 30 && user.age <= 40) {
+                                  c4 = c4 + 1;
+
+                                }
+                                if (user.age > 40 && user.age <= 50) {
+                                  c5 = c5 + 1;
+
+                                }
+                                if (user.age > 50 && user.age <= 60) {
+                                  c6 = c6 + 1;
+
+                                } else if (user.age * 1 > 60) {
+                                  c7 = c7 + 1;
+
+                                }
+
+                              })
+
+                            }
+
+
+                            return [c1, c2, c3, c4, c5, c6, c7]
+
+                          }
+
                           )} />
                       </div>
                     </div>
@@ -347,27 +395,27 @@ function FootFallsbyAge(props) {
                             {data[item].map((user) => {
                               console.log(user.age)
 
-                              if (user.age > 0 || user.age <= 10) {
+                              if (user.age > 0 && user.age <= 10) {
                                 c1 = c1 + 1;
 
                               }
-                              if (user.age > 10 || user.age <= 20) {
+                              if (user.age > 10 && user.age <= 20) {
                                 c2 = c2 + 1;
 
                               }
-                              if (user.age > 20 || user.age <= 30) {
+                              if (user.age > 20 && user.age <= 30) {
                                 c3 = c3 + 1;
 
                               }
-                              if (user.age > 30 || user.age <= 40) {
+                              if (user.age > 30 && user.age <= 40) {
                                 c4 = c4 + 1;
 
                               }
-                              if (user.age > 40 || user.age <= 50) {
+                              if (user.age > 40 && user.age <= 50) {
                                 c5 = c5 + 1;
 
                               }
-                              if (user.age > 50 || user.age <= 60) {
+                              if (user.age > 50 && user.age <= 60) {
                                 c6 = c6 + 1;
 
                               } else if (user.age * 1 > 60) {

@@ -1,28 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
-const FootfallsChart = ({ dates, labels, orders }) => {
+const FootfallsChart = ({ dates, labels, men, women }) => {
+  // console.log(orders)
   // console.log(dates, " ", orders, "    ", labels);
-  // const date = dates.map(item => {
-  //   return item.charAt(8) + item.charAt(9)
-  // })
-  // const tempData = new Array(labels?.length).fill(0);
-  // for (let i = 0; i < orders?.length; i++) {
-  //   tempData[date[i] - 1] = orders[i];
-  // }
-  // console.log(tempData);
+  const date = dates.map(item => {
+    return item.charAt(8) + item.charAt(9)
+  })
+  const menData = new Array(labels?.length).fill(0);
+  for (let i = 0; i < men?.length; i++) {
+    menData[date[i] - 1] = men[i];
+  }
+  const womenData = new Array(labels?.length).fill(0);
+  for (let i = 0; i < women?.length; i++) {
+    womenData[date[i] - 1] = women[i];
+  }
+  console.log(menData);
 
-  // console.log(tempData);
-  console.log(orders)
+  console.log(womenData);
+  // console.log(orders)
   const data = {
     labels: labels,
     datasets: [
       {
-        // label: "Average Orders Value",
-        data: orders,
-        backgroundColor: orders.map((item) => getRandomColor()),
+        label: "men",
+        data: menData,
+        backgroundColor: menData.map((item) => getRandomColor()),
         borderWidth: 1,
       },
+      {
+        label: "women",
+        data: womenData,
+        backgroundColor: womenData.map((item) => getRandomColor()),
+        borderWidth: 1,
+      },
+
+
     ],
   };
 

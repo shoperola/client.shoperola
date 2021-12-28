@@ -193,21 +193,38 @@ function FootFallsByGender(props) {
                     <div className="col-lg-12">
                       <div className="col-lg-12 mb-10">
                         <FootfallsChart dates={Object.keys(data)}
-                          labels={['MEN', 'WOMEN']}
-                          orders={Object.keys(data).map(item => {
+                          labels={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]}
+                          men={Object.keys(data).map(item => {
+                            let men = 0;
+
 
                             data[item].map(user => {
 
                               if (user.gender === "male") {
                                 men = men + 1;
 
+
                               }
-                              else if (user.gender === "female") {
+
+
+                            })
+                            console.log(men, women)
+                            return men
+                          })}
+                          women={Object.keys(data).map(item => {
+
+                            let women = 0;
+
+                            data[item].map(user => {
+
+                              if (user.gender === "female") {
                                 women = women + 1;
+
                               }
 
                             })
-                            return men, women
+                            console.log(men, women)
+                            return women
                           })} />
                       </div>
                     </div>

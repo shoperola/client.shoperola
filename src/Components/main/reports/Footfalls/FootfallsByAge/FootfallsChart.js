@@ -2,24 +2,25 @@ import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
 const FootfallsChart = ({ dates, labels, orders }) => {
-  console.log(dates, " ", orders, "    ", labels);
-  const date = dates.map(item => {
-    return item.charAt(8) + item.charAt(9)
-  })
-  const tempData = new Array(labels?.length).fill(0);
-  for (let i = 0; i < orders?.length; i++) {
-    tempData[date[i] - 1] = orders[i];
-  }
-  console.log(tempData);
+  let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0;
+  orders.map(item => {
+    c1 += item[0];
+    c2 += item[1];
+    c3 += item[2];
+    c4 += item[3];
+    c5 += item[4];
+    c6 += item[5];
+    c7 += item[6];
 
-  // console.log(tempData);
-  console.log(orders)
+  })
+  const showData = [c1, c2, c3, c4, c5, c6, c7]
+
   const data = {
     labels: labels,
     datasets: [
       {
         // label: "Average Orders Value",
-        data: tempData,
+        data: showData,
         backgroundColor: orders.map((item) => getRandomColor()),
         borderWidth: 1,
       },
