@@ -122,6 +122,9 @@ export default function Sidebar() {
                 <li>
                   <Link to="/access-details">Access Details</Link>
                 </li>
+                <li>
+                  <Link to="/videos">Videos</Link>
+                </li>
               </ul>
             </li>
 

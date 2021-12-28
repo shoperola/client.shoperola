@@ -16,6 +16,10 @@
     width: 50vw;
     height:30vh;
 }
+#video-Add{
+    display: flex;
+    justify-content: right;
+}
 
 .video-tab{
 	border:dashed 2px #eaeaea;
@@ -4410,7 +4414,7 @@ border:solid 1px #ffa300;
 .input-field {
     display: block;
     width: 100%;
-    height: 45px;
+    height: 38px;
     background: transparent;
     font-size:15px;
     color: #000;

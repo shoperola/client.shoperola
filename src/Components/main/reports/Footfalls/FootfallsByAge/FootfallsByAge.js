@@ -282,6 +282,7 @@ function FootFallsbyAge(props) {
                                 if (user.age > 0 && user.age <= 10) {
                                   c1 = c1 + 1;
 
+
                                 }
                                 if (user.age > 10 && user.age <= 20) {
                                   c2 = c2 + 1;

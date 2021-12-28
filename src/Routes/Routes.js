@@ -79,6 +79,8 @@ import OrdMngOrderEdit from "../Components/main/ordersManagement/OrderEdit";
 // Vending Machine
 import Racks from "../Components/main/VendingMachine/Racks/Racks";
 import AccessDetails from "../Components/main/VendingMachine/AccessDetails/AccessDetails";
+import Videos from "../Components/main/VendingMachine/Videos/Videos";
+import AddVideo from "../Components/main/VendingMachine/Videos/AddVideo";
 
 // Reports
 import FootFalls from "../Components/main/reports/Footfalls/Footfalls";
@@ -365,6 +367,16 @@ export default function Routes() {
             component={AccessDetails}
             exact
             path="/access-details"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={Videos}
+            exact
+            path="/videos"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={AddVideo}
+            exact
+            path="/addvideos"
           ></PrivateRoute>
           {/* coupons */}
           <PrivateRoute
