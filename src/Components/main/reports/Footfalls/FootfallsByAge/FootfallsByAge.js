@@ -140,6 +140,7 @@ function FootFallsbyAge(props) {
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
+
     let d = date.toDateString(dateStr);
     let hours = date.getHours();
     let minutes = date.getMinutes();
@@ -148,68 +149,9 @@ function FootFallsbyAge(props) {
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
     let strTime = hours + ":" + minutes + " " + ampm;
-    return d + ", " + strTime;
+    console.log(d);
+    return d;
   };
-
-
-  // useEffect(() => {
-
-  //   const ageCount = () => {
-  //     let tempArray = []
-  //     Object.keys(data).map(item => {
-  //       console.log(data[item]);
-
-  //       data[item].map(user => {
-  //         console.log(user.age);
-  //         if (user.age >= 0 || user.age <= 10) {
-  //           setCount1(prevState => (prevState + 1))
-  //         }
-  //         else if (user.age >= 11 || user.age <= 20) {
-  //           setCount2(prevState => (prevState + 1))
-  //         }
-  //         else if (user.age >= 21 || user.age <= 30) {
-  //           setCount3(prevState => (prevState + 1))
-  //         }
-  //         else if (user.age >= 31 || user.age <= 40) {
-  //           setCount5(prevState => (prevState + 1))
-  //         }
-  //         else if (user.age >= 41 || user.age <= 50) {
-  //           setCount6(prevState => (prevState + 1))
-  //         }
-  //         else if (user.age >= 51 || user.age <= 60) {
-  //           setCount7(prevState => (prevState + 1))
-  //         } else if (user.age > 60) {
-  //           setCount8(prevState => (prevState + 1))
-  //         }
-  //       })
-  //       let counter = [count1, count2, count3, count4, count5, count6, count7, count8]
-
-
-  //       tempArray[item] = counter;
-  //       setCountArray(tempArray)
-
-
-
-
-  //     })
-
-
-
-  //   }
-  //   ageCount();
-
-
-
-  // }, [data])
-
-
-
-  // console.log(countArray);
-  const col1 = (item) => {
-
-  }
-  console.log(data);
-
 
   return (
     <div className="main-content">
@@ -392,7 +334,7 @@ function FootFallsbyAge(props) {
 
 
                           return <tr>
-                            <td>{item}</td>
+                            <td>{formatDate(item)}</td>
                             {data[item].map((user) => {
                               console.log(user.age)
 

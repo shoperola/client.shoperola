@@ -123,7 +123,7 @@ export default function Sidebar() {
                   <Link to="/access-details">Access Details</Link>
                 </li>
                 <li>
-                  <Link to="/videos">Videos</Link>
+                  <Link to="/videos">Videos And Images</Link>
                 </li>
               </ul>
             </li>

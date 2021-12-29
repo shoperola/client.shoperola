@@ -5182,9 +5182,7 @@ margin: 0 auto 0px;
 .p-relative{
 	position:relative;
 }
-
-
-
-
-
-
+.thumbnail{
+    height: 100px;
+    width: 70%;
+}

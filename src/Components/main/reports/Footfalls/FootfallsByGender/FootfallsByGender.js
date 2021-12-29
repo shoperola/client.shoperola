@@ -134,7 +134,7 @@ function FootFallsByGender(props) {
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
     let strTime = hours + ":" + minutes + " " + ampm;
-    return d + ", " + strTime;
+    return d;
   };
 
 
@@ -286,7 +286,7 @@ function FootFallsByGender(props) {
                           let men = 0;
                           let women = 0;
                           return <tr>
-                            <td>{item}</td>
+                            <td>{formatDate(item)}</td>
                             {data[item].map((user) => {
 
                               if (user.gender === "male") {

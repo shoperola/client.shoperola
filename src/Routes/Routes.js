@@ -81,6 +81,7 @@ import Racks from "../Components/main/VendingMachine/Racks/Racks";
 import AccessDetails from "../Components/main/VendingMachine/AccessDetails/AccessDetails";
 import Videos from "../Components/main/VendingMachine/Videos/Videos";
 import AddVideo from "../Components/main/VendingMachine/Videos/AddVideo";
+import AddImage from "../Components/main/VendingMachine/Videos/AddImage";
 
 // Reports
 import FootFalls from "../Components/main/reports/Footfalls/Footfalls";
@@ -96,6 +97,7 @@ import MostSoldProduct from "../Components/main/reports/MostSoldProduct/MostSold
 import AbandonedCart from "../Components/main/abandonedCart/AbandonedCart";
 import AbandonedCartDetails from "../Components/main/abandonedCart/AbandonedCartDetails";
 import Bag from "../Components/main/Commerce/Bag/Bag";
+import Edit from "../Components/main/VendingMachine/Videos/Edit";
 
 const { token } = isAutheticated();
 
@@ -377,6 +379,16 @@ export default function Routes() {
             component={AddVideo}
             exact
             path="/addvideos"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={Edit}
+            exact
+            path="/edit/:id"
+          ></PrivateRoute>
+          <PrivateRoute
+            component={AddImage}
+            exact
+            path="/addimages"
           ></PrivateRoute>
           {/* coupons */}
           <PrivateRoute

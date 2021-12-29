@@ -7,7 +7,7 @@ import Footer from "../../Footer";
 import { Link, useHistory } from "react-router-dom";
 import getSymbolFromCurrency from "currency-symbol-map";
 
-function AddVideo() {
+function AddImage() {
     //   let EditorRef = useRef();
     //   const history = useHistory();
     //   const [tax, setTax] = useState([]);
@@ -485,14 +485,14 @@ function AddVideo() {
                     <div className="row">
                         <div className="col-12">
                             <div className="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 className="mb-0">Add New Video</h4>
+                                <h4 className="mb-0">Add New Image</h4>
                                 <div className="page-title-right">
                                     <ol className="breadcrumb m-0">
                                         <li className="breadcrumb-item">
                                             <Link to="/dashboard">Shoperola</Link>
                                         </li>
                                         <li className="breadcrumb-item active">Vending Machine</li>
-                                        <li className="breadcrumb-item active">Add New Video</li>
+                                        <li className="breadcrumb-item active">Add New Image</li>
                                     </ol>
                                 </div>
                             </div>
@@ -599,7 +599,7 @@ function AddVideo() {
                                                                         htmlFor="basicpill-phoneno-input"
                                                                         className="label-100"
                                                                     >
-                                                                        Upload Thumbnail Image*
+                                                                        Upload  Image*
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -631,7 +631,13 @@ function AddVideo() {
                                                                                 src={imageUrl}
                                                                             />
                                                                         )} */}
+
                                                                     </div>
+
+
+
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -642,10 +648,7 @@ function AddVideo() {
                                     </div>
                                 </div>
                                 {/* <!-- Left Column Ends --> */}
-                            </div>
-
-                            <div className="row">
-                                {/* <!--Left Column Begins--> */}
+                                {/* left colum begins  */}
                                 <div>
                                     <div className="card">
                                         <div className="card-body">
@@ -659,7 +662,7 @@ function AddVideo() {
                                                                         htmlFor="basicpill-phoneno-input"
                                                                         className="label-100"
                                                                     >
-                                                                        Upload Video MP4 Format
+                                                                        Duration*
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -667,98 +670,23 @@ function AddVideo() {
                                                         <div className="row">
                                                             <div className="col-lg-12">
                                                                 <div className="form-group mb-30 width-100 row">
+
                                                                     <label className="col-md-4 control-label">
-                                                                        Upload One Video Only*
+                                                                        Select Duration
                                                                         <br />
-                                                                        <span className="size">(360 x 459 px)</span>
+
                                                                     </label>
                                                                     <div className="col-md-8">
-                                                                        <input
-                                                                            type="file"
-                                                                            // onChange={imageHandler}
-                                                                            className="form-control input-field"
-                                                                            accept="video/*"
-                                                                            multiple
-                                                                        />
-                                                                        {/* {imagesUrl.length > 0 &&
-                                                                            imagesUrl.map((image) => (
-                                                                                <img
-                                                                                    className="img-fluid mt-2 pr-2"
-                                                                                    style={{
-                                                                                        width: "75px",
-                                                                                        height: "100px",
-                                                                                        cursor: "pointer",
-                                                                                    }}
-                                                                                    alt="360x459"
-                                                                                    src={image}
-                                                                                    onClick={() => openImage(image)}
-                                                                                />
-                                                                            ))} */}
-                                                                        {/* {openModal && (
-                                                                            <div
-                                                                                className="modal fade show"
-                                                                                id="exampleModalCenter"
-                                                                                tabindex="-1"
-                                                                                aria-labelledby="exampleModalCenterTitle"
-                                                                                aria-modal="true"
-                                                                                role="dialog"
-                                                                                style={{ display: "block" }}
-                                                                            >
-                                                                                <div className="modal-dialog modal-dialog-centered">
-                                                                                    <div className="modal-content">
-                                                                                        <div className="modal-header">
-                                                                                            <h5
-                                                                                                className="modal-title"
-                                                                                                id="exampleModalCenterTitle"
-                                                                                            >
-                                                                                                {imageTitle}
-                                                                                            </h5>
-                                                                                            <button
-                                                                                                type="button"
-                                                                                                className="btn-close"
-                                                                                                data-bs-dismiss="modal"
-                                                                                                aria-label="Close"
-                                                                                                onClick={() =>
-                                                                                                    setOpenModal(false)
-                                                                                                }
-                                                                                            ></button>
-                                                                                        </div>
-                                                                                        <div className="modal-body">
-                                                                                            <img
-                                                                                                className="img-fluid mt-2 pr-2"
-                                                                                                style={{
-                                                                                                    width: "360px",
-                                                                                                    height: "45px",
-                                                                                                }}
-                                                                                                alt="360x459"
-                                                                                                src={currentImage}
-                                                                                            // onClick={() => openImage(image)}
-                                                                                            />
-                                                                                        </div>
-                                                                                        <div className="modal-footer">
-                                                                                            <button
-                                                                                                type="button"
-                                                                                                className="btn btn-secondary"
-                                                                                                data-bs-dismiss="modal"
-                                                                                                onClick={() =>
-                                                                                                    setOpenModal(false)
-                                                                                                }
-                                                                                            >
-                                                                                                Close
-                                                                                            </button>
-                                                                                            <button
-                                                                                                type="button"
-                                                                                                className="btn btn-danger"
-                                                                                                onClick={() => deleteImage()}
-                                                                                            >
-                                                                                                Delete
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        )} */}
+                                                                        <select name="" class="select-w custom-select custom-select-sm form-control form-control-sm">
+                                                                            <option value="10">30 sec</option>
+                                                                            <option value="25">40 sec</option>
+                                                                            <option value="50">50 sec</option>
+
+                                                                        </select>
+
+
                                                                     </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -768,8 +696,11 @@ function AddVideo() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <!-- Left Column Ends --> */}
+                                {/* left column ends  */}
+
                             </div>
+
+                            {/*  */}
                         </div>
                     </div>
                 </div>
@@ -795,4 +726,4 @@ function AddVideo() {
     );
 }
 
-export default AddVideo;
+export default AddImage;
